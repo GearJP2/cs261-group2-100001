@@ -1,0 +1,50 @@
+sequenceDiagram
+    autonumber
+    actor U as Active member
+    participant UI as Leave UI (proposed)
+    participant API as Leave API (proposed)
+    participant S as Leave service (proposed)
+    participant DB as ORM / PostgreSQL
+    Note over UI,DB: US4 proposed - Host, started/cancelled and repeat-response policies await decision
+    U->>UI: Click Leave
+    UI-->>U: Confirmation dialog
+    alt Cancel dialog
+        UI-->>U: Keep membership, no API call
+    else Confirm
+        UI->>UI: Disable submit while pending
+        UI->>API: POST /api/v1/parties/{id}/leave + empty JSON + session/CSRF
+        alt Invalid session / CSRF / client-selected actor
+            API-->>UI: Error, no mutation
+        else Valid request
+            API->>S: Leave with actor from session
+            S->>DB: BEGIN, lock Party then own membership
+            DB-->>S: Party and membership/history
+            S->>S: Recheck current time, membership and confirmed policy
+            alt Missing / forbidden / Host or state prohibited by policy
+                S->>DB: ROLLBACK
+                S-->>API: Error per contract
+                API-->>UI: Explain refusal, re-enable button
+            else Already left
+                S->>DB: End transaction without another write
+                S-->>API: Repeat result per agreed contract
+                API-->>UI: Do not return a seat twice
+            else Active member allowed to leave
+                S->>DB: Set left_at, retain history
+                alt Write fails
+                    S->>DB: ROLLBACK
+                    S-->>API: Failure
+                    API-->>UI: Error, no success state
+                else Write succeeds
+                    S->>DB: COMMIT
+                    S-->>API: Leave success
+                    API-->>UI: Success per contract
+                    UI->>API: Refresh members and Party Detail
+                    API->>DB: Count active members, slots = capacity - count
+                    DB-->>API: Current data
+                    API-->>UI: Updated members/count/slots
+                    UI-->>U: Show confirmed result
+                end
+            end
+        end
+    end
+    Note over S,DB: Concurrent leave/approve/edit must share Party-first lock order, verify with DB integration tests
