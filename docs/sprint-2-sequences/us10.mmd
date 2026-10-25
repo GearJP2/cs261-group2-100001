@@ -1,0 +1,55 @@
+sequenceDiagram
+    autonumber
+    actor H as Host
+    participant UI as Party Detail UI
+    participant API as Django API + session/CSRF
+    participant S as decide_join_request
+    participant DB as ORM / PostgreSQL
+    Note over UI,DB: US10 baseline main b6d4bd0 - paths below use /api/v1 prefix
+    UI->>API: GET /parties/{id}/join-requests/pending
+    API->>API: University identity + Host guard
+    alt Guard fails or Party not found
+        API-->>UI: 401 / 403 / 404
+    else Authorized Host
+        API->>DB: Read Pending requests with public names
+        DB-->>API: Pending rows (no seat reserved)
+        API-->>UI: 200 data list
+    end
+    H->>UI: Approve or Reject
+    UI->>UI: Disable clicked button (current behavior)
+    UI->>API: POST /parties/{id}/join-requests/{request_id}/decision<br/>{status: Approved or Rejected} + session/CSRF
+    alt Invalid session / identity / CSRF / payload
+        API-->>UI: 401 / 403 / 400, no mutation
+    else Valid request
+        API->>S: decide_join_request(actor from session)
+        S->>DB: BEGIN, lock Party then matching JoinRequest
+        DB-->>S: Locked rows or not found
+        S->>S: Check Host, request belongs to Party, Pending, Party state
+        alt Missing / forbidden / already decided / cancelled / started
+            S->>DB: ROLLBACK, release locks
+            S-->>API: PartyError 404 / 403 / 409
+            API-->>UI: Error, re-enable clicked button
+        else Decision allowed
+            alt Approve and active count >= capacity
+                S->>DB: ROLLBACK
+                S-->>API: PARTY_FULL 409
+                API-->>UI: Error, no membership added
+            else Reject or Approve with capacity
+                opt Approve only
+                    S->>DB: get_or_create membership, reactivate left_at if needed
+                end
+                S->>DB: Save Approved/Rejected + decided_at/by
+                alt Any write fails
+                    S->>DB: ROLLBACK all writes
+                    Note over API,DB: Server failure, never report success or retain partial membership
+                else Writes succeed
+                    S->>DB: COMMIT, release locks
+                    S-->>API: Decided request
+                    API-->>UI: 200 request id/status
+                    UI->>UI: Reload Detail and Pending list
+                end
+            end
+        end
+    end
+    Note over S,DB: Competing decisions wait for Party lock and recheck count/state after acquisition
+    Note over UI,S: Sprint 2 target: disable both buttons and refresh US6 member list once implemented

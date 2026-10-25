@@ -1,0 +1,41 @@
+sequenceDiagram
+    autonumber
+    actor U as Eligible participant
+    participant UI as Review UI (proposed)
+    participant API as Review API (proposed)
+    participant S as Review service (proposed)
+    participant DB as Review/history DB (proposed schema)
+    Note over UI,DB: US14 conditional design - scope, eligibility, rating range, uniqueness and privacy await confirmation
+    U->>UI: Select another participant, enter rating and review
+    UI->>UI: Validate form, disable submit
+    UI->>API: Proposed POST /api/v1/parties/{id}/reviews + session/CSRF
+    alt Session / CSRF / input invalid
+        API-->>UI: Validation/access error, re-enable form
+    else Valid input
+        API->>S: Validated target/rating/text, reviewer from session
+        S->>DB: Read Party and shared participation history
+        DB-->>S: End time, state and participation evidence
+        S->>S: Confirm completed activity, eligibility and target != reviewer
+        alt Not eligible / not completed / self-review
+            S-->>API: Refuse per agreed contract
+            API-->>UI: Error, no review stored
+        else Eligible under confirmed policy
+            S->>DB: BEGIN, insert Review using agreed unique constraint
+            alt Duplicate or write failure
+                S->>DB: ROLLBACK
+                Note over S,DB: Catch unique conflict outside failed transaction, pre-check alone is insufficient
+                S-->>API: Duplicate/error per contract
+                API-->>UI: Explain failure, no duplicate success
+            else Insert succeeds
+                S->>DB: COMMIT
+                S-->>API: Review saved
+                API-->>UI: Success with public review fields
+                UI->>API: Refresh reviews/rating summary (read contract TBD)
+                API->>DB: Read allowed reviews and compute average stars
+                DB-->>API: Reviews and star summary
+                API-->>UI: Public allowlist, stars separate from conduct credit
+                UI-->>U: Saved review and current summary
+            end
+        end
+    end
+    Note over UI,DB: No No-show report, threshold or conduct-credit mutation is implied by this diagram

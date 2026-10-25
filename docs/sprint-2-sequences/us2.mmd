@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    actor U as Student
+    participant UI as Search UI (proposed)
+    participant API as Search API (proposed)
+    participant DB as ORM / PostgreSQL
+    Note over UI,DB: US2 proposed - confirm interval boundaries, visibility and state policy before implementation
+    U->>UI: Select sport, venue, indoor/outdoor and time, or reset
+    UI->>UI: Normalize controls, increment request version, loading
+    UI->>API: GET /api/v1/parties?filters + session
+    API->>API: Validate access, query types and timezone Asia/Bangkok
+    alt Invalid access or query
+        API-->>UI: Error per contract, no misleading old results
+        UI-->>U: Error and retry/reset
+    else Valid query
+        API->>DB: AND filters: sport AND venue/type AND agreed time predicate
+        Note over API,DB: State visibility matches Detail, sport is not venue type
+        DB-->>API: Matching Parties and current member counts
+        API->>API: Map state and public fields using shared Detail rules
+        API-->>UI: Results per agreed query contract
+        alt Response version is stale
+            UI->>UI: Ignore stale response
+        else Current response is empty
+            UI-->>U: Empty state and reset action
+        else Current results
+            UI-->>U: Matching Parties, Join availability follows Detail
+        end
+    end
+    Note over UI,API: Network/server failures show retry, response-version guard also applies to errors
+    Note over U,DB: Search reserves no court or seat, Join Request must recheck current state on server
