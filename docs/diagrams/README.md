@@ -10,7 +10,7 @@
 
 | Issue | Diagram | เนื้อหา |
 |---|---|---|
-| — | [Data Flow](data-flow/README.md) | Context, Level 1 และ data dictionary; baseline `6eb6d35` |
+| — | [Data Flow](data-flow/README.md) | Context, Level 1, แยก 10 US และ data dictionary; baseline `6eb6d35` |
 | #140 | [Context](context/README.md) | ขอบเขตและ TU API |
 | #141 | [Use Case](use-case/README.md) | บทบาทและ US ของ Sprint 1–2 |
 | #142 | [ERD](erd/README.md) | Domain schema 3 มุมมอง พร้อม constraints |

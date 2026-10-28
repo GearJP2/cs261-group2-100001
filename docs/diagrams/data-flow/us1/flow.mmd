@@ -1,0 +1,14 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("1.0 Login / logout"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    U -->|"Credentials, session or logout request"| P
+    P -->|"Login result, session cookie and account data"| U
+    D1 -->|"Account and identity records"| P
+    D2 -->|"Session record"| P
+    P -->|"Local account, verified identity and display name"| D1
+    P -->|"Created or invalidated session"| D2
+    TU["TU Authentication API"]
+    P -->|"Credentials and application key"| TU
+    TU -->|"Identity, student type or authentication failure"| P

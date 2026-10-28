@@ -1,0 +1,11 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("2.4 View profile"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D3[("D3 Sports, venues and opening hours")]
+    U -->|"Profile identifier and session"| P
+    P -->|"Display name, interests, credit and rating summary or error"| U
+    D1 -->|"Profile, interests, credit and rating aggregates"| P
+    D3 -->|"Sport names"| P
+    D2 -->|"Session identity"| P

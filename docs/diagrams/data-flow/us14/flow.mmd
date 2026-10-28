@@ -1,0 +1,15 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("4.0 Reviews and no-show reports"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D4[("D4 Parties, memberships and join requests")]
+    D5[("D5 Reviews, no-show reports and credit events")]
+    U -->|"Party/reviewee identifiers, rating/comment, report or reviews query, session"| P
+    P -->|"Review list, rating summary, submission result or error"| U
+    D1 -->|"Profile, identity, rating aggregates and credit balance"| P
+    D4 -->|"Party timing and eligible participation"| P
+    D5 -->|"Existing reviews, reports and credit events"| P
+    D2 -->|"Session identity"| P
+    P -->|"Review or no-show report; credit event when threshold is met"| D5
+    P -->|"Rating aggregates or credit balance"| D1

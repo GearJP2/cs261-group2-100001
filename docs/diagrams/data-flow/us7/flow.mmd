@@ -1,0 +1,14 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("3.3 / 2.3 Manage and view parties"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D3[("D3 Sports, venues and opening hours")]
+    D4[("D4 Parties, memberships and join requests")]
+    U -->|"Party details, create/edit/cancel submission or detail query, session"| P
+    P -->|"Party detail, management result or validation error"| U
+    D1 -->|"Host profile and verified identity"| P
+    D3 -->|"Venue, sport and opening-hours constraints"| P
+    D4 -->|"Party, membership and request records"| P
+    D2 -->|"Session identity"| P
+    P -->|"Created or updated Party; Host membership on creation"| D4
