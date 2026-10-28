@@ -1,0 +1,8 @@
+flowchart LR
+    E["E1 Student / Browser"]:::entity
+    P0("0 — Manage and view parties"):::process
+    E -->|"Party details, create/edit/cancel submission or detail query, session"| P0
+    P0 -->|"Party detail, management result or validation error"| E
+    classDef entity fill:#fff4cc,stroke:#55a5b1,color:#243746
+    classDef process fill:#eef7f8,stroke:#55a5b1,color:#243746
+    classDef store fill:#e8ddf5,stroke:#9475bc,color:#243746

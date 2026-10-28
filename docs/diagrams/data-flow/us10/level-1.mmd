@@ -1,0 +1,25 @@
+flowchart TB
+    E["E1 Student / Browser"]:::entity
+    P1("1.0 — Check Session / Eligibility"):::process
+    P2("2.0 — Resolve Party / Authorise Host"):::process
+    P3("3.0 — Read Pending / Apply Decision Atomically"):::process
+    P4("4.0 — Format Response / Error"):::process
+    E -->|"Party identifier, pending query or request decision, session"| P1
+    P1 -->|"Authenticated request data"| P2
+    P2 -->|"Validated scope and request data"| P3
+    P3 -->|"Result data or domain error"| P4
+    P4 -->|"Pending applicants, decision result or error"| E
+    P1 -.->|"Authentication or input error"| P4
+    P2 -.->|"Permission or validation error"| P4
+    D1[["D1 — Accounts, identities, profiles and interests"]]:::store
+    D2[["D2 — Django sessions"]]:::store
+    D4[["D4 — Parties, memberships and join requests"]]:::store
+    D1 -->|"Account / identity data"| P1
+    D1 -->|"Applicant display names and verified Host identity"| P3
+    D4 -->|"Party Host, state, pending requests and membership count"| P3
+    D4 -->|"Party and participation data for permission checks"| P2
+    D2 -->|"Session identity"| P1
+    P3 -->|"Request decision; created or reactivated membership on approval"| D4
+    classDef entity fill:#fff4cc,stroke:#55a5b1,color:#243746
+    classDef process fill:#eef7f8,stroke:#55a5b1,color:#243746
+    classDef store fill:#e8ddf5,stroke:#9475bc,color:#243746

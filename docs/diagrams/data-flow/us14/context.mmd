@@ -1,0 +1,8 @@
+flowchart LR
+    E["E1 Student / Browser"]:::entity
+    P0("0 — Reviews and no-show reports"):::process
+    E -->|"Party/reviewee identifiers, rating/comment, report or reviews query, session"| P0
+    P0 -->|"Review list, rating summary, submission result or error"| E
+    classDef entity fill:#fff4cc,stroke:#55a5b1,color:#243746
+    classDef process fill:#eef7f8,stroke:#55a5b1,color:#243746
+    classDef store fill:#e8ddf5,stroke:#9475bc,color:#243746
