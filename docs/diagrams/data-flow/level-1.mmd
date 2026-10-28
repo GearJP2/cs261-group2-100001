@@ -1,0 +1,42 @@
+flowchart TB
+    U["E1 User: visitor / verified student / Host / Member"]
+    TU["E2 TU Authentication API"]
+    P1(("1.0 Authenticate and manage session"))
+    P2(("2.0 Read and search"))
+    P3(("3.0 Manage parties and participation"))
+    P4(("4.0 Record reviews and no-show reports"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D3[("D3 Sports, venues and opening hours")]
+    D4[("D4 Parties, memberships and join requests")]
+    D5[("D5 Reviews, no-show reports and credit events")]
+    U -->|"Credentials; session; logout request"| P1
+    P1 -->|"Login result; session cookie; account data"| U
+    P1 -->|"Credentials and application key"| TU
+    TU -->|"Identity, student type or authentication failure"| P1
+    D1 -->|"Account and verified identity records"| P1
+    P1 -->|"Local account, identity and display name"| D1
+    D2 -->|"Session record"| P1
+    P1 -->|"Session creation or invalidation"| D2
+    U -->|"Search criteria; venue, party and profile identifiers; session"| P2
+    P2 -->|"Venue, party, member, profile and review data"| U
+    D1 -->|"Identity, display name, interests, credit and rating aggregates"| P2
+    D2 -->|"Session identity"| P2
+    D3 -->|"Sport, venue and opening-hours data"| P2
+    D4 -->|"Party details, requests and membership records"| P2
+    D5 -->|"Review records"| P2
+    U -->|"Party details; join, decision and leave submissions; session"| P3
+    P3 -->|"Party and participation results"| U
+    D1 -->|"Account and verified identity"| P3
+    D2 -->|"Session identity"| P3
+    D3 -->|"Venue, sport and schedule constraints"| P3
+    D4 -->|"Party, request and membership records"| P3
+    P3 -->|"Created or updated party, request and membership records"| D4
+    U -->|"Rating, comment and no-show submissions; session"| P4
+    P4 -->|"Review and no-show results"| U
+    D1 -->|"Verified identity, profile and current aggregates"| P4
+    D2 -->|"Session identity"| P4
+    D4 -->|"Party times, state and participation records"| P4
+    D5 -->|"Existing reviews, reports and credit events"| P4
+    P4 -->|"Review, report and threshold-triggered credit event"| D5
+    P4 -->|"Rating aggregates or credit balance"| D1

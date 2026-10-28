@@ -4,10 +4,13 @@
 
 > หน้ารวมนี้ต้อง merge หลัง PR ของ issues #140–#146 เพื่อให้ลิงก์ทุกหมวดเปิดได้บน main
 
+เพิ่มเติม 18 พฤศจิกายน 2026: [Data Flow Diagram — Context และ Level 1](data-flow/README.md) อ้างอิง main `6eb6d35` ใหม่กว่าภาพเดิมและสถานะ baseline ด้านล่าง
+
 ## ชุดเอกสาร
 
 | Issue | Diagram | เนื้อหา |
 |---|---|---|
+| — | [Data Flow](data-flow/README.md) | Context, Level 1 และ data dictionary; baseline `6eb6d35` |
 | #140 | [Context](context/README.md) | ขอบเขตและ TU API |
 | #141 | [Use Case](use-case/README.md) | บทบาทและ US ของ Sprint 1–2 |
 | #142 | [ERD](erd/README.md) | Domain schema 3 มุมมอง พร้อม constraints |
@@ -17,7 +20,7 @@
 | #146 | [Deployment](deployment/README.md) | Compose dev และ GitHub Actions CI |
 | #147 | [Sequence audit](sequence-audit/README.md) | Sprint 1 เพิ่มเติม และ [Sprint 2 เดิมที่ปรับแล้ว](../sprint-2-sequences/README.md) |
 
-แต่ละภาพมีไฟล์ `.mmd` แก้ไขได้และ `.svg` เปิดดู/นำเข้าเอกสารได้ ภาษาอังกฤษในภาพใช้ชื่อให้ตรงกับโค้ด มีคำอธิบายไทยใน README ของแต่ละหมวด
+ชุด Data Flow มี Mermaid ฝังใน README สำหรับเปิดบน GitHub และไฟล์ `.mmd`; ชุดภาพเดิมแต่ละภาพมีไฟล์ `.mmd` แก้ไขได้และ `.svg` เปิดดู/นำเข้าเอกสารได้ ภาษาอังกฤษในภาพใช้ชื่อให้ตรงกับโค้ด มีคำอธิบายไทยใน README ของแต่ละหมวด
 
 ## สถานะที่ต้องอ่านร่วมกับภาพ
 
