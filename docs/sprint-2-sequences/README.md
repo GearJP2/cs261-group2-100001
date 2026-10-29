@@ -23,6 +23,8 @@
 
 ![US10 sequence](us10.svg)
 
+รายละเอียด GET รายการ Pending: [S2-US10-D-01 API contract](../us10-pending-api-design.md) และ [เคสตรวจรับ Task50](../us10-pending-api-test-cases.md) เป็นข้อเสนอรอ review ไม่ได้ยืนยันมติ endpoint หรือผลทดสอบแทนทีม
+
 **Source ที่ตรวจ:** `backend/parties/urls.py`, `views.py: join_requests, decide_join_request_api`, `services.py: decide_join_request` และ `frontend/static/js/app.js: initPartyDetail` (paths เทียบจาก root repository)
 
 **Contract ที่ต้องตกลงก่อนเปลี่ยนโค้ด:** main ใช้ `GET /parties/{id}/join-requests/pending` และ `POST /parties/{id}/join-requests/{request_id}/decision` พร้อม `{status: Approved|Rejected}` แต่ Issue #55 และ Task B-01/B-02/B-03 เสนอ GET รายการที่ `/join-requests` และ POST `/approve` กับ `/reject` แยกกัน ภาพใช้ main เป็น baseline; ห้ามอ้างว่ามี endpoints ที่เสนอแล้ว ต้องตัดสินใจ reuse หรือ migrate พร้อมแก้ callers/tests ในงาน implementation

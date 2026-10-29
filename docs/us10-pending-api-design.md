@@ -135,6 +135,8 @@ Network failure/5xx เป็น error/retry ไม่แปลงเป็น 2
 
 ## 6. ส่งต่อ Frontend และ review
 
+[เคสตรวจรับ Task50](us10-pending-api-test-cases.md) ระบุ fixtures, steps, expected และ AC mapping พร้อมสถานะ Not run ทุกเคส ใช้ประกอบ review ก่อนนำไป implement
+
 Frontend ทำส่วน Pending ใน Party Detail เฉพาะเมื่อ detail ระบุ `is_host`; Backend ต้องตรวจซ้ำทุกครั้ง การซ่อน UI ไม่แทนการตรวจสิทธิ์
 ขณะโหลดให้แสดง loading; สำเร็จว่างแสดง `ยังไม่มีคำขอเข้าร่วม`; สำเร็จมีข้อมูลแสดงชื่อ และใช้ `id` ของคำขอผูกกับปุ่มตัดสิน
 401 ให้เข้าสู่ login flow, 403 แสดงไม่มีสิทธิ์และล้างรายการเก่า, 404 แสดงไม่พบกิจกรรม, network/5xx แสดง retry และไม่คงข้อมูลของ Party ก่อนหน้าราวกับเป็นผลปัจจุบัน
@@ -148,3 +150,11 @@ Frontend ทำส่วน Pending ใน Party Detail เฉพาะเมื
 - [ ] ส่งต่อรายการช่องว่างและ test cases ให้ Task50 โดยไม่ปิด #65 หรือ #55 แทนงาน implementation
 
 Checklist ยังไม่ติ๊กเพราะยังไม่มีผล review ของเอกสารฉบับนี้ การสร้างเอกสารหรือ commit ไม่ใช่การอนุมัติ contract แทนทีม
+
+## 7. ผลตรวจเอกสารและข้อจำกัดของการส่งมอบ
+
+ตรวจ local วันที่ 30 ตุลาคม 2026: ตัวอย่าง JSON ทั้ง 3 ชุด parse ได้, ลิงก์ไฟล์ภายในเอกสาร contract/test cases อ้างไฟล์ที่มีจริง, code fences ครบคู่ และมี API case IDs ไม่ซ้ำ 18 เคสที่ยังระบุ Not run; ตรวจ whitespace ด้วย `git diff --check`
+ตรวจเทียบ route, field allowlist, guard, เวลา, fallback และ caller กับ source ตามตารางข้อ 1 โดยไม่แก้ production code หรือ schema
+
+ไม่ได้รัน `make verify`/`make smoke`, API runtime, browser UAT หรือ TU จริง เพราะรอบนี้แก้เฉพาะเอกสาร จึงไม่อ้างว่า implementation หรือ tests ตามเคสใหม่ผ่านแล้ว
+สิ่งที่รอคือมติ D01–D05 และ review ของกอล์ฟ/Frontend; เมื่อได้มติให้บันทึกหลักฐานและอัปเดตเอกสารก่อนใช้ปิด Design/ส่งต่อ Task50
