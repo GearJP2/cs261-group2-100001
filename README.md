@@ -65,6 +65,7 @@ Environment พัฒนาปัจจุบันใช้ Python 3.12, Django
 | เอกสาร | ใช้สำหรับ |
 | --- | --- |
 | [Sprint 2 Sequence Diagrams](docs/sprint-2-sequences/README.md) | US10/6/4/2/14 พร้อม SVG, Mermaid source, AC และ Test Case mapping |
+| [US10 Pending API Design](docs/us10-pending-api-design.md) | S2-US10-D-01: ข้อเสนอ contract รายการ Pending เฉพาะ Host และ [เคสตรวจรับ Task50](docs/us10-pending-api-test-cases.md); รอทีม review |
 | [Proposal v1.2 — Python](Project_Proposal_UniSport_Buddy_v1.2_Python.docx) | ภาพรวม เป้าหมาย ขอบเขต และแผนพัฒนาฉบับ Python |
 | [Technical Constraints — Python](Technical_Constraints_UniSport_Buddy_Python.md) | ข้อกำหนดด้านเทคนิค สิทธิ์ แชท และเป้าหมายการทดสอบ |
 | [User Story Tasks](user_story_tasks.txt) | รายละเอียดงาน Design, Backend, Frontend และ Testing พร้อมผู้รับผิดชอบที่ระบุไว้ |
