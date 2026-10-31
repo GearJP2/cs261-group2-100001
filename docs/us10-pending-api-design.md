@@ -3,6 +3,8 @@
 สถานะ: **ข้อเสนอพร้อมส่ง review ยังไม่ใช่มติที่ทีมอนุมัติแล้ว**
 จัดทำวันที่ 30 ตุลาคม 2026 จากโค้ดบน `main` commit `f0a8e59`
 
+สถานะนำไปใช้ 1 พฤศจิกายน 2026: [Task50 implementation และผลทดสอบ](us10-b-01-test-report.md) ใช้ D01–D05 เป็นฐานสำหรับ review โดยคง `/pending` และเพิ่มการเรียง PK เมื่อเวลาเท่ากัน ไม่ใช่การบันทึกมติ review ของทีมแทนผู้เกี่ยวข้อง
+
 - Design: [Task47 / Issue #62](https://github.com/GearJP2/cs261-group2-100001/issues/62) — พีเป็นคนหลัก กอล์ฟเป็นคู่ช่วย
 - Implementation ที่รับต่อ: [Task50 / Issue #65](https://github.com/GearJP2/cs261-group2-100001/issues/65)
 - ภาพรวม: [US10 / Issue #55](https://github.com/GearJP2/cs261-group2-100001/issues/55), [Trello Task47](https://trello.com/c/CbIcab6g)
