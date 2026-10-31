@@ -78,3 +78,7 @@ def ready(request):
         # Return a stable error without leaking connection details or credentials.
         return JsonResponse({"status": "unavailable"}, status=503)
     return JsonResponse({"status": "ok", "database": "ok"})
+
+
+def my_parties_page(request):
+    return render(request, "myparty.html")

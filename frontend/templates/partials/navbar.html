@@ -2,6 +2,7 @@
   ใช้: {% include "partials/navbar.html" with active="home" show_create=True %}
   active: home | venues    show_create: True แสดงปุ่มสร้างปาร์ตี้
 {% endcomment %}
+{% comment "โค้ดต้นฉบับ" %}
 <header class="nv">
   <div class="nv-inner">
     <a href="{% url 'home' %}" class="nv-brand"><span class="nv-logo">⚽</span>UniSport Buddy</a>
@@ -12,6 +13,64 @@
     </nav>
 
     <div class="nv-right">
+      {% if show_create %}<a href="{% url 'party-create-page' %}" class="nv-create" data-auth-link>＋ สร้างปาร์ตี้</a>{% endif %}
+
+      <details class="nv-account">
+        <summary aria-label="เมนูบัญชี">
+          <span class="nv-avatar">U</span>
+          <svg class="nv-chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="nv-menu">
+          <a href="{% url 'login-page' %}" data-login-link>
+            เข้าสู่ระบบ
+          </a>
+          <a data-profile-link hidden>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+            โปรไฟล์
+          </a>
+          <button type="button" class="nv-logout" data-logout-button hidden>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+            ออกจากระบบ
+          </button>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // ปิดเมนูบัญชีเมื่อคลิกที่อื่นหรือกด Esc
+  document.addEventListener("click", function (e) {
+    document.querySelectorAll(".nv-account[open]").forEach(function (d) {
+      if (!d.contains(e.target)) d.removeAttribute("open");
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".nv-account[open]").forEach(function (d) { d.removeAttribute("open"); });
+    }
+  });
+</script>
+{% endcomment %}
+
+<header class="nv">
+  <!-- ใส่ Grid 3 คอลัมน์ (ซ้าย-กลาง-ขวา) เข้าไปบังคับให้สมดุลและชิดขอบจอ -->
+  <div class="nv-inner" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; width: 100%;">
+    
+    <!-- 1. ฝั่งซ้าย: โลโก้ชิดขอบ -->
+    <div style="justify-self: start;">
+      <a href="{% url 'home' %}" class="nv-brand"><span class="nv-logo">⚽</span>UniSport Buddy</a>
+    </div>
+
+    <!-- 2. ตรงกลาง: เมนูหลัก 3 รายการ จัดกึ่งกลางเป๊ะ -->
+    <nav class="nv-links" aria-label="เมนูหลัก" style="display: flex; gap: 32px; justify-self: center;">
+      <a href="{% url 'home' %}"{% if active == "home" %} class="active" aria-current="page"{% endif %}>หาปาร์ตี้</a>
+      <a href="{% url 'venues:venue_map' %}"{% if active == "venues" %} class="active" aria-current="page"{% endif %}>สนามและกีฬา</a>
+      <a href="/my-parties/"{% if active == "myparty" %} class="active" aria-current="page"{% endif %}>ปาร์ตี้ของฉัน</a>
+    </nav>
+
+    <!-- 3. ฝั่งขวา: ปุ่มสร้างปาร์ตี้ (ถ้ามี) และเมนูบัญชี ชิดขอบ -->
+    <div class="nv-right" style="justify-self: end;">
       {% if show_create %}<a href="{% url 'party-create-page' %}" class="nv-create" data-auth-link>＋ สร้างปาร์ตี้</a>{% endif %}
 
       <details class="nv-account">
