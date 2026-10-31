@@ -1,6 +1,8 @@
 # S2-US10-D-01 — เคสตรวจรับ API รายการ Pending
 
 สถานะ: **Test design / Not run** วันที่ 30 ตุลาคม 2026
+
+อัปเดต 1 พฤศจิกายน 2026: implementation Task50 และผล automated checks ของ PEND-01–18 อยู่ใน [รายงาน US10-B-01](us10-b-01-test-report.md) ตาราง Not run ด้านล่างเก็บแผน Design เดิม; Manual UI ยังไม่ได้รัน
 อ้างอิง [API contract ฉบับเสนอ review](us10-pending-api-design.md), [Issue #62](https://github.com/GearJP2/cs261-group2-100001/issues/62) และ implementation [Task50 / #65](https://github.com/GearJP2/cs261-group2-100001/issues/65)
 
 เอกสารนี้เป็นสิ่งส่งมอบ Design ไม่ใช่ test report ที่ผ่านแล้ว เคสที่ขึ้นกับข้อเสนอ D01–D05 ต้องปรับตามมติทีมก่อนใช้ตรวจรับ Task50

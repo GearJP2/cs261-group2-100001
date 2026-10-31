@@ -139,6 +139,7 @@ def create_join_request(request, party_id):
 @never_cache
 @require_university_user
 def join_requests(request, party_id):
+    """Read this Host's Pending requests; Party state only limits decisions."""
     if request.method != "GET":
         response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ GET", 405)
         response["Allow"] = "GET"
@@ -152,7 +153,7 @@ def join_requests(request, party_id):
     rows = (
         JoinRequest.objects.filter(party=party, status=JoinRequest.Status.PENDING)
         .select_related("user__profile")
-        .order_by("created_at")
+        .order_by("created_at", "pk")
     )
     return JsonResponse(
         {
