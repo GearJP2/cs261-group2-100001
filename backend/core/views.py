@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
+from django.shortcuts import render
 
 
 @require_GET
@@ -78,3 +79,7 @@ def ready(request):
         # Return a stable error without leaking connection details or credentials.
         return JsonResponse({"status": "unavailable"}, status=503)
     return JsonResponse({"status": "ok", "database": "ok"})
+
+
+def my_parties_page(request):
+    return render(request, "myparty.html")

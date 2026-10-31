@@ -1,0 +1,168 @@
+{% load static %}
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ปาร์ตี้ของฉัน - UniSport Buddy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- โหลด CSS ของโปรเจค -->
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  
+  <!-- โหลด CSS ของหน้าปาร์ตี้ของฉันโดยเฉพาะ -->
+  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=8.0">
+</head>
+<body>
+
+  <!-- ดึง Navbar ที่เราเพิ่งแก้ในไฟล์ partials/navbar.html มาใช้ -->
+  <!-- สั่ง active="myparty" เพื่อให้เส้นใต้สีเหลืองขึ้นที่เมนู "ปาร์ตี้ของฉัน" และ show_create=False เพื่อซ่อนปุ่มสร้างปาร์ตี้ -->
+  {% include "partials/navbar.html" with active="myparty" show_create=False %}
+
+  <!-- ========================================== -->
+  <!-- เนื้อหาหน้าเว็บปาร์ตี้ของฉัน -->
+  <!-- ========================================== -->
+  <div class="mp-container">
+    <div class="mp-header">
+      <h1>ปาร์ตี้ของฉัน</h1>
+      <p>จัดการกิจกรรม นัดเพื่อนร่วมเล่น แล้วเจอกันที่สนาม</p>
+    </div>
+
+    <!-- แท็บ -->
+    <div class="mp-tabs">
+      <button class="mp-tab-btn active">กิจกรรมที่ฉันสร้าง</button>
+      <button class="mp-tab-btn">กิจกรรมที่เข้าร่วม</button>
+      <button class="mp-tab-btn">ประวัติกิจกรรม</button>
+    </div>
+      
+    <div class="mp-grid">
+      <!-- การ์ด 1: แบดมินตัน -->
+      <article class="mp-card">
+        <div class="mp-card-top">
+          <div class="mp-card-header">
+            <span class="mp-tag-sport">แบดมินตัน</span>
+            <span class="mp-tag-status">เปิดรับผู้เข้าร่วม</span>
+          </div>
+          <h3>ตีแบดหลังเลิกเรียน ชิวๆ</h3>
+          <div class="mp-info-row">
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> พุธ 28 ตุลาคม 2569</span>
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 17:00 – 19:00 น.</span>
+          </div>
+          <div class="mp-info-row">
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> ยิมเนเซียม 4 · สนามแบดมินตัน</span>
+          </div>
+          <div class="mp-info-row">
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> เข้าร่วมแล้ว 4 / 8 คน</span>
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ผู้จัด: คุณ</span>
+          </div>
+        </div>
+
+        <div class="mp-card-bottom">
+          <div class="mp-req-header">
+            <div class="mp-req-title">คำขอที่รออนุมัติ <span class="mp-req-count">3 คน</span></div>
+            <div class="mp-req-note">อนุมัติเพื่อนร่วมเล่นก่อนเริ่มกิจกรรม</div>
+          </div>
+          <div class="mp-req-list" id="req-list-1">
+            <div class="mp-loading-state">
+              <span class="loader"></span> กำลังดำเนินการ...
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- การ์ด 2: เทนนิส -->
+      <article class="mp-card">
+        <div class="mp-card-top">
+          <div class="mp-card-header">
+            <span class="mp-tag-sport">เทนนิส</span>
+            <span class="mp-tag-status">เปิดรับผู้เข้าร่วม</span>
+          </div>
+          <h3>หาเพื่อนตีเทนนิสยามเย็น</h3>
+          <div class="mp-info-row">
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> อังคาร 28 ตุลาคม 2569</span>
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 08:00 – 10:00 น.</span>
+          </div>
+          <div class="mp-info-row">
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> สนามเทนนิส · ศูนย์กีฬาธรรมศาสตร์</span>
+          </div>
+          <div class="mp-info-row">
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> เข้าร่วมแล้ว 4 / 6 คน</span>
+            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ผู้จัด: เด่น</span>
+          </div>
+        </div>
+
+        <div class="mp-card-bottom">
+          <div class="mp-req-header">
+            <div class="mp-req-title">คำขอที่รออนุมัติ <span class="mp-req-count">3 คน</span></div>
+            <div class="mp-req-note">อนุมัติเพื่อนร่วมเล่นก่อนเริ่มกิจกรรม</div>
+          </div>
+          <div class="mp-req-list" id="req-list-2">
+            <div class="mp-loading-state">
+              <span class="loader"></span> กำลังดำเนินการ...
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <footer class="mp-footer">CS261 UniSport Buddy</footer>
+
+  <!-- Script สำหรับ Task 53 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // หน่วงเวลาจำลองการโหลดข้อมูล 1.5 วินาที
+      setTimeout(() => {
+        loadRequests(1, true);  
+        loadRequests(2, false); 
+      }, 1500);
+    });
+
+    function loadRequests(partyId, isSuccess) {
+      const container = document.getElementById(`req-list-${partyId}`);
+      if (!isSuccess) {
+        container.innerHTML = `
+          <div class="mp-error-state">
+            ไม่สามารถดึงข้อมูลคำขอได้ กรุณาลองใหม่อีกครั้ง 
+            <button onclick="location.reload()" style="margin-top:6px; cursor:pointer; background:none; border:1px solid #df1b1b; padding:2px 8px; border-radius:4px; color:#df1b1b;">ลองใหม่</button>
+          </div>
+        `;
+        return;
+      }
+      container.innerHTML = `
+        <div class="mp-req-item">
+          <div class="mp-req-user">
+            <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+            <div><p class="mp-user-name">ณัชชา</p><p class="mp-user-level">มือใหม่</p></div>
+          </div>
+          <div class="mp-req-actions">
+            <button class="btn-action btn-approve">อนุมัติ</button>
+            <button class="btn-action btn-reject">ไม่อนุมัติ</button>
+          </div>
+        </div>
+        <div class="mp-req-item">
+          <div class="mp-req-user">
+            <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+            <div><p class="mp-user-name">ธนกฤต</p><p class="mp-user-level">ระดับทั่วไป</p></div>
+          </div>
+          <div class="mp-req-actions">
+            <button class="btn-action btn-loading" disabled>กำลังดำเนินการ...</button>
+          </div>
+        </div>
+        <div class="mp-req-item">
+          <div class="mp-req-user">
+            <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+            <div><p class="mp-user-name">มะลิ</p><p class="mp-user-level">มือใหม่</p></div>
+          </div>
+          <div class="mp-req-actions">
+             <span class="text-error" style="color: #df1b1b; font-size: 0.8rem; font-weight: 500; text-align: right; width: 100%;">ไม่สามารถดำเนินการได้<br>กรุณาลองใหม่อีกครั้ง</span>
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
