@@ -1,5 +1,6 @@
 """S2-US6-B-01: active member reads, using PostgreSQL and local university sessions."""
 
+import json
 from datetime import timedelta
 
 from accounts.models import UserProfile
@@ -11,6 +12,11 @@ from django.utils import timezone
 from venues.models import Sport, Venue
 
 from .models import JoinRequest, Party, PartyMembership
+
+
+def decoded_body(response):
+    # JsonResponse escapes non-ASCII, so raw content can never contain Thai names.
+    return json.dumps(response.json(), ensure_ascii=False)
 
 
 class PartyMembersApiTests(TestCase):
@@ -96,7 +102,7 @@ class PartyMembersApiTests(TestCase):
 
     def assert_forbidden_without_leak(self, response):
         self.assert_error(response, 403, "FORBIDDEN")
-        body = response.content.decode()
+        body = decoded_body(response)
         for key in ("data", "members", "member_count"):
             self.assertNotIn(key, body)
         for name in ("นามแฝงผู้จัด", "นามแฝงสมาชิก"):
@@ -212,8 +218,8 @@ class PartyMembersApiTests(TestCase):
         rows = self.assert_members(response, [self.host.pk, self.no_profile.pk, self.member.pk])
         listed = {row["user_id"] for row in rows}
         self.assertFalse(listed & {self.pending.pk, self.rejected.pk})
-        self.assertNotIn("นามแฝงคนรออนุมัติ", response.content.decode())
-        self.assertNotIn("นามแฝงคนถูกปฏิเสธ", response.content.decode())
+        self.assertNotIn("นามแฝงคนรออนุมัติ", decoded_body(response))
+        self.assertNotIn("นามแฝงคนถูกปฏิเสธ", decoded_body(response))
 
     def test_roles_and_count_match_the_list(self):
         rows = self.assert_members(
@@ -255,7 +261,7 @@ class PartyMembersApiTests(TestCase):
     def test_it_us6_db_01_lists_only_this_partys_active_memberships(self):
         response = self.client.get(self.url)
         self.assert_members(response, [self.host.pk, self.no_profile.pk, self.member.pk])
-        self.assertNotIn("นามแฝงสมาชิกปาร์ตี้อื่น", response.content.decode())
+        self.assertNotIn("นามแฝงสมาชิกปาร์ตี้อื่น", decoded_body(response))
 
     def test_it_us6_db_01_query_count_does_not_grow_with_members(self):
         # Viewing as a member also runs can_view_members' membership query.
@@ -278,6 +284,6 @@ class PartyMembersApiTests(TestCase):
         response = self.client.get(self.url)
         rows = self.assert_members(response, [self.host.pk, self.no_profile.pk, self.member.pk])
         self.assertNotIn(self.left.pk, {row["user_id"] for row in rows})
-        self.assertNotIn("นามแฝงคนถอนตัว", response.content.decode())
+        self.assertNotIn("นามแฝงคนถอนตัว", decoded_body(response))
         self.left_row.refresh_from_db()
         self.assertEqual(self.left_row.left_at, self.now)
