@@ -38,6 +38,7 @@ services:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
       - ./scripts:/app/scripts
+      - ./database:/app/database:ro
       - ./pyproject.toml:/app/pyproject.toml:ro
     depends_on:
       database:

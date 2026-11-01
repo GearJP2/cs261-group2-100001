@@ -19,6 +19,10 @@ ROLES = ("h", "a", "b", "m", "x", "inactive")
 
 class Command(BaseCommand):
     help = "Create/reset BASE-03 demo data (DEBUG=true only; no real student identities)."
+    prefix = PREFIX
+    marker = MARKER
+    username_prefix = "base03"
+    roles = ROLES
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
@@ -26,16 +30,17 @@ class Command(BaseCommand):
         with transaction.atomic():
             self.seed()
 
-    def seed(self):
-        now = timezone.now()
+    def seed(self, now=None):
+        now = now or timezone.now()
         local = now.astimezone(ZoneInfo("Asia/Bangkok"))
         tomorrow = local.date() + timedelta(days=1)
         future = datetime.combine(tomorrow, time(10), tzinfo=local.tzinfo)
         users = {}
-        for role in ROLES:
-            user, created = get_user_model().objects.get_or_create(username=f"base03_{role}")
+        for role in self.roles:
+            username = f"{self.username_prefix}_{role}"
+            user, created = get_user_model().objects.get_or_create(username=username)
             # Refuse to take over an existing account that was not created by this command.
-            email = f"base03_{role}@example.invalid"
+            email = f"{username}@example.invalid"
             if not created and (user.email != email or user.is_staff or user.is_superuser):
                 raise CommandError(f"Reserved demo username collision: {user.username}")
             user.email = email
@@ -44,22 +49,25 @@ class Command(BaseCommand):
             user.save()
             UserProfile.objects.update_or_create(
                 user=user,
-                defaults={"display_name": f"BASE-03 {role.upper()}", "credit_score": None},
+                defaults={
+                    "display_name": f"{self.prefix.strip('[]')} {role.upper()}",
+                    "credit_score": None,
+                },
             )
             users[role] = user
 
-        sport, _ = Sport.objects.get_or_create(name=f"{PREFIX} Badminton")
+        sport, _ = Sport.objects.get_or_create(name=f"{self.prefix} Badminton")
         for role in ("h", "a", "b", "m"):
             UserSportInterest.objects.get_or_create(user=users[role], sport=sport)
 
         venues = {}
         for key, active in (("Open", True), ("Closed", True), ("Inactive", False)):
-            name = f"{PREFIX} {key} venue"
+            name = f"{self.prefix} {key} venue"
             venue, created = Venue.objects.get_or_create(
                 name=name,
-                defaults={"location_text": MARKER, "is_active": active},
+                defaults={"location_text": self.marker, "is_active": active},
             )
-            if not created and venue.location_text != MARKER:
+            if not created and venue.location_text != self.marker:
                 raise CommandError(f"Reserved demo venue collision: {name}")
             venue.is_active = active
             venue.save(update_fields=["is_active"])
@@ -97,9 +105,9 @@ class Command(BaseCommand):
             ("Cancelled", future, future + timedelta(hours=1), 4, now),
         ]
         for key, start, end, capacity, cancelled in scenarios:
-            title = f"{PREFIX} {key}"
+            title = f"{self.prefix} {key}"
             party = Party.objects.filter(title=title).first()
-            if party and (party.description != MARKER or party.host_id != users["h"].pk):
+            if party and (party.description != self.marker or party.host_id != users["h"].pk):
                 raise CommandError(f"Reserved demo party collision: {title}")
             party, _ = Party.objects.update_or_create(
                 title=title,
@@ -107,7 +115,7 @@ class Command(BaseCommand):
                     "host": users["h"],
                     "sport": sport,
                     "venue": venues["Open"],
-                    "description": MARKER,
+                    "description": self.marker,
                     "starts_at": start,
                     "ends_at": end,
                     "capacity": capacity,
@@ -146,7 +154,7 @@ class Command(BaseCommand):
             self.stdout.write(f"{key}: party_id={party.pk}, active=2, remaining={capacity - 2}")
         self.stdout.write(
             self.style.SUCCESS(
-                "BASE-03 ready: 6 users, 1 sport, 3 venues, 6 parties. "
+                f"{self.prefix} ready: {len(self.roles)} users, 1 sport, 3 venues, 6 parties. "
                 "Demo users have unusable passwords; no university login is simulated."
             )
         )
