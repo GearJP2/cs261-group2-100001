@@ -100,6 +100,49 @@ def party_detail(request, party_id):
     )
 
 
+def active_memberships(party):
+    return party.memberships.filter(left_at__isnull=True)
+
+
+def can_view_members(party, user):
+    """Allow only the Host or an active member; awaits team confirmation in S2-US6-D-01."""
+    return party.host_id == user.pk or active_memberships(party).filter(user=user).exists()
+
+
+def member_data(user, party):
+    is_host = user.pk == party.host_id
+    profile = getattr(user, "profile", None)
+    # Legacy/local accounts may not have a profile. Never expose their login
+    # identifier; use the same fallbacks as party_detail and join_requests.
+    fallback = "ผู้จัดกิจกรรม" if is_host else "ผู้ใช้"
+    return {
+        "user_id": user.pk,
+        "display_name": profile.display_name if profile else fallback,
+        "role": "Host" if is_host else "Member",
+    }
+
+
+@never_cache
+@require_authenticated_api
+def party_members(request, party_id):
+    if request.method != "GET":
+        response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ GET", 405)
+        response["Allow"] = "GET"
+        return response
+    try:
+        party = Party.objects.select_related("host__profile").get(pk=party_id)
+    except Party.DoesNotExist:
+        return json_error("NOT_FOUND", "ไม่พบกิจกรรมที่ต้องการ", 404)
+    if not can_view_members(party, request.user):
+        return json_error("FORBIDDEN", "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้", 403)
+
+    rows = active_memberships(party).select_related("user__profile").order_by("joined_at", "pk")
+    # The Host always comes from Party, so older Parties without a Host row still list them.
+    members = [member_data(party.host, party)]
+    members += [member_data(row.user, party) for row in rows if row.user_id != party.host_id]
+    return JsonResponse({"data": {"members": members, "member_count": len(members)}})
+
+
 @never_cache
 @require_authenticated_api
 def create_join_request(request, party_id):

@@ -7,7 +7,7 @@
 | Story | สถานะภาพ | Preview / Mermaid source |
 |---|---|---|
 | US10 อนุมัติ/ปฏิเสธ | ลำดับตาม implementation ปัจจุบัน พร้อมช่องว่างของเป้าหมาย Sprint 2 | [SVG](us10.svg) / [source](us10.mmd) |
-| US6 ดูสมาชิก | Proposed — ยังไม่มี members endpoint | [SVG](us6.svg) / [source](us6.mmd) |
+| US6 ดูสมาชิก | Implemented — มี `GET /parties/{id}/members` แล้ว | [SVG](us6.svg) / [source](us6.mmd) |
 | US4 ถอนตัว | Proposed — ยังไม่มี leave endpoint | [SVG](us4.svg) / [source](us4.mmd) |
 | US2 ค้นหา | Proposed — `/parties` ปัจจุบันรับ POST สร้างปาร์ตี้ ยังไม่มี GET search | [SVG](us2.svg) / [source](us2.mmd) |
 | US14 รีวิว | Proposed / policy pending — ยังไม่มี Review model หรือ endpoint | [SVG](us14.svg) / [source](us14.mmd) |
