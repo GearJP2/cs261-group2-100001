@@ -140,9 +140,11 @@ class Command(BaseCommand):
             JoinRequest.objects.filter(pk=approved.pk).update(created_at=request_time)
             if key == "Last slot":
                 for role in ("a", "b"):
-                    JoinRequest.objects.create(party=party, user=users[role])
+                    pending = JoinRequest.objects.create(party=party, user=users[role])
+                    JoinRequest.objects.filter(pk=pending.pk).update(created_at=request_time)
             elif key == "Open":
-                JoinRequest.objects.create(party=party, user=users["a"])
+                pending = JoinRequest.objects.create(party=party, user=users["a"])
+                JoinRequest.objects.filter(pk=pending.pk).update(created_at=request_time)
                 rejected = JoinRequest.objects.create(
                     party=party,
                     user=users["b"],

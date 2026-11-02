@@ -123,3 +123,20 @@ docker compose run --rm -T backend python backend/manage.py test core.test_seed_
 และ tests ทั้งโปรเจกต์ 312 tests ผ่านบน PostgreSQL (19.826 วินาที)
 รายงานนี้ไม่อ้างว่าผ่าน UAT, endpoint ใหม่, concurrent approvals หรือครบทุก Story
 ผล review/CI ให้ดู PR จริง ไม่ติ๊กแทนผู้รีวิว
+
+## Rework ตามรีวิว GearJP2 — เวลา Pending ของ `--at`
+
+พบว่า `auto_now_add` ของ Pending ยังใช้เวลารันจริง แม้กำหนด `--at` แล้ว
+จึงแก้ที่ seed เดิมซึ่งใช้ร่วมกัน: กำหนด `created_at` ของ Pending ทั้ง Open/A
+และ Last slot/A,B เป็น `min(reference, starts_at) - 2 hours` เช่นเดียวกับ request time ตั้งต้น
+ไม่มีการเปลี่ยน model/default ของคำขอจริงในระบบ
+
+| TC | วิธีตรวจ | Expected | Actual |
+| --- | --- | --- | --- |
+| DATA-11 | automated กำหนด `--at=2026-11-02T08:00:00Z` เหมือนกัน แต่ mock เวลารันรอบแรก reference+30 วัน และรอบสอง +60 วัน; อ่าน Pending ทั้ง 3 แถวโดยเทียบ key title+username แทน ID ย่อย | created_at ทุกคำขอเป็น `2026-11-02T06:00:00Z` ทั้งสองรอบ, ไม่เกิน reference/ไม่หลังกิจกรรม; ยังเป็น Pending และไม่มี decided_at/decided_by | ก่อนแก้ test fail: ได้ `2026-12-02T08:00:00Z` แทน `2026-11-02T06:00:00Z`; หลังแก้ assertions ผ่านครบทั้ง 3 แถว/สองรอบ |
+
+Test source: `test_pending_request_times_follow_reference_across_different_run_times`
+ใน `core.test_seed_sprint2`; เป็น automated regression บน PostgreSQL ไม่ใช่ manual UAT
+คำสั่ง targeted เดิมข้างต้นผ่าน 14 tests (เดิม13 + regressionใหม่1)
+tests ทั้งโปรเจกต์รอบ rework ผ่าน 313 tests บน PostgreSQL (22.852 วินาที)
+ผล 13/312 tests ด้านบนเป็นรอบส่งมอบแรก ไม่ใช่จำนวนของรอบ rework

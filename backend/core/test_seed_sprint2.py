@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from io import StringIO
 from pathlib import Path
+from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 from accounts.models import UniversityIdentity
@@ -9,7 +10,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db import connection
 from django.test import TestCase, override_settings
-from parties.models import Party, PartyMembership
+from parties.models import JoinRequest, Party, PartyMembership
 from parties.services import get_party_state
 from venues.models import Venue
 
@@ -105,6 +106,31 @@ class SeedSprint2Tests(TestCase):
             (party.ends_at, "Completed"),
         ):
             self.assertEqual(get_party_state(party, now=point), expected)
+
+    def test_pending_request_times_follow_reference_across_different_run_times(self):
+        snapshots = []
+        for days in (30, 60):
+            with patch(
+                "django.utils.timezone.now", return_value=self.reference + timedelta(days=days)
+            ):
+                self.seed()
+            pending = list(
+                JoinRequest.objects.filter(party__description=MARKER, status="Pending")
+                .select_related("party", "user")
+                .order_by("party__title", "user__username")
+            )
+            self.assertEqual(len(pending), 3)
+            for request in pending:
+                self.assertEqual(
+                    request.created_at,
+                    min(self.reference, request.party.starts_at) - timedelta(hours=2),
+                )
+                self.assertLess(request.created_at, request.party.starts_at)
+                self.assertLessEqual(request.created_at, self.reference)
+                self.assertIsNone(request.decided_at)
+                self.assertIsNone(request.decided_by_id)
+            snapshots.append([(r.party.title, r.user.username, r.created_at) for r in pending])
+        self.assertEqual(snapshots[0], snapshots[1])
 
     def test_requires_confirmation_and_aware_timestamp(self):
         for options in (
