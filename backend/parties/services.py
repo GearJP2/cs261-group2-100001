@@ -282,10 +282,21 @@ def decide_join_request(*, party_id, request_id, user, approved):
     if state in {"InProgress", "Completed"}:
         raise PartyError("PARTY_STARTED", "กิจกรรมนี้เริ่มแล้ว", 409)
     if approved:
-        if count_active_members(party) >= party.capacity:
+        if state == "Full":
             raise PartyError("PARTY_FULL", "กิจกรรมนี้เต็มแล้ว", 409)
-        membership, _ = PartyMembership.objects.get_or_create(party=party, user=join_request.user)
-        if membership.left_at is not None:
+        membership = (
+            PartyMembership.objects.select_for_update()
+            .filter(party=party, user_id=join_request.user_id)
+            .first()
+        )
+        # Pending rows from legacy/imported data must not approve an existing member.
+        if join_request.user_id == party.host_id or (
+            membership is not None and membership.left_at is None
+        ):
+            raise PartyError("ALREADY_MEMBER", "ผู้ขอเป็นสมาชิกของกิจกรรมนี้แล้ว", 409)
+        if membership is None:
+            PartyMembership.objects.create(party=party, user_id=join_request.user_id)
+        else:
             membership.left_at = None
             membership.save(update_fields=["left_at"])
 
