@@ -77,3 +77,31 @@ def submit_review(*, party_id, reviewer, reviewee_id, rating, comment):
     if not updated:
         raise invalid_reviewee()
     return review
+
+
+def average_rating(profile):
+    """Read the stars from the rating cache; no reviews means null, not zero."""
+    if not profile.rating_count:
+        return None
+    return round(profile.rating_sum / profile.rating_count, 2)
+
+
+def list_reviews(user_id, page, page_size):
+    """Return the reviewee's profile, one page of reviews (newest first) and the total."""
+    profile = UserProfile.objects.filter(user_id=user_id).first()
+    if profile is None:
+        raise PartyError("NOT_FOUND", "ไม่พบผู้ใช้ที่ต้องการ", 404)
+    reviews = PartyReview.objects.filter(reviewee_id=user_id)
+    total = reviews.count()
+    offset = (page - 1) * page_size
+    # A page past the end skips the query, so a huge page cannot overflow OFFSET.
+    rows = (
+        []
+        if offset >= total
+        else list(
+            reviews.select_related("reviewer__profile").order_by("-created_at", "-pk")[
+                offset : offset + page_size
+            ]
+        )
+    )
+    return profile, rows, total
