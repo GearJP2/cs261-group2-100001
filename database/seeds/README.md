@@ -1,5 +1,9 @@
 # Seeds
 
+Sprint 2 Task46 ใช้ `seed_sprint2 --confirm-test-data` แยก namespace จาก BASE-03
+ดู [วิธีรันบนฐานแยก, fixture dictionary, SQL และผล Expected/Actual](../../docs/s2-data-01-fixtures.md).
+SQL อยู่ที่ `sprint2_snapshot.sql` (อ่านอย่างเดียว) และ `sprint2_rehearsal.sql` (transaction แล้ว rollback บนฐานทดสอบ)
+
 BASE-03-01 ใช้ Django management command `seed_demo` สร้างข้อมูลสมมติบน schema ปัจจุบันของทีม ไม่สร้าง migration หรือ endpoint ใหม่
 
 BASE-01 ยังไม่สร้างบัญชีนักศึกษาหรือ Party จำลองให้อัตโนมัติ หากต้องเข้าหน้า admin ให้สร้างบัญชี local ด้วย `make superuser` ข้อมูลสำหรับ UAT ต้องระบุว่าเป็นตัวอย่างและห้ามใช้ credentials มหาวิทยาลัยจริงใน repository
