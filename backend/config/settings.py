@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "venues.apps.VenuesConfig",
     "parties.apps.PartiesConfig",
+    "conduct.apps.ConductConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
