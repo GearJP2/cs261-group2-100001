@@ -187,6 +187,7 @@ def decide_join_request_api(request, party_id, request_id):
     if (
         not isinstance(payload, dict)
         or set(payload) != {"status"}
+        or not isinstance(payload["status"], str)
         or payload["status"] not in {"Approved", "Rejected"}
     ):
         return json_error("INVALID_INPUT", "ระบุสถานะ Approved หรือ Rejected", 400)
