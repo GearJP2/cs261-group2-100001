@@ -1,13 +1,15 @@
 import json
+from functools import wraps
 
 from core.api import json_error, require_authenticated_api
+from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from parties.services import PartyError
 from venues.views import InvalidQuery, get_only, positive_query
 
-from .services import average_rating, list_reviews, submit_review
+from .services import average_rating, list_reviews, submit_no_show_report, submit_review
 
 REVIEW_FIELDS = frozenset({"reviewee_id", "rating", "comment"})
 MAX_COMMENT_LENGTH = 500
@@ -143,4 +145,66 @@ def user_reviews(request, user_id):
                 "total": total,
             }
         }
+    )
+
+
+def require_no_show_enabled(view):
+    """Hide the draft endpoint before authentication, parsing or any database access."""
+
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        if not settings.NO_SHOW_ENABLED:
+            return json_error("NOT_FOUND", "ไม่พบบริการที่ต้องการ", 404)
+        return view(request, *args, **kwargs)
+
+    return wrapped
+
+
+def validate_no_show_payload(payload):
+    fields = {key: "ไม่รองรับฟิลด์นี้" for key in payload.keys() - {"reported_id"}}
+    if "reported_id" not in payload:
+        fields["reported_id"] = "กรุณาระบุข้อมูล"
+    elif type(payload["reported_id"]) is not int or not 1 <= payload["reported_id"] <= MAX_USER_ID:
+        fields["reported_id"] = "กรุณาระบุผู้ที่ต้องการรายงาน"
+    return fields
+
+
+@never_cache
+@require_no_show_enabled
+@require_authenticated_api
+def create_no_show_report(request, party_id):
+    if request.method != "POST":
+        response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ POST", 405)
+        response["Allow"] = "POST"
+        return response
+    if request.content_type != "application/json":
+        return json_error("INVALID_INPUT", "กรุณาส่งข้อมูลเป็น JSON", 400)
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except (ValueError, UnicodeDecodeError):
+        return json_error("INVALID_INPUT", "รูปแบบ JSON ไม่ถูกต้อง", 400)
+    if not isinstance(payload, dict):
+        return json_error("INVALID_INPUT", "ข้อมูลต้องเป็น JSON object", 400)
+
+    fields = validate_no_show_payload(payload)
+    if fields:
+        return json_error("INVALID_INPUT", "ข้อมูลรายงานไม่ถูกต้อง", 400, fields)
+    try:
+        report = submit_no_show_report(
+            party_id=party_id, reporter=request.user, reported_id=payload["reported_id"]
+        )
+    except PartyError as error:
+        return json_error(error.code, error.message, error.status, error.fields)
+    return JsonResponse(
+        {
+            "data": {
+                "report": {
+                    "id": report.pk,
+                    "party_id": report.party_id,
+                    "reported_id": report.reported_id,
+                    "created_at": timezone.localtime(report.created_at).isoformat(),
+                },
+            }
+        },
+        status=201,
     )
