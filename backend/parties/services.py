@@ -29,8 +29,17 @@ class JoinRequestError(Exception):
         self.status = status
 
 
+def active_memberships(party):
+    """Read actual active rows, retaining users without a profile and all history."""
+    return (
+        party.memberships.filter(left_at__isnull=True)
+        .select_related("user__profile")
+        .order_by("joined_at", "pk")
+    )
+
+
 def count_active_members(party):
-    return party.memberships.filter(left_at__isnull=True).count()
+    return active_memberships(party).count()
 
 
 def get_party_state(party, now=None, *, member_count=None):
