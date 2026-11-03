@@ -11,12 +11,12 @@
 {% endblock %}
 {% block body_class %}app-body{% endblock %}
 {% block content %}
-  {% include "partials/navbar.html" with active="home" show_create=True %}
+  {% include "partials/navbar.html" with active="" show_create=True %}
   <section class="hp-wrap hp-hero">
     <span class="hp-pill">เพื่อนใหม่ แมตช์ใหม่ ในรั้วมหาวิทยาลัย</span>
     <h1>หาเพื่อนเล่นกีฬาในมหาวิทยาลัย</h1>
     <p>เลือกกิจกรรมที่สนใจ แล้วเจอกันที่สนาม</p>
-    <a class="hp-cta" href="{% url 'party-create-page' %}" data-auth-link>＋ สร้างปาร์ตี้</a>
+    <a class="hp-cta" href="{% url 'search-page' %}">ค้นหาปาร์ตี้</a>
     <div class="hp-note">สำหรับนักศึกษา มธ. ที่ยืนยันบัญชีแล้ว</div>
   </section>
 

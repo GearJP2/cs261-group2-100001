@@ -86,11 +86,18 @@ class PublicPageTests(SimpleTestCase):
         self.assertContains(response, "/static/css/site.css")
 
     def test_sprint_one_ui_routes_render(self):
-        for url in ("/login/", "/parties/new/", "/parties/42/", "/parties/42/edit/"):
+        for url in ("/login/", "/parties/42/", "/parties/42/edit/"):
             with self.subTest(url=url):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, "UniSport Buddy")
+
+    def test_party_create_redirects_anonymous_user_to_login(self):
+        response = self.client.get(reverse("party-create-page"))
+        self.assertRedirects(
+            response,
+            f"{reverse('login-page')}?next=%2Fparties%2Fnew%2F",
+        )
 
     def test_liveness_does_not_require_a_database(self):
         self.assertEqual(self.client.get(reverse("health-live")).json(), {"status": "ok"})
