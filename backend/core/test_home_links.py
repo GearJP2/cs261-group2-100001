@@ -56,7 +56,7 @@ class HomeLinkTests(TestCase):
         response = self.client.get(reverse("search-page"))
         self.assertRedirects(
             response,
-            f'{reverse("login-page")}?next=%2Fsearch%2F',
+            f"{reverse('login-page')}?next=%2Fsearch%2F",
         )
 
     def test_create_party_redirects_to_login_and_returns_to_requested_page(self):
@@ -66,7 +66,7 @@ class HomeLinkTests(TestCase):
         )
         self.assertRedirects(
             response,
-            f'{reverse("login-page")}?next=%2Fparties%2Fnew%2F%3Fsport_id%3D3%26venue_id%3D8',
+            f"{reverse('login-page')}?next=%2Fparties%2Fnew%2F%3Fsport_id%3D3%26venue_id%3D8",
         )
         login_response = self.client.get(response.url)
         self.assertEqual(login_response.status_code, 200)
