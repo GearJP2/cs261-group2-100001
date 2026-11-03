@@ -1,5 +1,8 @@
 # US8-T-01 — ตรวจรับ Public User Profile
 
+> ผลเพิ่มเติมวันที่ 21 ต.ค. 2026: ตรวจ Browser บน main `b6d4bd0` แล้ว ดูหัวข้อท้ายรายงาน
+> ข้อความ “ยังรอ US8-F” ด้านล่างเป็นประวัติการตรวจวันที่ 18 ต.ค. ไม่ใช่สถานะล่าสุด
+
 อ้างอิง [Issue #23](https://github.com/GearJP2/cs261/issues/23), [API-10 contract](us8-b-api.md) และ [Technical Plan](sprint-1-technical-plan.md) หัวข้อ 8
 
 **ขอบเขตรอบนี้: Backend พร้อมรีวิว; Frontend/E2E ยังรอ US8-F** เริ่มบน `test/us-8-t-profile` จาก `main` commit `6bffd59` หลัง PR #39 ไม่แก้ API, schema, migration หรือ authentication policy ไม่ต้องรอ seed BASE-03 เพราะ tests สร้างข้อมูลใน test database แยกเอง
@@ -55,3 +58,50 @@ make verify
 ## ส่งรีวิว
 
 PR รอบ Backend ให้ใช้ **`Refs #23`** และระบุว่ายังรอรายการ Frontend ข้างต้น ไม่ใช้ `Closes #23` จนกว่าจะตรวจ scope ทั้ง Issue ครบ งานย่อย Backend ที่พร้อมรีวิวสามารถอยู่ Testing ได้ แต่ไม่ถือว่า US8-T ทั้งงาน Done
+
+## เพิ่มผล Browser — 21 ต.ค. 2026
+
+โกลตรวจเพิ่มเติมบน branch `codex/us8-us7-browser-evidence` จาก main `b6d4bd0`;
+Chrome ใน Codex in-app browser / Windows, PostgreSQL 17, Django 5.2.18, Python 3.12
+ใช้ Docker project `cs261-evidence` และฐาน `evidence_browser` แยกจากข้อมูลพัฒนา
+Login ผ่านฟอร์มจริง แต่จำลองเฉพาะ TU response ใน test harness จึงไม่ใช่ผล provider จริง
+
+| กรณี | ผลจริง | ผล |
+| --- | --- | --- |
+| Login viewer → Home → Party → กดชื่อ Host | เปิด `/users/1/` ของ Host ถูกคน มีชื่อ กีฬา และ 75 คะแนน | Pass |
+| สลับ target 1 → 3 → 4 → 1 | ชื่อ/คะแนน/กีฬาไม่ค้างจากคนก่อน | Pass |
+| ไม่มี interests / credit=null | แสดง “ยังไม่ได้ระบุกีฬาที่สนใจ” และ “ไม่มีคะแนน” | Pass |
+| credit=0 | แสดง “0 คะแนน” | Pass |
+| User id ไม่มีอยู่ | หน้า “ไม่พบผู้ใช้”, HTTP log เป็น 404 | Pass |
+| Session หมดอายุ | ปฏิเสธด้วย 401 AUTH_REQUIRED ไม่ส่ง HTML โปรไฟล์ | Pass ตาม guard |
+| Logout จาก UI แล้วเปิดโปรไฟล์เดิม | 401 AUTH_REQUIRED | Pass |
+| Viewer ถูกปิดใช้งานขณะถือ cookie เดิม | 401 AUTH_REQUIRED ตาม ModelBackend ไม่ใช่ 403 ทุกกรณี | Pass |
+| Field ส่วนตัว | 17 API acceptance tests และ HTML tests ผ่าน; หน้า Browser แสดงเฉพาะ public fields | Pass ตามขอบเขตที่ตรวจ |
+
+### หลักฐาน
+
+- [ภาพ Host profile](evidence/browser-2026-10-21/us8-host-profile.jpg)
+- [ข้อมูลว่าง](evidence/browser-2026-10-21/us8-empty-profile.jpg), [คะแนน 0](evidence/browser-2026-10-21/us8-zero-profile.jpg)
+- [404](evidence/browser-2026-10-21/us8-not-found.jpg), [session หมดอายุ](evidence/browser-2026-10-21/us8-expired-session.jpg)
+- [หลัง Logout](evidence/browser-2026-10-21/us8-after-logout.jpg), [inactive](evidence/browser-2026-10-21/us8-inactive-viewer.jpg)
+- [Environment, harness, ข้อจำกัด และวิธีตรวจซ้ำ](evidence/browser-2026-10-21/README.md)
+- [HTTP log](evidence/browser-2026-10-21/http-log.txt), [ผล Browser รายกรณี](evidence/browser-2026-10-21/browser-results.json)
+
+รัน Backend/HTML regression พร้อม US7 บน main ฐานก่อน patch เวลา Edit:
+
+```bash
+docker compose -p cs261-evidence exec -T backend python backend/manage.py test accounts.test_profile_api accounts.test_profile_acceptance core.test_public_profile_page parties.test_us7_acceptance parties.test_creation parties.test_creation_api parties.test_editing parties.test_editing_api parties.test_editing_concurrency parties.test_cancellation parties.test_cancellation_api parties.test_management_api --noinput --verbosity 1
+```
+
+ผล **86 tests ผ่าน ไม่มี skip ใน 5.467 วินาที**; log อยู่ [backend-tests.txt](evidence/browser-2026-10-21/backend-tests.txt)
+หลังแก้ JavaScript ของ US7 รัน `node --check frontend/static/js/app.js` ผ่าน และตรวจ Browser Edit ซ้ำ
+
+### ข้อจำกัดและการส่งต่อ
+
+- หน้า Profile ปัจจุบัน render HTML จาก Backend โดยตรง จึงไม่ทดสอบการ retry ของ client-side Profile API ที่หน้านี้ไม่ได้เรียก
+- Session หมดอายุ/logout/inactive แสดง JSON 401 ตาม guard ไม่ redirect Login อัตโนมัติ:
+  บันทึกเป็นข้อจำกัด UX ให้เจ้าของ UI ทบทวน ไม่อ้างว่าผ่านเงื่อนไข redirect ที่ยังไม่ได้ implement
+- ไม่จำลอง network outage ของ navigation และไม่ได้อ่าน Browser storage ด้วย DevTools;
+  ตรวจ source `app.js` ไม่พบ localStorage/sessionStorage และใช้ automated private-field tests แยก
+- ผลชุดนี้ไม่ยืนยัน TU จริง, ทุก Browser หรือ Browser back-cache
+- พร้อมให้รีวิวหลักฐานที่เพิ่ม; ยังไม่อ้างว่ารายงานรอบนี้ commit/push/merge หรือได้รับการตรวจรับโดยทีมแล้ว
