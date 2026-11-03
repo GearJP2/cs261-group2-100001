@@ -14,17 +14,21 @@
   
   <!-- โหลด CSS ของหน้าปาร์ตี้ของฉันโดยเฉพาะ -->
   <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=8.0">
+
+  <!-- โหลด app.js แบบ defer เพื่อให้เมนูบัญชีทำงาน -->
+  <script src="{% static 'scripts/app.js' %}" defer></script>
 </head>
 <body>
 
-  <!-- ดึง Navbar ที่เราเพิ่งแก้ในไฟล์ partials/navbar.html มาใช้ -->
-  <!-- สั่ง active="myparty" เพื่อให้เส้นใต้สีเหลืองขึ้นที่เมนู "ปาร์ตี้ของฉัน" และ show_create=False เพื่อซ่อนปุ่มสร้างปาร์ตี้ -->
-  {% include "partials/navbar.html" with active="myparty" show_create=False %}
+  <!-- ดึง Navbar -->
+  {% include "partials/navbar.html" with active="myparty" show_create=True %}
 
   <!-- ========================================== -->
   <!-- เนื้อหาหน้าเว็บปาร์ตี้ของฉัน -->
   <!-- ========================================== -->
-  <div class="mp-container">
+  
+  <!-- เพิ่มคลาส container เข้าไปคู่กับ mp-container เพื่อให้เนื้อหาจัดกึ่งกลาง -->
+  <div class="mp-container container">
     <div class="mp-header">
       <h1>ปาร์ตี้ของฉัน</h1>
       <p>จัดการกิจกรรม นัดเพื่อนร่วมเล่น แล้วเจอกันที่สนาม</p>
@@ -105,7 +109,6 @@
           </div>
         </div>
       </article>
-
     </div>
   </div>
 
