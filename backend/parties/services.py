@@ -271,7 +271,13 @@ def submit_join_request(*, party_id, user):
 
 @transaction.atomic
 def decide_join_request(*, party_id, request_id, user, approved):
-    """Let the host decide one pending request while holding the Party lock."""
+    """Decide atomically, locking Party -> JoinRequest -> existing Membership.
+
+    Party is the mutex even when the applicant has no Membership row to lock.
+    All capacity-changing writers must take that same Party lock first; a unique
+    constraint alone cannot prevent two different applicants taking the last slot.
+    Let DB errors escape this atomic boundary so both domain writes roll back.
+    """
     try:
         party = Party.objects.select_for_update().get(pk=party_id)
     except Party.DoesNotExist:

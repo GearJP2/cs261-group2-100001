@@ -1,0 +1,12 @@
+BEGIN
+NOTICE:  DB49-S01 baseline: Pending, applicant membership absent, active=2
+NOTICE:  DB49-S02 actual SQLSTATE=23514 constraint=join_request_valid_decision
+NOTICE:  DB49-S03 after failure: Pending, applicant membership absent, active=2
+NOTICE:  DB49-S04 successful pair inside transaction: Approved, active=3
+DO
+ROLLBACK
+     title      | status  | active_count | applicant_membership 
+----------------+---------+--------------+----------------------
+ [S2-DATA] Open | Pending |            2 | f
+(1 row)
+
