@@ -10,7 +10,7 @@
 | US6 ดูสมาชิก | Proposed — ยังไม่มี members endpoint | [SVG](us6.svg) / [source](us6.mmd) |
 | US4 ถอนตัว | Proposed — ยังไม่มี leave endpoint | [SVG](us4.svg) / [source](us4.mmd) |
 | US2 ค้นหา | Proposed — `/parties` ปัจจุบันรับ POST สร้างปาร์ตี้ ยังไม่มี GET search | [SVG](us2.svg) / [source](us2.mmd) |
-| US14 รีวิว | Implemented on branches, not merged; No-show อยู่หลัง flag `NO_SHOW_ENABLED` ที่ปิดอยู่ และ policy ยังเป็นข้อเสนอ | [SVG](us14.svg) (รุ่นเดิม ยังไม่ render ใหม่) / [source](us14.mmd) |
+| US14 รีวิว | Implemented on branches, not merged; No-show อยู่หลัง flag `NO_SHOW_ENABLED` ที่ปิดอยู่ และ policy ยังเป็นข้อเสนอ | SVG: [รีวิว](us14.svg) / [No-show](us14-no-show.svg); source: [รีวิว](us14.mmd) / [No-show](us14-no-show.mmd) |
 
 ไฟล์ `.mmd` แก้ไขได้และนำเข้า Mermaid/draw.io ได้; SVG เป็น preview ที่เปิดแบบ offline ได้ อ่านจากบนลงล่าง: เส้นทึบคือ request, เส้นประคือ response, `alt` คือทางเลือก, `opt` คือทางเลือกทำเพิ่ม
 
@@ -87,11 +87,17 @@ Proposed `GET /parties` ต้องอยู่ร่วมกับ POST ส�
 
 ## US14 — รีวิวหลังจบ
 
-![US14 sequence](us14.svg)
+**Sequence 1 — รีวิว**
+
+![US14 review sequence](us14.svg)
+
+**Sequence 2 — No-show (หลัง flag)**
+
+![US14 No-show sequence](us14-no-show.svg)
 
 **สถานะ:** โค้ดอยู่บน branch `feat/s2-us14-b-01-submit-review`, `feat/s2-us14-b-02-read-reviews` และ `feat/s2-us14-b-03-no-show` ยังไม่ merge เข้า main กติกาและข้อเสนอทั้งหมดอยู่ใน [มติ S2-US14-D-01](../us14-d-01-decisions.md)
 
-**SVG ยังเป็นภาพรุ่นเดิม:** ภาพด้านบนยังแสดง flow แบบ proposed เพราะเครื่องที่แก้เอกสารไม่มี `mmdc` ให้ยึด [us14.mmd](us14.mmd) เป็นหลักจนกว่าจะ render ใหม่
+ภาพ US14 แยกเป็นสองไฟล์ ([us14.mmd](us14.mmd) และ [us14-no-show.mmd](us14-no-show.mmd)) เพื่อให้แต่ละภาพอ่านได้บนหน้าจอเดียว SVG ทั้งสองเรนเดอร์จาก source ปัจจุบันด้วย `mmdc`
 
 **Sequence 1 — รีวิว (ยืนยันแล้ว):** `POST /parties/{id}/reviews` ใช้ reviewer จาก session, lock Party แล้วอ่านเวลาหลังได้ lock ผู้รีวิวและผู้ถูกรีวิวต้องเป็น Host หรือสมาชิกที่ `left_at IS NULL` หรือ `left_at >= ends_at` และห้ามรีวิวตัวเอง insert อยู่ใน savepoint และจับ unique conflict นอก savepoint ที่ล้มเหลวแล้วตอบ 409 `REVIEW_EXISTS`; การตรวจ exists ก่อน insert อย่างเดียวกัน concurrent duplicate ไม่ได้ `rating_sum`/`rating_count` อัปเดตใน transaction เดียวกับ insert ดาวเฉลี่ยแยกจาก conduct credit
 
