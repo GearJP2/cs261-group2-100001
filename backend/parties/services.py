@@ -29,8 +29,17 @@ class JoinRequestError(Exception):
         self.status = status
 
 
+def active_memberships(party):
+    """Read actual active rows, retaining users without a profile and all history."""
+    return (
+        party.memberships.filter(left_at__isnull=True)
+        .select_related("user__profile")
+        .order_by("joined_at", "pk")
+    )
+
+
 def count_active_members(party):
-    return party.memberships.filter(left_at__isnull=True).count()
+    return active_memberships(party).count()
 
 
 def get_party_state(party, now=None, *, member_count=None):
@@ -262,7 +271,13 @@ def submit_join_request(*, party_id, user):
 
 @transaction.atomic
 def decide_join_request(*, party_id, request_id, user, approved):
-    """Let the host decide one pending request while holding the Party lock."""
+    """Decide atomically, locking Party -> JoinRequest -> existing Membership.
+
+    Party is the mutex even when the applicant has no Membership row to lock.
+    All capacity-changing writers must take that same Party lock first; a unique
+    constraint alone cannot prevent two different applicants taking the last slot.
+    Let DB errors escape this atomic boundary so both domain writes roll back.
+    """
     try:
         party = Party.objects.select_for_update().get(pk=party_id)
     except Party.DoesNotExist:
@@ -282,10 +297,21 @@ def decide_join_request(*, party_id, request_id, user, approved):
     if state in {"InProgress", "Completed"}:
         raise PartyError("PARTY_STARTED", "กิจกรรมนี้เริ่มแล้ว", 409)
     if approved:
-        if count_active_members(party) >= party.capacity:
+        if state == "Full":
             raise PartyError("PARTY_FULL", "กิจกรรมนี้เต็มแล้ว", 409)
-        membership, _ = PartyMembership.objects.get_or_create(party=party, user=join_request.user)
-        if membership.left_at is not None:
+        membership = (
+            PartyMembership.objects.select_for_update()
+            .filter(party=party, user_id=join_request.user_id)
+            .first()
+        )
+        # Pending rows from legacy/imported data must not approve an existing member.
+        if join_request.user_id == party.host_id or (
+            membership is not None and membership.left_at is None
+        ):
+            raise PartyError("ALREADY_MEMBER", "ผู้ขอเป็นสมาชิกของกิจกรรมนี้แล้ว", 409)
+        if membership is None:
+            PartyMembership.objects.create(party=party, user_id=join_request.user_id)
+        else:
             membership.left_at = None
             membership.save(update_fields=["left_at"])
 
