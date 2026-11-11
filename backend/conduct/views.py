@@ -5,13 +5,21 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from parties.services import PartyError
+from venues.views import InvalidQuery, get_only, positive_query
 
-from .services import submit_review
+from .services import average_rating, list_reviews, submit_review
 
 REVIEW_FIELDS = frozenset({"reviewee_id", "rating", "comment"})
 MAX_COMMENT_LENGTH = 500
 # PostgreSQL bigint upper bound of the user primary key.
 MAX_USER_ID = 9_223_372_036_854_775_807
+DEFAULT_REVIEW_PAGE_SIZE = 20
+MAX_REVIEW_PAGE_SIZE = 100
+
+
+def reviewer_display_name(user):
+    # Never expose a login identifier as a replacement display name.
+    return getattr(getattr(user, "profile", None), "display_name", "ผู้ใช้")
 
 
 def comment_error(comment):
@@ -84,10 +92,7 @@ def create_review(request, party_id):
                     "party_id": review.party_id,
                     "reviewer": {
                         "id": review.reviewer_id,
-                        # Never expose a login identifier as a replacement display name.
-                        "display_name": getattr(
-                            getattr(request.user, "profile", None), "display_name", "ผู้ใช้"
-                        ),
+                        "display_name": reviewer_display_name(request.user),
                     },
                     "reviewee_id": review.reviewee_id,
                     "rating": review.rating,
@@ -97,4 +102,45 @@ def create_review(request, party_id):
             }
         },
         status=201,
+    )
+
+
+@never_cache
+@require_authenticated_api
+def user_reviews(request, user_id):
+    error = get_only(request)
+    if error is not None:
+        return error
+    try:
+        page = positive_query(request, "page", 1)
+        page_size = positive_query(
+            request, "page_size", DEFAULT_REVIEW_PAGE_SIZE, MAX_REVIEW_PAGE_SIZE
+        )
+    except InvalidQuery as error:
+        return json_error("INVALID_INPUT", "พารามิเตอร์ไม่ถูกต้อง", 400, {str(error): "ระบุจำนวนเต็มบวก"})
+    try:
+        profile, reviews, total = list_reviews(user_id, page, page_size)
+    except PartyError as error:
+        return json_error(error.code, error.message, error.status, error.fields)
+    return JsonResponse(
+        {
+            "data": {
+                "user_id": profile.user_id,
+                "average_rating": average_rating(profile),
+                "rating_count": profile.rating_count,
+                "reviews": [
+                    {
+                        "id": review.pk,
+                        "rating": review.rating,
+                        "comment": review.comment,
+                        "reviewer": {"display_name": reviewer_display_name(review.reviewer)},
+                        "created_at": timezone.localtime(review.created_at).isoformat(),
+                    }
+                    for review in reviews
+                ],
+                "page": page,
+                "page_size": page_size,
+                "total": total,
+            }
+        }
     )
