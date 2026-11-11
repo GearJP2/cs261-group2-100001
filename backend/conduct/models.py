@@ -6,9 +6,12 @@ REVIEW_UNIQUE_CONSTRAINT = "unique_party_review"
 
 
 class PartyReview(models.Model):
+    # PROTECT, not CASCADE: UserProfile.rating_sum/rating_count are caches of these rows.
+    # Cascading a Party delete would drop the reviews without reducing the caches, and
+    # the read API reads the caches directly.
     party = models.ForeignKey(
         Party,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="reviews",
     )
     reviewer = models.ForeignKey(

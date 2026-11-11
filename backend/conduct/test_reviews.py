@@ -7,6 +7,7 @@ from accounts.models import UserProfile
 from accounts.test_support import force_university_login
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError, transaction
+from django.db.models import ProtectedError
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -496,3 +497,44 @@ class ReviewConstraintTests(ReviewFixture, TestCase):
             with self.subTest(field=field), self.assertRaises(IntegrityError):
                 with transaction.atomic():
                     UserProfile.objects.filter(user=self.member).update(**{field: -1})
+
+
+class ReviewDeletionProtectionTests(ReviewFixture, TestCase):
+    """The rating caches are only correct while reviews cannot vanish unnoticed."""
+
+    def test_party_with_a_review_cannot_be_deleted(self):
+        """IT-US14-DB-44: no silent cascade that leaves the rating cache stale."""
+        self.assertEqual(self.submit().status_code, 201)
+        self.assertEqual(self.cache(self.member), (4, 1))
+        with self.assertRaises(ProtectedError), transaction.atomic():
+            self.party.delete()
+        self.assertTrue(Party.objects.filter(pk=self.party.pk).exists())
+        self.assertEqual(PartyReview.objects.filter(party=self.party).count(), 1)
+        self.assertEqual(self.cache(self.member), (4, 1))
+        # Nothing else of the Party was removed by the refused delete.
+        self.assertEqual(PartyMembership.objects.filter(party=self.party).count(), 3)
+
+    def test_party_without_reviews_can_still_be_deleted(self):
+        """IT-US14-DB-45"""
+        other = self.make_party()
+        self.assertEqual(self.submit().status_code, 201)
+        other.delete()
+        self.assertFalse(Party.objects.filter(pk=other.pk).exists())
+        self.assertFalse(PartyMembership.objects.filter(party_id=other.pk).exists())
+        # The reviewed Party and its cache are untouched.
+        self.assertTrue(Party.objects.filter(pk=self.party.pk).exists())
+        self.assertEqual(self.cache(self.member), (4, 1))
+
+    def test_user_who_wrote_or_received_a_review_cannot_be_deleted(self):
+        """IT-US14-DB-46: neither side of a review can be removed from under the cache."""
+        writer = self.make_user("review_writer", "ผู้เขียน")
+        receiver = self.make_user("review_receiver", "ผู้รับ")
+        PartyReview.objects.create(
+            party=self.party, reviewer=writer, reviewee=receiver, rating=5, comment=""
+        )
+        for user in (writer, receiver):
+            with self.subTest(user=user.username):
+                with self.assertRaises(ProtectedError), transaction.atomic():
+                    user.delete()
+                self.assertTrue(get_user_model().objects.filter(pk=user.pk).exists())
+        self.assertEqual(PartyReview.objects.filter(party=self.party).count(), 1)
