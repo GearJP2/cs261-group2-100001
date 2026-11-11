@@ -241,22 +241,51 @@ class PartyMembersApiTests(TestCase):
         expected = [self.host.pk, self.no_profile.pk, self.member.pk]
         self.assert_members(self.client.get(self.url), expected)
 
-    def test_legacy_party_without_host_row_lists_host_without_writing(self):
+    def assert_matches_party_detail(self, expected_user_ids):
+        """/members and Party Detail must share one definition of "active member"."""
+        members = self.assert_members(self.client.get(self.url), expected_user_ids)
+        detail = self.client.get(reverse("party-detail", args=[self.party.pk]))
+        self.assertEqual(detail.status_code, 200)
+        detail_data = detail.json()["data"]
+        self.assertEqual(detail_data["member_count"], len(members))
+        self.assertEqual(detail_data["remaining_slots"], self.party.capacity - len(members))
+        return members
+
+    def test_host_without_active_row_is_not_synthesized_and_matches_party_detail(self):
+        # No membership row for the Host: the old code added them (count 3, Detail said 2).
         self.host_row.delete()
-        rows = self.assert_members(
-            self.client.get(self.url), [self.host.pk, self.no_profile.pk, self.member.pk]
-        )
-        self.assertEqual(rows[0]["role"], "Host")
-        self.assertEqual(rows[0]["display_name"], "นามแฝงผู้จัด")
+        members = self.assert_matches_party_detail([self.no_profile.pk, self.member.pk])
+        self.assertEqual([row["role"] for row in members], ["Member", "Member"])
+        # The Host is still the Host and may read; the read never writes a row.
         self.assertFalse(PartyMembership.objects.filter(party=self.party, user=self.host).exists())
 
-    def test_host_with_left_row_stays_listed_once_as_host(self):
-        # The Host-leave policy belongs to S2-US4-D-01; the Party still has this Host.
+    def test_host_with_left_row_is_not_listed_and_matches_party_detail(self):
+        # The Host-leave policy belongs to S2-US4-D-01; until then left_at rows are not active.
         PartyMembership.objects.filter(pk=self.host_row.pk).update(left_at=self.now)
-        rows = self.assert_members(
-            self.client.get(self.url), [self.host.pk, self.no_profile.pk, self.member.pk]
+        members = self.assert_matches_party_detail([self.no_profile.pk, self.member.pk])
+        self.assertNotIn("Host", [row["role"] for row in members])
+
+    def test_host_with_active_row_matches_party_detail(self):
+        members = self.assert_matches_party_detail(
+            [self.host.pk, self.no_profile.pk, self.member.pk]
         )
-        self.assertEqual(rows[0]["role"], "Host")
+        self.assertEqual(sum(row["role"] == "Host" for row in members), 1)
+
+    def test_member_who_left_matches_party_detail(self):
+        # setUp already has a left row; a second member leaving lowers both counts together.
+        PartyMembership.objects.filter(pk=self.member_row.pk).update(left_at=self.now)
+        self.assert_matches_party_detail([self.host.pk, self.no_profile.pk])
+
+    def test_several_active_members_match_party_detail(self):
+        users = get_user_model()
+        extra_ids = []
+        for index in range(4):
+            user = users.objects.create_user(f"private-parity-login-{index}")
+            PartyMembership.objects.create(party=self.party, user=user)
+            extra_ids.append(user.pk)
+        self.assert_matches_party_detail(
+            [self.host.pk, self.no_profile.pk, self.member.pk, *extra_ids]
+        )
 
     def test_it_us6_db_01_lists_only_this_partys_active_memberships(self):
         response = self.client.get(self.url)

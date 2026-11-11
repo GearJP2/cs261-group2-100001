@@ -14,6 +14,7 @@ from .services import (
     PARTY_EDIT_FIELDS,
     JoinRequestError,
     PartyError,
+    active_memberships,
     cancel_party,
     count_active_members,
     create_party,
@@ -100,10 +101,6 @@ def party_detail(request, party_id):
     )
 
 
-def active_memberships(party):
-    return party.memberships.filter(left_at__isnull=True)
-
-
 def can_view_members(party, user):
     """Allow only the Host or an active member; awaits team confirmation in S2-US6-D-01."""
     return party.host_id == user.pk or active_memberships(party).filter(user=user).exists()
@@ -136,10 +133,13 @@ def party_members(request, party_id):
     if not can_view_members(party, request.user):
         return json_error("FORBIDDEN", "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้", 403)
 
-    rows = active_memberships(party).select_related("user__profile").order_by("joined_at", "pk")
-    # The Host always comes from Party, so older Parties without a Host row still list them.
-    members = [member_data(party.host, party)]
-    members += [member_data(row.user, party) for row in rows if row.user_id != party.host_id]
+    # Same definition of "active member" as Party Detail and the capacity checks
+    # (services.active_memberships). The Host is listed only if they hold an active
+    # row, so member_count always equals Party Detail's member_count.
+    rows = list(active_memberships(party))
+    # Stable sort: Host first, everyone else keeps joined_at/pk order from the helper.
+    rows.sort(key=lambda row: row.user_id != party.host_id)
+    members = [member_data(row.user, party) for row in rows]
     return JsonResponse({"data": {"members": members, "member_count": len(members)}})
 
 

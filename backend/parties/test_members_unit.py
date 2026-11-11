@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, patch
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, SimpleTestCase
 
+from . import services
 from .models import Party
 from .views import active_memberships, can_view_members, member_data, party_detail, party_members
 
@@ -51,8 +52,12 @@ def fake_row(user, left_at=None):
 
 def fake_queryset(rows=(), viewer_is_active=False):
     """Stand in for the filtered memberships read by the view and permission check."""
+    rows = list(rows)
     queryset = MagicMock()
-    queryset.select_related.return_value.order_by.return_value = list(rows)
+    # The shared helper returns an already select_related/ordered queryset, so the view
+    # iterates it directly; the chain below stays for tests that run the real helper.
+    queryset.__iter__.side_effect = lambda: iter(rows)
+    queryset.select_related.return_value.order_by.return_value = rows
     queryset.filter.return_value.exists.return_value = viewer_is_active
     return queryset
 
@@ -146,11 +151,18 @@ class MemberSerializerTests(MembersUnitTestCase):
 
 
 class ActivePredicateTests(MembersUnitTestCase):
+    def test_ut_us6_api_03_view_uses_the_shared_active_membership_helper(self):
+        # One definition of "active member" for Party Detail, capacity and /members.
+        self.assertIs(active_memberships, services.active_memberships)
+
     def test_ut_us6_api_03_active_memberships_filters_on_left_at_null(self):
         party = MagicMock()
         result = active_memberships(party)
         party.memberships.filter.assert_called_once_with(left_at__isnull=True)
-        self.assertIs(result, party.memberships.filter.return_value)
+        queryset = party.memberships.filter.return_value
+        queryset.select_related.assert_called_once_with("user__profile")
+        queryset.select_related.return_value.order_by.assert_called_once_with("joined_at", "pk")
+        self.assertIs(result, queryset.select_related.return_value.order_by.return_value)
 
     def test_ut_us6_api_03_left_member_and_requesters_are_not_returned(self):
         # The fake applies the predicate it receives, so the view's real filter decides.
@@ -203,14 +215,14 @@ class MemberMappingTests(MembersUnitTestCase):
         )
         self.party_objects.select_related.assert_called_once_with("host__profile")
         self.party_lookup.assert_called_once_with(pk=PARTY_ID)
-        queryset.select_related.assert_called_once_with("user__profile")
-        queryset.select_related.return_value.order_by.assert_called_once_with("joined_at", "pk")
 
-    def test_ut_us6_api_04_host_without_row_is_added_and_counted(self):
+    def test_ut_us6_api_04_host_without_active_row_is_not_synthesized(self):
+        # Party Detail counts only active rows, so /members must not invent a Host entry.
         response, _ = self.read_as_member([fake_row(self.member)])
         data = json.loads(response.content)["data"]
-        self.assertEqual([row["role"] for row in data["members"]], ["Host", "Member"])
-        self.assertEqual(data["member_count"], len(data["members"]))
+        self.assertEqual([row["user_id"] for row in data["members"]], [MEMBER_ID])
+        self.assertEqual([row["role"] for row in data["members"]], ["Member"])
+        self.assertEqual(data["member_count"], 1)
 
 
 class ErrorResponseTests(MembersUnitTestCase):
@@ -249,4 +261,4 @@ class ErrorResponseTests(MembersUnitTestCase):
         self.assertEqual(payload["error"]["code"], "FORBIDDEN")
         for name in ("นามแฝงผู้จัด", "นามแฝงสมาชิก"):
             self.assertNotIn(name, json.dumps(payload, ensure_ascii=False))
-        queryset.select_related.assert_not_called()
+        queryset.__iter__.assert_not_called()
