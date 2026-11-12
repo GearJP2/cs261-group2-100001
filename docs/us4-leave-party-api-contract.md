@@ -122,4 +122,4 @@ network failure หรือ unhandled 5xx ไม่ถือเป็นผล�
 - [ ] ผู้ทำ Frontend รับทราบว่า members API จะปฏิเสธผู้ถอนแล้ว และข้อจำกัด retry ข้ามรอบสมาชิก
 - [ ] ยืนยัน dependency S2-PLAN-01 และบันทึกชื่อ/วันที่/ลิงก์ review ก่อน implement ใน S2-US4-B-01
 
-ตรวจครั้งนี้เฉพาะเอกสารเทียบ source, ตัวอย่าง JSON, ลิงก์ไฟล์ภายใน และ whitespace ไม่ได้รัน API, browser, PostgreSQL integration หรือ CI จึงไม่อ้างว่าระบบถอนตัวใช้งานได้แล้ว UI และ test cases ยังเป็นงานถัดไป
+ตรวจครั้งนี้เฉพาะเอกสารเทียบ source, ตัวอย่าง JSON, ลิงก์ไฟล์ภายใน และ whitespace ไม่ได้รัน API, browser, PostgreSQL integration หรือ CI จึงไม่อ้างว่าระบบถอนตัวใช้งานได้แล้ว ดู [test cases และ checklist review](us4-leave-party-test-cases.md) สำหรับเกณฑ์ตรวจรับ; แบบ UI ของผู้ใช้ยังรอแนบและตรวจเทียบ
