@@ -1,0 +1,14 @@
+stateDiagram-v2
+ [*] --> Pending: eligible student requests an open Party
+ Pending --> Approved: Host approves before start with capacity
+ Pending --> Rejected: Host rejects before start (Full allowed)
+ Rejected --> Pending: eligible user submits again
+ Approved --> Pending: membership left; eligible user requests again
+ Pending --> Pending: duplicate request -> 409; unchanged
+ Approved --> Approved: repeated decision -> 409; unchanged
+ Rejected --> Rejected: repeated decision -> 409; unchanged
+ note right of Pending
+ Reopen clears decided_at/by and resets created_at.
+ Request never reserves a seat.
+ All mutations lock Party first.
+ end note
