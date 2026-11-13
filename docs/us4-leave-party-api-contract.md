@@ -2,7 +2,7 @@
 
 งาน: `S2-US4-D-01` / [Issue #82](https://github.com/GearJP2/cs261-group2-100001/issues/82)
 คนหลัก: Golf (@Seamui) — ผู้ตรวจ: Austin (@Siestashi)
-สถานะ: ข้อเสนอสำหรับ review ต่อจาก [กติกาถอนตัว](us4-leave-party-policy.md) ยังไม่มี leave endpoint ใน implementation และยังไม่ใช่มติที่ทีมยืนยันแล้ว
+สถานะ: ข้อเสนอสำหรับ review ต่อจาก [กติกาถอนตัว](us4-leave-party-policy.md) ฉบับ Design เดิมยังไม่ใช่หลักฐานมติทีม; ปัจจุบันเพิ่ม endpoint ใน Task70 แล้ว ดู [implementation และผลทดสอบ](us4-b-01-test-report.md)
 
 ## 1. ส่วนที่ใช้ร่วมกับระบบเดิม
 
@@ -14,7 +14,7 @@
 | Membership / capacity | `backend/parties/models.py`, `services.py` | ใช้ membership แถวเดิม, `left_at`, unique `(party, user)`, active count และ Party-first lock |
 | อ่านผลล่าสุด | `backend/parties/urls.py`, `views.py` | ใช้ Party Detail และ members API ที่มีอยู่ โดยคงกฎสิทธิ์ของแต่ละ endpoint |
 
-ไม่เพิ่มตาราง migration หรือ counter จำนวนที่ว่าง งานนี้กำหนด contract เท่านั้น ไม่เพิ่ม route/view/service
+ไม่เพิ่มตาราง migration หรือ counter จำนวนที่ว่าง เอกสารนี้กำหนด contract; route/view ที่เพิ่มภายหลังและผลทดสอบแยกในรายงาน Task70
 
 ## 2. Request
 

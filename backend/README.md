@@ -37,3 +37,9 @@ make verify
 เปิด POST `/api/v1/parties`, PATCH `/api/v1/parties/{id}` และ POST `/api/v1/parties/{id}/cancel`
 ใช้ university session guard จาก US1 และ CSRF middleware; Edit/Cancel ตรวจ Host ภายใต้ Party lock
 ดู [US7 Backend API](../docs/us7-b-api.md) สำหรับ contract, transaction และ tests
+
+## US4-B — ถอนตัวจาก Party
+
+เปิด `POST /api/v1/parties/{id}/leave` รับ body ว่างหรือ JSON `{}` ผ่าน university session/CSRF เดิม
+ใช้ service soft leave ของ Task69 และ Party-first lock; ถอนซ้ำไม่คืนที่ว่างเพิ่ม Host ต้องใช้ cancel แทน
+ดู [API contract](../docs/us4-leave-party-api-contract.md) และ [ผลตรวจ Task70](../docs/us4-b-01-test-report.md)
