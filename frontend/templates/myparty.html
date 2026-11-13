@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
   
   <!-- โหลด CSS ของหน้าปาร์ตี้ของฉันโดยเฉพาะ -->
-  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=8.0">
+  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=9.0">
 
   <!-- โหลด app.js แบบ defer เพื่อให้เมนูบัญชีทำงาน -->
   <script src="{% static 'js/app.js' %}" defer></script>
@@ -142,8 +142,8 @@
             <div><p class="mp-user-name">ณัชชา</p><p class="mp-user-level">มือใหม่</p></div>
           </div>
           <div class="mp-req-actions">
-            <button class="btn-action btn-approve">อนุมัติ</button>
-            <button class="btn-action btn-reject">ไม่อนุมัติ</button>
+            <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="101" onclick="handleAction(this, 'approve')">อนุมัติ</button>
+            <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="101" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
           </div>
         </div>
         <div class="mp-req-item">
@@ -152,7 +152,8 @@
             <div><p class="mp-user-name">ธนกฤต</p><p class="mp-user-level">ระดับทั่วไป</p></div>
           </div>
           <div class="mp-req-actions">
-            <button class="btn-action btn-loading" disabled>กำลังดำเนินการ...</button>
+            <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="102" onclick="handleAction(this, 'approve')">อนุมัติ</button>
+            <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="102" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
           </div>
         </div>
         <div class="mp-req-item">
@@ -161,11 +162,55 @@
             <div><p class="mp-user-name">มะลิ</p><p class="mp-user-level">มือใหม่</p></div>
           </div>
           <div class="mp-req-actions">
-             <span class="text-error" style="color: #df1b1b; font-size: 0.8rem; font-weight: 500; text-align: right; width: 100%;">ไม่สามารถดำเนินการได้<br>กรุณาลองใหม่อีกครั้ง</span>
+            <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="103" onclick="handleAction(this, 'approve')">อนุมัติ</button>
+            <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="103" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
           </div>
         </div>
       `;
     }
+    // ฟังก์ชันจัดการตอนกดปุ่ม อนุมัติ/ไม่อนุมัติ
+async function handleAction(buttonElement, action) {
+  // 1. ดึง ID จากปุ่มที่เราฝังไว้
+  const partyId = buttonElement.getAttribute('data-party-id');
+  const requestId = buttonElement.getAttribute('data-request-id');
+  const actionContainer = buttonElement.parentElement; // กล่องที่ครอบปุ่มอยู่
+
+  // 2. เปลี่ยนสถานะปุ่มเป็น Loading (ปิดปุ่ม ป้องกันกดซ้ำ)
+  actionContainer.innerHTML = `<button class="btn-action btn-loading" disabled>กำลังดำเนินการ...</button>`;
+
+  try {
+    // ⚠️ ตรงนี้คือจุดที่ต้องรอ URL จากเพื่อน Backend
+    // สมมติว่า URL คือ /api/parties/{partyId}/requests/{requestId}/
+    const apiUrl = `/api/parties/${partyId}/requests/${requestId}/`; 
+    
+    // จำลองการยิง API 1 วินาที (ถ้าได้ API จริงมาค่อยแก้ตรงนี้)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // ตัวอย่าง: จำลองว่ายิง API สำเร็จ
+    const isSuccess = true; 
+
+    if (isSuccess) {
+      if (action === 'approve') {
+        actionContainer.innerHTML = `<button class="btn-action btn-success" disabled>เป็นสมาชิกแล้ว</button>`;
+        // TODO: ตรงนี้เดี๋ยวเราต้องเขียนโค้ดอัปเดตตัวเลขคนเข้าร่วมด้วย
+      } else {
+        actionContainer.innerHTML = `<button class="btn-action btn-gray" disabled>ปฏิเสธคำขอ</button>`;
+      }
+    } else {
+      // โยนไปเข้า catch เพื่อแสดง Error
+      throw new Error('API Error');
+    }
+
+  } catch (error) {
+    // 3. ถ้า Error ให้แสดงข้อความ
+    actionContainer.innerHTML = `
+      <span class="text-error" style="color: #df1b1b; font-size: 0.8rem; font-weight: 500; text-align: right; width: 100%;">
+        ไม่สามารถดำเนินการได้<br>กรุณาลองใหม่อีกครั้ง
+      </span>
+      <button onclick="location.reload()" style="margin-top:6px; cursor:pointer; background:none; border:1px solid #df1b1b; padding:2px 8px; border-radius:4px; color:#df1b1b; display:inline-block;">ลองใหม่</button>
+    `;
+  }
+}
   </script>
 </body>
 </html>
