@@ -5,7 +5,7 @@ sequenceDiagram
     participant API as Django API + session/CSRF
     participant S as decide_join_request
     participant DB as ORM / PostgreSQL
-    Note over UI,DB: US10 baseline main b6d4bd0 - paths below use /api/v1 prefix
+    Note over UI,DB: US10 baseline main e0edf10 - paths below use /api/v1 prefix
     UI->>API: GET /parties/{id}/join-requests/pending
     API->>API: University identity + Host guard
     alt Guard fails or Party not found
@@ -36,7 +36,7 @@ sequenceDiagram
                 API-->>UI: Error, no membership added
             else Reject or Approve with capacity
                 opt Approve only
-                    S->>DB: get_or_create membership, reactivate left_at if needed
+                    S->>DB: Lock existing membership, reject already active, create or clear left_at
                 end
                 S->>DB: Save Approved/Rejected + decided_at/by
                 alt Any write fails

@@ -4,11 +4,11 @@ sequenceDiagram
     participant UI as Review / report UI (frontend not built)
     participant API as Conduct API
     participant S as Conduct service
-    participant DB as PostgreSQL (migrations not merged)
+    participant DB as PostgreSQL (migrations merged)
 
     rect rgb(255, 248, 240)
-    Note over U,DB: Sequence 2 - No-show report. Behind NO_SHOW_ENABLED=false, not confirmed for Sprint 2
-    Note over UI,DB: Window, threshold, deduction and credit base are proposals pending issues 100 and 105, see docs/us14-d-01-decisions.md
+    Note over U,DB: Sequence 2 - No-show report. Approved policy, NO_SHOW_ENABLED=false by default
+    Note over UI,DB: Policy approved by Gear 2026-11-13, see docs/us14-no-show-approved-policy.md
     U->>UI: Select participant to report
     UI->>API: POST /api/v1/parties/{id}/no-show-reports + session/CSRF
     alt Flag off
@@ -21,7 +21,7 @@ sequenceDiagram
             API->>S: Validated reported_id, reporter from session
             S->>DB: BEGIN, lock Party row (SELECT FOR UPDATE)
             DB-->>S: Party
-            S->>S: Read clock after the lock, check state, report window (proposal 7 days), participants, not self
+            S->>S: Read clock after the lock, check state, report window (approved 7 days inclusive), participants, not self
             alt Party not found / not completed / window closed / reporter not eligible / invalid reported user
                 S->>DB: ROLLBACK
                 S-->>API: NOT_FOUND / PARTY_NOT_COMPLETED / REPORT_WINDOW_CLOSED / FORBIDDEN / INVALID_INPUT
@@ -37,14 +37,14 @@ sequenceDiagram
                 else Report inserted
                     S->>DB: Count reporters for this party and reported user
                     DB-->>S: Reporter count
-                    S->>S: Threshold (proposal), N excludes the reported user, N == 1 needs 1, else max(2, N // 2 + 1)
+                    S->>S: Approved threshold, N excludes the reported user, N == 1 needs 1, else max(2, N // 2 + 1)
                     opt Threshold reached and no deduction exists yet
                         S->>DB: Lock the UserProfile row of the reported user (SELECT FOR UPDATE)
-                        S->>DB: SAVEPOINT, insert one ConductCreditEvent NoShowDeduction, delta -5 (proposal)
+                        S->>DB: SAVEPOINT, insert one ConductCreditEvent NoShowDeduction, delta -5
                         alt unique_conduct_credit_event conflict
                             DB-->>S: Savepoint rolled back, already deducted, balance unchanged
                         else Ledger event created
-                            S->>DB: credit_score = current value + delta, base 100 when NULL (proposal, conflicts with D-6 and rule 13)
+                            S->>DB: credit_score = current value + delta, base 100 when NULL (approved, opening balance is not a ledger event)
                         end
                     end
                     S->>DB: COMMIT
