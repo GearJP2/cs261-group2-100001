@@ -1,50 +1,38 @@
 sequenceDiagram
-    autonumber
-    actor U as Active member
-    participant UI as Leave UI (proposed)
-    participant API as Leave API (proposed)
-    participant S as Leave service (proposed)
-    participant DB as ORM / PostgreSQL
-    Note over UI,DB: US4 proposed - Host, started/cancelled and repeat-response policies await decision
-    U->>UI: Click Leave
-    UI-->>U: Confirmation dialog
-    alt Cancel dialog
-        UI-->>U: Keep membership, no API call
-    else Confirm
-        UI->>UI: Disable submit while pending
-        UI->>API: POST /api/v1/parties/{id}/leave + empty JSON + session/CSRF
-        alt Invalid session / CSRF / client-selected actor
-            API-->>UI: Error, no mutation
-        else Valid request
-            API->>S: Leave with actor from session
-            S->>DB: BEGIN, lock Party then own membership
-            DB-->>S: Party and membership/history
-            S->>S: Recheck current time, membership and confirmed policy
-            alt Missing / forbidden / Host or state prohibited by policy
-                S->>DB: ROLLBACK
-                S-->>API: Error per contract
-                API-->>UI: Explain refusal, re-enable button
-            else Already left
-                S->>DB: End transaction without another write
-                S-->>API: Repeat result per agreed contract
-                API-->>UI: Do not return a seat twice
-            else Active member allowed to leave
-                S->>DB: Set left_at, retain history
-                alt Write fails
-                    S->>DB: ROLLBACK
-                    S-->>API: Failure
-                    API-->>UI: Error, no success state
-                else Write succeeds
-                    S->>DB: COMMIT
-                    S-->>API: Leave success
-                    API-->>UI: Success per contract
-                    UI->>API: Refresh members and Party Detail
-                    API->>DB: Count active members, slots = capacity - count
-                    DB-->>API: Current data
-                    API-->>UI: Updated members/count/slots
-                    UI-->>U: Show confirmed result
-                end
-            end
-        end
-    end
-    Note over S,DB: Concurrent leave/approve/edit must share Party-first lock order, verify with DB integration tests
+ autonumber
+ participant Caller as Future endpoint / trusted caller
+ participant S as leave_party (implemented)
+ participant DB as PostgreSQL
+ Note over Caller,DB: Baseline e0edf10: service merged, HTTP route/UI still pending Task70/US4 frontend
+ Caller->>S: party_id and trusted user from guard
+ S->>DB: BEGIN, lock Party
+ alt Party missing
+ S-->>Caller: NOT_FOUND 404, rollback
+ else Party found
+ alt User is Host
+ S-->>Caller: HOST_CANNOT_LEAVE 403, rollback
+ else Non-Host
+ S->>DB: Lock own membership
+ alt No membership
+ S-->>Caller: NOT_MEMBER 403, rollback
+ else Already left
+ S->>DB: End transaction without UPDATE
+ S-->>Caller: Original membership and left_at (even after start/cancellation)
+ else Active membership
+ S->>S: Reject cancelled first, read clock after locks, require now before starts_at
+ alt Cancelled or started
+ S-->>Caller: PARTY_CANCELLED / PARTY_STARTED 409, rollback
+ else Allowed
+ S->>DB: UPDATE left_at only
+ alt Write fails
+ S->>DB: ROLLBACK
+ S-->>Caller: Database error, no partial mutation
+ else Success
+ S->>DB: COMMIT
+ S-->>Caller: Membership with left_at
+ end
+ end
+ end
+ end
+ end
+ Note over S,DB: Capacity and JoinRequest unchanged, count uses active rows, rejoin needs approval

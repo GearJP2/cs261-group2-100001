@@ -1,0 +1,24 @@
+sequenceDiagram
+ autonumber
+ actor U as Student
+ participant B as Browser
+ participant API as Accounts API
+ participant TU as TU API
+ participant DB as PostgreSQL
+ U->>B: Enter university credentials
+ B->>API: GET /api/v1/auth/csrf
+ API-->>B: CSRF cookie/token
+ B->>API: POST auth/login JSON + CSRF
+ API->>API: Validate input
+ API->>TU: HTTPS verify + application key (10s timeout)
+ alt Rejected credentials / ineligible / provider failure
+ API-->>B: 401 / 403 / 502, no authenticated session
+ else Verified and eligible
+ API->>DB: Get/create local user, identity and profile atomically
+ API->>API: Django login, set expiry and university_identity_id
+ API-->>B: 200 logged_in + local user id, session cookie
+ end
+ Note over API,DB: University password is forwarded, not stored as a local password
+ B->>API: POST auth/logout + CSRF
+ API->>API: Logout / flush session
+ API-->>B: Logout response
