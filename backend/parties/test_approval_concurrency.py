@@ -40,33 +40,85 @@ class ApprovalConcurrencyTests(JoinRequestFixture, TransactionTestCase):
         # Create the identity before worker setup so the race concerns decisions.
         force_university_login(self.client, self.host)
 
-    def api_worker(self, request_id, status, barrier):
+    def api_worker(self, request_id, status, barrier, pids, observations):
         close_old_connections()
         try:
             client = Client(enforce_csrf_checks=True)
             force_university_login(client, self.host)
             token = client.get(reverse("accounts:csrf")).json()["data"]["csrf_token"]
-            with connection.cursor() as cursor:
-                cursor.execute("SET lock_timeout = '5s'")
+            pid = None
+
+            def observe_party_lock(execute, sql, params, many, context):
+                nonlocal pid
+                if 'FROM "parties_party"' in sql and "FOR UPDATE" in sql:
+                    # Client request signals may reconnect: measure the actual lock connection.
+                    with context["connection"].cursor() as cursor:
+                        cursor.execute("SET lock_timeout = '5s'")
+                        cursor.execute("SELECT pg_backend_pid()")
+                        pid = cursor.fetchone()[0]
+                    pids.put(pid)
+                return execute(sql, params, many, context)
+
             barrier.wait(timeout=10)
-            response = client.post(
-                reverse("party-join-request-decision", args=[self.party.pk, request_id]),
-                data={"status": status},
-                content_type="application/json",
-                HTTP_X_CSRFTOKEN=token,
+            with connection.execute_wrapper(observe_party_lock):
+                response = client.post(
+                    reverse("party-join-request-decision", args=[self.party.pk, request_id]),
+                    data={"status": status},
+                    content_type="application/json",
+                    HTTP_X_CSRFTOKEN=token,
+                )
+            body = response.json()
+            observations.put(
+                {
+                    "pid": pid,
+                    "request_id": request_id,
+                    "payload": {"status": status},
+                    "http_status": response.status_code,
+                    "response": body,
+                }
             )
-            return response.status_code, response.json()
+            return response.status_code, body
         finally:
             connections.close_all()
 
     def race(self, decisions):
-        barrier = Barrier(len(decisions))
+        before = self.decision_sql_snapshot()
+        barrier = Barrier(len(decisions) + 1)
+        pids, observations = Queue(), Queue()
         with ThreadPoolExecutor(max_workers=len(decisions)) as executor:
-            futures = [
-                executor.submit(self.api_worker, request_id, status, barrier)
-                for request_id, status in decisions
-            ]
-            return [future.result(timeout=15) for future in futures]
+            # Hold both workers until PostgreSQL confirms they really contend on Party.
+            with transaction.atomic():
+                Party.objects.select_for_update().get(pk=self.party.pk)
+                futures = [
+                    executor.submit(
+                        self.api_worker, request_id, status, barrier, pids, observations
+                    )
+                    for request_id, status in decisions
+                ]
+                barrier.wait(timeout=10)
+                workers = [pids.get(timeout=5) for _ in decisions]
+                self.assertEqual(len(set(workers)), len(decisions))
+                blocking = [self.wait_for_party_lock(pid, workers) for pid in workers]
+                self.assertTrue(
+                    any(row["observer_pid"] in row["blocking_pids"] for row in blocking)
+                )
+            results = [future.result(timeout=15) for future in futures]
+        after = self.decision_sql_snapshot()
+        self.emit_decision_evidence(
+            self._testMethodName,
+            sql_before=before,
+            blocked_workers=blocking,
+            responses=[observations.get_nowait() for _ in decisions],
+            sql_after=after,
+        )
+        self.assertTrue(all(row["active_count"] <= row["capacity"] for row in after))
+        for row in after:
+            if row["status"] == "Approved":
+                self.assertIsNotNone(row["membership_id"])
+                self.assertIsNone(row["left_at"])
+            elif row["status"] == "Rejected":
+                self.assertIsNone(row["membership_id"])
+        return results
 
     def service_worker(self, pids):
         close_old_connections()
@@ -85,13 +137,14 @@ class ApprovalConcurrencyTests(JoinRequestFixture, TransactionTestCase):
         finally:
             connections.close_all()
 
-    def wait_for_party_lock(self, pid):
+    def wait_for_party_lock(self, pid, allowed_blockers=()):
         deadline = monotonic() + 4
         while monotonic() < deadline:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT pg_backend_pid() = ANY(pg_blocking_pids(%s))", [pid])
-                if cursor.fetchone()[0]:
-                    return
+                cursor.execute("SELECT pg_backend_pid(), pg_blocking_pids(%s)", [pid])
+                observer, blockers = cursor.fetchone()
+                if observer in blockers or set(allowed_blockers).intersection(blockers):
+                    return {"waiting_pid": pid, "blocking_pids": blockers, "observer_pid": observer}
             Event().wait(0.01)
         self.fail("Approval worker did not wait for this transaction's Party lock")
 

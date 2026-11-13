@@ -1,7 +1,9 @@
 """US3 API and PostgreSQL concurrency tests; sessions are local test fixtures."""
 
+import json
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
+from pathlib import Path
 from queue import Queue
 from threading import Barrier, Event
 from time import monotonic
@@ -44,6 +46,25 @@ class JoinRequestFixture:
 
     def membership_snapshot(self):
         return list(self.party.memberships.order_by("pk").values())
+
+    def decision_sql_snapshot(self):
+        sql = Path(__file__).resolve().parents[2] / "database/seeds/us10_decision_snapshot.sql"
+        with connection.cursor() as cursor:
+            cursor.execute(
+                sql.read_text(encoding="utf-8").replace(":party_id", "%s"), [self.party.pk]
+            )
+            names = [column[0] for column in cursor.description]
+            return [dict(zip(names, row, strict=True)) for row in cursor.fetchall()]
+
+    def emit_decision_evidence(self, case, **observed):
+        print(
+            "DB57_EVIDENCE "
+            + json.dumps(
+                {"case": case, "at": timezone.localtime().isoformat(), **observed},
+                default=str,
+                ensure_ascii=True,
+            )
+        )
 
     def assert_membership_and_slots_unchanged(self, memberships, capacity):
         self.assertEqual(self.membership_snapshot(), memberships)
