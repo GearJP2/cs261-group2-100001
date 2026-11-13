@@ -272,3 +272,7 @@ git push -u origin feat/us-10-approve-party-request
 - ผ่าน review และ merge เข้า `main` แล้ว จึงย้ายงานเป็น `Done`
 
 มี CI ตรวจ environment ใน `.github/workflows/ci.yml` แล้ว ส่วนกติกา review และการห้าม push เข้า `main` ยังต้องตรวจการตั้งค่า branch protection ของ repository แยกต่างหาก
+
+## System diagrams
+
+[เอกสาร diagram ตามระบบจริงครบทุกประเภท](docs/diagrams/README.md)

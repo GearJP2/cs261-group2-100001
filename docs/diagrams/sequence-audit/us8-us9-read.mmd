@@ -1,0 +1,19 @@
+sequenceDiagram
+ autonumber
+ actor U as Verified user
+ participant API as Profile / Venue APIs
+ participant DB as PostgreSQL
+ U->>API: GET /users/{id}/profile OR /sports OR /venues OR /venues/{id}/opening-hours
+ API->>API: University guard, method and query validation
+ alt Invalid access/method/query
+ API-->>U: 401 / 403 / 405 / 400
+ else Valid
+ API->>DB: Read profile/sport interests OR sport/venue/opening-hour rows
+ alt Target missing
+ API-->>U: 404 where applicable
+ else Found
+ API->>API: Map public fields, paginate venue list
+ API-->>U: 200 JSON, no-store
+ end
+ end
+ Note over API,DB: Read operations do not reserve a venue or create membership

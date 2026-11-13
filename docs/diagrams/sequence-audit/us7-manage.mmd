@@ -1,0 +1,30 @@
+sequenceDiagram
+ autonumber
+ actor H as Host / creator
+ participant API as Party API
+ participant S as Party services
+ participant DB as PostgreSQL
+ H->>API: POST /parties with data + session/CSRF
+ API->>API: Guard, parse and validate payload
+ API->>S: create_party(trusted user, fields)
+ S->>S: Validate dates, venue/sport/opening hours and capacity
+ S->>DB: Atomic insert Party and Host membership
+ API-->>H: 201 or validation error (no partial rows)
+ H->>API: PATCH /parties/{id} or POST /parties/{id}/cancel
+ API->>S: edit_party / cancel_party
+ S->>DB: BEGIN, lock Party
+ S->>S: Check Host, read clock after lock
+ alt Missing / forbidden / started / cancelled edit
+ S->>DB: ROLLBACK
+ API-->>H: 404 / 403 / 409
+ else Allowed
+ alt Edit
+ S->>S: Validate merged fields and capacity >= active count
+ S->>DB: Save fields, retain requests and memberships
+ else Cancel
+ S->>DB: Set cancelled_at (repeat preserves first time)
+ end
+ S->>DB: COMMIT (any write error rolls back)
+ API-->>H: 200
+ end
+ Note over S,DB: Cancel retry succeeds even after start if already cancelled

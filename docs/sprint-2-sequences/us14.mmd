@@ -4,10 +4,10 @@ sequenceDiagram
     participant UI as Review / report UI (frontend not built)
     participant API as Conduct API
     participant S as Conduct service
-    participant DB as PostgreSQL (migrations not merged)
+    participant DB as PostgreSQL (migrations merged)
 
     rect rgb(240, 248, 255)
-    Note over U,DB: Sequence 1 - Review. Confirmed rules, implemented on branches, not merged
+    Note over U,DB: Sequence 1 - Review. Approved rules, API and migrations merged, UI still planned
     Note over UI,DB: Completed and not Cancelled. Reviewer and reviewee are the Host or a member with left_at NULL or left_at >= ends_at. No self review
     U->>UI: Select another participant, enter rating and comment
     UI->>UI: Validate form, disable submit

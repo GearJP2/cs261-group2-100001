@@ -1,27 +1,21 @@
 sequenceDiagram
-    autonumber
-    actor U as Authorized user
-    participant UI as Party Detail UI (proposed)
-    participant API as Members API (proposed)
-    participant DB as ORM / PostgreSQL
-    Note over UI,DB: US6 proposed - visibility and public-field allowlist require team decision
-    U->>UI: Open members or refresh after approve/leave
-    UI->>UI: Show loading
-    UI->>API: GET /api/v1/parties/{id}/members + session
-    API->>API: Validate session and Party visibility policy
-    alt Not logged in / forbidden / Party not found
-        API-->>UI: Error per contract
-        UI-->>U: Login / forbidden / not-found state
-    else Authorized
-        API->>DB: Read active memberships (left_at IS NULL), User/Profile and Host id
-        Note over API,DB: Do not use Pending/Rejected requests as memberships, retain left history
-        DB-->>API: Active rows including Host
-        API->>API: Public allowlist + role + count, no email/student ID/token
-        API-->>UI: Members + active count
-        alt Empty or partial profile data
-            UI-->>U: Empty state or safe display-name/avatar fallback
-        else Members available
-            UI-->>U: Host/Member badges and matching Party count
-        end
-    end
-    Note over UI,API: Network/server failure shows retry state, no stale success representation
+ autonumber
+ actor U as Verified user
+ participant API as GET /api/v1/parties/{id}/members
+ participant DB as PostgreSQL
+ Note over U,DB: API implemented, dedicated member-list UI integration is pending
+ U->>API: Session GET
+ API->>API: University guard and GET-only check
+ alt Invalid session / identity / method
+ API-->>U: 401 / 403 / 405
+ else Valid request
+ API->>DB: Find Party and check Host or active membership
+ alt Missing Party or forbidden viewer
+ API-->>U: 404 / 403
+ else Authorized
+ API->>DB: Active memberships + user/profile, order joined_at then pk
+ API->>API: Stable Host-first sort, fallback display_name
+ API-->>U: 200 members(user_id, display_name, role), member_count, no-store
+ Note over API,DB: Only actual active rows, never synthesize Host, no email/student ID
+ end
+ end
