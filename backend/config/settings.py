@@ -11,6 +11,8 @@ PROJECT_DIR = BASE_DIR.parent
 TU_APPLICATION_KEY = os.environ.get("TU_APPLICATION_KEY", "")
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 DEBUG = os.environ.get("DEBUG", "false").lower() in {"1", "true", "yes"}
+# Approved US14 No-show policy; enabling the endpoint is a separate deployment decision.
+NO_SHOW_ENABLED = os.environ.get("NO_SHOW_ENABLED", "false").lower() in {"1", "true", "yes"}
 if not SECRET_KEY:
     raise ImproperlyConfigured("SECRET_KEY is required. Copy .env.example to .env first.")
 if not DEBUG and SECRET_KEY.startswith("django-insecure-"):
