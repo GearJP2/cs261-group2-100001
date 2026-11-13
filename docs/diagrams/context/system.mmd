@@ -1,0 +1,6 @@
+flowchart LR
+ U["Student / Host role"] -->|"Browser actions; session + CSRF"| S["UniSport Buddy"]
+ S -->|"Pages; party / member / review data"| U
+ S -->|"Verify university credentials over HTTPS"| TU["TU Authentication API"]
+ TU -->|"Identity and eligibility result"| S
+ N["Host is a user role per Party, not a separate account type"] -.-> U
