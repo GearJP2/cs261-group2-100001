@@ -1,0 +1,21 @@
+{
+  "branch": "feat/s2-us4-db-soft-leave",
+  "base": "65404fdf8b55e9885968f521cec7352dd75ce50e",
+  "date": "2026-11-13 Asia/Bangkok",
+  "targeted": "13 passed, no skips",
+  "regression": "573 discovered: 572 passed, 1 skipped (US14 policy)",
+  "files": [
+    {
+      "sha256": "145BB436BFCA0006CB584E653F5B4979206EFA327B8B1A182388F0A40BD64027",
+      "path": "backend/parties/services.py"
+    },
+    {
+      "sha256": "AE4F6D11CE739EBF184974B8BB41A1FCF8C818E15CE4B54B9AE052CD23B55458",
+      "path": "backend/parties/test_leave.py"
+    },
+    {
+      "sha256": "EE3494B47E4B0779A339E81F1123FE669F10C2C490B2044A9957ADD7C5B03E9D",
+      "path": "database/seeds/us4_leave_snapshot.sql"
+    }
+  ]
+}
