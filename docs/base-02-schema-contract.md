@@ -375,7 +375,7 @@ erDiagram
 - `NoShowReport`: reporter ต้องเป็นสมาชิก Party เดียวกัน หลังจบเท่านั้น; `unique (party_id, reporter_id, reported_id)`; ห้ามรายงานตัวเอง
 - เกณฑ์หักเครดิต (เช่น ผู้รายงานไม่ซ้ำมากกว่าครึ่งของสมาชิก active) ตัดสินครั้งเดียวแล้วสร้าง `ConductCreditEvent(kind='NO_SHOW_DEDUCTION')` หนึ่งใบ — `unique (party_id, user_id, kind)` บังคับ "หักได้ครั้งเดียวต่อคนต่อกิจกรรม" (แถวที่ `party_id IS NULL` สำหรับการปรับโดยผู้ดูแลไม่ถูกจำกัดด้วย unique นี้)
 - ดาวเฉลี่ยและเครดิตคนละค่า: `rating_sum`/`rating_count` เป็น aggregate ของ `PartyReview` (cache บน `UserProfile` อัปเดตด้วย `F()` ใน transaction เดียวกับตอนเขียนรีวิว) ส่วน `credit_score` เป็นผลของ ledger `ConductCreditEvent`
-- ยังไม่ยืนยันค่าเริ่มต้น/สูตรเครดิต → คง `credit_score` เป็น `null` และแสดง "ยังไม่มีข้อมูล" ได้ (D-6); ledger เก็บไว้เป็นประวัติก่อนตกลงสูตร
+- US14: Gear ยืนยัน 13 พ.ย. 2026 ให้คงเครดิต NULL จนปรับครั้งแรก แล้วใช้ฐาน 100 เมื่อ NULL หรือยอดเดิมเมื่อมีค่า บวก delta; ledger ไม่รวม event ตั้งต้น ดู [policy ที่ยืนยัน](us14-no-show-approved-policy.md)
 - ไม่มีรีวิว → `rating_count = 0` → API ส่ง `null` ไม่ใช่ 0
 
 **หมายเหตุ US14:** เกณฑ์ผู้รายงาน จำนวนที่หัก ค่าเริ่มต้นเครดิต และการสะกด `kind` ยังเป็นข้อเสนอ ข้อความในหัวข้อนี้จึงยังไม่เปลี่ยน ดู [มติและข้อเสนอ S2-US14-D-01](us14-d-01-decisions.md)
@@ -445,7 +445,7 @@ erDiagram
 | **User** | `id`, `username`, `is_active`, `date_joined`, ฯลฯ | Django `AbstractUser` ตามที่มีอยู่ | — | ตัดสิน user model แล้ว; **ไม่เพิ่มตาราง/คอลัมน์เก็บรหัสผ่านมหาวิทยาลัย** |
 | **UserProfile** | `user_id` | OneToOne → AUTH_USER_MODEL | ไม่ | `unique`; `on_delete=CASCADE` |
 | | `display_name` | CharField(100) | ไม่ | `blank=False` + CheckConstraint กันค่าว่าง/ช่องว่างล้วน |
-| | `credit_score` | IntegerField | **ใช่** | ถ้ายังไม่กำหนดเครดิตตั้งต้นให้เป็น `null` แล้วแสดง "ยังไม่มีข้อมูล" — ไม่สมมติสูตรหรือค่าเริ่มต้น |
+| | `credit_score` | IntegerField | **ใช่** | NULL ก่อนปรับครั้งแรก; ใช้ฐาน 100 เมื่อ NULL หรือยอดเดิม + delta ตาม policy US14 ที่ Gear ยืนยัน |
 | | `rating_sum`, `rating_count` | IntegerField (default 0) | ไม่ | **รอบ 5 (US14):** cache ของ `PartyReview`; ดาวเฉลี่ย = `rating_sum / rating_count` และส่ง `null` เมื่อ `rating_count = 0` — ไม่ใช่ฟิลด์ที่ client แก้ได้ |
 | **UniversityIdentity** *(เจ้าของ US1-B-01)* | `user_id` | FK → AUTH_USER_MODEL | ไม่ | index; `on_delete=CASCADE`; FK ไม่ใช่ OneToOne เพราะผูกได้หลาย provider |
 | | `provider_key` | CharField(150) | ไม่ | มาจากค่าตั้งฝั่งเซิร์ฟเวอร์ ไม่รับจาก request |
@@ -638,7 +638,7 @@ erDiagram
 10. `ChatMessage` — อ่าน/เขียนเฉพาะสมาชิกที่ `left_at IS NULL`; Party จบ/ยกเลิก → อ่านได้ ส่งไม่ได้; ข้อความถูกลบเป็น soft delete
 11. `PartyReview` — เขียนได้เมื่อ Party `Completed` และทั้งคู่เป็น Host ของ Party นั้น (ไม่ต้องมีแถว `PartyMembership`) หรือสมาชิกที่ `left_at IS NULL` หรือ `left_at >= ends_at` โดยสมาชิกที่ออกก่อน `ends_at` ถูกตัดออก; ห้ามรีวิวตัวเอง/ซ้ำ; อัปเดต `rating_sum`/`rating_count` ใน transaction เดียวกับ insert
 12. `NoShowReport` — เฉพาะสมาชิกของ Party เดียวกัน หลังจบ และ אחדต่อ (party, reporter, reported); สร้าง `ConductCreditEvent` เมื่อจำนวนผู้รายงานไม่ซ้ำถึงเกณฑ์ที่ทีมตกลงเท่านั้น
-13. `ConductCreditEvent` — append-only; แก้ยอดด้วย event ใหม่ (`AdminAdjustment`/`AppealReversal`) ไม่ใช่ update แถวเดิม; `credit_score` ที่แสดง = ผลรวม ledger (หรือ `null` ถ้าทีมยังไม่รับสูตร — D-6)
+13. `ConductCreditEvent` — append-only; แก้ยอดด้วย event ใหม่ (`AdminAdjustment`/`AppealReversal`) ไม่ใช่ update แถวเดิม; `credit_score` = opening balance + ผลรวม delta หลังจากนั้น; เมื่อเดิม NULL ใช้ฐาน 100 ในการปรับครั้งแรก ไม่มี event ตั้งต้น ตาม [มติ Gear 13 พ.ย. 2026](us14-no-show-approved-policy.md)
 14. `Report` — ผู้ใช้เปิดรายงานซ้ำต่อเป้าเดิมไม่ได้จนกว่ารายการเดิมจะปิด; เปลี่ยนสถานะได้แค่ผู้ดูแล; `handled_by_id` ต้องเป็นผู้ใช้ที่ `is_staff`
 15. `ModerationAction` — ห้ามลบ; การระงับผู้ใช้/ปิด Party ต้องเขียน action คู่กับ `is_active`/`cancelled_at` เสมอ เพื่อให้ย้อนรอยได้ว่าใครสั่ง
 16. `Notification` — ลิงก์เป็น path ภายในแอปเท่านั้น และอ่านได้เฉพาะเจ้าของ (`user_id = request.user`) — ถ้าตัดตารางนี้ออก ให้ตัดข้อนี้ด้วย
@@ -757,7 +757,7 @@ BASE-02 ทำ models/migrations ของสนามในรอบนี้�
 | D-3 | สถานะ Party | ไม่เก็บ `Full`/สถานะลง DB; เก็บแค่ `cancelled_at` แล้วคำนวณตามหัวข้อ 5 | หัวข้อ 2 |
 | D-4 | คำขอซ้ำ/ขอใหม่ | หนึ่งแถวต่อ (Party, User); Pending เดิม → `409 REQUEST_EXISTS`; Rejected หรือ Approved ที่ถอนตัวแล้วขอใหม่ได้โดยกลับเป็น Pending และรออนุมัติใหม่ | หัวข้อ 2 |
 | D-5 | แก้ไข Party | แก้/ยกเลิกได้ก่อนเริ่มเท่านั้น; แก้ไม่ได้เมื่อ Cancelled; capacity ใหม่ ≥ จำนวนสมาชิกปัจจุบัน; PATCH ต้อง merge ค่าเดิมแล้ว validate ทั้งชุด | หัวข้อ 2, หัวข้อ 4 |
-| D-6 | คะแนนเครดิต | ยังไม่กำหนดค่าเริ่มต้น → `credit_score` เป็น `null` และแสดง "ยังไม่มีข้อมูล" ไม่คิดสูตรเอง | หัวข้อ 2 |
+| D-6 | คะแนนเครดิต | US14 ยืนยันโดย Gear 13 พ.ย. 2026: NULL ก่อนปรับครั้งแรก; เมื่อปรับใช้ฐาน 100 หาก NULL หรือยอดเดิม + delta ตาม [policy](us14-no-show-approved-policy.md) | หัวข้อ 2 |
 | D-7 | ลบข้อมูล | ห้าม hard delete User/Sport/Venue/Party ที่ถูกอ้างอิง; ไม่มี delete endpoint | หัวข้อ 3 |
 | D-8 | ช่วงเวลาสนาม | Sprint นี้รับนัดในวันเดียวและอยู่ครบในหนึ่งช่วงเปิด; ยังไม่รวมวันหยุดพิเศษ/ข้ามเที่ยงคืน | หัวข้อ 2 |
 | D-9 | รหัสผ่านมหาวิทยาลัย | ไม่มีตารางเก็บ password/token; ใช้ session ของ Django | หัวข้อ 2, หัวข้อ 9 |
