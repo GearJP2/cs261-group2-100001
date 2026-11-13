@@ -1,0 +1,3 @@
+BEGIN
+ERROR:  Only an isolated s2_task49_* test database is allowed
+CONTEXT:  PL/pgSQL function inline_code_block line 11 at RAISE
