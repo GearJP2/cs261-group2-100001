@@ -1,0 +1,22 @@
+flowchart TB
+ B["Browser: rendered HTML + app.js"]
+ subgraph DJ["Django application"]
+ ROUTE["config/urls + app urls"]
+ MW["Session / authentication / CSRF middleware"]
+ GUARD["University identity guard on business APIs"]
+ VIEW["Views: request validation + JSON mapping"]
+ SVC["Services: business rules + atomic writes"]
+ ORM["Django ORM / models / migrations"]
+ TPL["Templates + static assets"]
+ end
+ DB[("PostgreSQL: domain data + Django sessions")]
+ TU["TU verification API"]
+ B -->|"HTTP page/API requests"| MW --> ROUTE
+ ROUTE --> TPL --> B
+ ROUTE -->|"protected business API"| GUARD --> VIEW
+ ROUTE -->|"login / CSRF / public route as configured"| VIEW
+ VIEW --> SVC --> ORM --> DB
+ VIEW -->|"read queries"| ORM
+ SVC -->|"accounts login: HTTPS, timeout 10s"| TU
+ VIEW -->|"JSON; no-store on protected API responses"| B
+ NOTE["Writes: validate actor; Party-first locks; rollback on error"] -.-> SVC
