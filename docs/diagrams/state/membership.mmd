@@ -1,0 +1,16 @@
+stateDiagram-v2
+ [*] --> Active: Party creation adds Host / request approval adds member
+ Active --> Left: non-Host leaves before start, not cancelled
+ Left --> Left: retry returns original left_at without write
+ Left --> Active: new Pending request approved; left_at cleared
+ note right of Active
+ Active means left_at IS NULL.
+ Unique(party,user); no new row on reactivation.
+ Host cannot leave. No automatic change on cancellation.
+ end note
+ note right of Left
+ History row and original joined_at retained.
+ Old retry after reapproval can start a new leave cycle;
+ no per-cycle idempotency key.
+ Leave has a service but no HTTP endpoint at baseline.
+ end note
