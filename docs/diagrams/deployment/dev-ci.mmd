@@ -1,0 +1,23 @@
+flowchart TB
+ subgraph LOCAL["Developer machine — current Compose topology"]
+ B["Browser"]
+ PORT["127.0.0.1:8000 (APP_PORT override)"]
+ subgraph NET["Compose default network"]
+ WEB["backend: Python 3.12 / Django runserver :8000"]
+ DB["database: PostgreSQL 17 :5432"]
+ WEB -->|"database:5432"| DB
+ end
+ B --> PORT --> WEB
+ VOL[("postgres_data volume")]
+ DB --- VOL
+ SOURCE["Bind mounts: backend/frontend/scripts/database/pyproject"] --> WEB
+ ENV[".env: configuration and secrets (values omitted)"] --> WEB
+ PGPORT["127.0.0.1:5433 (POSTGRES_HOST_PORT override)"] --> DB
+ end
+ WEB -->|"HTTPS outbound"| TU["TU API"]
+ subgraph CI["GitHub Actions ubuntu-24.04 — ephemeral Compose"]
+ CHECK["checkout -> make init -> build -> verify"] --> SMOKE["compose up --wait -> make smoke"]
+ SMOKE --> CLEAN["compose down --volumes"]
+ end
+ NOTE["No production hosting/reverse proxy/TLS termination defined in repository"]
+ NOTE -.-> LOCAL
