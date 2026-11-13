@@ -1,0 +1,63 @@
+erDiagram
+    ConductCreditEvent {
+        bigauto id PK "required"
+        bigint user_id FK "required"
+        bigint party_id FK "nullable"
+        char kind "required"
+        integer delta "required"
+        text note "required"
+        bigint created_by_id FK "nullable"
+        datetime created_at "required"
+    }
+    NoShowReport {
+        bigauto id PK "required"
+        bigint party_id FK "required"
+        bigint reporter_id FK "required"
+        bigint reported_id FK "required"
+        datetime created_at "required"
+    }
+    Party {
+        bigauto id PK "required"
+        bigint host_id FK "required"
+        bigint sport_id FK "required"
+        bigint venue_id FK "required"
+        char title "required"
+        text description "required"
+        datetime starts_at "required"
+        datetime ends_at "required"
+        integer capacity "required"
+        datetime cancelled_at "nullable"
+        datetime created_at "required"
+        datetime updated_at "required"
+    }
+    PartyReview {
+        bigauto id PK "required"
+        bigint party_id FK "required"
+        bigint reviewer_id FK "required"
+        bigint reviewee_id FK "required"
+        smallinteger rating "required"
+        text comment "required"
+        datetime created_at "required"
+    }
+    User {
+        bigauto id PK "required"
+        char password "required"
+        datetime last_login "nullable"
+        boolean is_superuser "required"
+        char username UK "required"
+        char first_name "required"
+        char last_name "required"
+        char email "required"
+        boolean is_staff "required"
+        boolean is_active "required"
+        datetime date_joined "required"
+    }
+    Party ||--o{ PartyReview : "party"
+    User ||--o{ PartyReview : "reviewer"
+    User ||--o{ PartyReview : "reviewee"
+    Party ||--o{ NoShowReport : "party"
+    User ||--o{ NoShowReport : "reporter"
+    User ||--o{ NoShowReport : "reported"
+    User ||--o{ ConductCreditEvent : "user"
+    Party |o--o{ ConductCreditEvent : "party"
+    User |o--o{ ConductCreditEvent : "created_by"
