@@ -10,7 +10,7 @@
 | US6 ดูสมาชิก | Implemented — มี `GET /parties/{id}/members` แล้ว | [SVG](us6.svg) / [source](us6.mmd) |
 | US4 ถอนตัว | Proposed — ยังไม่มี leave endpoint | [SVG](us4.svg) / [source](us4.mmd) |
 | US2 ค้นหา | Proposed — `/parties` ปัจจุบันรับ POST สร้างปาร์ตี้ ยังไม่มี GET search | [SVG](us2.svg) / [source](us2.mmd) |
-| US14 รีวิว | Proposed / policy pending — ยังไม่มี Review model หรือ endpoint | [SVG](us14.svg) / [source](us14.mmd) |
+| US14 รีวิว | Implemented on branches, not merged; No-show อยู่หลัง flag `NO_SHOW_ENABLED` ที่ปิดอยู่ และ policy ยังเป็นข้อเสนอ | SVG: [รีวิว](us14.svg) / [No-show](us14-no-show.svg); source: [รีวิว](us14.mmd) / [No-show](us14-no-show.mmd) |
 
 ไฟล์ `.mmd` แก้ไขได้และนำเข้า Mermaid/draw.io ได้; SVG เป็น preview ที่เปิดแบบ offline ได้ อ่านจากบนลงล่าง: เส้นทึบคือ request, เส้นประคือ response, `alt` คือทางเลือก, `opt` คือทางเลือกทำเพิ่ม
 
@@ -87,18 +87,28 @@ Proposed `GET /parties` ต้องอยู่ร่วมกับ POST ส�
 
 ## US14 — รีวิวหลังจบ
 
-![US14 sequence](us14.svg)
+**Sequence 1 — รีวิว**
 
-**รอยืนยัน scope:** การ์ดอยู่ Sprint2 แต่ description ยังระบุ future backlog งาน Design นี้บันทึก flow แบบมีเงื่อนไข ไม่ได้อนุมัติ implementation แทนทีม ต้องยืนยัน eligibility จากประวัติผู้ร่วมกิจกรรม, ช่วงคะแนน, uniqueness, privacy และว่ารวม No-show หรือไม่ใน S2-US14-D-01
+![US14 review sequence](us14.svg)
 
-Proposed `POST /parties/{id}/reviews` ใช้ reviewer จาก session และ target จากข้อมูลที่ตรวจแล้ว Schema Review ยังไม่มีใน main; uniqueness ที่เสนอคือ party/reviewer/target ต้องยืนยันก่อน migration ภาพแยกดาวเฉลี่ยออกจาก conduct credit และไม่เรียก No-show/หักคะแนน: threshold, จำนวนผู้ยืนยัน และสูตรยังไม่ตกลง เมื่อเกิด unique conflict ต้องจับหลัง transaction rollback แล้วแปลงเป็น error contract; การตรวจ exists ก่อน insert อย่างเดียวกัน concurrent duplicate ไม่ได้
+**Sequence 2 — No-show (หลัง flag)**
+
+![US14 No-show sequence](us14-no-show.svg)
+
+**สถานะ:** โค้ดอยู่บน branch `feat/s2-us14-b-01-submit-review`, `feat/s2-us14-b-02-read-reviews` และ `feat/s2-us14-b-03-no-show` ยังไม่ merge เข้า main กติกาและข้อเสนอทั้งหมดอยู่ใน [มติ S2-US14-D-01](../us14-d-01-decisions.md)
+
+ภาพ US14 แยกเป็นสองไฟล์ ([us14.mmd](us14.mmd) และ [us14-no-show.mmd](us14-no-show.mmd)) เพื่อให้แต่ละภาพอ่านได้บนหน้าจอเดียว SVG ทั้งสองเรนเดอร์จาก source ปัจจุบันด้วย `mmdc`
+
+**Sequence 1 — รีวิว (ยืนยันแล้ว):** `POST /parties/{id}/reviews` ใช้ reviewer จาก session, lock Party แล้วอ่านเวลาหลังได้ lock ผู้รีวิวและผู้ถูกรีวิวต้องเป็น Host หรือสมาชิกที่ `left_at IS NULL` หรือ `left_at >= ends_at` และห้ามรีวิวตัวเอง insert อยู่ใน savepoint และจับ unique conflict นอก savepoint ที่ล้มเหลวแล้วตอบ 409 `REVIEW_EXISTS`; การตรวจ exists ก่อน insert อย่างเดียวกัน concurrent duplicate ไม่ได้ `rating_sum`/`rating_count` อัปเดตใน transaction เดียวกับ insert ดาวเฉลี่ยแยกจาก conduct credit
+
+**Sequence 2 — No-show (ข้อเสนอ หลัง flag):** ลำดับคือรายงาน → ตรวจสิทธิ์ → insert ใน savepoint → จับ unique conflict นอก savepoint → ตรวจเกณฑ์ → สร้าง ledger event ใบเดียวและปรับเครดิตภายใต้ row lock ช่วงเวลา, เกณฑ์, จำนวนที่หัก และค่าเริ่มต้นเครดิตในภาพเป็นค่าร่างที่ยังไม่มีมติ ไม่ใช่กติกาที่อนุมัติแล้ว
 
 | AC | ส่วนในภาพ | Checklist |
 |---|---|---|
-| 1 | completed + shared activity history + not self | UT-US14-API-01/02 |
-| 2 | duplicate gate + DB unique constraint | UT-US14-API-04; IT-US14-DB-01 |
-| 3 | summary ดาวแยกเครดิต | UT-US14-API-05; IT-US14-DB-03 |
-| 4 | policy pending / ไม่มี No-show write | UT-US14-API-06 (Blocked จนมีมติ) |
+| 1 | Completed + Host/สมาชิกที่อยู่ถึงเวลาจบ + not self | UT-US14-API-01/02 |
+| 2 | savepoint insert + DB unique constraint | UT-US14-API-04; IT-US14-DB-08/41 |
+| 3 | summary ดาวแยกเครดิต | UT-US14-API-05; IT-US14-READ-03/04 |
+| 4 | Sequence 2 หลัง flag, policy pending | UT-US14-API-06 (Blocked จนมีมติ) |
 | 5 | input validation, allowlist, UI error/loading | UT-US14-API-03/06; UT-US14-UI-02/03/04 |
 
 ## วิธีตรวจและข้อจำกัด
