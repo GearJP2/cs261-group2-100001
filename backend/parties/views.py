@@ -21,8 +21,42 @@ from .services import (
     decide_join_request,
     edit_party,
     get_party_state,
+    leave_party,
     submit_join_request,
 )
+
+
+@never_cache
+@require_authenticated_api
+def leave_party_api(request, party_id):
+    if request.method != "POST":
+        response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ POST", 405)
+        response["Allow"] = "POST"
+        return response
+
+    if request.body:
+        if request.content_type != "application/json":
+            return json_error("INVALID_INPUT", "กรุณาส่ง JSON object ว่าง", 400)
+        try:
+            payload = json.loads(request.body.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            return json_error("INVALID_INPUT", "รูปแบบ JSON ไม่ถูกต้อง", 400)
+        if not isinstance(payload, dict) or payload:
+            return json_error("INVALID_INPUT", "รับเฉพาะ JSON object ว่าง", 400)
+
+    try:
+        membership = leave_party(party_id=party_id, user=request.user)
+    except PartyError as error:
+        return json_error(error.code, error.message, error.status)
+    return JsonResponse(
+        {
+            "data": {
+                "party_id": membership.party_id,
+                "is_member": False,
+                "left_at": timezone.localtime(membership.left_at).isoformat(),
+            }
+        }
+    )
 
 
 def party_data(party, user):
