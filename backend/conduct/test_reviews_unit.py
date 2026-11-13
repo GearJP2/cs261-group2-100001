@@ -177,8 +177,16 @@ class FakeMemberships:
 
     def apply(self, *conditions, **lookups):
         wanted = [*conditions, *lookups.items()]
-        found = any(all(self.matches(item, row) for item in wanted) for row in self.rows)
-        return Mock(exists=Mock(return_value=found))
+        return FakeMemberships(
+            *(
+                (row.user_id, row.left_at)
+                for row in self.rows
+                if all(self.matches(item, row) for item in wanted)
+            )
+        )
+
+    def exists(self):
+        return bool(self.rows)
 
     def matches(self, condition, row):
         if isinstance(condition, Q):
@@ -229,6 +237,12 @@ class IsParticipantUnitTests(SimpleTestCase):
         """UT-US14-API-01: another member's row must not count."""
         self.assertIs(self.check()[0], False)
         self.assertIs(self.check((PEER_ID, None))[0], False)
+
+    def test_other_member_staying_does_not_qualify_a_member_who_left_early(self):
+        self.assertIs(
+            self.check((MEMBER_ID, ENDS_AT - timedelta(seconds=1)), (PEER_ID, None))[0],
+            False,
+        )
 
 
 class SelfReviewUnitTests(SubmitReviewUnitBase):
