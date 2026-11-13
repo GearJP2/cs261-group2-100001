@@ -8,7 +8,7 @@ AC mapping ใช้ [sequence checklist](sprint-2-sequences/README.md#us2--ค�
 reset ข้อมูลแต่ละเคส ใช้ now คงที่ N; มี Party ทุก state, หลายกีฬาและสนามที่รองรับหลายกีฬา, สนาม Indoor/Outdoor/null, active Host/Member รวมทั้ง Pending/Rejected/left ที่ต้องไม่นับ
 เวลาทดสอบใช้ N=2030-11-19T12:00:00+07:00 และช่วง A=2030-11-20T00:00:00+07:00 ถึง B=2030-11-21T00:00:00+07:00; ใส่ Party ที่ A−1 microsecond, A, B−1 microsecond และ B พร้อม Party เริ่มก่อน A แต่ ends_at หลัง A
 จัดข้อมูล >100 รายการ มีหลาย Party ที่ starts_at เท่ากันเพื่อพิสูจน์ pagination/tie order; session ผ่าน university guard เว้น auth cases
-D07 ยังไม่มี field จริง ต้องเตรียม migration/fixtures หลังมติยืนยัน ไม่ใช้ข้อมูล REAL/MOCK หรือเดาจากชื่อสนาม
+D07 ใช้นิยาม Indoor/Outdoor nullable ที่ schema contract ยืนยันแล้ว แต่ยังไม่มี field จริง ต้องเตรียม migration และให้ผู้ดูแลยืนยันการจัดประเภท fixtures ไม่ใช้ข้อมูล REAL/MOCK หรือเดาจากชื่อสนาม
 
 | ID | AC | ขั้นตอน | ผลคาดหวัง |
 | --- | --- | --- | --- |
@@ -17,7 +17,7 @@ D07 ยังไม่มี field จริง ต้องเตรียม m
 | S03 | 1,2 | sport กับ venue ที่ไม่รองรับกัน; IDs รูปแบบถูกแต่ไม่มีจริง | 200 data=[] ไม่เปลี่ยน filter และไม่คืน 404 |
 | S04 | 2 | สนามเดียวรองรับหลายกีฬา และหลายสนามมีกีฬาเดียวกัน | sport filter ไม่เท่ากับ venue/type filter; ไม่ duplicate Party หรือคูณ active count |
 | S05 | 2 | venue_type Indoor/Outdoor และไม่กรอง | enum ตรงประเภทจริง; null ไม่ตรงสอง enum แต่แสดงได้เมื่อไม่กรอง type |
-| S06 | 3 | starts_from=A, starts_before=B | รวมเริ่มที่ A/B−1 microsecond; ไม่รวม A−1 microsecond/B; กิจกรรมที่ overlap แต่เริ่มก่อน A ไม่เข้า |
+| S06 | 3 | starts_from=A, starts_to=B | รวมเริ่มที่ A/B−1 microsecond; ไม่รวม A−1 microsecond/B; กิจกรรมที่ overlap แต่เริ่มก่อน A ไม่เข้า |
 | S07 | 3 | ส่งขอบล่างอย่างเดียว/ขอบบนอย่างเดียว | ใช้ >= ขอบล่าง หรือ < ขอบบน ตามลำดับ |
 | S08 | 3 | ส่งวันจาก UI และ instant เดียวกันใน +07:00/Z | ช่วงเท่ากัน ผลเหมือนกัน; UI ใช้วัน Bangkok แม้ browser timezone ต่างกัน |
 | S09 | 3 | ช่วงเท่ากัน/กลับด้าน/date-only/ไม่มี offset/วันที่ไม่มีจริง | 400 INVALID_INPUT พร้อม fields ไม่ใช่รายการว่าง |

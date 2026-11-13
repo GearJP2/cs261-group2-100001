@@ -2,32 +2,33 @@
 
 งาน `S2-US2-D-01` / [Issue #91](https://github.com/GearJP2/cs261-group2-100001/issues/91)
 คนหลัก Golf (@Seamui); ผู้ตรวจที่รอ Austin (@Siestashi)
-สถานะ: ข้อเสนอสำหรับ review ยังไม่ใช่มติทีม และยังไม่ได้ implement
+สถานะ: ต่อจากมติ schema เดิม ส่วน semantics/API ที่เสนอเพิ่มยังรอ review และยังไม่ได้ implement
 Dependency: รอยืนยัน S2-PLAN-01 ก่อนส่งต่อ #94; test cases ส่งต่อ #98
 
 ## 1. ฐานเดิมและช่องว่าง
 
 - [US2](user-stories.md#us2--ค้นหาและกรองกิจกรรม-search) ระบุค้นหาตามกีฬา วันเวลา และสถานที่ แต่ยังไม่กำหนด time predicate/pagination
+- [Schema contract หัวข้อ 2.3](base-02-schema-contract.md#23-รอบถัดไป--us2-ค้นหา-และวันปิดสนาม) ยืนยัน Indoor/Outdoor และ nullable โดยโกลเมื่อ 14 ตุลาคม 2026 แล้ว; [tasks เดิม](tasks.md#us-2--backlog--ยังไม่เลือกเข้า-sprint-1) เสนอ query starts_from/starts_to และ pagination ไว้ ใช้ชื่อเดิมต่อ ส่วนขอบเวลายังเป็นข้อเสนอใน D02
 - [Sequence](sprint-2-sequences/README.md#us2--ค้นหา) กำหนด AND filters และให้ยืนยันขอบเวลา/สถานะในงานนี้
 - `backend/parties/views.py:create_party_api` รองรับ GET และ POST ที่ `/api/v1/parties` อยู่แล้ว GET ปัจจุบันไม่อ่าน filters, แสดงเฉพาะอนาคต ไม่ยกเลิก ไม่เต็ม เรียง starts_at และตัด 50 รายการ
 - `party_data` และ `services.get_party_state` มี field/state เดิมให้ reuse ไม่สร้างนิยามสถานะอีกชุด
 - `backend/venues/models.py:Venue` ยังไม่มี Indoor/Outdoor; `venue_catalog.py` มี venue_kind เป็น REAL/MOCK ซึ่งเป็นแหล่งที่มาข้อมูล ไม่ใช่ประเภทในร่ม/กลางแจ้ง
 - `frontend/static/js/app.js:initHome` อ่าน `data` เป็น array; metadata ที่เสนอเพิ่มยังคง array เดิม แต่ UI ต้องเปลี่ยนให้รองรับ pagination และ controls
 
-## 2. มติที่เสนอ
+## 2. กติกาเดิมและมติที่เสนอ
 
 | ID | ข้อเสนอ | ความหมาย |
 | --- | --- | --- |
 | D01 | ทุกตัวกรองรวม AND | sport_id ตรง Party.sport_id, venue_id ตรง Party.venue_id, venue_type ตรงประเภทสนามจริง ไม่ใช้ชื่อกีฬาแทนประเภทสนาม |
-| D02 | ช่วงเวลาใช้ starts-within แบบ `[from,to)` | `starts_at >= starts_from` และ `starts_at < starts_before`; ไม่ใช้ overlap ไม่กรอง ends_at |
+| D02 | ช่วงเวลาใช้ starts-within แบบ `[from,to)` | `starts_at >= starts_from` และ `starts_at < starts_to`; ไม่ใช้ overlap ไม่กรอง ends_at |
 | D03 | วันที่/เวลา UI อ้าง Asia/Bangkok | เลือกวันที่ D คือ [D 00:00+07:00, D+1 00:00+07:00) ไม่ใช้ 23:59:59 และไม่ยึด timezone เครื่องผู้ใช้ |
 | D04 | default state=Open ตาม GET เดิม | เลือกดู Full/InProgress/Completed/Cancelled หรือ all ได้โดย explicit filter; การเห็นรายการไม่ใช่สิทธิ์ขอเข้าร่วม |
 | D05 | ใช้ state/count แบบ Detail | Cancelled → Completed → InProgress → Full → Open ตามลำดับเดิม ใช้ now เดียวตลอด request; ณ starts_at เป็น InProgress และ ณ ends_at เป็น Completed |
 | D06 | pagination และลำดับคงที่ | page=1, page_size=20 (สูงสุด 100), order starts_at ASC แล้ว id ASC; กรองก่อนนับ/แบ่งหน้า |
-| D07 | venue_type เป็น Indoor/Outdoor แบบ optional | เสนอเพิ่ม Venue.venue_type แบบ nullable พร้อม migration เมื่อ implement; null หมายถึงยังไม่จัดประเภท ไม่เดาค่าจากชื่อ/กีฬา |
+| D07 | venue_type เป็น Indoor/Outdoor แบบ optional | ใช้แบบ Venue.venue_type nullable ตาม schema contract ที่ยืนยันแล้ว; ยังต้องเพิ่ม migration เมื่อ implement; null หมายถึงยังไม่จัดประเภท ไม่เดาค่าจากชื่อ/กีฬา |
 | D08 | ข้อความค้นหา q | ค้นหาแบบ case-insensitive substring ใน Party.title เท่านั้น หลัง trim; ไม่ค้นชื่อกีฬา/ชื่อสนาม/description โดยอัตโนมัติ |
 
-D07 และ D08 เป็นข้อเสนอเพิ่มรายละเอียดที่ต้องยืนยันกับทีม ไม่อ้างว่ามีข้อมูลหรือ contract นี้อยู่แล้ว หากทีมไม่รับให้แก้ contract/UI/test cases ก่อน implement
+D07 ใช้มติ schema เดิม ไม่เปิดประเด็นนิยาม Indoor/Outdoor ใหม่ แต่การจัดประเภทข้อมูลสนามและ API ที่เกี่ยวข้องยังต้องประสานผู้ดูแล ส่วน D08 และ semantics/API ที่เสนอเพิ่มยังต้อง review ก่อน implement
 สนามเดียวรองรับหลายกีฬาได้ sport กับ venue จึงเป็นคนละ filter การเลือกสนามที่ไม่รองรับกีฬาที่เลือกให้ผลว่าง ไม่ขยายเป็น OR หรือเปลี่ยนกีฬาที่ส่งมาเอง
 
 ## 3. GET query contract ที่เสนอ
@@ -41,20 +42,20 @@ D07 และ D08 เป็นข้อเสนอเพิ่มรายล�
 | venue_id | positive decimal integer, optional | exact Party.venue_id |
 | venue_type | Indoor หรือ Outdoor, optional | case-sensitive enum; exact Venue.venue_type |
 | starts_from | ISO 8601 datetime, optional | ต้องมี T และ offset หรือ Z; ขอบล่างรวม |
-| starts_before | ISO 8601 datetime, optional | ต้องมี T และ offset หรือ Z; ขอบบนไม่รวม |
+| starts_to | ISO 8601 datetime, optional | ต้องมี T และ offset หรือ Z; ขอบบนไม่รวม |
 | state | Open (default), Full, InProgress, Completed, Cancelled, all | เลือกค่าเดียว; all ไม่กรองสถานะ แต่ยังใช้ filters อื่น |
 | page | positive decimal integer, default 1 | ไม่รับ 0/ลบ/ทศนิยม |
 | page_size | positive decimal integer 1–100, default 20 | มากกว่า 100 คืน validation error ไม่ clamp เงียบ ๆ |
 
 ไม่รับ repeated query keys หรือ unknown parameters; empty value ของทุก field ยกเว้น q เป็น invalid ให้ client ละ parameter ที่ไม่เลือกแทนส่งค่าว่าง
 IDs ที่รูปแบบถูกแต่ไม่มีจริงคืน 200 รายการว่าง ไม่ใช่ 404; ไม่กรอง Venue.is_active เพิ่มโดยปริยายเพราะ Detail ยังอ่าน Party เดิมได้
-ถ้ามีขอบเวลาทั้งคู่ต้อง `starts_from < starts_before`; ขอบเดียวใช้ได้ วัน/เวลาไม่มี offset หรือ date-only ใน API ไม่รับ แต่ UI แปลงวันเป็นช่วงก่อนส่ง
+ถ้ามีขอบเวลาทั้งคู่ต้อง `starts_from < starts_to`; ขอบเดียวใช้ได้ วัน/เวลาไม่มี offset หรือ date-only ใน API ไม่รับ แต่ UI แปลงวันเป็นช่วงก่อนส่ง
 q ว่างเป็น no-op; AND ระหว่าง q และ filters อื่นเสมอ ไม่รองรับ multi-value, sort อื่น หรือหลายช่วงเวลาในรอบนี้
 
 ตัวอย่างเลือกกีฬา 1 เฉพาะสนาม 2 ในร่ม และวันที่ 20 พฤศจิกายน 2030 (URL encode เครื่องหมาย + เป็น %2B):
 
 ```text
-GET /api/v1/parties?sport_id=1&venue_id=2&venue_type=Indoor&starts_from=2030-11-20T00:00:00%2B07:00&starts_before=2030-11-21T00:00:00%2B07:00&state=Open&page=1&page_size=20
+GET /api/v1/parties?sport_id=1&venue_id=2&venue_type=Indoor&starts_from=2030-11-20T00:00:00%2B07:00&starts_to=2030-11-21T00:00:00%2B07:00&state=Open&page=1&page_size=20
 ```
 
 ## 4. Response และข้อผิดพลาด
@@ -94,7 +95,7 @@ host.display_name ไม่มี profile ใช้ fallback เดียวก�
 ```
 
 ```json
-{"error": {"code": "INVALID_INPUT", "message": "ตัวกรองค้นหาไม่ถูกต้อง", "fields": {"starts_before": "ต้องอยู่หลัง starts_from"}}}
+{"error": {"code": "INVALID_INPUT", "message": "ตัวกรองค้นหาไม่ถูกต้อง", "fields": {"starts_to": "ต้องอยู่หลัง starts_from"}}}
 ```
 
 | HTTP | code | เงื่อนไข |
@@ -126,7 +127,7 @@ POST ใช้ contract สร้างเดิม ไม่ผ่าน query 
 ใช้ request version หรือ AbortController ป้องกัน response เก่าและ error เก่าทับคำค้นใหม่ การ clear/reset ต้อง invalidate request ที่ค้างด้วย
 Full/Started/Cancelled ที่เลือกดูได้ต้องมี badge ตรง Detail และไม่เปิดปุ่ม join จากผลค้นหา; เข้า Detail แล้วอ่านสิทธิ์/state ปัจจุบันอีกครั้ง
 
-- [ ] Austin review D01–D08 โดยเฉพาะ starts-within, default Open, pagination, q และ field ประเภทสนาม
+- [ ] Austin review semantics/API ที่เสนอใน D01–D08 โดยเฉพาะ starts-within, default Open, pagination และ q; D07 ตรวจให้ตรงมติ schema เดิม
 - [ ] ยืนยัน S2-PLAN-01 และ AC 1/2/3/5 จาก Story ต้นทาง; [Story ใน repo](user-stories.md) มีเพียง Scenario 1/2 จึงยังไม่อ้างว่าเลข AC ยืนยันแล้ว
 - [ ] แนบ UI ที่ใช้จริงและตกลง query names กับ Frontend ก่อน implement #94
 - [ ] เจ้าของข้อมูลยืนยัน migration/การจัดประเภทสนามและผลกระทบ venues API
