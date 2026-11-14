@@ -43,9 +43,7 @@ class PartyCreationHandlerTests(TestCase):
         if method == "get":
             request = self.factory.get(self.url, data=query or {})
         else:
-            request = getattr(self.factory, method)(
-                self.url, data=body, content_type=content_type
-            )
+            request = getattr(self.factory, method)(self.url, data=body, content_type=content_type)
         request.user = self.user
         identity, _ = UniversityIdentity.objects.get_or_create(
             user=request.user,
