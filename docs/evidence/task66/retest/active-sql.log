@@ -1,0 +1,15 @@
+ party_id |        title         | membership_id | user_id | display_name |  role  |           joined_at           | active_member_count 
+----------+----------------------+---------------+---------+--------------+--------+-------------------------------+---------------------
+        6 | [S2-DATA] Cancelled  |            11 |       1 | S2-DATA H    | Host   | 2026-11-14 13:43:53.699264+00 |                   2
+        6 | [S2-DATA] Cancelled  |            12 |       4 | S2-DATA M    | Member | 2026-11-14 13:43:53.699264+00 |                   2
+        5 | [S2-DATA] Completed  |             9 |       1 | S2-DATA H    | Host   | 2026-11-13 02:00:00+00        |                   2
+        5 | [S2-DATA] Completed  |            10 |       4 | S2-DATA M    | Member | 2026-11-13 02:00:00+00        |                   2
+        3 | [S2-DATA] Full       |             5 |       1 | S2-DATA H    | Host   | 2026-11-14 13:43:53.699264+00 |                   2
+        3 | [S2-DATA] Full       |             6 |       4 | S2-DATA M    | Member | 2026-11-14 13:43:53.699264+00 |                   2
+        4 | [S2-DATA] InProgress |             7 |       1 | S2-DATA H    | Host   | 2026-11-13 16:00:00+00        |                   2
+        4 | [S2-DATA] InProgress |             8 |       4 | S2-DATA M    | Member | 2026-11-13 16:00:00+00        |                   2
+        2 | [S2-DATA] Last slot  |             3 |       1 | S2-DATA H    | Host   | 2026-11-14 13:43:53.699264+00 |                   2
+        2 | [S2-DATA] Last slot  |             4 |       4 | S2-DATA M    | Member | 2026-11-14 13:43:53.699264+00 |                   2
+        1 | [S2-DATA] Open       |            19 |       2 | ผู้ใช้          | Member | 2026-11-14 14:43:55.098077+00 |                   1
+(11 rows)
+

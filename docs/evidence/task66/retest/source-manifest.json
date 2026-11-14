@@ -1,0 +1,30 @@
+{
+  "branch": "test/s2-us6-db-retest",
+  "base": "86f2ca26c5f0b3c81973039d17552f95f4edb51c",
+  "date": "2026-11-14 Asia/Bangkok",
+  "targeted": "36 passed, no skips",
+  "http": "16 PASS case records / 42 real HTTP requests / no FAIL or BLOCKED",
+  "regression": "610 discovered: 609 passed, 1 existing US14 unit placeholder skipped",
+  "files": [
+    {
+      "path": "backend/parties/test_members_database.py",
+      "sha256": "F1F746E3ABF62C9A7145EF1119B5555088B99B2081A97DB9C11960F7013CA044"
+    },
+    {
+      "path": "scripts/us6-db-api-evidence.py",
+      "sha256": "5EBCD777FF6B911FD1A22C051C0D1DB8BE60408AD43CC1CB82A7BF46B3ACE741"
+    },
+    {
+      "path": "database/seeds/us6_active_members.sql",
+      "sha256": "B841D2E5DA3650DC5BB71DE6D303A5C59A5E5B852734F1E5A4ABB42107F895D3"
+    },
+    {
+      "path": "database/seeds/us6_members_history.sql",
+      "sha256": "3B9E10E1EC9CA5AA3E81C2F4BCC438BAC4AA4F2199371B17E27D301684F5A5F2"
+    },
+    {
+      "path": "backend/parties/views.py",
+      "sha256": "6AAB6613B01D06BB6C5574B1A97AFE0E1269412DA56BC5EE8C404A4CCD2ED4B1"
+    }
+  ]
+}

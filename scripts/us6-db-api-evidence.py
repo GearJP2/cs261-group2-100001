@@ -86,11 +86,11 @@ with connection.cursor() as cursor:
     report["postgresql"] = cursor.fetchone()[0]
 
 
-def http(path, payload=None):
+def http(path, payload=None, request_headers=None):
     request = Request(
         base + path,
         data=None if payload is None else json.dumps(payload).encode(),
-        headers=headers,
+        headers=headers if request_headers is None else request_headers,
         method="GET" if payload is None else "POST",
     )
     try:
@@ -147,9 +147,9 @@ if probe == 404:
     report["cases"].append(
         {
             "id": "DB66-M00",
-            "status": "BLOCKED",
+            "status": "FAIL",
             "expected": "Members route available (200)",
-            "actual": "HTTP 404",
+            "actual": "HTTP 404: regression, merged Members route must exist",
         }
     )
 else:
@@ -225,6 +225,69 @@ else:
             else "FAIL",
         }
     )
+    # Real leave uses the member's own session; the Host still reads Members as oracle.
+    member_user = get_user_model().objects.get(username="s2data_m")
+    member_client = Client()
+    force_university_login(member_client, member_user)
+    member_csrf = _get_new_csrf_string()
+    member_headers = {
+        "Cookie": f"{settings.SESSION_COOKIE_NAME}={member_client.cookies[settings.SESSION_COOKIE_NAME].value}; csrftoken={member_csrf}",
+        "X-CSRFToken": member_csrf,
+        "Content-Type": "application/json",
+    }
+    left_member = party.memberships.get(user=member_user)
+    leave_original = (left_member.pk, left_member.joined_at)
+    requests_before = list(party.join_requests.order_by("pk").values())
+    capacity_before = party.capacity
+    first_leave = None
+    for attempt in (1, 2):
+        status, body = http(f"/api/v1/parties/{party.pk}/leave", {}, member_headers)
+        if attempt == 1:
+            first_leave = body
+        result = compare(party)
+        left_member.refresh_from_db()
+        detail_status, detail = http(f"/api/v1/parties/{party.pk}", request_headers=member_headers)
+        members_status, _ = http(
+            f"/api/v1/parties/{party.pk}/members", request_headers=member_headers
+        )
+        party.refresh_from_db()
+        history_ok = (
+            (left_member.pk, left_member.joined_at) == leave_original
+            and left_member.left_at is not None
+            and list(party.join_requests.order_by("pk").values()) == requests_before
+            and party.capacity == capacity_before
+        )
+        report["cases"].append(
+            {
+                "id": "DB66-M09",
+                "attempt": attempt,
+                "expected": "HTTP leave 200/retry same timestamp, SQL/Members/Detail count2, history/request/capacity retained, departed member Members403",
+                "leave_status": status,
+                "leave_response": body,
+                "history_before": {"id": leave_original[0], "joined_at": leave_original[1]},
+                "history_after": {
+                    "id": left_member.pk,
+                    "joined_at": left_member.joined_at,
+                    "left_at": left_member.left_at,
+                },
+                "request_history_preserved": list(party.join_requests.order_by("pk").values())
+                == requests_before,
+                "departed_members_status": members_status,
+                **result,
+                "status": "PASS"
+                if status == 200
+                and body == first_leave
+                and history_ok
+                and result["status"] == "PASS"
+                and result["sql"]["count"] == 2
+                and detail_status == 200
+                and not detail["data"]["is_member"]
+                and detail["data"]["member_count"] == 2
+                and members_status == 403
+                else "FAIL",
+            }
+        )
+    member_client.logout()
     membership = party.memberships.get(user__username="s2data_m")
     original = (membership.pk, membership.joined_at)
     for attempt in (1, 2):
@@ -269,18 +332,10 @@ else:
         {
             "id": "DB66-M08",
             "expected": "No inferred host: SQL/API/detail match",
-            "policy": "Task60 actual rows; PR123 legacy fallback awaits team decision",
+            "policy": "Task60 actual active rows; merged Members API must not infer Host",
             **compare(party),
         }
     )
-report["cases"].append(
-    {
-        "id": "DB66-M09",
-        "status": "BLOCKED",
-        "expected": "Real HTTP leave followed by SQL/API comparison",
-        "actual": "Task70 leave endpoint is not available in the checked source",
-    }
-)
 client.logout()
 report["finished_at"] = timezone.localtime().isoformat()
 print(json.dumps(report, ensure_ascii=True, indent=2, default=str))

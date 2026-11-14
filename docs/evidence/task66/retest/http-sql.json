@@ -1,0 +1,1375 @@
+{
+  "kind": "assistant-operated real HTTP + PostgreSQL SQL; NOT manual UI/UAT or TU login",
+  "started_at": "2026-11-14T21:43:53.699264+07:00",
+  "source": "Task66 retest base 86f2ca26c5f0b3c81973039d17552f95f4edb51c with working tree harness",
+  "database": "s2_task66_retest",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "sql_sha256": "b841d2e5da3650dc5bb71de6d303a5c59a5e5b852734f1e5a4abb42107f895d3",
+  "source_sha256": {
+    "backend/parties/views.py": "6aab6613b01d06bb6c5574b1a97afe0e1269412da56bc5ee8c404a4ccd2ed4b1",
+    "backend/parties/urls.py": "97fd03cc5a1bfd23c6f9dcc2754c3b033a42915b3468dbe9603aae211d034e0b",
+    "backend/parties/test_members_database.py": "f1f746e3abf62c9a7145ef1119b5555088b99b2081a97db9c11960f7013ca044",
+    "scripts/us6-db-api-evidence.py": "5ebcd777ff6b911fd1a22c051c0d1db8be60408ad43cc1cb82a7bf46b3ace741"
+  },
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/2/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/2",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 2,
+          "title": "[S2-DATA] Last slot",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 2,
+          "venue_id": 4,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/3/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/3",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 3,
+          "title": "[S2-DATA] Full",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 2,
+          "member_count": 2,
+          "remaining_slots": 0,
+          "state": "Full",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/4/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/4",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 4,
+          "title": "[S2-DATA] InProgress",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-14T00:00:00+07:00",
+          "ends_at": "2026-11-14T23:59:59.999999+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "InProgress",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/5/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/5",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 5,
+          "title": "[S2-DATA] Completed",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-13T10:00:00+07:00",
+          "ends_at": "2026-11-13T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Completed",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/6/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/6",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 6,
+          "title": "[S2-DATA] Cancelled",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Cancelled",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/parties/1/join-requests/2/decision",
+      "payload": {
+        "status": "Approved"
+      },
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 2,
+          "status": "Approved"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            },
+            {
+              "user_id": 2,
+              "display_name": "S2-DATA A",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 3,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/parties/1/join-requests/2/decision",
+      "payload": {
+        "status": "Approved"
+      },
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "REQUEST_DECIDED",
+          "message": "\u0e04\u0e33\u0e02\u0e2d\u0e19\u0e35\u0e49\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e01\u0e32\u0e23\u0e15\u0e31\u0e14\u0e2a\u0e34\u0e19\u0e41\u0e25\u0e49\u0e27"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            },
+            {
+              "user_id": 2,
+              "display_name": "S2-DATA A",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 3,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/parties/2/join-requests/6/decision",
+      "payload": {
+        "status": "Rejected"
+      },
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 6,
+          "status": "Rejected"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/2/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 4,
+              "display_name": "S2-DATA M",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/2",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 2,
+          "title": "[S2-DATA] Last slot",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 2,
+          "venue_id": 4,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/parties/1/leave",
+      "payload": {},
+      "status": 200,
+      "body": {
+        "data": {
+          "party_id": 1,
+          "is_member": false,
+          "left_at": "2026-11-14T21:43:55.428799+07:00"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 2,
+              "display_name": "S2-DATA A",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": false,
+          "is_member": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "\u0e40\u0e09\u0e1e\u0e32\u0e30\u0e1c\u0e39\u0e49\u0e08\u0e31\u0e14\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e2b\u0e23\u0e37\u0e2d\u0e2a\u0e21\u0e32\u0e0a\u0e34\u0e01\u0e40\u0e17\u0e48\u0e32\u0e19\u0e31\u0e49\u0e19\u0e17\u0e35\u0e48\u0e14\u0e39\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e21\u0e32\u0e0a\u0e34\u0e01\u0e44\u0e14\u0e49"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/parties/1/leave",
+      "payload": {},
+      "status": 200,
+      "body": {
+        "data": {
+          "party_id": 1,
+          "is_member": false,
+          "left_at": "2026-11-14T21:43:55.428799+07:00"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 2,
+              "display_name": "S2-DATA A",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": false,
+          "is_member": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "\u0e40\u0e09\u0e1e\u0e32\u0e30\u0e1c\u0e39\u0e49\u0e08\u0e31\u0e14\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e2b\u0e23\u0e37\u0e2d\u0e2a\u0e21\u0e32\u0e0a\u0e34\u0e01\u0e40\u0e17\u0e48\u0e32\u0e19\u0e31\u0e49\u0e19\u0e17\u0e35\u0e48\u0e14\u0e39\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e21\u0e32\u0e0a\u0e34\u0e01\u0e44\u0e14\u0e49"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 2,
+              "display_name": "S2-DATA A",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 2,
+              "display_name": "S2-DATA A",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "S2-DATA H",
+              "role": "Host"
+            },
+            {
+              "user_id": 2,
+              "display_name": "\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49",
+              "role": "Member"
+            }
+          ],
+          "member_count": 2
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 2,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 2,
+              "display_name": "\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49",
+              "role": "Member"
+            }
+          ],
+          "member_count": 1
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "payload": null,
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 1,
+          "title": "[S2-DATA] Open",
+          "description": "Synthetic S2-DATA fixture; rerunning seed_sprint2 resets this party.",
+          "host": {
+            "id": 1,
+            "display_name": "S2-DATA H"
+          },
+          "sport_id": 1,
+          "venue_id": 1,
+          "starts_at": "2026-11-15T10:00:00+07:00",
+          "ends_at": "2026-11-15T11:00:00+07:00",
+          "capacity": 4,
+          "member_count": 1,
+          "remaining_slots": 3,
+          "state": "Open",
+          "is_host": true,
+          "is_member": false
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "DB66-M01",
+      "party": "[S2-DATA] Open",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M01",
+      "party": "[S2-DATA] Last slot",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M01",
+      "party": "[S2-DATA] Full",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M01",
+      "party": "[S2-DATA] InProgress",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M01",
+      "party": "[S2-DATA] Completed",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M01",
+      "party": "[S2-DATA] Cancelled",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M02",
+      "expected": "GET preserves all fields/rows",
+      "actual": "unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M03",
+      "expected": "200, Approved, SQL/API count 3",
+      "decision_status": 200,
+      "request_status": "Approved",
+      "sql": {
+        "ids": [
+          1,
+          2,
+          4
+        ],
+        "count": 3
+      },
+      "api": {
+        "ids": [
+          1,
+          2,
+          4
+        ],
+        "count": 3
+      },
+      "detail_count": 3,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M04",
+      "expected": "409; count stays 3",
+      "decision_status": 409,
+      "sql": {
+        "ids": [
+          1,
+          2,
+          4
+        ],
+        "count": 3
+      },
+      "api": {
+        "ids": [
+          1,
+          2,
+          4
+        ],
+        "count": 3
+      },
+      "detail_count": 3,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M05",
+      "expected": "200, Rejected, count stays 2",
+      "decision_status": 200,
+      "request_status": "Rejected",
+      "sql": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          4
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M09",
+      "attempt": 1,
+      "expected": "HTTP leave 200/retry same timestamp, SQL/Members/Detail count2, history/request/capacity retained, departed member Members403",
+      "leave_status": 200,
+      "leave_response": {
+        "data": {
+          "party_id": 1,
+          "is_member": false,
+          "left_at": "2026-11-14T21:43:55.428799+07:00"
+        }
+      },
+      "history_before": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00"
+      },
+      "history_after": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00",
+        "left_at": "2026-11-14 14:43:55.428799+00:00"
+      },
+      "request_history_preserved": true,
+      "departed_members_status": 403,
+      "sql": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M09",
+      "attempt": 2,
+      "expected": "HTTP leave 200/retry same timestamp, SQL/Members/Detail count2, history/request/capacity retained, departed member Members403",
+      "leave_status": 200,
+      "leave_response": {
+        "data": {
+          "party_id": 1,
+          "is_member": false,
+          "left_at": "2026-11-14T21:43:55.428799+07:00"
+        }
+      },
+      "history_before": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00"
+      },
+      "history_after": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00",
+        "left_at": "2026-11-14 14:43:55.428799+00:00"
+      },
+      "request_history_preserved": true,
+      "departed_members_status": 403,
+      "sql": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M06",
+      "attempt": 1,
+      "method": "SQL state preparation, NOT HTTP leave",
+      "expected": "history retained, count 2 on both writes",
+      "history_preserved": true,
+      "history_before": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00"
+      },
+      "history_after": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00",
+        "left_at": "2026-11-14 14:43:53.699264+00:00",
+        "request_status": "Approved"
+      },
+      "sql": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M06",
+      "attempt": 2,
+      "method": "SQL state preparation, NOT HTTP leave",
+      "expected": "history retained, count 2 on both writes",
+      "history_preserved": true,
+      "history_before": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00"
+      },
+      "history_after": {
+        "id": 2,
+        "joined_at": "2026-11-14 13:43:53.699264+00:00",
+        "left_at": "2026-11-14 14:43:53.699264+00:00",
+        "request_status": "Approved"
+      },
+      "sql": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M07",
+      "expected": "Profile absent: active ID still present",
+      "sql": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "api": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2
+      },
+      "detail_count": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "DB66-M08",
+      "expected": "No inferred host: SQL/API/detail match",
+      "policy": "Task60 actual active rows; merged Members API must not infer Host",
+      "sql": {
+        "ids": [
+          2
+        ],
+        "count": 1
+      },
+      "api": {
+        "ids": [
+          2
+        ],
+        "count": 1
+      },
+      "detail_count": 1,
+      "status": "PASS"
+    }
+  ],
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "finished_at": "2026-11-14T21:43:55.976236+07:00"
+}
