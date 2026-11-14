@@ -1,5 +1,7 @@
 # S2-US14-D-01 — มติและข้อเสนอของ US14 (รีวิว ดาว และ No-show)
 
+> **ปรับสถานะอ้างอิง 14 พ.ย. 2026:** เนื้อหาวันที่2พ.ย.ด้านล่างเป็นบันทึกตามเวลานั้น. สำหรับNo-show P-1–P-9 ให้ใช้ [มติGearวันที่13พ.ย.](us14-no-show-approved-policy.md) ซึ่งแทนข้อเสนอเก่าแล้ว; flagยังปิดโดยdefaultและการเปิดใช้งานเป็นdeploymentdecisionแยก. สถานะbranch/Blockedในตารางเก่าไม่ใช่สถานะGitHubปัจจุบัน ดู [Task44 matrix](sprint-2-planning-contract.md) และIssue/PRจริง ไม่อ้างว่าNo-showยังไม่มีpolicyจากบันทึกเก่า
+
 วันที่บันทึก: 2 พฤศจิกายน 2026 (Asia/Bangkok)
 Task: [Issue #100](https://github.com/GearJP2/cs261-group2-100001/issues/100)
 คนหลัก: Austin; คู่ช่วย: P (ตามหัว Issue)
