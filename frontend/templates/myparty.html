@@ -114,127 +114,127 @@
 
   <footer class="mp-footer">CS261 UniSport Buddy</footer>
 
-  <!-- Script สำหรับ Task 53 -->
+  <!-- Script สำหรับ Task 53 และ 54 -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // หน่วงเวลาจำลองการโหลดข้อมูล 1.5 วินาที
-      setTimeout(() => {
-        loadRequests(1, true);  
-        loadRequests(2, false); 
-      }, 1500);
+      // แก้ P3: ลบการหน่วงเวลาจำลองทิ้ง และเรียกใช้งานฟังก์ชันดึงข้อมูลจาก API จริง
+      loadRequests(1);  
+      loadRequests(2); 
     });
 
-    function loadRequests(partyId, isSuccess) {
+    // แก้ P3: โหลดข้อมูลคำขอจาก Backend ของจริง (ไม่ใช่การจำลองอีกต่อไป)
+    async function loadRequests(partyId) {
       const container = document.getElementById(`req-list-${partyId}`);
-      if (!isSuccess) {
+      try {
+        // ยิง API ดึงรายการคนที่รออนุมัติของปาร์ตี้นั้นๆ
+        const response = await fetch(`/api/v1/parties/${partyId}/join-requests/`);
+        if (!response.ok) throw new Error('API Error');
+        
+        const requests = await response.json();
+
+        // ถ้าไม่มีคนขอเข้าร่วมเลย ให้แสดงข้อความว่างๆ
+        if (!requests || requests.length === 0) {
+          container.innerHTML = '<div style="padding: 12px; text-align: center; color: #888; font-size: 0.85rem;">ไม่มีคำขอที่รออนุมัติ</div>';
+          return;
+        }
+
+        // วนลูปสร้างกล่องคำขอตามข้อมูลที่ได้จากฐานข้อมูลจริง
+        let html = '';
+        requests.forEach(req => {
+          const reqId = req.id || req.request_id; // ดึง ID คำขอจริงๆ มาใช้ (ไม่ใช่ 101, 102 แล้ว)
+          const userName = req.name || req.user?.name || 'ผู้สมัคร';
+          const userLevel = req.level || req.user?.level || 'ระดับทั่วไป';
+
+          html += `
+            <div class="mp-req-item">
+              <div class="mp-req-user">
+                <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                <div><p class="mp-user-name">${userName}</p><p class="mp-user-level">${userLevel}</p></div>
+              </div>
+              <div class="mp-req-actions">
+                <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="${reqId}" onclick="handleAction(this, 'approve')">อนุมัติ</button>
+                <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="${reqId}" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+
+      } catch (error) {
         container.innerHTML = `
           <div class="mp-error-state">
             ไม่สามารถดึงข้อมูลคำขอได้ กรุณาลองใหม่อีกครั้ง 
-            <button onclick="location.reload()" style="margin-top:6px; cursor:pointer; background:none; border:1px solid #df1b1b; padding:2px 8px; border-radius:4px; color:#df1b1b;">ลองใหม่</button>
+            <button onclick="loadRequests(${partyId})" style="margin-top:6px; cursor:pointer; background:none; border:1px solid #df1b1b; padding:2px 8px; border-radius:4px; color:#df1b1b;">ลองใหม่</button>
           </div>
         `;
-        return;
       }
-      container.innerHTML = `
-        <div class="mp-req-item">
-          <div class="mp-req-user">
-            <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-            <div><p class="mp-user-name">ณัชชา</p><p class="mp-user-level">มือใหม่</p></div>
-          </div>
-          <div class="mp-req-actions">
-            <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="101" onclick="handleAction(this, 'approve')">อนุมัติ</button>
-            <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="101" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
-          </div>
-        </div>
-        <div class="mp-req-item">
-          <div class="mp-req-user">
-            <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-            <div><p class="mp-user-name">ธนกฤต</p><p class="mp-user-level">ระดับทั่วไป</p></div>
-          </div>
-          <div class="mp-req-actions">
-            <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="102" onclick="handleAction(this, 'approve')">อนุมัติ</button>
-            <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="102" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
-          </div>
-        </div>
-        <div class="mp-req-item">
-          <div class="mp-req-user">
-            <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-            <div><p class="mp-user-name">มะลิ</p><p class="mp-user-level">มือใหม่</p></div>
-          </div>
-          <div class="mp-req-actions">
-            <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="103" onclick="handleAction(this, 'approve')">อนุมัติ</button>
-            <button class="btn-action btn-reject" data-party-id="${partyId}" data-request-id="103" onclick="handleAction(this, 'reject')">ไม่อนุมัติ</button>
-          </div>
-        </div>
-      `;
     }
 
-// ฟังก์ชันจัดการตอนกดปุ่ม อนุมัติ/ไม่อนุมัติ
-async function handleAction(buttonElement, action) {
-  // 1. ดึง ID
-  const partyId = buttonElement.getAttribute('data-party-id');
-  const requestId = buttonElement.getAttribute('data-request-id');
-  const actionContainer = buttonElement.parentElement; 
+    // ฟังก์ชันจัดการตอนกดปุ่ม อนุมัติ/ไม่อนุมัติ
+    async function handleAction(buttonElement, action) {
+      const partyId = buttonElement.getAttribute('data-party-id');
+      const requestId = buttonElement.getAttribute('data-request-id');
+      const actionContainer = buttonElement.parentElement; 
 
-  // 2. เปลี่ยนสถานะปุ่มเป็น Loading
-  actionContainer.innerHTML = `<button class="btn-action btn-loading" disabled>กำลังดำเนินการ...</button>`;
+      actionContainer.innerHTML = `<button class="btn-action btn-loading" disabled>กำลังดำเนินการ...</button>`;
 
-  try {
-    // 3. ใช้ URL จริงตามที่ Reviewer แจ้ง
-    const apiUrl = `/api/v1/parties/${partyId}/join-requests/${requestId}/decision`; 
-    
-    // ดึง CSRF Token จาก Cookie ของ Django
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+      try {
+        const apiUrl = `/api/v1/parties/${partyId}/join-requests/${requestId}/decision`; 
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
+            return cookieValue;
         }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
+        const csrftoken = getCookie('csrftoken');
 
-    // 4. ยิง API จริงไปหา Backend
-    const response = await fetch(apiUrl, {
-      method: 'POST', // หรือ PUT ตามที่ Backend กำหนด (ปกติ decision มักจะใช้ POST)
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrftoken, // ส่ง CSRF Token ไปด้วย
-      },
-      // ส่งค่า action ('approve' หรือ 'reject') ไปให้ Backend
-      body: JSON.stringify({ decision: action }) 
-    });
+        // แก้ P2: เปลี่ยนชื่อตัวแปรเป็น status และใช้คำว่า Approved / Rejected ให้ตรงกับที่ Backend รับ
+        const payloadStatus = action === 'approve' ? 'Approved' : 'Rejected';
 
-    if (response.ok) {
-      // 5. ถ้าสำเร็จ เปลี่ยนสีปุ่มให้ผู้ใช้เห็นแป๊บนึง
-      if (action === 'approve') {
-        actionContainer.innerHTML = `<button class="btn-action btn-success" disabled>เป็นสมาชิกแล้ว</button>`;
-      } else {
-        actionContainer.innerHTML = `<button class="btn-action btn-gray" disabled>ปฏิเสธคำขอ</button>`;
+        const response = await fetch(apiUrl, {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken, 
+          },
+          // ส่งคำว่า status แทนคำว่า decision (ตามที่เพื่อนคอมเมนต์มา)
+          body: JSON.stringify({ status: payloadStatus }) 
+        });
+
+        if (response.ok) {
+          if (action === 'approve') {
+            actionContainer.innerHTML = `<button class="btn-action btn-success" disabled>เป็นสมาชิกแล้ว</button>`;
+          } else {
+            actionContainer.innerHTML = `<button class="btn-action btn-gray" disabled>ปฏิเสธคำขอ</button>`;
+          }
+
+          setTimeout(() => {
+              window.location.reload();
+          }, 1000); 
+
+        } else {
+          throw new Error('API Error');
+        }
+
+      } catch (error) {
+        actionContainer.innerHTML = `
+          <span class="text-error" style="color: #df1b1b; font-size: 0.8rem; font-weight: 500; text-align: right; width: 100%;">
+            ไม่สามารถดำเนินการได้<br>กรุณาลองใหม่อีกครั้ง
+          </span>
+          <button onclick="location.reload()" style="margin-top:6px; cursor:pointer; background:none; border:1px solid #df1b1b; padding:2px 8px; border-radius:4px; color:#df1b1b; display:inline-block;">ลองใหม่</button>
+        `;
       }
-
-      // 6. รีเฟรชหน้าเว็บเพื่ออัปเดตตัวเลขจำนวนคน (แก้ปัญหาจุดที่ 2 ของ Reviewer)
-      setTimeout(() => {
-          window.location.reload();
-      }, 1000); // หน่วงเวลา 1 วินาทีให้เห็นปุ่มสีเขียวก่อน แล้วค่อยรีเฟรชหน้า
-
-    } else {
-      throw new Error('API Error');
     }
-
-  } catch (error) {
-    // 7. ถ้าพัง แสดง Error
-    actionContainer.innerHTML = `
-      <span class="text-error" style="color: #df1b1b; font-size: 0.8rem; font-weight: 500; text-align: right; width: 100%;">
-        ไม่สามารถดำเนินการได้<br>กรุณาลองใหม่อีกครั้ง
-      </span>
-      <button onclick="location.reload()" style="margin-top:6px; cursor:pointer; background:none; border:1px solid #df1b1b; padding:2px 8px; border-radius:4px; color:#df1b1b; display:inline-block;">ลองใหม่</button>
-    `;
-  }
-}
+  </script>
+<!-- แก้ P1: เพิ่มแท็กปิด </body> และ </html> ที่โดนเผลอลบทิ้งไปกลับคืนมาให้แล้วครับ -->
+</body>
+</html>
