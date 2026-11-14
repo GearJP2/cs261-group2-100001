@@ -1,7 +1,8 @@
 # US2 — Search test cases สำหรับ Design #91
 
 อ้างอิง [semantics และ contract](us2-search-design.md) ทุกเคส **Not run**; คนหลัก Golf ผู้ตรวจที่รอ Austin
-AC mapping ใช้ [sequence checklist](sprint-2-sequences/README.md#us2--ค้นหา) เป็น working mapping: AC1 AND, AC2 sport/venue type แยกกัน, AC3 เวลา, AC4 UI states, AC5 state/Detail ต้องยืนยันกับ Story ต้นทางก่อนปิดงาน
+AC mapping ต่อไปนี้เป็นข้อเสนอในเอกสารนี้สำหรับจัดกลุ่ม test cases ไม่ใช่หมายเลข AC ที่ยืนยันจาก Story ต้นทาง: AC1 AND, AC2 sport/venue type แยกกัน, AC3 เวลา, AC4 UI states, AC5 state/Detail ต้องยืนยันกับ Story ต้นทางก่อนปิดงาน
+ดู [Sequence source](sprint-2-sequences/us2.mmd) ประกอบ flow เท่านั้น ไม่ใช้เป็นหลักฐานยืนยันหมายเลข AC
 
 ## Fixtures / วิธีตรวจ
 

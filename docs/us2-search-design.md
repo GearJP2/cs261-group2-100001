@@ -9,7 +9,7 @@ Dependency: รอยืนยัน S2-PLAN-01 ก่อนส่งต่อ #
 
 - [US2](user-stories.md#us2--ค้นหาและกรองกิจกรรม-search) ระบุค้นหาตามกีฬา วันเวลา และสถานที่ แต่ยังไม่กำหนด time predicate/pagination
 - [Schema contract หัวข้อ 2.3](base-02-schema-contract.md#23-รอบถัดไป--us2-ค้นหา-และวันปิดสนาม) ยืนยัน Indoor/Outdoor และ nullable โดยโกลเมื่อ 14 ตุลาคม 2026 แล้ว; [tasks เดิม](tasks.md#us-2--backlog--ยังไม่เลือกเข้า-sprint-1) เสนอ query starts_from/starts_to และ pagination ไว้ ใช้ชื่อเดิมต่อ ส่วนขอบเวลายังเป็นข้อเสนอใน D02
-- [Sequence](sprint-2-sequences/README.md#us2--ค้นหา) กำหนด AND filters และให้ยืนยันขอบเวลา/สถานะในงานนี้
+- [Sequence source](sprint-2-sequences/us2.mmd) กำหนด AND filters และให้ยืนยันขอบเวลา/สถานะในงานนี้
 - `backend/parties/views.py:create_party_api` รองรับ GET และ POST ที่ `/api/v1/parties` อยู่แล้ว GET ปัจจุบันไม่อ่าน filters, แสดงเฉพาะอนาคต ไม่ยกเลิก ไม่เต็ม เรียง starts_at และตัด 50 รายการ
 - `party_data` และ `services.get_party_state` มี field/state เดิมให้ reuse ไม่สร้างนิยามสถานะอีกชุด
 - `backend/venues/models.py:Venue` ยังไม่มี Indoor/Outdoor; `venue_catalog.py` มี venue_kind เป็น REAL/MOCK ซึ่งเป็นแหล่งที่มาข้อมูล ไม่ใช่ประเภทในร่ม/กลางแจ้ง
