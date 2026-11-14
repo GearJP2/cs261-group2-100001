@@ -8,26 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- โหลด CSS ของโปรเจค -->
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-  
-  <!-- โหลด CSS ของหน้าปาร์ตี้ของฉันโดยเฉพาะ -->
-  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=9.0">
+  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=9.2">
 
-  <!-- โหลด app.js แบบ defer เพื่อให้เมนูบัญชีทำงาน -->
   <script src="{% static 'js/app.js' %}" defer></script>
 </head>
 <body>
 
-  <!-- ดึง Navbar -->
   {% include "partials/navbar.html" with active="myparty" show_create=True %}
 
-  <!-- ========================================== -->
-  <!-- เนื้อหาหน้าเว็บปาร์ตี้ของฉัน -->
-  <!-- ========================================== -->
-  
-  <!-- เพิ่มคลาส container เข้าไปคู่กับ mp-container เพื่อให้เนื้อหาจัดกึ่งกลาง -->
   <div class="mp-container container">
     <div class="mp-header">
       <h1>ปาร์ตี้ของฉัน</h1>
@@ -42,82 +32,84 @@
     </div>
       
     <div class="mp-grid">
-      <!-- การ์ด 1: แบดมินตัน -->
+      <!-- แก้ข้อ 2: ลบการ์ดจำลองทิ้ง และใช้ Django Template วนลูปสร้างการ์ดจากข้อมูลจริงของ Host -->
+      {% for party in parties %}
       <article class="mp-card">
         <div class="mp-card-top">
           <div class="mp-card-header">
-            <span class="mp-tag-sport">แบดมินตัน</span>
+            <span class="mp-tag-sport">{{ party.sport_type }}</span>
             <span class="mp-tag-status">เปิดรับผู้เข้าร่วม</span>
           </div>
-          <h3>ตีแบดหลังเลิกเรียน ชิวๆ</h3>
+          <h3>{{ party.name }}</h3>
           <div class="mp-info-row">
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> พุธ 28 ตุลาคม 2569</span>
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 17:00 – 19:00 น.</span>
+            <span class="mp-info-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> 
+              {{ party.date|date:"D d F Y" }} <!-- ตัวอย่างฟอร์แมตวันที่ -->
+            </span>
+            <span class="mp-info-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 
+              {{ party.start_time|time:"H:i" }} – {{ party.end_time|time:"H:i" }} น.
+            </span>
           </div>
           <div class="mp-info-row">
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> ยิมเนเซียม 4 · สนามแบดมินตัน</span>
+            <span class="mp-info-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> 
+              {{ party.location }}
+            </span>
           </div>
           <div class="mp-info-row">
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> เข้าร่วมแล้ว 4 / 8 คน</span>
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ผู้จัด: คุณ</span>
+            <span class="mp-info-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 
+              เข้าร่วมแล้ว {{ party.current_members }} / {{ party.max_members }} คน
+            </span>
+            <span class="mp-info-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> 
+              ผู้จัด: คุณ
+            </span>
           </div>
         </div>
 
         <div class="mp-card-bottom">
           <div class="mp-req-header">
-            <div class="mp-req-title">คำขอที่รออนุมัติ <span class="mp-req-count">3 คน</span></div>
+            <div class="mp-req-title">คำขอที่รออนุมัติ</div>
             <div class="mp-req-note">อนุมัติเพื่อนร่วมเล่นก่อนเริ่มกิจกรรม</div>
           </div>
-          <div class="mp-req-list" id="req-list-1">
+          
+          <!-- กำหนด id อ้างอิงจาก party.id ของจริง ไม่ใช่เลข 1 หรือ 2 -->
+          <div class="mp-req-list" id="req-list-{{ party.id }}">
             <div class="mp-loading-state">
               <span class="loader"></span> กำลังดำเนินการ...
             </div>
           </div>
         </div>
       </article>
-
-      <!-- การ์ด 2: เทนนิส -->
-      <article class="mp-card">
-        <div class="mp-card-top">
-          <div class="mp-card-header">
-            <span class="mp-tag-sport">เทนนิส</span>
-            <span class="mp-tag-status">เปิดรับผู้เข้าร่วม</span>
-          </div>
-          <h3>หาเพื่อนตีเทนนิสยามเย็น</h3>
-          <div class="mp-info-row">
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> อังคาร 28 ตุลาคม 2569</span>
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 08:00 – 10:00 น.</span>
-          </div>
-          <div class="mp-info-row">
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> สนามเทนนิส · ศูนย์กีฬาธรรมศาสตร์</span>
-          </div>
-          <div class="mp-info-row">
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> เข้าร่วมแล้ว 4 / 6 คน</span>
-            <span class="mp-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ผู้จัด: เด่น</span>
-          </div>
-        </div>
-
-        <div class="mp-card-bottom">
-          <div class="mp-req-header">
-            <div class="mp-req-title">คำขอที่รออนุมัติ <span class="mp-req-count">3 คน</span></div>
-            <div class="mp-req-note">อนุมัติเพื่อนร่วมเล่นก่อนเริ่มกิจกรรม</div>
-          </div>
-          <div class="mp-req-list" id="req-list-2">
-            <div class="mp-loading-state">
-              <span class="loader"></span> กำลังดำเนินการ...
-            </div>
-          </div>
-        </div>
-      </article>
+      {% empty %}
+      <!-- กรณีที่ผู้ใช้ยังไม่เคยสร้างกิจกรรมเลย -->
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #888;">
+        คุณยังไม่มีกิจกรรมที่สร้าง
+      </div>
+      {% endfor %}
     </div>
   </div>
 
   <footer class="mp-footer">CS261 UniSport Buddy</footer>
 
-  <!-- Script สำหรับ Task 53 และ 54 -->
   <script>
+    // แก้ข้อ 1: สร้างฟังก์ชันสำหรับ Escape HTML ป้องกัน XSS
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+          }[tag])
+      );
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-     // ให้ระบบค้นหาการ์ดทั้งหมดบนหน้าจอและดึง ID มาใช้เอง
       const reqContainers = document.querySelectorAll('.mp-req-list');
       reqContainers.forEach(container => {
         const partyId = container.id.replace('req-list-', '');
@@ -127,36 +119,36 @@
       });
     });
 
-    // แก้ P3: โหลดข้อมูลคำขอจาก Backend ของจริง (ไม่ใช่การจำลองอีกต่อไป)
     async function loadRequests(partyId) {
       const container = document.getElementById(`req-list-${partyId}`);
       try {
-        // ยิง API ดึงรายการคนที่รออนุมัติของปาร์ตี้นั้นๆ
         const response = await fetch(`/api/v1/parties/${partyId}/join-requests/pending`);
         if (!response.ok) throw new Error('API Error');
         
-        // รับค่ามาเป็น body ก่อน แล้วค่อยดึง .data
         const body = await response.json();
         const requests = body.data; 
 
-        //โค้ดเดิมทำงานได้ปกติแล้ว เพราะ requests กลายเป็น Array แล้ว
         if (!requests || requests.length === 0) {
           container.innerHTML = '<div style="padding: 12px; text-align: center; color: #888; font-size: 0.85rem;">ไม่มีคำขอที่รออนุมัติ</div>';
           return;
         }
+        
         let html = '';
-        //ลูปจะไม่พังแล้ว
-      requests.forEach(req => {
-        const reqId = req.id || req.request_id; 
-      //เปลี่ยนมาใช้ display_name ตาม Contract ที่ Backend ส่งมา
-        const userName = req.display_name || 'ผู้สมัคร';
-        const userLevel = req.level || req.user?.level || 'ระดับทั่วไป';
+        requests.forEach(req => {
+          const reqId = req.id || req.request_id; 
+          
+          // แก้ข้อ 1: เอาชื่อไปผ่านฟังก์ชัน escapeHTML ก่อนนำไปใช้งาน
+          const rawUserName = req.display_name || 'ผู้สมัคร';
+          const safeUserName = escapeHTML(rawUserName);
+          
+          const rawUserLevel = req.level || req.user?.level || 'ระดับทั่วไป';
+          const safeUserLevel = escapeHTML(rawUserLevel);
 
           html += `
             <div class="mp-req-item">
               <div class="mp-req-user">
                 <div class="mp-avatar"><svg viewBox="0 0 24 24" width="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-                <div><p class="mp-user-name">${userName}</p><p class="mp-user-level">${userLevel}</p></div>
+                <div><p class="mp-user-name">${safeUserName}</p><p class="mp-user-level">${safeUserLevel}</p></div>
               </div>
               <div class="mp-req-actions">
                 <button class="btn-action btn-approve" data-party-id="${partyId}" data-request-id="${reqId}" onclick="handleAction(this, 'approve')">อนุมัติ</button>
@@ -177,7 +169,6 @@
       }
     }
 
-    // ฟังก์ชันจัดการตอนกดปุ่ม อนุมัติ/ไม่อนุมัติ
     async function handleAction(buttonElement, action) {
       const partyId = buttonElement.getAttribute('data-party-id');
       const requestId = buttonElement.getAttribute('data-request-id');
@@ -203,8 +194,6 @@
             return cookieValue;
         }
         const csrftoken = getCookie('csrftoken');
-
-        // แก้ P2: เปลี่ยนชื่อตัวแปรเป็น status และใช้คำว่า Approved / Rejected ให้ตรงกับที่ Backend รับ
         const payloadStatus = action === 'approve' ? 'Approved' : 'Rejected';
 
         const response = await fetch(apiUrl, {
@@ -213,7 +202,6 @@
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken, 
           },
-          // ส่งคำว่า status แทนคำว่า decision (ตามที่เพื่อนคอมเมนต์มา)
           body: JSON.stringify({ status: payloadStatus }) 
         });
 
@@ -242,6 +230,5 @@
       }
     }
   </script>
-<!-- แก้ P1: เพิ่มแท็กปิด </body> และ </html> ที่โดนเผลอลบทิ้งไปกลับคืนมาให้แล้วครับ -->
 </body>
 </html>
