@@ -1,8 +1,10 @@
 # Task66 — SQL เทียบ Members API ของ US6
 
+> **ผลล่าสุด 14 พ.ย. 2026:** dependency Members/Leave merge แล้ว และ [retest บน main](s2-us6-t-db-task66-retest.md) ผ่าน targeted36tests/no skips และ realHTTP+SQL16รายการย่อย/no FAIL/Blocked. รายงานด้านล่างเก็บหลักฐานรอบก่อนเพื่อtrace bug/retest ไม่ใช่สถานะacceptanceปัจจุบัน. รอreview/mergeของPRretestก่อนComplete
+
 งาน: [Issue #81](https://github.com/GearJP2/cs261-group2-100001/issues/81) · [Trello](https://trello.com/c/dipOXcWi) · ผู้รับผิดชอบ Gold (`gold555555`) · ผู้ตรวจที่ขอ GearJP2
 
-**สถานะส่งมอบ: ชุดตรวจ/หลักฐานพร้อม review แต่ Task66 ยังไม่ผ่าน acceptance ทั้งหมด**
+**สถานะรอบก่อน 5 พ.ย. 2026: ชุดตรวจ/หลักฐานพร้อม review แต่ Task66 ยังไม่ผ่าน acceptance ทั้งหมดในรอบนั้น**
 ไม่มีการแก้ production API ของเพื่อน ไม่มี migration และไม่ปิด Issue #81 ใน PR นี้
 
 ## 1. ทดสอบตรงไหน และต่างจาก Task60 อย่างไร
