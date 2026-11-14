@@ -15,4 +15,6 @@
 
 ## งานอ้างอิง
 
+ผลตรวจรับ Backend US10: [B-01 Pending](../us10-b-01-test-report.md), [B-02 Approve](../us10-b-02-test-report.md), [B-03 Reject](../us10-b-03-test-report.md) — รายงานระบุ source/tests และข้อจำกัดของแต่ละรอบ; ไม่ใช่ผล browser UAT
+
 Sequence issues เดิม #113–#117; รอบตรวจและปรับนี้ #147. Policy ถอนตัว: [US4](../us4-leave-party-policy.md); policy เครดิตปัจจุบัน: [US14 approved](../us14-no-show-approved-policy.md). Diagram ไม่ใช่หลักฐานว่า frontend/การเชื่อมภายนอกผ่าน UAT แล้ว
