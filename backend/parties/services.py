@@ -305,6 +305,10 @@ def decide_join_request(*, party_id, request_id, user, approved):
     All capacity-changing writers must take that same Party lock first; a unique
     constraint alone cannot prevent two different applicants taking the last slot.
     Let DB errors escape this atomic boundary so both domain writes roll back.
+
+    Reject also requires Pending and a not-started/non-cancelled Party, but Full
+    is allowed. It changes only the decision; memberships and capacity stay put.
+    A rejected applicant may reopen the same row via submit_join_request.
     """
     try:
         party = Party.objects.select_for_update().get(pk=party_id)
