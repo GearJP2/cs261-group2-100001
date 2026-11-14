@@ -1,0 +1,23 @@
+      table_name      |                           conname                            | contype | convalidated |                                      definition                                      
+----------------------+--------------------------------------------------------------+---------+--------------+--------------------------------------------------------------------------------------
+ accounts_userprofile | user_profile_rating_count_gte_0                              | c       | t            | CHECK ((rating_count >= 0))
+ accounts_userprofile | user_profile_rating_sum_gte_0                                | c       | t            | CHECK ((rating_sum >= 0))
+ conduct_partyreview  | conduct_partyreview_party_id_cfef76f7_fk_parties_party_id    | f       | t            | FOREIGN KEY (party_id) REFERENCES parties_party(id) DEFERRABLE INITIALLY DEFERRED
+ conduct_partyreview  | conduct_partyreview_pkey                                     | p       | t            | PRIMARY KEY (id)
+ conduct_partyreview  | conduct_partyreview_reviewee_id_3388eb76_fk_accounts_user_id | f       | t            | FOREIGN KEY (reviewee_id) REFERENCES accounts_user(id) DEFERRABLE INITIALLY DEFERRED
+ conduct_partyreview  | conduct_partyreview_reviewer_id_0b5c0181_fk_accounts_user_id | f       | t            | FOREIGN KEY (reviewer_id) REFERENCES accounts_user(id) DEFERRABLE INITIALLY DEFERRED
+ conduct_partyreview  | party_review_not_self                                        | c       | t            | CHECK ((NOT (reviewer_id = reviewee_id)))
+ conduct_partyreview  | party_review_rating_1_to_5                                   | c       | t            | CHECK (((rating >= 1) AND (rating <= 5)))
+ conduct_partyreview  | unique_party_review                                          | u       | t            | UNIQUE (party_id, reviewer_id, reviewee_id)
+(9 rows)
+
+      tablename      |                indexname                 |                                                        indexdef                                                        
+---------------------+------------------------------------------+------------------------------------------------------------------------------------------------------------------------
+ conduct_partyreview | conduct_partyreview_party_id_cfef76f7    | CREATE INDEX conduct_partyreview_party_id_cfef76f7 ON public.conduct_partyreview USING btree (party_id)
+ conduct_partyreview | conduct_partyreview_pkey                 | CREATE UNIQUE INDEX conduct_partyreview_pkey ON public.conduct_partyreview USING btree (id)
+ conduct_partyreview | conduct_partyreview_reviewee_id_3388eb76 | CREATE INDEX conduct_partyreview_reviewee_id_3388eb76 ON public.conduct_partyreview USING btree (reviewee_id)
+ conduct_partyreview | conduct_partyreview_reviewer_id_0b5c0181 | CREATE INDEX conduct_partyreview_reviewer_id_0b5c0181 ON public.conduct_partyreview USING btree (reviewer_id)
+ conduct_partyreview | review_reviewee_created_idx              | CREATE INDEX review_reviewee_created_idx ON public.conduct_partyreview USING btree (reviewee_id, created_at)
+ conduct_partyreview | unique_party_review                      | CREATE UNIQUE INDEX unique_party_review ON public.conduct_partyreview USING btree (party_id, reviewer_id, reviewee_id)
+(6 rows)
+

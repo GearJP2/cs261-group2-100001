@@ -1,0 +1,54 @@
+DO
+BASELINE_EXPECT_ZERO_RATINGS_AND_NULL_AVERAGE
+ user_id | profile_exists | cached_sum | cached_count | actual_sum | actual_count | actual_average | cache_matches | credit_score 
+---------+----------------+------------+--------------+------------+--------------+----------------+---------------+--------------
+       1 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       2 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       3 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       4 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       5 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       6 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       7 | t              |          0 |            0 |          0 |            0 |                | t             |             
+(7 rows)
+
+BEGIN
+DO
+AFTER_VALID_INSERT_EXPECT_ACTUAL_5_1_AND_CACHE_MATCHES_TRUE
+psql:/tmp/us14_review_rehearsal.sql:38: NOTICE:  PASS duplicate SQLSTATE23505 constraint=unique_party_review
+ user_id | profile_exists | cached_sum | cached_count | actual_sum | actual_count |   actual_average   | cache_matches | credit_score 
+---------+----------------+------------+--------------+------------+--------------+--------------------+---------------+--------------
+       1 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       2 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       3 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       4 | t              |          5 |            1 |          5 |            1 | 5.0000000000000000 | t             |             
+       5 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       6 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       7 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+(7 rows)
+
+UPDATE 1
+INJECTED_DRIFT_EXPECT_CACHED_6_ACTUAL_5_MATCHES_FALSE
+ user_id | profile_exists | cached_sum | cached_count | actual_sum | actual_count |   actual_average   | cache_matches | credit_score 
+---------+----------------+------------+--------------+------------+--------------+--------------------+---------------+--------------
+       1 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       2 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       3 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       4 | t              |          6 |            1 |          5 |            1 | 5.0000000000000000 | f             |             
+       5 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       6 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+       7 | t              |          0 |            0 |          0 |            0 |                    | t             |             
+(7 rows)
+
+ROLLBACK
+AFTER_ROLLBACK_EXPECT_ORIGINAL_ZERO_CACHE_MATCHES_TRUE
+ user_id | profile_exists | cached_sum | cached_count | actual_sum | actual_count | actual_average | cache_matches | credit_score 
+---------+----------------+------------+--------------+------------+--------------+----------------+---------------+--------------
+       1 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       2 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       3 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       4 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       5 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       6 | t              |          0 |            0 |          0 |            0 |                | t             |             
+       7 | t              |          0 |            0 |          0 |            0 |                | t             |             
+(7 rows)
+
