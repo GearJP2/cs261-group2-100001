@@ -1,0 +1,33 @@
+{
+  "branch": "chore/s2-us14-review-db-audit",
+  "base": "86f2ca26c5f0b3c81973039d17552f95f4edb51c",
+  "date": "2026-11-14 Asia/Bangkok",
+  "targeted": "75 passed, no skips",
+  "regression": "610 discovered: 609 passed, 1 skipped (existing US14 unit placeholder)",
+  "files": [
+    {
+      "path": "backend/conduct/models.py",
+      "sha256": "D20BE94880BF74CEC61B1F4B136956F72B647E803002B5C436E26D2D5D13E4C2"
+    },
+    {
+      "path": "backend/conduct/services.py",
+      "sha256": "70AA6CA471E26857D2FBC932AB1D37DA36D14B0616E27B8F8BD90E419B880ECB"
+    },
+    {
+      "path": "backend/conduct/test_review_cache_audit.py",
+      "sha256": "6BB09E3AC8A9F7F3A6A82C167A85773DE7B9C1F45E4244DE63C1321C90E1F15D"
+    },
+    {
+      "path": "database/seeds/us14_review_cache_audit.sql",
+      "sha256": "750D1E238C1E91860049D3CC82E262A5E8C9514BBD455F43E4B07519214970B8"
+    },
+    {
+      "path": "database/seeds/us14_review_schema_audit.sql",
+      "sha256": "909084AF6942BF715014A5258E48713E2319D10235C12D7ECC7ABDD7296126B1"
+    },
+    {
+      "path": "database/seeds/us14_review_rehearsal.sql",
+      "sha256": "D9B288278B1E77A67ECE07A68B3F126CE066A80DEEA4567ACC01E7B5739B13DF"
+    }
+  ]
+}
