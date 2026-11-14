@@ -168,41 +168,68 @@
         </div>
       `;
     }
-    // ฟังก์ชันจัดการตอนกดปุ่ม อนุมัติ/ไม่อนุมัติ
+
+// ฟังก์ชันจัดการตอนกดปุ่ม อนุมัติ/ไม่อนุมัติ
 async function handleAction(buttonElement, action) {
-  // 1. ดึง ID จากปุ่มที่เราฝังไว้
+  // 1. ดึง ID
   const partyId = buttonElement.getAttribute('data-party-id');
   const requestId = buttonElement.getAttribute('data-request-id');
-  const actionContainer = buttonElement.parentElement; // กล่องที่ครอบปุ่มอยู่
+  const actionContainer = buttonElement.parentElement; 
 
-  // 2. เปลี่ยนสถานะปุ่มเป็น Loading (ปิดปุ่ม ป้องกันกดซ้ำ)
+  // 2. เปลี่ยนสถานะปุ่มเป็น Loading
   actionContainer.innerHTML = `<button class="btn-action btn-loading" disabled>กำลังดำเนินการ...</button>`;
 
   try {
-    // ⚠️ ตรงนี้คือจุดที่ต้องรอ URL จากเพื่อน Backend
-    // สมมติว่า URL คือ /api/parties/{partyId}/requests/{requestId}/
-    const apiUrl = `/api/parties/${partyId}/requests/${requestId}/`; 
+    // 3. ใช้ URL จริงตามที่ Reviewer แจ้ง
+    const apiUrl = `/api/v1/parties/${partyId}/join-requests/${requestId}/decision`; 
     
-    // จำลองการยิง API 1 วินาที (ถ้าได้ API จริงมาค่อยแก้ตรงนี้)
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // ตัวอย่าง: จำลองว่ายิง API สำเร็จ
-    const isSuccess = true; 
+    // ดึง CSRF Token จาก Cookie ของ Django
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
 
-    if (isSuccess) {
+    // 4. ยิง API จริงไปหา Backend
+    const response = await fetch(apiUrl, {
+      method: 'POST', // หรือ PUT ตามที่ Backend กำหนด (ปกติ decision มักจะใช้ POST)
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken, // ส่ง CSRF Token ไปด้วย
+      },
+      // ส่งค่า action ('approve' หรือ 'reject') ไปให้ Backend
+      body: JSON.stringify({ decision: action }) 
+    });
+
+    if (response.ok) {
+      // 5. ถ้าสำเร็จ เปลี่ยนสีปุ่มให้ผู้ใช้เห็นแป๊บนึง
       if (action === 'approve') {
         actionContainer.innerHTML = `<button class="btn-action btn-success" disabled>เป็นสมาชิกแล้ว</button>`;
-        // TODO: ตรงนี้เดี๋ยวเราต้องเขียนโค้ดอัปเดตตัวเลขคนเข้าร่วมด้วย
       } else {
         actionContainer.innerHTML = `<button class="btn-action btn-gray" disabled>ปฏิเสธคำขอ</button>`;
       }
+
+      // 6. รีเฟรชหน้าเว็บเพื่ออัปเดตตัวเลขจำนวนคน (แก้ปัญหาจุดที่ 2 ของ Reviewer)
+      setTimeout(() => {
+          window.location.reload();
+      }, 1000); // หน่วงเวลา 1 วินาทีให้เห็นปุ่มสีเขียวก่อน แล้วค่อยรีเฟรชหน้า
+
     } else {
-      // โยนไปเข้า catch เพื่อแสดง Error
       throw new Error('API Error');
     }
 
   } catch (error) {
-    // 3. ถ้า Error ให้แสดงข้อความ
+    // 7. ถ้าพัง แสดง Error
     actionContainer.innerHTML = `
       <span class="text-error" style="color: #df1b1b; font-size: 0.8rem; font-weight: 500; text-align: right; width: 100%;">
         ไม่สามารถดำเนินการได้<br>กรุณาลองใหม่อีกครั้ง
@@ -211,6 +238,3 @@ async function handleAction(buttonElement, action) {
     `;
   }
 }
-  </script>
-</body>
-</html>
