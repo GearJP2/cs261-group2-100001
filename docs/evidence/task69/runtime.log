@@ -1,0 +1,8 @@
+ Container s2-task69-database-1 Running 
+ Container s2-task69-database-1 Waiting 
+ Container s2-task69-database-1 Healthy 
+ Container s2-task69-backend-run-1602b25ff765 Creating 
+ Container s2-task69-backend-run-1602b25ff765 Created 
+Python 3.12.15
+5.2.18
+postgres (PostgreSQL) 17.11 (Debian 17.11-1.pgdg12+2)

@@ -1,0 +1,40 @@
+       table_name        |                            conname                             | contype | convalidated |                                                                                                                  definition                                                                                                                  
+-------------------------+----------------------------------------------------------------+---------+--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ parties_joinrequest     | join_request_valid_decision                                    | c       | t            | CHECK ((((decided_at IS NULL) AND (decided_by_id IS NULL) AND ((status)::text = 'Pending'::text)) OR ((decided_at IS NOT NULL) AND ((status)::text = ANY ((ARRAY['Approved'::character varying, 'Rejected'::character varying])::text[])))))
+ parties_joinrequest     | parties_joinrequest_decided_by_id_b1d420eb_fk_accounts_user_id | f       | t            | FOREIGN KEY (decided_by_id) REFERENCES accounts_user(id) DEFERRABLE INITIALLY DEFERRED
+ parties_joinrequest     | parties_joinrequest_party_id_97da1cef_fk_parties_party_id      | f       | t            | FOREIGN KEY (party_id) REFERENCES parties_party(id) DEFERRABLE INITIALLY DEFERRED
+ parties_joinrequest     | parties_joinrequest_pkey                                       | p       | t            | PRIMARY KEY (id)
+ parties_joinrequest     | parties_joinrequest_user_id_556e6009_fk_accounts_user_id       | f       | t            | FOREIGN KEY (user_id) REFERENCES accounts_user(id) DEFERRABLE INITIALLY DEFERRED
+ parties_joinrequest     | unique_party_join_request                                      | u       | t            | UNIQUE (party_id, user_id)
+ parties_party           | parties_party_host_id_00d64034_fk_accounts_user_id             | f       | t            | FOREIGN KEY (host_id) REFERENCES accounts_user(id) DEFERRABLE INITIALLY DEFERRED
+ parties_party           | parties_party_pkey                                             | p       | t            | PRIMARY KEY (id)
+ parties_party           | parties_party_sport_id_0d7d9b82_fk_venues_sport_id             | f       | t            | FOREIGN KEY (sport_id) REFERENCES venues_sport(id) DEFERRABLE INITIALLY DEFERRED
+ parties_party           | parties_party_venue_id_8db7f0ee_fk_venues_venue_id             | f       | t            | FOREIGN KEY (venue_id) REFERENCES venues_venue(id) DEFERRABLE INITIALLY DEFERRED
+ parties_party           | party_capacity_gte_1                                           | c       | t            | CHECK ((capacity >= 1))
+ parties_party           | party_end_after_start                                          | c       | t            | CHECK ((ends_at > starts_at))
+ parties_partymembership | parties_partymembership_party_id_a0eb5ea1_fk_parties_party_id  | f       | t            | FOREIGN KEY (party_id) REFERENCES parties_party(id) DEFERRABLE INITIALLY DEFERRED
+ parties_partymembership | parties_partymembership_pkey                                   | p       | t            | PRIMARY KEY (id)
+ parties_partymembership | parties_partymembership_user_id_fc60406f_fk_accounts_user_id   | f       | t            | FOREIGN KEY (user_id) REFERENCES accounts_user(id) DEFERRABLE INITIALLY DEFERRED
+ parties_partymembership | unique_party_membership                                        | u       | t            | UNIQUE (party_id, user_id)
+(16 rows)
+
+        tablename        |                 indexname                  |                                                       indexdef                                                       
+-------------------------+--------------------------------------------+----------------------------------------------------------------------------------------------------------------------
+ parties_joinrequest     | parties_joi_party_i_610537_idx             | CREATE INDEX parties_joi_party_i_610537_idx ON public.parties_joinrequest USING btree (party_id, status, created_at)
+ parties_joinrequest     | parties_joinrequest_decided_by_id_b1d420eb | CREATE INDEX parties_joinrequest_decided_by_id_b1d420eb ON public.parties_joinrequest USING btree (decided_by_id)
+ parties_joinrequest     | parties_joinrequest_party_id_97da1cef      | CREATE INDEX parties_joinrequest_party_id_97da1cef ON public.parties_joinrequest USING btree (party_id)
+ parties_joinrequest     | parties_joinrequest_pkey                   | CREATE UNIQUE INDEX parties_joinrequest_pkey ON public.parties_joinrequest USING btree (id)
+ parties_joinrequest     | parties_joinrequest_user_id_556e6009       | CREATE INDEX parties_joinrequest_user_id_556e6009 ON public.parties_joinrequest USING btree (user_id)
+ parties_joinrequest     | unique_party_join_request                  | CREATE UNIQUE INDEX unique_party_join_request ON public.parties_joinrequest USING btree (party_id, user_id)
+ parties_party           | parties_par_sport_i_13983d_idx             | CREATE INDEX parties_par_sport_i_13983d_idx ON public.parties_party USING btree (sport_id, starts_at)
+ parties_party           | parties_party_host_id_00d64034             | CREATE INDEX parties_party_host_id_00d64034 ON public.parties_party USING btree (host_id)
+ parties_party           | parties_party_pkey                         | CREATE UNIQUE INDEX parties_party_pkey ON public.parties_party USING btree (id)
+ parties_party           | parties_party_sport_id_0d7d9b82            | CREATE INDEX parties_party_sport_id_0d7d9b82 ON public.parties_party USING btree (sport_id)
+ parties_party           | parties_party_venue_id_8db7f0ee            | CREATE INDEX parties_party_venue_id_8db7f0ee ON public.parties_party USING btree (venue_id)
+ parties_partymembership | parties_par_party_i_515d7f_idx             | CREATE INDEX parties_par_party_i_515d7f_idx ON public.parties_partymembership USING btree (party_id, left_at)
+ parties_partymembership | parties_partymembership_party_id_a0eb5ea1  | CREATE INDEX parties_partymembership_party_id_a0eb5ea1 ON public.parties_partymembership USING btree (party_id)
+ parties_partymembership | parties_partymembership_pkey               | CREATE UNIQUE INDEX parties_partymembership_pkey ON public.parties_partymembership USING btree (id)
+ parties_partymembership | parties_partymembership_user_id_fc60406f   | CREATE INDEX parties_partymembership_user_id_fc60406f ON public.parties_partymembership USING btree (user_id)
+ parties_partymembership | unique_party_membership                    | CREATE UNIQUE INDEX unique_party_membership ON public.parties_partymembership USING btree (party_id, user_id)
+(16 rows)
+

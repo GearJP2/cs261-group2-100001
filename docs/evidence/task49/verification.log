@@ -1,0 +1,25 @@
+ Container s2-task49-database-1 Running 
+ Container s2-task49-database-1 Waiting 
+ Container s2-task49-database-1 Healthy 
+ Container s2-task49-backend-run-b79702bd1a47 Creating 
+ Container s2-task49-backend-run-b79702bd1a47 Created 
+System check identified no issues (0 silenced).
+No changes detected
+All checks passed!
+84 files already formatted
+Found 345 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+DB49-L01 observed lock SQL:
+SELECT "parties_party"."id", "parties_party"."host_id", "parties_party"."sport_id", "parties_party"."venue_id", "parties_party"."title", "parties_party"."description", "parties_party"."starts_at", "parties_party"."ends_at", "parties_party"."capacity", "parties_party"."cancelled_at", "parties_party"."created_at", "parties_party"."updated_at" FROM "parties_party" WHERE "parties_party"."id" = 119 LIMIT 21 FOR UPDATE
+SELECT "parties_joinrequest"."id", "parties_joinrequest"."party_id", "parties_joinrequest"."user_id", "parties_joinrequest"."status", "parties_joinrequest"."created_at", "parties_joinrequest"."decided_at", "parties_joinrequest"."decided_by_id" FROM "parties_joinrequest" WHERE ("parties_joinrequest"."party_id" = 119 AND "parties_joinrequest"."id" = 237) LIMIT 21 FOR UPDATE
+SELECT "parties_partymembership"."id", "parties_partymembership"."party_id", "parties_partymembership"."user_id", "parties_partymembership"."joined_at", "parties_partymembership"."left_at" FROM "parties_partymembership" WHERE ("parties_partymembership"."party_id" = 119 AND "parties_partymembership"."user_id" = 259) ORDER BY "parties_partymembership"."id" ASC LIMIT 1 FOR UPDATE
+DB49-L02 observed lock SQL:
+SELECT "parties_party"."id", "parties_party"."host_id", "parties_party"."sport_id", "parties_party"."venue_id", "parties_party"."title", "parties_party"."description", "parties_party"."starts_at", "parties_party"."ends_at", "parties_party"."capacity", "parties_party"."cancelled_at", "parties_party"."created_at", "parties_party"."updated_at" FROM "parties_party" WHERE "parties_party"."id" = 120 LIMIT 21 FOR UPDATE
+SELECT "parties_joinrequest"."id", "parties_joinrequest"."party_id", "parties_joinrequest"."user_id", "parties_joinrequest"."status", "parties_joinrequest"."created_at", "parties_joinrequest"."decided_at", "parties_joinrequest"."decided_by_id" FROM "parties_joinrequest" WHERE ("parties_joinrequest"."party_id" = 120 AND "parties_joinrequest"."id" = 238) LIMIT 21 FOR UPDATE
+.........................................................................................................................................................................................................................................................................................................................................................
+----------------------------------------------------------------------
+Ran 345 tests in 20.802s
+
+OK
+Destroying test database for alias 'default'...

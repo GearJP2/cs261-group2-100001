@@ -1,0 +1,117 @@
+/* =========================================
+   CSS สำหรับหน้า ปาร์ตี้ของฉัน (แยกไฟล์)
+   ========================================= */
+:root {
+  --bg-main: #f8f9fa;
+  --card-top: #fff7df;
+  --card-bottom: #ffffff;
+  --yellow: #ffc107;
+  --text-dark: #1f2430;
+  --text-gray: #555555;
+  --text-light: #888888;
+  --border-color: #eaeaea;
+}
+
+body {
+  background-color: var(--bg-main) !important;
+  font-family: 'Prompt', sans-serif !important;
+  margin: 0;
+  color: var(--text-dark);
+}
+
+/* --- Navbar (เมนูตรงกลาง + ใช้โลโก้/โปรไฟล์เดิม) --- */
+.mp-nav-wrapper {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+}
+.mp-nav {
+  max-width: 1160px;
+  margin: 0 auto;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px; 
+  align-items: center;
+  padding: 0 24px;
+}
+.mp-nav-menu { display: flex; gap: 32px; justify-content: center; height: 100%; }
+.mp-nav-menu a { text-decoration: none; color: var(--text-gray); font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; height: 100%; border-bottom: 3px solid transparent; }
+.mp-nav-menu a.active { color: var(--text-dark); border-bottom-color: var(--yellow); }
+
+/* --- Container --- */
+.mp-container {
+  max-width: 1024px;
+  margin: 48px auto;
+  padding: 0 24px;
+  min-height: calc(100vh - 200px);
+}
+
+/* --- Header & Tabs --- */
+.mp-header h1 { font-size: 2rem; font-weight: 700; margin: 0 0 8px; }
+.mp-header p { color: var(--text-light); margin: 0 0 32px; font-size: 0.9rem; }
+
+.mp-tabs {
+  display: flex; gap: 32px; border-bottom: 1px solid var(--border-color); margin-bottom: 32px;
+}
+.mp-tab-btn {
+  background: none; border: none; padding: 0 0 12px; font-family: inherit;
+  font-size: 1rem; color: var(--text-light); cursor: pointer; border-bottom: 3px solid transparent; font-weight: 600;
+}
+.mp-tab-btn.active { color: var(--text-dark); border-bottom-color: var(--yellow); }
+
+.mp-section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; }
+
+/* --- Grid & Card --- */
+.mp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+.mp-card {
+  background-color: var(--card-bottom) !important;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ครึ่งบน (สีครีมส้ม) */
+.mp-card-top { background-color: var(--card-top) !important; padding: 24px; border-bottom: 1px solid var(--border-color); }
+.mp-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.mp-tag-sport { background: #ffffff; border: 1px solid #ddd; border-radius: 6px; padding: 4px 12px; font-size: 0.75rem; font-weight: 500; color: var(--text-gray); }
+.mp-tag-status { background: #e6f7ef; color: #10a350; border-radius: 6px; padding: 4px 12px; font-size: 0.75rem; font-weight: 500; }
+.mp-card-top h3 { margin: 0 0 12px; font-size: 1.25rem; font-weight: 600; }
+
+/* ไอคอนรายละเอียด */
+.mp-info-row { display: flex; align-items: center; gap: 20px; font-size: 0.85rem; color: var(--text-gray); margin-bottom: 10px; }
+.mp-info-item { display: flex; align-items: center; gap: 8px; }
+.mp-info-item svg { width: 16px; height: 16px; color: #999; }
+
+/* ครึ่งล่าง (สีขาวล้วน) */
+.mp-card-bottom { background-color: var(--card-bottom) !important; padding: 24px; flex-grow: 1; }
+.mp-req-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.mp-req-title { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+.mp-req-count { background: #ffecb3; font-size: 0.75rem; padding: 2px 10px; border-radius: 999px; color: var(--text-gray); font-weight: 500; }
+.mp-req-note { font-size: 0.75rem; color: #aaa; }
+
+/* รายการคำขอ */
+.mp-req-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f4f4f4; }
+.mp-req-item:last-child { border-bottom: none; padding-bottom: 0; }
+.mp-req-user { display: flex; align-items: center; gap: 12px; }
+.mp-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; display: grid; place-items: center; color: #ccc; }
+.mp-user-name { font-weight: 600; font-size: 0.9rem; margin: 0 0 2px; }
+.mp-user-level { font-size: 0.75rem; color: var(--text-light); margin: 0; }
+
+/* ปุ่มกด */
+.mp-req-actions { display: flex; gap: 8px; width: 200px; justify-content: flex-end; }
+.btn-action { padding: 8px 0; border-radius: 6px; font-weight: 500; font-size: 0.85rem; border: none; cursor: pointer; font-family: inherit; flex: 1; text-align: center; }
+.btn-approve { background: #13a854; color: #fff; }
+.btn-reject { background: #df1b1b; color: #fff; }
+.btn-loading { background: #e9ecef; color: var(--text-light); cursor: not-allowed; flex: 100%; }
+
+/* Task 53: Loading / Error */
+.mp-loading-state { text-align: center; padding: 20px 0; color: var(--text-light); font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.loader { width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid var(--yellow); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.mp-error-state { text-align: center; padding: 20px 10px; background: #fff0f0; color: #df1b1b; border-radius: 6px; font-size: 0.85rem; }
+
+/* Footer */
+.mp-footer { text-align: center; color: var(--text-light); font-size: 0.85rem; padding: 24px 0; background: transparent; }

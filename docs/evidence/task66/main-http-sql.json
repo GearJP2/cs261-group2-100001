@@ -1,0 +1,42 @@
+{
+  "kind": "assistant-operated real HTTP + PostgreSQL SQL; NOT manual UI/UAT or TU login",
+  "started_at": "2026-11-05T22:42:12.375111+07:00",
+  "source": "main=e5a254e64324603cfb11e000e2cd6400d66c6f3e + Task66 harness (see source_sha256)",
+  "database": "s2_task66_evidence",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "sql_sha256": "b841d2e5da3650dc5bb71de6d303a5c59a5e5b852734f1e5a4abb42107f895d3",
+  "source_sha256": {
+    "backend/parties/views.py": "bb7da7768213b63840ab6d390517a129c7ac06fa616217962aa3049563593d32",
+    "backend/parties/urls.py": "55f84c1dc163b77f2154ab8f7f18821005dbade890a2c56203a7ca65c2e5d05a",
+    "backend/parties/test_members_database.py": "220b7e5ea00845cf3f8cbcb985661049bb532715d68af65e049853b8e526eec6",
+    "scripts/us6-db-api-evidence.py": "06868b2319490fed837a8041381cb3d4be205154566aaba1b9ea2f3b67af98e5"
+  },
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "payload": null,
+      "status": 404,
+      "body": {
+        "non_json_status": 404
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "DB66-M00",
+      "status": "BLOCKED",
+      "expected": "Members route available (200)",
+      "actual": "HTTP 404"
+    },
+    {
+      "id": "DB66-M09",
+      "status": "BLOCKED",
+      "expected": "Real HTTP leave followed by SQL/API comparison",
+      "actual": "Task70 leave endpoint is not available in the checked source"
+    }
+  ],
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "finished_at": "2026-11-05T22:42:13.352928+07:00"
+}

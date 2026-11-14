@@ -1,0 +1,88 @@
+ Container s2-task49-database-1 Running 
+ Container s2-task49-database-1 Waiting 
+ Container s2-task49-database-1 Healthy 
+ Container s2-task49-backend-run-b63a63c2cc61 Creating 
+ Container s2-task49-backend-run-b63a63c2cc61 Created 
+Found 34 test(s).
+Creating test database for alias 'default' ('test_s2_task49_audit')...
+Operations to perform:
+  Synchronize unmigrated apps: core, messages, staticfiles
+  Apply all migrations: accounts, admin, auth, contenttypes, parties, sessions, venues
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+DB49-L01 observed lock SQL:
+SELECT "parties_party"."id", "parties_party"."host_id", "parties_party"."sport_id", "parties_party"."venue_id", "parties_party"."title", "parties_party"."description", "parties_party"."starts_at", "parties_party"."ends_at", "parties_party"."capacity", "parties_party"."cancelled_at", "parties_party"."created_at", "parties_party"."updated_at" FROM "parties_party" WHERE "parties_party"."id" = 1 LIMIT 21 FOR UPDATE
+SELECT "parties_joinrequest"."id", "parties_joinrequest"."party_id", "parties_joinrequest"."user_id", "parties_joinrequest"."status", "parties_joinrequest"."created_at", "parties_joinrequest"."decided_at", "parties_joinrequest"."decided_by_id" FROM "parties_joinrequest" WHERE ("parties_joinrequest"."party_id" = 1 AND "parties_joinrequest"."id" = 1) LIMIT 21 FOR UPDATE
+SELECT "parties_partymembership"."id", "parties_partymembership"."party_id", "parties_partymembership"."user_id", "parties_partymembership"."joined_at", "parties_partymembership"."left_at" FROM "parties_partymembership" WHERE ("parties_partymembership"."party_id" = 1 AND "parties_partymembership"."user_id" = 2) ORDER BY "parties_partymembership"."id" ASC LIMIT 1 FOR UPDATE
+test_approve_locks_party_then_request_then_membership_before_writes (parties.test_decision_lock_order.DecisionLockOrderTests.test_approve_locks_party_then_request_then_membership_before_writes) ... ok
+DB49-L02 observed lock SQL:
+SELECT "parties_party"."id", "parties_party"."host_id", "parties_party"."sport_id", "parties_party"."venue_id", "parties_party"."title", "parties_party"."description", "parties_party"."starts_at", "parties_party"."ends_at", "parties_party"."capacity", "parties_party"."cancelled_at", "parties_party"."created_at", "parties_party"."updated_at" FROM "parties_party" WHERE "parties_party"."id" = 2 LIMIT 21 FOR UPDATE
+SELECT "parties_joinrequest"."id", "parties_joinrequest"."party_id", "parties_joinrequest"."user_id", "parties_joinrequest"."status", "parties_joinrequest"."created_at", "parties_joinrequest"."decided_at", "parties_joinrequest"."decided_by_id" FROM "parties_joinrequest" WHERE ("parties_joinrequest"."party_id" = 2 AND "parties_joinrequest"."id" = 2) LIMIT 21 FOR UPDATE
+test_reject_locks_party_then_request_and_never_writes_membership (parties.test_decision_lock_order.DecisionLockOrderTests.test_reject_locks_party_then_request_and_never_writes_membership) ... ok
+test_approval_adds_one_member_and_refreshes_pending_own_request_and_detail (parties.test_approval.ApproveRequestApiTests.test_approval_adds_one_member_and_refreshes_pending_own_request_and_detail) ... ok
+test_csrf_missing_invalid_and_wrong_origin_do_not_write (parties.test_approval.ApproveRequestApiTests.test_csrf_missing_invalid_and_wrong_origin_do_not_write) ... ok
+test_decision_constraint_failure_rolls_back_new_or_reactivated_membership (parties.test_approval.ApproveRequestApiTests.test_decision_constraint_failure_rolls_back_new_or_reactivated_membership) ... ok
+test_exact_start_boundary_rejects_approval (parties.test_approval.ApproveRequestApiTests.test_exact_start_boundary_rejects_approval) ... ok
+test_existing_active_member_cannot_be_approved_again (parties.test_approval.ApproveRequestApiTests.test_existing_active_member_cannot_be_approved_again) ... ok
+test_full_started_completed_and_cancelled_party_reject_approval (parties.test_approval.ApproveRequestApiTests.test_full_started_completed_and_cancelled_party_reject_approval) ... ok
+test_host_cannot_be_approved_even_without_host_membership (parties.test_approval.ApproveRequestApiTests.test_host_cannot_be_approved_even_without_host_membership) ... ok
+test_invalid_payloads_are_400_not_server_errors (parties.test_approval.ApproveRequestApiTests.test_invalid_payloads_are_400_not_server_errors) ... ok
+test_membership_write_failure_leaves_request_pending (parties.test_approval.ApproveRequestApiTests.test_membership_write_failure_leaves_request_pending) ... ok
+test_missing_university_evidence_or_expired_session_cannot_approve (parties.test_approval.ApproveRequestApiTests.test_missing_university_evidence_or_expired_session_cannot_approve) ... ok
+test_non_host_and_anonymous_cannot_approve (parties.test_approval.ApproveRequestApiTests.test_non_host_and_anonymous_cannot_approve) ... ok
+test_query_cannot_change_actor_target_or_decision (parties.test_approval.ApproveRequestApiTests.test_query_cannot_change_actor_target_or_decision) ... ok
+test_reapproval_reuses_withdrawn_membership_and_preserves_join_history (parties.test_approval.ApproveRequestApiTests.test_reapproval_reuses_withdrawn_membership_and_preserves_join_history) ... ok
+test_rejected_request_cannot_be_approved_without_new_application (parties.test_approval.ApproveRequestApiTests.test_rejected_request_cannot_be_approved_without_new_application) ... ok
+test_repeated_decision_preserves_first_result_and_membership (parties.test_approval.ApproveRequestApiTests.test_repeated_decision_preserves_first_result_and_membership) ... ok
+test_request_must_exist_and_belong_to_url_party (parties.test_approval.ApproveRequestApiTests.test_request_must_exist_and_belong_to_url_party) ... ok
+test_wrong_content_type_and_methods_are_rejected (parties.test_approval.ApproveRequestApiTests.test_wrong_content_type_and_methods_are_rejected) ... ok
+test_capacity_below_one_is_rejected (parties.tests.PartySchemaTests.test_capacity_below_one_is_rejected) ... ok
+test_decided_requests_allow_null_decider_under_current_policy (parties.tests.PartySchemaTests.test_decided_requests_allow_null_decider_under_current_policy) ... ok
+test_decided_requests_can_store_both_decision_fields (parties.tests.PartySchemaTests.test_decided_requests_can_store_both_decision_fields) ... ok
+test_decided_requests_require_decision_time (parties.tests.PartySchemaTests.test_decided_requests_require_decision_time) ... ok
+test_deleting_decider_preserves_decision_history (parties.tests.PartySchemaTests.test_deleting_decider_preserves_decision_history) ... ok
+test_end_time_must_be_after_start_time (parties.tests.PartySchemaTests.test_end_time_must_be_after_start_time) ... ok
+test_join_request_pair_must_be_unique (parties.tests.PartySchemaTests.test_join_request_pair_must_be_unique) ... ok
+test_membership_pair_must_be_unique_even_after_leaving (parties.tests.PartySchemaTests.test_membership_pair_must_be_unique_even_after_leaving) ... ok
+test_pending_cannot_have_decision_time_or_decider (parties.tests.PartySchemaTests.test_pending_cannot_have_decision_time_or_decider) ... ok
+test_approve_racing_reject_has_one_consistent_decision (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_approve_racing_reject_has_one_consistent_decision) ... ok
+test_cancel_committed_while_approval_waits_blocks_approval (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_cancel_committed_while_approval_waits_blocks_approval) ... ok
+test_capacity_edit_committed_while_approval_waits_is_rechecked (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_capacity_edit_committed_while_approval_waits_is_rechecked) ... ok
+test_clock_is_read_after_party_lock_at_exact_start (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_clock_is_read_after_party_lock_at_exact_start) ... ok
+test_same_request_approved_concurrently_is_decided_once (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_same_request_approved_concurrently_is_decided_once) ... ok
+test_two_approvals_for_last_slot_add_only_one_member (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_two_approvals_for_last_slot_add_only_one_member) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 2.859s
+
+OK
+Destroying test database for alias 'default' ('test_s2_task49_audit')...

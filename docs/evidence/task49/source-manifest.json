@@ -1,0 +1,25 @@
+{
+  "recorded_at_bangkok": "2026-11-05T23:54:20.7114840+07:00",
+  "base_commit": "e5a254e64324603cfb11e000e2cd6400d66c6f3e",
+  "branch": "chore/s2-us10-db-transactions",
+  "operator": "Assistant executed at Gold request; not human UI/UAT",
+  "database": "s2_task49_audit",
+  "test_database": "test_s2_task49_audit",
+  "compose_project": "s2-task49",
+  "source_sha256": {
+    "backend/parties/services.py": "bca5ec8a7be7cacdcf4d9ddf575892ad501428d36095eb0c1531dc5c88bfe722",
+    "backend/parties/models.py": "3b867413e736f1231732d84e2476693104461481511f61073a38a25ddcc1476d",
+    "backend/parties/test_decision_lock_order.py": "271dcc54470c14e5c7bf2738578b2386d8b8ed6fdadc0055743e552ff678790d",
+    "backend/parties/test_approval.py": "fa868e1f9f4ba07610e1e648573e02edf2a639134f7f8cd807c4ac0705731157",
+    "backend/parties/test_approval_concurrency.py": "012a9f4c2d33ee660b840a508671557cd6c450cca273319ee69f432eb62708d7",
+    "database/seeds/us10_constraint_audit.sql": "3957d3ec630e4818c11c4786686fc6f7f95c1de547657993e0592af3d1179434",
+    "database/seeds/us10_transaction_rehearsal.sql": "60aaf8942cbb29b6fca1c5a20972df5fc65273659f044335b3276fb849267131"
+  },
+  "results": {
+    "guard": "expected refusal exit3",
+    "catalog": "16 constraints +16 indexes observed",
+    "targeted_tests": "34 passed",
+    "sql_rehearsal": "PASS SQLSTATE 23514; rollback restored Pending/2/false",
+    "full_tests": "345 passed; no skipped"
+  }
+}

@@ -1,0 +1,64 @@
+erDiagram
+    Sport {
+        bigauto id PK "required"
+        char name UK "required"
+    }
+    UniversityIdentity {
+        bigauto id PK "required"
+        bigint user_id FK "required"
+        char provider_key "required"
+        char subject "required"
+        datetime student_verified_at "nullable"
+        datetime eligibility_checked_at "nullable"
+    }
+    User {
+        bigauto id PK "required"
+        char password "required"
+        datetime last_login "nullable"
+        boolean is_superuser "required"
+        char username UK "required"
+        char first_name "required"
+        char last_name "required"
+        char email "required"
+        boolean is_staff "required"
+        boolean is_active "required"
+        datetime date_joined "required"
+    }
+    UserProfile {
+        bigauto id PK "required"
+        bigint user_id FK,UK "required"
+        char display_name "required"
+        integer credit_score "nullable"
+        integer rating_sum "required"
+        integer rating_count "required"
+    }
+    UserSportInterest {
+        bigauto id PK "required"
+        bigint user_id FK "required"
+        bigint sport_id FK "required"
+    }
+    Venue {
+        bigauto id PK "required"
+        char name "required"
+        char location_text "required"
+        boolean is_active "required"
+    }
+    VenueOpeningHour {
+        bigauto id PK "required"
+        bigint venue_id FK "required"
+        smallinteger weekday "required"
+        time opens_at "required"
+        time closes_at "required"
+    }
+    VenueSport {
+        bigauto id PK "required"
+        bigint venue_id FK "required"
+        bigint sport_id FK "required"
+    }
+    User ||--o{ UniversityIdentity : "user"
+    User ||--o| UserProfile : "user"
+    User ||--o{ UserSportInterest : "user"
+    Sport ||--o{ UserSportInterest : "sport"
+    Venue ||--o{ VenueSport : "venue"
+    Sport ||--o{ VenueSport : "sport"
+    Venue ||--o{ VenueOpeningHour : "venue"

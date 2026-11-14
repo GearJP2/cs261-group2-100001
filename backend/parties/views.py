@@ -15,14 +15,49 @@ from .services import (
     PARTY_EDIT_FIELDS,
     JoinRequestError,
     PartyError,
+    active_memberships,
     cancel_party,
     count_active_members,
     create_party,
     decide_join_request,
     edit_party,
     get_party_state,
+    leave_party,
     submit_join_request,
 )
+
+
+@never_cache
+@require_authenticated_api
+def leave_party_api(request, party_id):
+    if request.method != "POST":
+        response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ POST", 405)
+        response["Allow"] = "POST"
+        return response
+
+    if request.body:
+        if request.content_type != "application/json":
+            return json_error("INVALID_INPUT", "กรุณาส่ง JSON object ว่าง", 400)
+        try:
+            payload = json.loads(request.body.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            return json_error("INVALID_INPUT", "รูปแบบ JSON ไม่ถูกต้อง", 400)
+        if not isinstance(payload, dict) or payload:
+            return json_error("INVALID_INPUT", "รับเฉพาะ JSON object ว่าง", 400)
+
+    try:
+        membership = leave_party(party_id=party_id, user=request.user)
+    except PartyError as error:
+        return json_error(error.code, error.message, error.status)
+    return JsonResponse(
+        {
+            "data": {
+                "party_id": membership.party_id,
+                "is_member": False,
+                "left_at": timezone.localtime(membership.left_at).isoformat(),
+            }
+        }
+    )
 
 
 def party_data(party, user):
@@ -130,6 +165,48 @@ def party_detail(request, party_id):
             }
         }
     )
+
+
+def can_view_members(party, user):
+    """Allow only the Host or an active member; awaits team confirmation in S2-US6-D-01."""
+    return party.host_id == user.pk or active_memberships(party).filter(user=user).exists()
+
+
+def member_data(user, party):
+    is_host = user.pk == party.host_id
+    profile = getattr(user, "profile", None)
+    # Legacy/local accounts may not have a profile. Never expose their login
+    # identifier; use the same fallbacks as party_detail and join_requests.
+    fallback = "ผู้จัดกิจกรรม" if is_host else "ผู้ใช้"
+    return {
+        "user_id": user.pk,
+        "display_name": profile.display_name if profile else fallback,
+        "role": "Host" if is_host else "Member",
+    }
+
+
+@never_cache
+@require_authenticated_api
+def party_members(request, party_id):
+    if request.method != "GET":
+        response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ GET", 405)
+        response["Allow"] = "GET"
+        return response
+    try:
+        party = Party.objects.select_related("host__profile").get(pk=party_id)
+    except Party.DoesNotExist:
+        return json_error("NOT_FOUND", "ไม่พบกิจกรรมที่ต้องการ", 404)
+    if not can_view_members(party, request.user):
+        return json_error("FORBIDDEN", "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้", 403)
+
+    # Same definition of "active member" as Party Detail and the capacity checks
+    # (services.active_memberships). The Host is listed only if they hold an active
+    # row, so member_count always equals Party Detail's member_count.
+    rows = list(active_memberships(party))
+    # Stable sort: Host first, everyone else keeps joined_at/pk order from the helper.
+    rows.sort(key=lambda row: row.user_id != party.host_id)
+    members = [member_data(row.user, party) for row in rows]
+    return JsonResponse({"data": {"members": members, "member_count": len(members)}})
 
 
 @never_cache

@@ -1,0 +1,62 @@
+erDiagram
+    JoinRequest {
+        bigauto id PK "required"
+        bigint party_id FK "required"
+        bigint user_id FK "required"
+        char status "required"
+        datetime created_at "required"
+        datetime decided_at "nullable"
+        bigint decided_by_id FK "nullable"
+    }
+    Party {
+        bigauto id PK "required"
+        bigint host_id FK "required"
+        bigint sport_id FK "required"
+        bigint venue_id FK "required"
+        char title "required"
+        text description "required"
+        datetime starts_at "required"
+        datetime ends_at "required"
+        integer capacity "required"
+        datetime cancelled_at "nullable"
+        datetime created_at "required"
+        datetime updated_at "required"
+    }
+    PartyMembership {
+        bigauto id PK "required"
+        bigint party_id FK "required"
+        bigint user_id FK "required"
+        datetime joined_at "required"
+        datetime left_at "nullable"
+    }
+    Sport {
+        bigauto id PK "required"
+        char name UK "required"
+    }
+    User {
+        bigauto id PK "required"
+        char password "required"
+        datetime last_login "nullable"
+        boolean is_superuser "required"
+        char username UK "required"
+        char first_name "required"
+        char last_name "required"
+        char email "required"
+        boolean is_staff "required"
+        boolean is_active "required"
+        datetime date_joined "required"
+    }
+    Venue {
+        bigauto id PK "required"
+        char name "required"
+        char location_text "required"
+        boolean is_active "required"
+    }
+    User ||--o{ Party : "host"
+    Sport ||--o{ Party : "sport"
+    Venue ||--o{ Party : "venue"
+    Party ||--o{ PartyMembership : "party"
+    User ||--o{ PartyMembership : "user"
+    Party ||--o{ JoinRequest : "party"
+    User ||--o{ JoinRequest : "user"
+    User |o--o{ JoinRequest : "decided_by"

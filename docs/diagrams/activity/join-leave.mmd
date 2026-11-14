@@ -1,0 +1,25 @@
+flowchart TD
+ A(["Verified user requests join"]) --> L["Lock Party; read current state"]
+ L --> V{"Open, non-Host, not active, no Pending?"}
+ V -->|No| E["Reject; no seat reserved"]
+ V -->|Yes| P["Create/reopen Pending; commit"]
+ P --> H["Host submits decision; lock Party then Request"]
+ H --> C{"Host, Pending, not cancelled/started?"}
+ C -->|No| E
+ C -->|Yes| D{"Approve?"}
+ D -->|No| R["Save Rejected; no membership write; commit"]
+ D -->|Yes| CAP{"Capacity available; not already active?"}
+ CAP -->|No| E
+ CAP -->|Yes| M["Create/reactivate membership; save Approved; commit atomically"]
+ M --> LEAVE["Member invokes leave service; lock Party then Membership"]
+ LEAVE --> HOST{"Host / no membership?"}
+ HOST -->|Yes| E
+ HOST -->|No| LEFT{"Already left?"}
+ LEFT -->|Yes| OK["Return original timestamp without write"]
+ LEFT -->|No| TIME{"Not cancelled and now before starts_at?"}
+ TIME -->|No| E
+ TIME -->|Yes| WRITE["Set left_at; commit; active count falls by one"]
+ WRITE --> AGAIN["May request again; approval required"]
+ AGAIN --> L
+ FAIL["Any database write failure: rollback entire transaction"] -.-> M
+ FAIL -.-> WRITE

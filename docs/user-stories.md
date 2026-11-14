@@ -1,5 +1,7 @@
 # User Stories — UniSport Buddy
 
+> **Sprint 2 / Task44 (ตรวจ 14 พ.ย. 2026):** ดู [AC/contract matrix และ dependency](sprint-2-planning-contract.md) สำหรับ US10/US6/US4/US2/US14. ตาราง Sprint1 และ Scenarioต้นทางด้านล่างเก็บบริบทเดิม ไม่ใช่สถานะSprint2ล่าสุด. Matrixแยก current main, มติที่มีหลักฐาน และข้อเสนอรอreview โดยไม่เปลี่ยนหมายเลขACเดิมแทนทีม
+
 หน้านี้รวบรวม US1–14 จากข้อมูลที่เกียร์ให้ โดยคง Priority, Estimate และเจตนาของ Scenario ต้นทาง ดูงานพัฒนาใน [Task Backlog](tasks.md), [Sprint Checklist](sprint-1-checklist.md) และ [Technical Plan](sprint-1-technical-plan.md)
 
 ## ภาพรวม Backlog

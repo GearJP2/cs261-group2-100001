@@ -1,0 +1,26 @@
+flowchart LR
+ U["Verified student"]
+ H["Host of a Party"]
+ G["Visitor"]
+ TU["TU API"]
+ H -->|"also has student capabilities"| U
+ subgraph SYS["UniSport Buddy — Sprint 1 and 2 scope"]
+ LOGIN(["US1 Login / verify eligibility / logout"])
+ READ(["US7 Read Party detail / open-party list"])
+ SEARCH(["US2 Search / filters — planned"])
+ JOIN(["US3 Request to join / view own request"])
+ LEAVE(["US4 Leave — service only"])
+ MEMBERS(["US6 View members — Host or active member"])
+ MANAGE(["US7 Create / edit / cancel own Party"])
+ PROFILE(["US8 Read public profile"])
+ VENUE(["US9 Browse venues / sports / opening hours"])
+ DECIDE(["US10 List pending / approve / reject"])
+ REVIEW(["US14 Submit / read reviews — API ready"])
+ NOSHOW(["US14 Report No-show — disabled by default"])
+ end
+ G --- LOGIN
+ TU --- LOGIN
+ U --- LOGIN & READ & SEARCH & JOIN & LEAVE & MEMBERS & PROFILE & VENUE & REVIEW & NOSHOW
+ H --- MANAGE & DECIDE
+ classDef planned fill:#fff4d1,stroke:#946200,stroke-dasharray:5 5
+ class SEARCH,LEAVE,NOSHOW planned
