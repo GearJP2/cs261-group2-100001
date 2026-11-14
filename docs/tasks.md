@@ -1,5 +1,7 @@
 # Task Backlog — UniSport Buddy
 
+> **Sprint 2:** ใช้ [Task44 — scope/AC/API/dependency matrix](sprint-2-planning-contract.md) ตรวจงานปัจจุบันร่วมกับGitHub Issues. คำว่าbacklog/ยังไม่เลือกและassigneeในรายการเดิมด้านล่างเป็นแผนSprint1 ไม่ใช่คำตัดสินว่าUS10/US6/US4/US2/US14อยู่นอกSprint2. ข้อขัดแย้งrouteUS10และsemanticsUS2ยังต้องให้เจ้าของรับรองตามdecision log
+
 รูปแบบงาน: `ชื่อ us-เลข [ประเภท] ชื่อหัวข้อ` ตามที่ทีมกำหนด ตามด้วยรายละเอียดและรหัส task เพื่อเชื่อม Issue/PR
 
 - Story/Priority/Estimate: [User Stories](user-stories.md)
