@@ -23,12 +23,12 @@ Story points ต้นทาง: US10=5, US6=2, US4=2, US2=3, US14=5 รวม17
 | PLAN-D01 | #55 และ #60 ยังระบุอ่าน `/join-requests` และ POST `/approve`,`/reject`; mainใช้ GET `/join-requests/pending` และ POST `/decision` body status. DesignTask47ตั้งใจไม่ตัดสินrouteการapproveแทนTask48 | **เสนอ reuse routeบนmain** แล้วแก้เอกสาร/Issueต้นทางให้ตรงหลังรับรอง หรือเลือกเปลี่ยนrouteพร้อมแผนcompatibility/caller/testsในงานแยก. เอกสารนี้ไม่อ้างว่าทีมเลือกแล้ว | Gear + P/Golf + ผู้ทำFE; Task48 #63/Task52 #67 ยังเปิด ห้ามปิดแทนเพียงเพราะserviceRejectมีอยู่ |
 | PLAN-D02 | US6 backend/DBmergeแล้ว แต่ DesignTask58 #73 ยังเปิด; can_view_membersใช้Hostหรือactive member, listingใช้activeแถวจริง | เสนอรับcontractmainรวมกรณีHostไม่มีactive row: มีสิทธิ์อ่านแต่ไม่สังเคราะห์Hostในรายการ/count | Gear + Austin + FE; ไม่อ้างว่าทุกคนมีสิทธิ์อ่านตามถ้อยคำStoryเดิม |
 | PLAN-D03 | US4 DesignPR136 GearAPPROVED/merge, servicePR139และAPI158merge; ยังไม่มีหลักฐานAustinreviewในDesignchecklist | reuseกติกาHostห้ามถอน, now<starts_at, retryคืนleft_atเดิม, softleave/Party-firstlock. ไม่ติ๊กAustinแทน | Gear/Golf; API/DBพร้อมทำtest แต่FE/ManualAPI/UIยังเป็นงานแยก |
-| PLAN-D04 | US2 PR157 **CHANGES_REQUESTED** ที่b469908: ลิงก์Sequence/ACเสีย และsemantics/APIยังรอยืนยัน. mainGETยังไม่อ่านfiltersและจำกัด50รายการ | ข้อเสนอD01–D08ในPR157: AND, starts-within[from,to), Bangkokday, state/default, stablepagination, Indoor/Outdoor, titleq ต้องได้รับreviewก่อนเป็นcontractใช้งาน | Golf/Austin/Gear; Task78ตรวจของเดิม/เตรียมqueryได้ แต่ไม่ส่งมอบfilterimplementationตามข้อเสนอที่ยังไม่ยืนยัน; Task79/84รอgateนี้ |
+| PLAN-D04 | US2 PR157 แก้ลิงก์Sequence/ACที่c8267b0แล้ว; Gear APPROVED14พ.ย.16:04:27 และMERGED16:04:42(Bangkok). Reviewยังระบุว่าAC mappingเป็นข้อเสนอรอทีมยืนยัน. GETบนbaseที่ตรวจยังไม่อ่านfilters/จำกัด50รายการ | ข้อสังเกตเรื่องลิงก์ปิดแล้ว ไม่ต้องแก้ซ้ำ. ข้อเสนอD01–D08: AND, starts-within[from,to), Bangkokday, state/default, stablepagination, Indoor/Outdoor, titleq ยังต้องมีหลักฐานรับรองsemantics/AC mappingก่อนเป็นcontractใช้งาน | Golf/Austin/Gear; Task78ตรวจของเดิม/เตรียมqueryได้ แต่การmergeเอกสารไม่ใช่หลักฐานรับรองsemanticsทั้งหมด; Task79/84ส่วนที่ขึ้นกับcontractยังรอข้อสรุปนี้ |
 | PLAN-D05 | [No-show approved policy](us14-no-show-approved-policy.md) บันทึกGearเลือกกติกา13พ.ย. และpolicy.pyอ้างapprovedแล้ว. เอกสารD-01เก่ายังเก็บP-1..9เป็นข้อเสนอ | ใช้มติใหม่เป็นแหล่งหลักเรื่องNo-show ไม่กล่าวว่าpolicyทั้งหมดยังBlocked. flag=falseเป็นdeploymentdecisionแยก ไม่เปิดในงานplanning | Gear/Austin; updateข้อความเก่าด้วยหมายเหตุชี้มติใหม่. testsที่skipเดิมไม่ใช่หลักฐานว่ากติกายังไม่มี ต้องret ไปทดสอบก่อนรับงาน |
 | PLAN-D06 | Storyต้นทางUS14ใช้คำว่า"ค่าเฉลี่ยเครดิต" และschemaเก่าบอกledgerdeltaอย่างเดียว; มติใหม่แยกดาวกับcreditและรับopeningbalance | ค่าเฉลี่ยดาว=sum/count; creditNULLเริ่มฐาน100เมื่อหักครั้งแรกแล้ว-5เป็น95; ledgerdelta=-5. ไม่ใช้ผลรวมdeltaแทนยอดโดยลืมopeningbalance | Gear/เจ้าของDB Gold+Golfตรวจอ้างอิงTask87/95; ไม่เปลี่ยนสูตรเอง |
 | PLAN-D07 | OwnerหลักจากIssueมีแล้ว แต่ไม่มีestimateย่อย/หลักฐานมติรวมครบทุกข้อ; #60มีself-dependency S2-PLAN-01ซึ่งไม่ใช่gateที่ทำได้จริง | Task44ไม่มีprerequisiteตัวเอง; planning→design→DB/API→FE→test→integration/review. บันทึกestimate/reviewerและมติD01/D02/D04จริงก่อนอ้างTask44เสร็จ100% | Gear/ทีม; ไม่สร้างวันประชุม/ผู้อนุมัติหรือผลทดสอบย้อนหลัง |
 
-สถานะIssue/PRข้างต้นเป็นsnapshotวันที่ตรวจ ไม่ใช่ข้อมูลสดตลอดเวลา. [PR157](https://github.com/GearJP2/cs261-group2-100001/pull/157) เป็นdraftcontractที่อ้างผ่านURL/commit ไม่เพิ่มลิงก์localไปไฟล์ที่ยังไม่อยู่main
+สถานะIssue/PRข้างต้นเป็นsnapshotวันที่ตรวจ ไม่ใช่ข้อมูลสดตลอดเวลา. [PR157](https://github.com/GearJP2/cs261-group2-100001/pull/157) mergeแล้วที่c8267b0 แต่semantics/AC mappingยังรอรับรองตามreview. BranchTask44ยังยึดbasef8eb427เดิม จึงอ้างเอกสารUS2ผ่านPR/commitโดยไม่เพิ่มลิงก์localไปไฟล์ที่ไม่มีบนbaseนี้
 
 ## 3. AC matrix ที่วัดผลได้
 
@@ -153,7 +153,7 @@ GETreviewรายการส่งreviewid/rating/comment/reviewer.display_nam
 | US10 | DesignTask47 #62/Task48 #63 → DBTask49 #64; API50 #65/51 #66/52 #67 → FE53 #68/54 #69 → UI55 #70/API56 #71/DB57 #72 | P(kxorukox)Design/API/ManualAPI, GoldDB, ratanaphong29FE/UI; GateD01ก่อนเปลี่ยนroute |
 | US6 | Design58 #73/59 #74 → DB60 #75/API61 #76 → FE62 #77/63 #78 → UI64 #79/API65 #80/DB66 #81 | AustinDesign/API, GoldDB, RieroSFE/UI; policyread/publicfieldsต้องตรวจรับD02; FIxturesไม่แทนFE |
 | US4 | Design67 #82/68 #83 → DB69 #84/API70 #85 → FE71 #86/72 #87 → UI73 #88/API74 #89/DB75 #90 | Golfpolicy/API/ManualAPI, GoldDB, ratanaphong29FE/UI; Design136/DB139/API158mergeแล้ว; DB75PR159รอreview |
-| US2 | Design76 #91/77 #92 → DB78 #93/API79 #94 → FE80 #95/81 #96 → UI82 #97/API83 #98/DB84 #99 | Golfsemantics/API, GoldDB, RieroSFE/UI; **PR157gateD04ยังไม่ผ่าน**. DB/APIประสานparallelได้หลังcontractยืนยัน; testsdesignก่อนได้แต่Actualรอimplementation |
+| US2 | Design76 #91/77 #92 → DB78 #93/API79 #94 → FE80 #95/81 #96 → UI82 #97/API83 #98/DB84 #99 | Golfsemantics/API, GoldDB, RieroSFE/UI; **PR157แก้ลิงก์และmergeแล้ว เหลือgateรับรองsemantics/AC mappingในD04**. DB/APIประสานparallelได้หลังcontractยืนยัน; testsdesignก่อนได้แต่Actualรอimplementation |
 | US14 | Design85 #100/86 #101 → DB87 #102/API88 #103/89 #104/90 #105 → FE91 #106/92 #107 → UI93 #108/API94 #109/DB95 #110 | Austinpolicy/API, GoldDB, ratanaphong29FE/UI; C1–6และNo-showpolicyมีหลักฐานแล้ว; confirmDBauditQ13แยกTask87; flagdeploymentตัดสินแยก |
 | Integration | ทั้ง5storiesที่ส่งมอบจริง → Task96 #111 → Task97 #112 | Gearreview/demo/retrospective; งานค้างให้ระบุจริง ไม่ย้ายCompleteจากCIอย่างเดียว |
 
@@ -176,7 +176,7 @@ Flowทีม: ToDo → Doing(ผู้รับงานใส่ชื่อ) 
 
 - [ ] GearรับรองPLAN-D01ว่าจะreusepending/decisionrouteหรือเปลี่ยนcontractด้วยงานแยก แล้วsync#55/#60/Task48
 - [ ] Gear/AustinรับรองPLAN-D02ของUS6และปิดช่องว่างDesignTask58ด้วยหลักฐานจริง
-- [ ] Golf/Austinแก้PR157ตามreviewและยืนยันD01–D08ก่อนส่งต่อTask78/79
+- [ ] Golf/Austin/GearบันทึกการรับรองsemanticsD01–D08และAC mappingก่อนส่งต่อTask78/79 (PR157แก้ข้อสังเกตเรื่องลิงก์และmergeแล้ว ไม่ต้องแก้ลิงก์ซ้ำ)
 - [ ] ผู้รับผิดชอบUS14รับทราบมติใหม่/featureflagและretเคสที่เคยskip ไม่อ้างpolicyยังไม่มี
 - [ ] ทีมยืนยันACcrosswalk, owner/reviewer/estimateย่อยและSprintdateตามข้อ1
 - [ ] Gearตรวจเอกสารฉบับรวม/บันทึกมติจริงก่อนปิดTask44; mergeเอกสารที่ยังมีpendingdecisionsไม่ทำให้pendingเหล่านั้นหายไป
