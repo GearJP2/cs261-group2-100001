@@ -117,9 +117,14 @@
   <!-- Script สำหรับ Task 53 และ 54 -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // แก้ P3: ลบการหน่วงเวลาจำลองทิ้ง และเรียกใช้งานฟังก์ชันดึงข้อมูลจาก API จริง
-      loadRequests(1);  
-      loadRequests(2); 
+     // ให้ระบบค้นหาการ์ดทั้งหมดบนหน้าจอและดึง ID มาใช้เอง
+      const reqContainers = document.querySelectorAll('.mp-req-list');
+      reqContainers.forEach(container => {
+        const partyId = container.id.replace('req-list-', '');
+        if (partyId) {
+          loadRequests(partyId);
+        }
+      });
     });
 
     // แก้ P3: โหลดข้อมูลคำขอจาก Backend ของจริง (ไม่ใช่การจำลองอีกต่อไป)
@@ -127,23 +132,25 @@
       const container = document.getElementById(`req-list-${partyId}`);
       try {
         // ยิง API ดึงรายการคนที่รออนุมัติของปาร์ตี้นั้นๆ
-        const response = await fetch(`/api/v1/parties/${partyId}/join-requests/`);
+        const response = await fetch(`/api/v1/parties/${partyId}/join-requests/pending`);
         if (!response.ok) throw new Error('API Error');
         
-        const requests = await response.json();
+        // รับค่ามาเป็น body ก่อน แล้วค่อยดึง .data
+        const body = await response.json();
+        const requests = body.data; 
 
-        // ถ้าไม่มีคนขอเข้าร่วมเลย ให้แสดงข้อความว่างๆ
+        //โค้ดเดิมทำงานได้ปกติแล้ว เพราะ requests กลายเป็น Array แล้ว
         if (!requests || requests.length === 0) {
           container.innerHTML = '<div style="padding: 12px; text-align: center; color: #888; font-size: 0.85rem;">ไม่มีคำขอที่รออนุมัติ</div>';
           return;
         }
-
-        // วนลูปสร้างกล่องคำขอตามข้อมูลที่ได้จากฐานข้อมูลจริง
         let html = '';
-        requests.forEach(req => {
-          const reqId = req.id || req.request_id; // ดึง ID คำขอจริงๆ มาใช้ (ไม่ใช่ 101, 102 แล้ว)
-          const userName = req.name || req.user?.name || 'ผู้สมัคร';
-          const userLevel = req.level || req.user?.level || 'ระดับทั่วไป';
+        //ลูปจะไม่พังแล้ว
+      requests.forEach(req => {
+        const reqId = req.id || req.request_id; 
+      //เปลี่ยนมาใช้ display_name ตาม Contract ที่ Backend ส่งมา
+        const userName = req.display_name || 'ผู้สมัคร';
+        const userLevel = req.level || req.user?.level || 'ระดับทั่วไป';
 
           html += `
             <div class="mp-req-item">
