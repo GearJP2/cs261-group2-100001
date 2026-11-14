@@ -6,9 +6,14 @@ class Sport(models.Model):
 
 
 class Venue(models.Model):
+    class Type(models.TextChoices):
+        INDOOR = "Indoor", "ในร่ม"
+        OUTDOOR = "Outdoor", "กลางแจ้ง"
+
     name = models.CharField(max_length=150)
     location_text = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
+    venue_type = models.CharField(max_length=7, choices=Type.choices, null=True, blank=True)
 
 
 class VenueSport(models.Model):

@@ -1,11 +1,13 @@
-"""US2 query parsing; querying and HTTP integration are added separately."""
+"""US2 query validation and filtered querysets; HTTP integration is separate."""
 
 import re
 from datetime import timezone as datetime_timezone
 
+from django.db.models import Case, CharField, Count, F, Q, Value, When
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
+from .models import Party
 from .services import PartyError
 
 SEARCH_FIELDS = {
@@ -77,3 +79,42 @@ def parse_search_query(query):
     if fields:
         raise PartyError("INVALID_INPUT", "ตัวกรองค้นหาไม่ถูกต้อง", 400, fields)
     return values
+
+
+def search_parties(filters, *, now):
+    """Build an ordered queryset from validated filters at one aware instant.
+
+    State precedence mirrors get_party_state; all counts include only active
+    membership rows. No joins to requests or supported sports multiply counts.
+    The caller supplies the same now when serializing the results.
+    """
+    parties = (
+        Party.objects.select_related("host__profile")
+        .annotate(
+            active_member_count=Count("memberships", filter=Q(memberships__left_at__isnull=True)),
+        )
+        .annotate(
+            search_state=Case(
+                When(cancelled_at__isnull=False, then=Value("Cancelled")),
+                When(ends_at__lte=now, then=Value("Completed")),
+                When(starts_at__lte=now, then=Value("InProgress")),
+                When(active_member_count__gte=F("capacity"), then=Value("Full")),
+                default=Value("Open"),
+                output_field=CharField(),
+            )
+        )
+    )
+    for key, lookup in {
+        "sport_id": "sport_id",
+        "venue_id": "venue_id",
+        "venue_type": "venue__venue_type",
+        "starts_from": "starts_at__gte",
+        "starts_to": "starts_at__lt",
+    }.items():
+        if key in filters:
+            parties = parties.filter(**{lookup: filters[key]})
+    if filters["q"]:
+        parties = parties.filter(title__icontains=filters["q"])
+    if filters["state"] != "all":
+        parties = parties.filter(search_state=filters["state"])
+    return parties.order_by("starts_at", "pk")
