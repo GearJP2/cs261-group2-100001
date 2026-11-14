@@ -1,10 +1,19 @@
+from urllib.parse import urlencode
+
 from accounts.decorators import require_university_user
 from accounts.models import UserProfile, UserSportInterest
 from django.db import DatabaseError, connection
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
+
+
+def login_redirect(request):
+    query = urlencode({"next": request.get_full_path()})
+    return redirect(f"{reverse('login-page')}?{query}")
 
 
 @require_GET
@@ -13,12 +22,28 @@ def home(request):
 
 
 @require_GET
+def search_page(request):
+    if not request.user.is_authenticated:
+        return login_redirect(request)
+    return render(request, "search.html")
+
+
+@require_GET
 def login_page(request):
-    return render(request, "login.html")
+    next_url = request.GET.get("next", reverse("home"))
+    if not url_has_allowed_host_and_scheme(
+        next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        next_url = reverse("home")
+    return render(request, "login.html", {"next_url": next_url})
 
 
 @require_GET
 def party_create_page(request):
+    if not request.user.is_authenticated:
+        return login_redirect(request)
     return render(
         request,
         "party_form.html",

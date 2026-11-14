@@ -1,6 +1,6 @@
 {% comment %}
-  ใช้: {% include "partials/navbar.html" with active="home" show_create=True %}
-  active: home | venues    show_create: True แสดงปุ่มสร้างปาร์ตี้
+  ใช้: {% include "partials/navbar.html" with active="search" show_create=True %}
+  active: search | venues    show_create: True แสดงปุ่มสร้างปาร์ตี้
 {% endcomment %}
 {% comment "โค้ดต้นฉบับ" %}
 <header class="nv">
@@ -8,7 +8,7 @@
     <a href="{% url 'home' %}" class="nv-brand"><span class="nv-logo">⚽</span>UniSport Buddy</a>
 
     <nav class="nv-links" aria-label="เมนูหลัก">
-      <a href="{% url 'home' %}"{% if active == "home" %} class="active" aria-current="page"{% endif %}>หาปาร์ตี้</a>
+      <a href="{% url 'search-page' %}"{% if active == "search" %} class="active" aria-current="page"{% endif %}>หาปาร์ตี้</a>
       <a href="{% url 'venues:venue_map' %}"{% if active == "venues" %} class="active" aria-current="page"{% endif %}>สนามและกีฬา</a>
     </nav>
 

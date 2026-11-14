@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ค้นหาปาร์ตี้กีฬา | UniSport Buddy{% endblock %}
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+{% block body_class %}app-body search-body{% endblock %}
+
+{% block content %}
+{% include "partials/navbar.html" with active="search" show_create=True %}
+
+<section class="search-page" data-search-page>
+  <header class="search-heading">
+    <h1>หาปาร์ตี้กีฬา ไปเล่นด้วยกัน</h1>
+    <p>ค้นหากิจกรรมที่ใช่ แล้วเจอเพื่อนใหม่ในสนาม</p>
+  </header>
+
+  <form class="search-bar" id="search-form" data-search-form role="search">
+    <label class="search-query">
+      <span class="search-sr-only">ค้นหาชื่อปาร์ตี้ กีฬา หรือสนาม</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg>
+      <input type="search" name="q" placeholder="ค้นหาชื่อปาร์ตี้ กีฬา หรือสนาม" data-search-query>
+    </label>
+    <button class="search-submit" type="submit">ค้นหา</button>
+  </form>
+
+  <div class="search-content">
+    <aside class="search-filters" aria-label="ตัวกรองปาร์ตี้">
+      <div class="filter-heading">
+        <h2>ตัวกรอง</h2>
+        <button type="button" class="filter-reset" data-filter-reset>ล้างทั้งหมด</button>
+      </div>
+      <label class="filter-field">
+        กีฬา
+        <select name="sport" form="search-form" data-filter-sport>
+          <option value="">ทุกกีฬา</option>
+        </select>
+      </label>
+      <label class="filter-field">
+        สนาม
+        <select name="venue" form="search-form" data-filter-venue disabled>
+          <option value="">ทุกสนาม</option>
+        </select>
+      </label>
+      <div class="filter-field">
+        <span>วันที่</span>
+        <input type="date" name="date" form="search-form" data-filter-date>
+      </div>
+      <fieldset class="filter-field filter-time">
+        <legend>เวลาเริ่ม</legend>
+        <div class="filter-time-inputs">
+          <label><span class="search-sr-only">ตั้งแต่เวลา</span><input type="time" name="time_from" form="search-form" data-filter-time-from aria-label="ตั้งแต่เวลา"></label>
+          <span aria-hidden="true">–</span>
+          <label><span class="search-sr-only">ถึงเวลา</span><input type="time" name="time_to" form="search-form" data-filter-time-to aria-label="ถึงเวลา"></label>
+        </div>
+      </fieldset>
+      <label class="filter-field">
+        จำนวนที่ว่างอย่างน้อย
+        <select name="spots" form="search-form" data-filter-spots>
+          <option value="">ไม่จำกัด</option>
+          <option value="1">1 ที่ขึ้นไป</option>
+          <option value="2">2 ที่ขึ้นไป</option>
+          <option value="3">3 ที่ขึ้นไป</option>
+        </select>
+      </label>
+      <button class="filter-apply" type="submit" form="search-form">แสดงผลลัพธ์</button>
+      <p class="filter-note">แสดงเฉพาะปาร์ตี้ที่ยังเปิดรับและมีที่ว่าง</p>
+    </aside>
+
+    <section class="search-results" aria-live="polite">
+      <div class="search-result-head">
+        <div>
+          <h2 data-result-heading>กิจกรรมที่กำลังเปิดรับ</h2>
+          <p data-result-count></p>
+        </div>
+        <label class="search-sort">เรียงตาม
+          <select data-search-sort aria-label="เรียงผลลัพธ์ตาม">
+            <option value="soonest">เวลาใกล้ที่สุด</option>
+            <option value="latest">เวลาไกลที่สุด</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="search-chips" data-search-chips hidden></div>
+      <div class="search-status" data-search-status>กำลังค้นหาปาร์ตี้…</div>
+      <div class="search-card-grid" data-search-results hidden></div>
+
+      <div class="search-state" data-search-empty hidden>
+        <div class="search-state-icon" aria-hidden="true">⌕</div>
+        <h3>ยังไม่พบปาร์ตี้ที่ตรงกับการค้นหา</h3>
+        <p>ลองเปลี่ยนคำค้นหาหรือล้างตัวกรอง แล้วค้นหาอีกครั้ง</p>
+        <button type="button" class="search-secondary" data-empty-reset>ล้างตัวกรอง</button>
+      </div>
+      <div class="search-state search-state-error" data-search-error hidden>
+        <div class="search-state-icon" aria-hidden="true">!</div>
+        <h3>โหลดกิจกรรมไม่สำเร็จ</h3>
+        <p data-search-error-message>กรุณาลองใหม่อีกครั้ง</p>
+        <button type="button" class="search-secondary" data-search-retry>ลองอีกครั้ง</button>
+      </div>
+      <div class="search-login" data-search-login hidden>
+        <p>เข้าสู่ระบบด้วยบัญชีมหาวิทยาลัยเพื่อดูปาร์ตี้ที่เปิดรับ</p>
+        <a class="search-submit" href="{% url 'login-page' %}">เข้าสู่ระบบ</a>
+      </div>
+    </section>
+  </div>
+</section>
+
+<footer class="search-footer"><span>UniSport Buddy · เล่นกีฬาไปด้วยกัน</span><span>ค้นหากิจกรรมในมหาวิทยาลัย</span></footer>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/app.js' %}" defer></script>{% endblock %}

@@ -93,7 +93,10 @@
       button.disabled = true;
       try {
         await request("/auth/login", { method: "POST", body: JSON.stringify({ username, password }) });
-        window.location.assign("/");
+        const nextUrl = new URL(form.dataset.nextUrl || "/", window.location.origin);
+        window.location.assign(nextUrl.origin === window.location.origin
+          ? `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`
+          : "/");
       } catch (error) { setError(errorBox, error.message); button.disabled = false; }
     });
   }
@@ -156,6 +159,249 @@
       list.hidden = false;
       message.hidden = true;
     } catch (error) { message.textContent = error.message; }
+  }
+
+  async function initSearch() {
+    const page = document.querySelector("[data-search-page]");
+    if (!page) return;
+
+    const form = page.querySelector("[data-search-form]");
+    const status = page.querySelector("[data-search-status]");
+    const resultGrid = page.querySelector("[data-search-results]");
+    const emptyState = page.querySelector("[data-search-empty]");
+    const errorState = page.querySelector("[data-search-error]");
+    const loginState = page.querySelector("[data-search-login]");
+    const errorMessage = page.querySelector("[data-search-error-message]");
+    const resultCount = page.querySelector("[data-result-count]");
+    const resultHeading = page.querySelector("[data-result-heading]");
+    const chips = page.querySelector("[data-search-chips]");
+    const queryInput = page.querySelector("[data-search-query]");
+    const sportSelect = page.querySelector("[data-filter-sport]");
+    const venueSelect = page.querySelector("[data-filter-venue]");
+    const dateInput = page.querySelector("[data-filter-date]");
+    const timeFromInput = page.querySelector("[data-filter-time-from]");
+    const timeToInput = page.querySelector("[data-filter-time-to]");
+    const spotsSelect = page.querySelector("[data-filter-spots]");
+    const sortSelect = page.querySelector("[data-search-sort]");
+    let parties = [];
+    let sports = [];
+    let venues = [];
+    let sportNames = new Map();
+    let venueNames = new Map();
+    let venueSports = new Map();
+
+    function setVisible(node, visible) { node.hidden = !visible; }
+
+    function activeFilters() {
+      return {
+        q: queryInput.value.trim().toLocaleLowerCase(),
+        sport: sportSelect.value,
+        venue: venueSelect.value,
+        date: dateInput.value,
+        timeFrom: timeFromInput.value,
+        timeTo: timeToInput.value,
+        spots: Number(spotsSelect.value) || 0,
+      };
+    }
+
+    function matchingParties() {
+      const filters = activeFilters();
+      return parties.filter((party) => {
+        const sportName = sportNames.get(party.sport_id) || "กีฬา";
+        const venue = venueNames.get(party.venue_id);
+        const { date, time } = bangkokDateTimeParts(party.starts_at);
+        const searchable = [
+          party.title,
+          party.description,
+          party.host.display_name,
+          sportName,
+          venue && venue.name,
+          venue && venue.location_text,
+        ].filter(Boolean).join(" ").toLocaleLowerCase();
+        return (!filters.q || searchable.includes(filters.q))
+          && (!filters.sport || String(party.sport_id) === filters.sport)
+          && (!filters.venue || String(party.venue_id) === filters.venue)
+          && (!filters.date || date === filters.date)
+          && (!filters.timeFrom || time >= filters.timeFrom)
+          && (!filters.timeTo || time <= filters.timeTo)
+          && (!filters.spots || party.remaining_slots >= filters.spots);
+      }).sort((a, b) => sortSelect.value === "latest"
+        ? new Date(b.starts_at) - new Date(a.starts_at)
+        : new Date(a.starts_at) - new Date(b.starts_at));
+    }
+
+    function renderChips() {
+      const filters = activeFilters();
+      const active = [];
+      if (filters.q) active.push(["q", `ค้นหา: ${queryInput.value.trim()}`]);
+      if (filters.sport) active.push(["sport", sportNames.get(Number(filters.sport)) || "กีฬา"]);
+      if (filters.venue) active.push(["venue", venueNames.get(Number(filters.venue))?.name || "สนาม"]);
+      if (filters.date) active.push(["date", new Intl.DateTimeFormat("th-TH", { dateStyle: "medium", timeZone: "Asia/Bangkok" }).format(new Date(`${filters.date}T12:00:00+07:00`))]);
+      if (filters.timeFrom || filters.timeTo) active.push(["time", `${filters.timeFrom || "00:00"}–${filters.timeTo || "23:59"}`]);
+      if (filters.spots) active.push(["spots", `เหลืออย่างน้อย ${filters.spots} ที่`]);
+      chips.replaceChildren(...active.map(([key, text]) => {
+        const chip = element("span", "search-chip", text);
+        const remove = element("button", "", "×");
+        remove.type = "button";
+        remove.setAttribute("aria-label", `ล้างตัวกรอง ${text}`);
+        remove.addEventListener("click", () => {
+          if (key === "q") queryInput.value = "";
+          if (key === "sport") { sportSelect.value = ""; updateVenueOptions(); }
+          if (key === "venue") venueSelect.value = "";
+          if (key === "date") dateInput.value = "";
+          if (key === "time") { timeFromInput.value = ""; timeToInput.value = ""; }
+          if (key === "spots") spotsSelect.value = "";
+          renderResults();
+        });
+        chip.append(remove);
+        return chip;
+      }));
+      setVisible(chips, active.length > 0);
+    }
+
+    function updateVenueOptions() {
+      const selectedSport = sportSelect.value;
+      const available = venues.filter((venue) => !selectedSport
+        || (venueSports.get(venue.id) || new Set()).has(Number(selectedSport)));
+      const previous = venueSelect.value;
+      venueSelect.replaceChildren(new Option("ทุกสนาม", ""));
+      available.forEach((venue) => venueSelect.add(new Option(venue.name, String(venue.id))));
+      venueSelect.disabled = available.length === 0;
+      if (available.some((venue) => String(venue.id) === previous)) venueSelect.value = previous;
+      else venueSelect.value = "";
+    }
+
+    function renderResults() {
+      const filtered = matchingParties();
+      const hasFilters = Object.values(activeFilters()).some(Boolean);
+      resultHeading.textContent = hasFilters ? "ผลการค้นหา" : "กิจกรรมที่กำลังเปิดรับ";
+      resultCount.textContent = `${filtered.length} กิจกรรม`;
+      renderChips();
+      setVisible(status, false);
+      setVisible(errorState, false);
+      setVisible(loginState, false);
+      setVisible(emptyState, filtered.length === 0);
+      setVisible(resultGrid, filtered.length > 0);
+      if (!filtered.length) {
+        resultGrid.replaceChildren();
+        return;
+      }
+
+      resultGrid.replaceChildren(...filtered.map((party) => {
+        const card = element("article", "search-card");
+        const sportName = sportNames.get(party.sport_id) || "กีฬา";
+        const venue = venueNames.get(party.venue_id);
+        const top = element("div", "search-card-top");
+        top.append(element("span", "search-card-sport", sportName), element("span", "search-card-open", "● เปิดรับอยู่"));
+
+        const main = element("div", "search-card-main");
+        main.append(element("h3", "", party.title));
+        const host = element("div", "search-card-host");
+        host.append(element("span", "search-host-avatar", initials(party.host.display_name)), element("span", "", `ชวนโดย ${party.host.display_name}`));
+        const meta = element("div", "search-card-meta");
+        meta.append(
+          element("span", "", `📍 ${venue ? venue.name : "สนามกีฬา"}`),
+          element("span", "", `📅 ${formatDateTime(party.starts_at)}`),
+          element("span", "", `👥 ${party.member_count}/${party.capacity} คน`),
+        );
+        main.append(host, meta);
+
+        const footer = element("div", "search-card-footer");
+        footer.append(element("span", "search-card-spots", `เหลือ ${party.remaining_slots} ที่`));
+        const link = element("a", "search-card-link", "ดูรายละเอียด");
+        link.href = `/parties/${party.id}/`;
+        footer.append(link);
+        card.append(top, main, footer);
+        return card;
+      }));
+    }
+
+    function showError(message) {
+      setVisible(status, false);
+      setVisible(resultGrid, false);
+      setVisible(emptyState, false);
+      setVisible(loginState, false);
+      errorMessage.textContent = message;
+      setVisible(errorState, true);
+    }
+
+    function clearFilters() {
+      form.reset();
+      sportSelect.value = "";
+      updateVenueOptions();
+      const url = new URL(window.location.href);
+      url.search = "";
+      window.history.replaceState({}, "", url);
+      renderResults();
+    }
+
+    const initialParams = new URLSearchParams(window.location.search);
+    queryInput.value = initialParams.get("q") || "";
+    dateInput.value = initialParams.get("date") || "";
+    timeFromInput.value = initialParams.get("time_from") || "";
+    timeToInput.value = initialParams.get("time_to") || "";
+    spotsSelect.value = initialParams.get("spots") || "";
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      updateVenueOptions();
+      const params = new URLSearchParams();
+      const filters = activeFilters();
+      if (filters.q) params.set("q", queryInput.value.trim());
+      if (filters.sport) params.set("sport_id", filters.sport);
+      if (filters.venue) params.set("venue_id", filters.venue);
+      if (filters.date) params.set("date", filters.date);
+      if (filters.timeFrom) params.set("time_from", filters.timeFrom);
+      if (filters.timeTo) params.set("time_to", filters.timeTo);
+      if (filters.spots) params.set("spots", String(filters.spots));
+      const url = new URL(window.location.href);
+      url.search = params.toString();
+      window.history.replaceState({}, "", url);
+      renderResults();
+    });
+    sportSelect.addEventListener("change", updateVenueOptions);
+    sortSelect.addEventListener("change", renderResults);
+    page.querySelector("[data-filter-reset]").addEventListener("click", clearFilters);
+    page.querySelector("[data-empty-reset]").addEventListener("click", clearFilters);
+    page.querySelector("[data-search-retry]").addEventListener("click", () => window.location.reload());
+
+    try {
+      await request("/me");
+    } catch (error) {
+      if (error.status === 401) {
+        setVisible(status, false);
+        setVisible(loginState, true);
+        return;
+      }
+      showError(error.message);
+      return;
+    }
+
+    try {
+      [parties, sports] = await Promise.all([request("/parties"), request("/sports")]);
+      sportNames = new Map(sports.map((sport) => [sport.id, sport.name]));
+      sportSelect.replaceChildren(new Option("ทุกกีฬา", ""));
+      sports.forEach((sport) => sportSelect.add(new Option(sport.name, String(sport.id))));
+
+      const pages = await Promise.all(sports.map((sport) => allVenues(sport.id)));
+      const venueById = new Map();
+      sports.forEach((sport, index) => {
+        pages[index].forEach((venue) => {
+          if (!venueById.has(venue.id)) venueById.set(venue.id, venue);
+          if (!venueSports.has(venue.id)) venueSports.set(venue.id, new Set());
+          venueSports.get(venue.id).add(sport.id);
+        });
+      });
+      venues = [...venueById.values()];
+      venueNames = new Map(venues.map((venue) => [venue.id, venue]));
+      updateVenueOptions();
+      sportSelect.value = initialParams.get("sport_id") || "";
+      updateVenueOptions();
+      venueSelect.value = initialParams.get("venue_id") || "";
+      renderResults();
+    } catch (error) {
+      showError(error.message);
+    }
   }
 
   function bangkokDateTimeParts(iso) {
@@ -386,6 +632,6 @@
 
   document.addEventListener("DOMContentLoaded", async function () {
     const navReady = initNavigation();
-    await Promise.all([navReady, initLogin(), initHome(), initPartyForm(), initPartyDetail()]);
+    await Promise.all([navReady, initLogin(), initHome(), initSearch(), initPartyForm(), initPartyDetail()]);
   });
 })();
