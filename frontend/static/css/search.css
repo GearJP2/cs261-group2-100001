@@ -284,6 +284,31 @@
   gap: 14px;
 }
 
+.search-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  color: #68707d;
+  font-size: .75rem;
+}
+
+.search-pagination button {
+  border: 1px solid #e3e5e9;
+  border-radius: 7px;
+  padding: 7px 11px;
+  background: #fff;
+  color: #454b56;
+  font: inherit;
+  cursor: pointer;
+}
+
+.search-pagination button:disabled {
+  color: #9a9fa8;
+  cursor: not-allowed;
+}
+
 .search-card {
   display: flex;
   min-width: 0;

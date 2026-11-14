@@ -1,5 +1,5 @@
 import json
-from datetime import time
+from datetime import time, timedelta
 
 from accounts.models import UniversityIdentity, UserProfile
 from accounts.test_support import force_university_login
@@ -19,19 +19,19 @@ class PartyCreationHandlerTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(username="api-host")
         UserProfile.objects.create(user=self.user, display_name="Host")
-        sport = Sport.objects.create(name="Badminton")
-        venue = Venue.objects.create(name="Court", location_text="Gym")
-        VenueSport.objects.create(venue=venue, sport=sport)
+        self.sport = Sport.objects.create(name="Badminton")
+        self.venue = Venue.objects.create(name="Court", location_text="Gym")
+        VenueSport.objects.create(venue=self.venue, sport=self.sport)
         VenueOpeningHour.objects.create(
-            venue=venue,
+            venue=self.venue,
             weekday=0,
             opens_at=time(9),
             closes_at=time(18),
         )
         self.payload = dict(
             title="Practice",
-            sport_id=sport.pk,
-            venue_id=venue.pk,
+            sport_id=self.sport.pk,
+            venue_id=self.venue.pk,
             starts_at="2030-01-07T09:00:00+07:00",
             ends_at="2030-01-07T10:00:00+07:00",
             capacity=6,
@@ -39,8 +39,13 @@ class PartyCreationHandlerTests(TestCase):
         self.url = "/api/v1/parties"
         self.factory = RequestFactory()
 
-    def request(self, body, content_type="application/json", method="post"):
-        request = getattr(self.factory, method)(self.url, data=body, content_type=content_type)
+    def request(self, body, content_type="application/json", method="post", query=None):
+        if method == "get":
+            request = self.factory.get(self.url, data=query or {})
+        else:
+            request = getattr(self.factory, method)(
+                self.url, data=body, content_type=content_type
+            )
         request.user = self.user
         identity, _ = UniversityIdentity.objects.get_or_create(
             user=request.user,
@@ -110,6 +115,91 @@ class PartyCreationHandlerTests(TestCase):
         response = self.request({}, method="get")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"data": [created]})
+
+    def test_search_filters_before_pagination_includes_matches_after_first_50(self):
+        start = timezone.now() + timedelta(days=2)
+        Party.objects.bulk_create(
+            [
+                Party(
+                    host=self.user,
+                    sport=self.sport,
+                    venue=self.venue,
+                    title="Ordinary party",
+                    starts_at=start + timedelta(minutes=index),
+                    ends_at=start + timedelta(minutes=index, hours=1),
+                    capacity=2,
+                )
+                for index in range(50)
+            ]
+            + [
+                Party(
+                    host=self.user,
+                    sport=self.sport,
+                    venue=self.venue,
+                    title="Needle after first fifty",
+                    starts_at=start + timedelta(minutes=50),
+                    ends_at=start + timedelta(minutes=50, hours=1),
+                    capacity=2,
+                )
+            ]
+        )
+
+        response = self.request(
+            {},
+            method="get",
+            query={"q": "Needle", "page": "1", "page_size": "1"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json()["data"][0]["title"],
+            "Needle after first fifty",
+        )
+        self.assertEqual(
+            {key: response.json()[key] for key in ("page", "page_size", "total")},
+            {"page": 1, "page_size": 1, "total": 1},
+        )
+
+    def test_search_paginates_filtered_results_and_returns_total(self):
+        start = timezone.now() + timedelta(days=2)
+        Party.objects.bulk_create(
+            [
+                Party(
+                    host=self.user,
+                    sport=self.sport,
+                    venue=self.venue,
+                    title=f"Search result {index}",
+                    starts_at=start + timedelta(minutes=index),
+                    ends_at=start + timedelta(minutes=index, hours=1),
+                    capacity=2,
+                )
+                for index in range(3)
+            ]
+        )
+
+        response = self.request(
+            {},
+            method="get",
+            query={"q": "Search result", "page": "2", "page_size": "2"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["total"], 3)
+        self.assertEqual(response.json()["page"], 2)
+        self.assertEqual(response.json()["page_size"], 2)
+        self.assertEqual(
+            [party["title"] for party in response.json()["data"]],
+            ["Search result 2"],
+        )
+
+    def test_search_rejects_invalid_pagination(self):
+        response = self.request(
+            {},
+            method="get",
+            query={"page": "0", "page_size": "101"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"]["code"], "INVALID_INPUT")
 
     def test_wrong_method_is_json_405(self):
         response = self.request({}, method="put")

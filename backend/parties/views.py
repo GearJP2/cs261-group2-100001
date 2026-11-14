@@ -1,11 +1,12 @@
 import json
+from datetime import date
 
 from accounts.decorators import require_university_user
 from core.api import json_error, require_authenticated_api
 from django.db.models import Count, F, Q
 from django.http import JsonResponse
 from django.utils import timezone
-from django.utils.dateparse import parse_datetime
+from django.utils.dateparse import parse_datetime, parse_time
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import ensure_csrf_cookie
 
@@ -52,6 +53,37 @@ def party_data(party, user):
         "is_host": user.pk == party.host_id,
         "is_member": party.memberships.filter(user=user, left_at__isnull=True).exists(),
     }
+
+
+class InvalidPartyQuery(ValueError):
+    pass
+
+
+_MISSING_QUERY_DEFAULT = object()
+
+
+def party_query_value(request, name, default=_MISSING_QUERY_DEFAULT):
+    values = request.GET.getlist(name)
+    if not values and default is not _MISSING_QUERY_DEFAULT:
+        return default
+    if len(values) != 1:
+        raise InvalidPartyQuery(name)
+    return values[0]
+
+
+def positive_party_query(request, name, default=None, maximum=9223372036854775807):
+    raw = party_query_value(request, name, default)
+    if raw is None:
+        return None
+    if not raw.isascii() or not raw.isdigit():
+        raise InvalidPartyQuery(name)
+    normalized = raw.lstrip("0")
+    if not normalized or len(normalized) > len(str(maximum)):
+        raise InvalidPartyQuery(name)
+    value = int(normalized)
+    if value > maximum:
+        raise InvalidPartyQuery(name)
+    return value
 
 
 @never_cache
@@ -244,6 +276,47 @@ def parse_party_datetimes(payload, fields):
 @require_university_user
 def create_party_api(request):
     if request.method == "GET":
+        try:
+            query = party_query_value(request, "q", "").strip()
+            sport_id = positive_party_query(request, "sport_id")
+            venue_id = positive_party_query(request, "venue_id")
+            spots = positive_party_query(request, "spots")
+            page = positive_party_query(request, "page", "1")
+            page_size = positive_party_query(request, "page_size", "20", 100)
+            if (page - 1) * page_size > 9223372036854775807:
+                raise InvalidPartyQuery("page")
+            date_value = party_query_value(request, "date", "")
+            time_from_value = party_query_value(request, "time_from", "")
+            time_to_value = party_query_value(request, "time_to", "")
+            sort = party_query_value(request, "sort", "soonest")
+            if sort not in {"soonest", "latest"}:
+                raise InvalidPartyQuery("sort")
+            try:
+                date_value = date.fromisoformat(date_value) if date_value else None
+            except ValueError:
+                raise InvalidPartyQuery("date") from None
+            if date_value and date_value.isoformat() != request.GET.get("date"):
+                raise InvalidPartyQuery("date")
+            time_from = parse_time(time_from_value) if time_from_value else None
+            time_to = parse_time(time_to_value) if time_to_value else None
+            if time_from_value and (
+                time_from is None or time_from.isoformat(timespec="minutes") != time_from_value
+            ):
+                raise InvalidPartyQuery("time_from")
+            if time_to_value and (
+                time_to is None or time_to.isoformat(timespec="minutes") != time_to_value
+            ):
+                raise InvalidPartyQuery("time_to")
+        except InvalidPartyQuery as error:
+            field = str(error)
+            return json_error(
+                "INVALID_INPUT",
+                "พารามิเตอร์ไม่ถูกต้อง",
+                400,
+                {field: "ค่าพารามิเตอร์ไม่ถูกต้อง"},
+            )
+
+        paginated = "page" in request.GET or "page_size" in request.GET
         parties = (
             Party.objects.select_related("host__profile")
             .filter(cancelled_at__isnull=True, starts_at__gt=timezone.now())
@@ -253,13 +326,44 @@ def create_party_api(request):
                 )
             )
             .filter(active_member_count__lt=F("capacity"))
-            .order_by("starts_at")[:50]
         )
+        if query:
+            parties = parties.filter(
+                Q(title__icontains=query)
+                | Q(description__icontains=query)
+                | Q(host__profile__display_name__icontains=query)
+                | Q(sport__name__icontains=query)
+                | Q(venue__name__icontains=query)
+                | Q(venue__location_text__icontains=query)
+            )
+        if sport_id is not None:
+            parties = parties.filter(sport_id=sport_id)
+        if venue_id is not None:
+            parties = parties.filter(venue_id=venue_id)
+        if date_value:
+            parties = parties.filter(starts_at__date=date_value)
+        if time_from:
+            parties = parties.filter(starts_at__time__gte=time_from)
+        if time_to:
+            parties = parties.filter(starts_at__time__lte=time_to)
+        if spots:
+            parties = parties.filter(capacity__gte=F("active_member_count") + spots)
+
+        parties = parties.order_by("-starts_at" if sort == "latest" else "starts_at", "pk")
+        total = parties.count() if paginated else None
+        if paginated:
+            offset = (page - 1) * page_size
+            parties = parties[offset : offset + page_size]
+        else:
+            parties = parties[:50]
         data = []
         for party in parties:
             item = party_data(party, request.user)
             data.append(item)
-        return JsonResponse({"data": data})
+        response_data = {"data": data}
+        if paginated:
+            response_data.update({"page": page, "page_size": page_size, "total": total})
+        return JsonResponse(response_data)
     if request.method != "POST":
         response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ GET และ POST", 405)
         response["Allow"] = "GET, POST"

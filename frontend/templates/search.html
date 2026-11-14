@@ -87,7 +87,7 @@
       </div>
 
       <div class="search-chips" data-search-chips hidden></div>
-      <div class="search-status" data-search-status>กำลังค้นหาปาร์ตี้…</div>
+      <div class="search-status" data-search-status>กำลังค้นหาปาร์ตี้ทั้งหมดที่ตรงกับตัวกรอง(แสดงผลหน้าละ 12 รายการ)…</div>
       <div class="search-card-grid" data-search-results hidden></div>
 
       <div class="search-state" data-search-empty hidden>
@@ -102,6 +102,11 @@
         <p data-search-error-message>กรุณาลองใหม่อีกครั้ง</p>
         <button type="button" class="search-secondary" data-search-retry>ลองอีกครั้ง</button>
       </div>
+      <nav class="search-pagination" data-search-pagination aria-label="หน้าผลการค้นหา" hidden>
+        <button type="button" data-page-previous disabled>ก่อนหน้า</button>
+        <span data-page-label></span>
+        <button type="button" data-page-next>ถัดไป</button>
+      </nav>
       <div class="search-login" data-search-login hidden>
         <p>เข้าสู่ระบบด้วยบัญชีมหาวิทยาลัยเพื่อดูปาร์ตี้ที่เปิดรับ</p>
         <a class="search-submit" href="{% url 'login-page' %}">เข้าสู่ระบบ</a>

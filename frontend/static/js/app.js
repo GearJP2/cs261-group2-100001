@@ -175,6 +175,10 @@
     const resultCount = page.querySelector("[data-result-count]");
     const resultHeading = page.querySelector("[data-result-heading]");
     const chips = page.querySelector("[data-search-chips]");
+    const pagination = page.querySelector("[data-search-pagination]");
+    const previousPage = page.querySelector("[data-page-previous]");
+    const nextPage = page.querySelector("[data-page-next]");
+    const pageLabel = page.querySelector("[data-page-label]");
     const queryInput = page.querySelector("[data-search-query]");
     const sportSelect = page.querySelector("[data-filter-sport]");
     const venueSelect = page.querySelector("[data-filter-venue]");
@@ -183,12 +187,18 @@
     const timeToInput = page.querySelector("[data-filter-time-to]");
     const spotsSelect = page.querySelector("[data-filter-spots]");
     const sortSelect = page.querySelector("[data-search-sort]");
+    const pageSize = 12;
     let parties = [];
+    let totalResults = 0;
+    let currentPage = 1;
     let sports = [];
     let venues = [];
     let sportNames = new Map();
     let venueNames = new Map();
     let venueSports = new Map();
+    let searchReady = false;
+    let loadState = "loading";
+    let requestId = 0;
 
     function setVisible(node, visible) { node.hidden = !visible; }
 
@@ -202,32 +212,6 @@
         timeTo: timeToInput.value,
         spots: Number(spotsSelect.value) || 0,
       };
-    }
-
-    function matchingParties() {
-      const filters = activeFilters();
-      return parties.filter((party) => {
-        const sportName = sportNames.get(party.sport_id) || "กีฬา";
-        const venue = venueNames.get(party.venue_id);
-        const { date, time } = bangkokDateTimeParts(party.starts_at);
-        const searchable = [
-          party.title,
-          party.description,
-          party.host.display_name,
-          sportName,
-          venue && venue.name,
-          venue && venue.location_text,
-        ].filter(Boolean).join(" ").toLocaleLowerCase();
-        return (!filters.q || searchable.includes(filters.q))
-          && (!filters.sport || String(party.sport_id) === filters.sport)
-          && (!filters.venue || String(party.venue_id) === filters.venue)
-          && (!filters.date || date === filters.date)
-          && (!filters.timeFrom || time >= filters.timeFrom)
-          && (!filters.timeTo || time <= filters.timeTo)
-          && (!filters.spots || party.remaining_slots >= filters.spots);
-      }).sort((a, b) => sortSelect.value === "latest"
-        ? new Date(b.starts_at) - new Date(a.starts_at)
-        : new Date(a.starts_at) - new Date(b.starts_at));
     }
 
     function renderChips() {
@@ -251,7 +235,7 @@
           if (key === "date") dateInput.value = "";
           if (key === "time") { timeFromInput.value = ""; timeToInput.value = ""; }
           if (key === "spots") spotsSelect.value = "";
-          renderResults();
+          loadSearchResults(1);
         });
         chip.append(remove);
         return chip;
@@ -272,22 +256,27 @@
     }
 
     function renderResults() {
-      const filtered = matchingParties();
+      if (loadState !== "success") return;
+      const resultsPage = parties;
       const hasFilters = Object.values(activeFilters()).some(Boolean);
       resultHeading.textContent = hasFilters ? "ผลการค้นหา" : "กิจกรรมที่กำลังเปิดรับ";
-      resultCount.textContent = `${filtered.length} กิจกรรม`;
+      resultCount.textContent = `${totalResults} กิจกรรม`;
       renderChips();
       setVisible(status, false);
       setVisible(errorState, false);
       setVisible(loginState, false);
-      setVisible(emptyState, filtered.length === 0);
-      setVisible(resultGrid, filtered.length > 0);
-      if (!filtered.length) {
+      setVisible(emptyState, totalResults === 0);
+      setVisible(resultGrid, resultsPage.length > 0);
+      setVisible(pagination, totalResults > pageSize);
+      pageLabel.textContent = `หน้า ${currentPage} จาก ${Math.ceil(totalResults / pageSize)}`;
+      previousPage.disabled = currentPage <= 1;
+      nextPage.disabled = currentPage >= Math.ceil(totalResults / pageSize);
+      if (!resultsPage.length) {
         resultGrid.replaceChildren();
         return;
       }
 
-      resultGrid.replaceChildren(...filtered.map((party) => {
+      resultGrid.replaceChildren(...resultsPage.map((party) => {
         const card = element("article", "search-card");
         const sportName = sportNames.get(party.sport_id) || "กีฬา";
         const venue = venueNames.get(party.venue_id);
@@ -317,26 +306,77 @@
     }
 
     function showError(message) {
+      loadState = "error";
       setVisible(status, false);
       setVisible(resultGrid, false);
       setVisible(emptyState, false);
+      setVisible(pagination, false);
       setVisible(loginState, false);
       errorMessage.textContent = message;
       setVisible(errorState, true);
+    }
+
+    function searchParams(pageNumber) {
+      const filters = activeFilters();
+      const params = new URLSearchParams();
+      if (filters.q) params.set("q", queryInput.value.trim());
+      if (filters.sport) params.set("sport_id", filters.sport);
+      if (filters.venue) params.set("venue_id", filters.venue);
+      if (filters.date) params.set("date", filters.date);
+      if (filters.timeFrom) params.set("time_from", filters.timeFrom);
+      if (filters.timeTo) params.set("time_to", filters.timeTo);
+      if (filters.spots) params.set("spots", String(filters.spots));
+      params.set("sort", sortSelect.value);
+      params.set("page", String(pageNumber));
+      params.set("page_size", String(pageSize));
+      return params;
+    }
+
+    function updateSearchUrl(pageNumber) {
+      const params = searchParams(pageNumber);
+      params.delete("page_size");
+      const url = new URL(window.location.href);
+      url.search = params.toString();
+      window.history.replaceState({}, "", url);
+    }
+
+    async function loadSearchResults(pageNumber) {
+      if (!searchReady) return;
+      updateSearchUrl(pageNumber);
+      const params = searchParams(pageNumber);
+      const currentRequestId = ++requestId;
+      loadState = "loading";
+      status.textContent = "กำลังค้นหาปาร์ตี้ทั้งหมดที่ตรงกับตัวกรองจาก API (แสดงผลหน้าละ 12 รายการ)…";
+      setVisible(status, true);
+      setVisible(resultGrid, false);
+      setVisible(emptyState, false);
+      setVisible(errorState, false);
+      setVisible(loginState, false);
+      setVisible(pagination, false);
+      try {
+        const response = await request(`/parties?${params.toString()}`, undefined, true);
+        if (currentRequestId !== requestId) return;
+        parties = response.data;
+        totalResults = response.total;
+        currentPage = response.page;
+        loadState = "success";
+        renderResults();
+      } catch (error) {
+        if (currentRequestId !== requestId) return;
+        showError(error.message);
+      }
     }
 
     function clearFilters() {
       form.reset();
       sportSelect.value = "";
       updateVenueOptions();
-      const url = new URL(window.location.href);
-      url.search = "";
-      window.history.replaceState({}, "", url);
-      renderResults();
+      loadSearchResults(1);
     }
 
     const initialParams = new URLSearchParams(window.location.search);
     queryInput.value = initialParams.get("q") || "";
+    sortSelect.value = initialParams.get("sort") === "latest" ? "latest" : "soonest";
     dateInput.value = initialParams.get("date") || "";
     timeFromInput.value = initialParams.get("time_from") || "";
     timeToInput.value = initialParams.get("time_to") || "";
@@ -345,22 +385,12 @@
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       updateVenueOptions();
-      const params = new URLSearchParams();
-      const filters = activeFilters();
-      if (filters.q) params.set("q", queryInput.value.trim());
-      if (filters.sport) params.set("sport_id", filters.sport);
-      if (filters.venue) params.set("venue_id", filters.venue);
-      if (filters.date) params.set("date", filters.date);
-      if (filters.timeFrom) params.set("time_from", filters.timeFrom);
-      if (filters.timeTo) params.set("time_to", filters.timeTo);
-      if (filters.spots) params.set("spots", String(filters.spots));
-      const url = new URL(window.location.href);
-      url.search = params.toString();
-      window.history.replaceState({}, "", url);
-      renderResults();
+      loadSearchResults(1);
     });
     sportSelect.addEventListener("change", updateVenueOptions);
-    sortSelect.addEventListener("change", renderResults);
+    sortSelect.addEventListener("change", () => loadSearchResults(1));
+    previousPage.addEventListener("click", () => loadSearchResults(currentPage - 1));
+    nextPage.addEventListener("click", () => loadSearchResults(currentPage + 1));
     page.querySelector("[data-filter-reset]").addEventListener("click", clearFilters);
     page.querySelector("[data-empty-reset]").addEventListener("click", clearFilters);
     page.querySelector("[data-search-retry]").addEventListener("click", () => window.location.reload());
@@ -369,6 +399,7 @@
       await request("/me");
     } catch (error) {
       if (error.status === 401) {
+        loadState = "login";
         setVisible(status, false);
         setVisible(loginState, true);
         return;
@@ -378,7 +409,7 @@
     }
 
     try {
-      [parties, sports] = await Promise.all([request("/parties"), request("/sports")]);
+      sports = await request("/sports");
       sportNames = new Map(sports.map((sport) => [sport.id, sport.name]));
       sportSelect.replaceChildren(new Option("ทุกกีฬา", ""));
       sports.forEach((sport) => sportSelect.add(new Option(sport.name, String(sport.id))));
@@ -398,8 +429,10 @@
       sportSelect.value = initialParams.get("sport_id") || "";
       updateVenueOptions();
       venueSelect.value = initialParams.get("venue_id") || "";
-      renderResults();
+      searchReady = true;
+      await loadSearchResults(initialParams.get("page") || 1);
     } catch (error) {
+      searchReady = false;
       showError(error.message);
     }
   }
