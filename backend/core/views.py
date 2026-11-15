@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.db import DatabaseError, connection
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
 from parties.models import Party
+from parties.services import count_active_members, get_party_state
 
 
 @require_GET
@@ -82,7 +84,14 @@ def ready(request):
     return JsonResponse({"status": "ok", "database": "ok"})
 
 
-@login_required
+@require_GET
+@login_required(login_url="login-page")
 def my_parties_page(request):
-    parties = Party.objects.filter(host=request.user)
+    parties = list(Party.objects.filter(host=request.user).select_related("sport", "venue"))
+    now = timezone.now()
+    for party in parties:
+        member_count = count_active_members(party)
+        party.get_active_members_count = member_count
+        party.get_party_state = get_party_state(party, now, member_count=member_count)
+
     return render(request, "myparty.html", {"parties": parties})
