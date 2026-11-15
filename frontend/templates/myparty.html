@@ -36,9 +36,9 @@
 
     <!-- แท็บ -->
     <div class="mp-tabs">
-      <button class="mp-tab-btn active">กิจกรรมที่ฉันสร้าง</button>
-      <button class="mp-tab-btn">กิจกรรมที่เข้าร่วม</button>
-      <button class="mp-tab-btn">ประวัติกิจกรรม</button>
+      <button class="mp-tab-btn active" id="tab-created" onclick="switchTab('created')">กิจกรรมที่ฉันสร้าง</button>
+      <button class="mp-tab-btn" id="tab-joined" onclick="switchTab('joined')">กิจกรรมที่เข้าร่วม</button>
+      <button class="mp-tab-btn" id="tab-history" onclick="switchTab('history')">ประวัติกิจกรรม</button>
     </div>
       
     <div class="mp-grid">
@@ -110,6 +110,7 @@
         </div>
       </article>
     </div>
+    {% include "partials/myparty_history.html" %}
   </div>
 
   <footer class="mp-footer">CS261 UniSport Buddy</footer>
