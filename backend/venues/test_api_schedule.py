@@ -56,12 +56,22 @@ class VenueApiScheduleTests(TestCase):
         self.assertEqual(
             self.client.get(url).json(),
             {
-                "data": [{"id": self.venue.pk, "name": "Court", "location_text": "เวลา: MOCK"}],
+                "data": [
+                    {
+                        "id": self.venue.pk,
+                        "name": "Court",
+                        "location_text": "เวลา: MOCK",
+                        "venue_type": None,
+                    }
+                ],
                 "page": 1,
                 "page_size": 1,
                 "total": 1,
             },
         )
+        self.venue.venue_type = Venue.Type.INDOOR
+        self.venue.save(update_fields=["venue_type"])
+        self.assertEqual(self.client.get(url).json()["data"][0]["venue_type"], "Indoor")
         self.assertEqual(self.client.get(url + "&page=2").json()["data"], [])
         self.assertEqual(
             self.client.get(f"/api/v1/venues?sport_id={self.other.pk}").json()["total"], 0

@@ -59,7 +59,7 @@ def leave_party_api(request, party_id):
     )
 
 
-def party_data(party, user):
+def party_data(party, user, now=None):
     profile = getattr(party.host, "profile", None)
     member_count = (
         party.active_member_count
@@ -83,10 +83,54 @@ def party_data(party, user):
         "capacity": party.capacity,
         "member_count": member_count,
         "remaining_slots": party.capacity - member_count,
-        "state": get_party_state(party, member_count=member_count),
+        "state": get_party_state(party, now=now, member_count=member_count),
         "is_host": user.pk == party.host_id,
         "is_member": party.memberships.filter(user=user, left_at__isnull=True).exists(),
     }
+
+
+class InvalidPartyQuery(ValueError):
+    pass
+
+
+_MISSING_QUERY_DEFAULT = object()
+
+
+def party_query_value(request, name, default=_MISSING_QUERY_DEFAULT):
+    values = request.GET.getlist(name)
+    if not values and default is not _MISSING_QUERY_DEFAULT:
+        return default
+    if len(values) != 1:
+        raise InvalidPartyQuery(name)
+    return values[0]
+
+
+def positive_party_query(request, name, default=None, maximum=9223372036854775807):
+    raw = party_query_value(request, name, default)
+    if raw is None:
+        return None
+    if not raw.isascii() or not raw.isdigit():
+        raise InvalidPartyQuery(name)
+    normalized = raw.lstrip("0")
+    if not normalized or len(normalized) > len(str(maximum)):
+        raise InvalidPartyQuery(name)
+    value = int(normalized)
+    if value > maximum:
+        raise InvalidPartyQuery(name)
+    return value
+
+
+def party_query_datetime(request, name):
+    value = party_query_value(request, name, None)
+    if value is None:
+        return None
+    try:
+        parsed = parse_datetime(value) if "T" in value else None
+    except ValueError:
+        parsed = None
+    if parsed is None or timezone.is_naive(parsed):
+        raise InvalidPartyQuery(name)
+    return parsed
 
 
 @never_cache
@@ -321,22 +365,108 @@ def parse_party_datetimes(payload, fields):
 @require_university_user
 def create_party_api(request):
     if request.method == "GET":
-        parties = (
-            Party.objects.select_related("host__profile")
-            .filter(cancelled_at__isnull=True, starts_at__gt=timezone.now())
-            .annotate(
-                active_member_count=Count(
-                    "memberships", filter=Q(memberships__left_at__isnull=True)
-                )
+        starts_from = None
+        starts_to = None
+        try:
+            allowed_parameters = {
+                "q",
+                "sport_id",
+                "venue_id",
+                "venue_type",
+                "starts_from",
+                "starts_to",
+                "state",
+                "page",
+                "page_size",
+            }
+            for name in request.GET:
+                values = request.GET.getlist(name)
+                if name not in allowed_parameters or len(values) != 1:
+                    raise InvalidPartyQuery(name)
+                if name != "q" and not values[0]:
+                    raise InvalidPartyQuery(name)
+
+            query = party_query_value(request, "q", "").strip()
+            if len(query) > 100:
+                raise InvalidPartyQuery("q")
+            sport_id = positive_party_query(request, "sport_id")
+            venue_id = positive_party_query(request, "venue_id")
+            venue_type = party_query_value(request, "venue_type", None)
+            if venue_type not in {None, "Indoor", "Outdoor"}:
+                raise InvalidPartyQuery("venue_type")
+            starts_from = party_query_datetime(request, "starts_from")
+            starts_to = party_query_datetime(request, "starts_to")
+            if starts_from is not None and starts_to is not None and starts_from >= starts_to:
+                raise InvalidPartyQuery("starts_to")
+            state = party_query_value(request, "state", "Open")
+            if state not in {"Open", "Full", "InProgress", "Completed", "Cancelled", "all"}:
+                raise InvalidPartyQuery("state")
+            page = positive_party_query(request, "page", "1")
+            page_size = positive_party_query(request, "page_size", "20", 100)
+            if (page - 1) * page_size > 9223372036854775807:
+                raise InvalidPartyQuery("page")
+        except InvalidPartyQuery as error:
+            field = str(error)
+            message = (
+                "เวลาจบกิจกรรมต้องอยู่หลังเวลาเริ่ม(กล่องบน)"
+                if field == "starts_to" and starts_from is not None and starts_to is not None
+                else "ค่าพารามิเตอร์ไม่ถูกต้อง"
             )
-            .filter(active_member_count__lt=F("capacity"))
-            .order_by("starts_at")[:50]
+            return json_error(
+                "INVALID_INPUT",
+                "ตัวกรองค้นหาไม่ถูกต้อง",
+                400,
+                {field: message},
+            )
+
+        now = timezone.now()
+        parties = Party.objects.select_related("host__profile").annotate(
+            active_member_count=Count("memberships", filter=Q(memberships__left_at__isnull=True))
         )
+        if query:
+            parties = parties.filter(title__icontains=query)
+        if sport_id is not None:
+            parties = parties.filter(sport_id=sport_id)
+        if venue_id is not None:
+            parties = parties.filter(venue_id=venue_id)
+        if venue_type is not None:
+            parties = parties.filter(venue__venue_type=venue_type)
+        if starts_from is not None:
+            parties = parties.filter(starts_at__gte=starts_from)
+        if starts_to is not None:
+            parties = parties.filter(starts_at__lt=starts_to)
+        if state == "Open":
+            parties = parties.filter(
+                cancelled_at__isnull=True,
+                starts_at__gt=now,
+                active_member_count__lt=F("capacity"),
+            )
+        elif state == "Full":
+            parties = parties.filter(
+                cancelled_at__isnull=True,
+                starts_at__gt=now,
+                active_member_count__gte=F("capacity"),
+            )
+        elif state == "InProgress":
+            parties = parties.filter(
+                cancelled_at__isnull=True,
+                starts_at__lte=now,
+                ends_at__gt=now,
+            )
+        elif state == "Completed":
+            parties = parties.filter(cancelled_at__isnull=True, ends_at__lte=now)
+        elif state == "Cancelled":
+            parties = parties.filter(cancelled_at__isnull=False)
+
+        parties = parties.order_by("starts_at", "pk")
+        total = parties.count()
+        offset = (page - 1) * page_size
+        parties = parties[offset : offset + page_size]
         data = []
         for party in parties:
-            item = party_data(party, request.user)
+            item = party_data(party, request.user, now=now)
             data.append(item)
-        return JsonResponse({"data": data})
+        return JsonResponse({"data": data, "page": page, "page_size": page_size, "total": total})
     if request.method != "POST":
         response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ GET และ POST", 405)
         response["Allow"] = "GET, POST"

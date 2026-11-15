@@ -2,8 +2,9 @@
 
 from html.parser import HTMLParser
 
+from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
 
@@ -24,19 +25,67 @@ def hrefs(html):
     return parser.hrefs
 
 
-class HomeLinkTests(SimpleTestCase):
+class HomeLinkTests(TestCase):
     def test_home_has_sprint_one_navigation_and_no_placeholder_link(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'href="#"')
         for url in (
             reverse("home"),
+            reverse("search-page"),
             reverse("login-page"),
             reverse("party-create-page"),
             reverse("venues:venue_map"),
         ):
             with self.subTest(url=url):
                 self.assertIn(url, hrefs(response.content.decode()))
+
+    def test_search_page_renders_search_filters_and_marks_navigation(self):
+        user = get_user_model().objects.create_user(username="search-page-user")
+        self.client.force_login(user)
+        response = self.client.get(reverse("search-page"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "หาปาร์ตี้กีฬา ไปเล่นด้วยกัน")
+        self.assertContains(response, "data-filter-sport")
+        self.assertContains(response, "data-filter-venue")
+        self.assertContains(response, "data-filter-date")
+        self.assertContains(response, 'class="active" aria-current="page"')
+        self.assertContains(response, "css/search.css")
+
+    def test_search_page_redirects_anonymous_users_to_login(self):
+        response = self.client.get(reverse("search-page"))
+        self.assertRedirects(
+            response,
+            f"{reverse('login-page')}?next=%2Fsearch%2F",
+        )
+
+    def test_create_party_redirects_to_login_and_returns_to_requested_page(self):
+        response = self.client.get(
+            reverse("party-create-page"),
+            {"sport_id": "3", "venue_id": "8"},
+        )
+        self.assertRedirects(
+            response,
+            f"{reverse('login-page')}?next=%2Fparties%2Fnew%2F%3Fsport_id%3D3%26venue_id%3D8",
+        )
+        login_response = self.client.get(response.url)
+        self.assertEqual(login_response.status_code, 200)
+        self.assertContains(
+            login_response,
+            'data-next-url="/parties/new/?sport_id=3&amp;venue_id=8"',
+        )
+
+    def test_login_page_ignores_external_next_url(self):
+        response = self.client.get(reverse("login-page"), {"next": "https://example.com/"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'data-next-url="{reverse("home")}"')
+
+    def test_authenticated_user_can_open_create_party_page(self):
+        user = get_user_model().objects.create_user(username="party-create-user")
+        self.client.force_login(user)
+        response = self.client.get(reverse("party-create-page"), {"sport_id": "3"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-sport-id="3"')
 
     def test_home_keeps_business_api_out_of_markup(self):
         response = self.client.get(reverse("home"))

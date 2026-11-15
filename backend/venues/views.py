@@ -61,7 +61,11 @@ def venues(request):
     rows = (
         []
         if offset >= total
-        else list(queryset.values("id", "name", "location_text")[offset : offset + page_size])
+        else list(
+            queryset.values("id", "name", "location_text", "venue_type")[
+                offset : offset + page_size
+            ]
+        )
     )
     return JsonResponse({"data": rows, "page": page, "page_size": page_size, "total": total})
 
