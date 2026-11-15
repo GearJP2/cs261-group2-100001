@@ -1,5 +1,5 @@
 <!-- ========================================== -->
-<!-- ไฟล์ partials/myparty_history.html (Task 91) -->
+<!-- ไฟล์ partials/myparty_history.html -->
 <!-- ========================================== -->
 
 <div class="mp-grid-history" id="grid-history" style="display: none;">
@@ -42,6 +42,7 @@
     <div class="mp-card-horizontal-right">
       <span class="mp-tag-status-ended">กิจกรรมสิ้นสุดแล้ว</span>
       <div class="mp-action-box">
+        <!-- ส่ง partyId = 1 เข้าไป -->
         <button class="btn-review" onclick="openMembersModal(1, 'ตีแบดวันอาทิตย์ รวมเพื่อนร่วมสนาม')">ให้คะแนนและรีวิว</button>
         <p class="mp-action-note">แบ่งปันความประทับใจหลังจบกิจกรรม</p>
       </div>
@@ -85,11 +86,18 @@
     <div class="mp-card-horizontal-right">
       <span class="mp-tag-status-ended">กิจกรรมสิ้นสุดแล้ว</span>
       <div class="mp-action-box">
+        <!-- ส่ง partyId = 2 เข้าไป -->
         <button class="btn-review" onclick="openMembersModal(2, 'มือใหม่ลองเล่นพิกเคลบอลกัน')">ให้คะแนนและรีวิว</button>
         <p class="mp-action-note">แบ่งปันความประทับใจหลังจบกิจกรรม</p>
       </div>
     </div>
   </article>
+</div>
+
+<!-- (เพิ่มแก้จุดที่ 3): โครงสร้างรองรับแท็บกิจกรรมที่เข้าร่วม ไม่ให้หน้าจอโล่งหาย -->
+<div id="grid-joined" class="mp-grid-joined" style="display: none; padding: 40px; text-align: center; color: #888;">
+  <h3 class="mp-section-title" style="text-align: left;">กิจกรรมที่เข้าร่วม</h3>
+  <p>ยังไม่มีประวัติกิจกรรมที่คุณเข้าร่วมในขณะนี้</p>
 </div>
 
 <!-- Modal 1: รายชื่อสมาชิกในปาร์ตี้เพื่อเลือกให้คะแนน -->
@@ -99,7 +107,8 @@
     <p class="mp-modal-desc" style="text-align: left;">เลือกสมาชิกที่จะให้คะแนนและรีวิว</p>
 
     <div class="mp-member-list" id="modal-member-list">
-      <div class="mp-member-item">
+      <!-- เพิ่ม data-userid ประจำตัวสมาชิกแต่ละคนเพื่อใช้แยกสถานะรีวิว -->
+      <div class="mp-member-item" data-userid="101">
         <div class="mp-member-info">
           <div class="mp-avatar">
             <svg viewBox="0 0 24 24" width="22" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -112,7 +121,7 @@
         <button class="btn-item-review" onclick="openRatingForm(101, 'รตนพงศ์ ชาติเผือก', this)">ให้คะแนน</button>
       </div>
 
-      <div class="mp-member-item">
+      <div class="mp-member-item" data-userid="102">
         <div class="mp-member-info">
           <div class="mp-avatar">
             <svg viewBox="0 0 24 24" width="22" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -123,19 +132,6 @@
           </div>
         </div>
         <button class="btn-item-review" onclick="openRatingForm(102, 'อรัญญา นามสกุล', this)">ให้คะแนน</button>
-      </div>
-
-      <div class="mp-member-item">
-        <div class="mp-member-info">
-          <div class="mp-avatar">
-            <svg viewBox="0 0 24 24" width="22" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <div>
-            <p class="mp-member-name">ณภัทร รักดี</p>
-            <p class="mp-member-role">ผู้ร่วมกิจกรรม</p>
-          </div>
-        </div>
-        <button class="btn-item-reviewed" disabled>รีวิวแล้ว</button>
       </div>
     </div>
 
@@ -192,7 +188,6 @@
   let activeReviewBtn = null;
 
   document.addEventListener("DOMContentLoaded", () => {
-    // ผูกคลิกสลับแท็บอัตโนมัติโดยไม่ต้องแก้ปุ่มใน myparty.html เยอะ
     const tabBtns = document.querySelectorAll('.mp-tabs .mp-tab-btn');
     if (tabBtns.length >= 3) {
       tabBtns[0].addEventListener('click', () => switchTab('created', tabBtns[0]));
@@ -242,9 +237,31 @@
     }
   }
 
+  // (แก้จุดที่ 2): โหลดสถานะปุ่มรีวิวแยกตาม party_id + user_id ทันทีที่เปิด Modal รายชื่อ
   function openMembersModal(partyId, partyTitle) {
     currentPartyId = partyId;
     document.getElementById('modal-party-title').textContent = partyTitle;
+    
+    const memberItems = document.querySelectorAll('.mp-member-item');
+    memberItems.forEach(item => {
+      const btn = item.querySelector('button');
+      const userId = item.getAttribute('data-userid');
+      const reviewKey = `reviewed_${currentPartyId}_${userId}`;
+      
+      if (localStorage.getItem(reviewKey) === 'true') {
+        btn.className = 'btn-item-reviewed';
+        btn.textContent = 'รีวิวแล้ว';
+        btn.disabled = true;
+        btn.removeAttribute('onclick');
+      } else {
+        // รีเซ็ตปุ่มกลับเป็นปกติถ้ายังไม่ได้รีวิวในปาร์ตี้นี้
+        btn.className = 'btn-item-review';
+        btn.textContent = 'ให้คะแนน';
+        btn.disabled = false;
+        btn.setAttribute('onclick', `openRatingForm(${userId}, '${item.querySelector('.mp-member-name').textContent}', this)`);
+      }
+    });
+
     document.getElementById('membersModal').style.display = 'flex';
   }
 
@@ -290,13 +307,11 @@
     const errorMsg = document.getElementById('submit-error-msg');
     const commentText = document.getElementById('review-comment').value.trim();
 
-    // ปิดปุ่มระหว่างส่งตาม AC ของ Task 91
     submitBtn.disabled = true;
     submitBtn.textContent = 'กำลังส่ง...';
     errorMsg.style.display = 'none';
 
     try {
-      // ดึง CSRF Token
       let csrftoken = null;
       if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -322,13 +337,16 @@
         })
       });
 
-      // รองรับทั้งกรณีเชื่อม API หลังบ้านสำเร็จ หรือกรณีจำลองการส่งหน้าบ้านตอนทดสอบ UI
-      if (response.ok || response.status === 404) {
+      // (แก้จุดที่ 1): เช็คเฉพาะ response.ok เท่านั้น ห้ามผ่านถ้าเจอ 404
+      if (response.ok) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'ส่งคะแนนและรีวิว';
         document.getElementById('ratingModal').style.display = 'none';
 
-        // เปลี่ยนปุ่มเป็น "รีวิวแล้ว" และล็อกไม่ให้กดรีวิวซ้ำตาม AC
+        // (แก้จุดที่ 2): บันทึกสถานะแยกตาม party_id + user_id ลงใน localStorage
+        const reviewKey = `reviewed_${currentPartyId}_${currentTargetUserId}`;
+        localStorage.setItem(reviewKey, 'true');
+
         if (activeReviewBtn) {
           activeReviewBtn.className = 'btn-item-reviewed';
           activeReviewBtn.textContent = 'รีวิวแล้ว';
