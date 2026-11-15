@@ -1,0 +1,6 @@
+DO
+ reviewee_id | rating_sum | rating_count | credit_score | actual_count | actual_sum | actual_average | credit_events | review_id | party_id | reviewer_id | rating | created_at 
+-------------+------------+--------------+--------------+--------------+------------+----------------+---------------+-----------+----------+-------------+--------+------------
+           4 |          0 |            0 |              |            0 |          0 |                |             0 |           |          |             |        | 
+(1 row)
+

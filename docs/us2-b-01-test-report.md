@@ -28,7 +28,7 @@ Response เป็น `data` array รูปแบบ Party Detail เดิม 
 
 ## Migration และข้อมูลสนาม
 
-เพิ่ม `venues/0002_venue_type.py` และ `Venue.Type` ตาม [schema contract หัวข้อ 2.3](base-02-schema-contract.md#23-รอบถัดไป--us2-ค้นหา-และวันปิดสนาม) ซึ่งยืนยัน Indoor/Outdoor nullable ไว้แล้ว
+เพิ่ม `venues/0002_venue_venue_type.py` และ `Venue.Type` ตาม [schema contract หัวข้อ 2.3](base-02-schema-contract.md#23-รอบถัดไป--us2-ค้นหา-และวันปิดสนาม) ซึ่งยืนยัน Indoor/Outdoor nullable ไว้แล้ว
 ใช้ `make migrate` เพื่อใช้ migration เมื่ออัปเดต environment (startup development ทำ migrate ตาม workflow เดิมด้วย)
 ข้อมูลสนามเก่าเป็น null ไม่เปลี่ยนเป็น Indoor/Outdoor อัตโนมัติ; ต้องให้ผู้ดูแลยืนยันและจัดประเภทก่อนคาดหวังว่าตัวกรองประเภทสนามจะพบสนามเหล่านั้น
 null ยังแสดงได้เมื่อไม่กรองประเภท; สนาม inactive ไม่ถูกซ่อนเพิ่มจากกฎ Detail เดิม
@@ -64,3 +64,15 @@ Session ใน tests เป็น local verified fixture ไม่ใช่ผ�
 - [ ] แนบผล GitHub CI และส่งต่อ #98/Frontend
 
 local verification ไม่แทน peer review หรือผล GitHub CI
+
+## Retest หลังรวม main — 16 พฤศจิกายน 2026
+
+รวม `origin/main` ที่ `69c53f5` เข้า branch Search API และแก้ conflict โดยใช้ parser/queryset ใน `search.py` ชุดเดียว พร้อมเก็บ tests ล่าสุดจาก main รวมทั้ง Task78 query audit
+ใช้ model และ migration `venues/0002_venue_venue_type.py` ของ main; ลบ `0002_venue_type.py` ของ branch ที่เพิ่ม field เดียวกันซ้ำ จึงเหลือ migration graph สายเดียว ไม่เพิ่มคอลัมน์สองครั้ง
+
+- `make verify` ผ่าน 659 tests (skip 1 เคส US14 ที่รอ policy #100/#105); Django/migration/lint/format checks ผ่าน
+- `make smoke` ผ่าน HTTP, PostgreSQL readiness, Django template และ static CSS
+- ไม่มีการเปลี่ยน historical evidence files ของทีมเพื่อให้ตรง implementation ใหม่
+
+กรณี local เคยใช้ `0002_venue_type` ของ branch ไปแล้ว: ต้องตรวจประวัติ migration และคอลัมน์จริงก่อน หากเป็น `venue_type` แบบ varchar(7), nullable ตรง migration ใหม่ จึงใช้ `python backend/manage.py migrate venues 0002_venue_venue_type --fake` ใน container เพื่อบันทึกชื่อ migration ของ main โดยไม่เพิ่มคอลัมน์ซ้ำ
+ขั้นตอนนี้ใช้กับ local ที่ตรวจแล้วเท่านั้น ไม่ใช้ --fake กับฐานใหม่หรือ schema ที่ไม่ตรง; ฐานใหม่รัน migrate ปกติ Local รอบนี้ตรวจและปรับประวัติแล้ว ไม่มีการลบข้อมูลสนาม

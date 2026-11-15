@@ -1,0 +1,104 @@
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, conduct, contenttypes, parties, sessions, venues
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying accounts.0005_userprofile_rating_cache... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying conduct.0001_initial... OK
+  Applying conduct.0002_noshowreport_conductcreditevent... OK
+  Applying sessions.0001_initial... OK
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 14, 2026 - 21:43:51
+Django version 5.2.18, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+[14/Nov/2026 21:43:51] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/2/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/2 HTTP/1.1" 200 407
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/3/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/3 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:54] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/4/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/4 HTTP/1.1" 200 421
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/5/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/5 HTTP/1.1" 200 412
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/6/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:54] "GET /api/v1/parties/6 HTTP/1.1" 200 412
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "POST /api/v1/parties/1/join-requests/2/decision HTTP/1.1" 200 41
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 229
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+Conflict: /api/v1/parties/1/join-requests/2/decision
+[14/Nov/2026 21:43:55] "POST /api/v1/parties/1/join-requests/2/decision HTTP/1.1" 409 209
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 229
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "POST /api/v1/parties/2/join-requests/6/decision HTTP/1.1" 200 41
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/2/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/2 HTTP/1.1" 200 407
+[14/Nov/2026 21:43:55] "POST /api/v1/parties/1/leave HTTP/1.1" 200 92
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 404
+Forbidden: /api/v1/parties/1/members
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 403 389
+[14/Nov/2026 21:43:55] "POST /api/v1/parties/1/leave HTTP/1.1" 200 92
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 404
+Forbidden: /api/v1/parties/1/members
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 403 389
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 166
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 193
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 402
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1/members HTTP/1.1" 200 132
+[14/Nov/2026 21:43:55] "GET /api/v1/parties/1 HTTP/1.1" 200 403
+[14/Nov/2026 21:44:00] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:05] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:11] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:16] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:22] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:27] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:32] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:38] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:43] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:49] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:44:54] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:45:00] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:45:05] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:45:10] "GET /health/ready/ HTTP/1.1" 200 34
+[14/Nov/2026 21:45:16] "GET /health/ready/ HTTP/1.1" 200 34

@@ -1,34 +1,19 @@
-"""Task66: independent SQL versus Members HTTP response (PostgreSQL integration).
-
-Main does not have Task61's route yet. Skips are dependency evidence, not passes.
-Run unchanged on the documented integration checkout to exercise the endpoint.
-"""
+"""Task66: independent SQL versus merged Members/Leave APIs on PostgreSQL."""
 
 from io import StringIO
 from pathlib import Path
-from unittest import skipUnless
 
 from accounts.models import UserProfile
 from accounts.test_support import force_university_login
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.db import connection
-from django.test import TestCase, override_settings
-from django.urls import Resolver404, resolve
+from django.test import Client, TestCase, override_settings
 from django.utils import timezone
 
 from .models import JoinRequest, Party, PartyMembership
 
 
-def has_members_route():
-    try:
-        resolve("/api/v1/parties/1/members")
-    except Resolver404:
-        return False
-    return True
-
-
-@skipUnless(has_members_route(), "BLOCKED Task61: Members route is absent; do not count as PASS")
 @override_settings(DEBUG=True)
 class MembersDatabaseIntegrationTests(TestCase):
     @classmethod
@@ -44,7 +29,10 @@ class MembersDatabaseIntegrationTests(TestCase):
         }
 
     def setUp(self):
+        self.client = Client(enforce_csrf_checks=True)
         force_university_login(self.client, self.users["h"])
+        token = self.client.get("/api/v1/auth/csrf").json()["data"]["csrf_token"]
+        self.client.defaults["HTTP_X_CSRFTOKEN"] = token
 
     def assert_members_match_sql(self, party):
         # Execute the independent SQL file, not the endpoint's helper/ORM query.
@@ -138,6 +126,48 @@ class MembersDatabaseIntegrationTests(TestCase):
         self.assertEqual(before, [list(model.objects.order_by("pk").values()) for model in models])
 
     def test_db66_a07_legacy_host_must_not_disagree_with_actual_sql_rows(self):
-        # Intentionally exposes PR123's inferred Host/count discrepancy for team review.
+        # Regression: a Host may read but must not be synthesized as an active row.
         self.party.memberships.filter(user=self.users["h"]).update(left_at=self.reference)
         self.assert_members_match_sql(self.party)
+
+    def test_db66_a08_real_leave_retry_matches_sql_and_preserves_history(self):
+        member_client = Client(enforce_csrf_checks=True)
+        force_university_login(member_client, self.users["m"])
+        token = member_client.get("/api/v1/auth/csrf").json()["data"]["csrf_token"]
+        membership = self.party.memberships.get(user=self.users["m"])
+        original = (membership.pk, membership.joined_at)
+        request_before = list(self.party.join_requests.order_by("pk").values())
+        capacity = self.party.capacity
+        first = None
+        for attempt in range(2):
+            response = member_client.post(
+                f"/api/v1/parties/{self.party.pk}/leave",
+                {},
+                content_type="application/json",
+                HTTP_X_CSRFTOKEN=token,
+            )
+            self.assertEqual(response.status_code, 200)
+            if attempt == 0:
+                first = response.json()
+            self.assertEqual(response.json(), first)
+            self.assertEqual(self.assert_members_match_sql(self.party)["member_count"], 1)
+        membership.refresh_from_db()
+        self.assertEqual((membership.pk, membership.joined_at), original)
+        self.assertIsNotNone(membership.left_at)
+        self.assertEqual(request_before, list(self.party.join_requests.order_by("pk").values()))
+        self.party.refresh_from_db()
+        self.assertEqual(self.party.capacity, capacity)
+        self.assertEqual(
+            member_client.get(f"/api/v1/parties/{self.party.pk}/members").status_code, 403
+        )
+        detail = member_client.get(f"/api/v1/parties/{self.party.pk}").json()["data"]
+        self.assertEqual(
+            (detail["is_member"], detail["member_count"], detail["remaining_slots"]),
+            (False, 1, capacity - 1),
+        )
+
+    def test_db66_a09_host_without_membership_is_not_synthesized(self):
+        self.party.memberships.filter(user=self.users["h"]).delete()
+        data = self.assert_members_match_sql(self.party)
+        self.assertEqual(data["member_count"], 1)
+        self.assertNotIn(self.users["h"].pk, [row["user_id"] for row in data["members"]])

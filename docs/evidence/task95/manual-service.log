@@ -1,0 +1,8 @@
+ Container s2-task95-database-1 Running 
+ Container s2-task95-database-1 Waiting 
+ Container s2-task95-database-1 Healthy 
+ Container s2-task95-backend-run-4c4572e9ff49 Creating 
+ Container s2-task95-backend-run-4c4572e9ff49 Created 
+19 objects imported automatically (use -v 2 for details).
+
+{"manual_service": "PASS", "review_id": 1, "before": {"rating_sum": 0, "rating_count": 0, "credit_score": null}, "after": {"rating_sum": 5, "rating_count": 1, "credit_score": null}, "duplicate_error": "REVIEW_EXISTS", "duplicate_status": 409}

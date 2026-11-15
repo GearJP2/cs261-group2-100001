@@ -1,0 +1,208 @@
+ Container s2-task95-database-1 Running 
+ Container s2-task95-database-1 Waiting 
+ Container s2-task95-database-1 Healthy 
+ Container s2-task95-backend-run-9c5c6bb924b8 Creating 
+ Container s2-task95-backend-run-9c5c6bb924b8 Created 
+All checks passed!
+2 files reformatted
+Found 77 test(s).
+Creating test database for alias 'default' ('test_s2_task95_review')...
+Operations to perform:
+  Synchronize unmigrated apps: core, messages, staticfiles
+  Apply all migrations: accounts, admin, auth, conduct, contenttypes, parties, sessions, venues
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying accounts.0005_userprofile_rating_cache... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying conduct.0001_initial... OK
+  Applying conduct.0002_noshowreport_conductcreditevent... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+DB95_EVIDENCE {"case": "test_actual_cache_constraint_violation_rolls_back_inserted_review", "sql_before": [{"reviewee_id": 2, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "fault": "invalid count injected; real PostgreSQL CHECK violation", "observed": {"insert_seen_before_failure": 1, "sqlstate": "23514", "constraint": "user_profile_rating_count_gte_0"}, "http_status": 500, "sql_after": [{"reviewee_id": 2, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}]}
+test_actual_cache_constraint_violation_rolls_back_inserted_review (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_actual_cache_constraint_violation_rolls_back_inserted_review) ... ok
+test_api_failure_after_both_writes_rolls_back_review_and_cache (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_api_failure_after_both_writes_rolls_back_review_and_cache) ... ok
+DB95_EVIDENCE {"case": "test_api_failure_after_both_writes_rolls_back_review_and_cache", "sql_before": [{"reviewee_id": 6, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "fault": "injected DatabaseError after real cache UPDATE", "observed": {"insert_seen_before_failure": 1, "updated_cache_before_failure": {"rating_sum": 4, "rating_count": 1}}, "http_status": 500, "sql_after": [{"reviewee_id": 6, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}]}
+test_duplicate_api_leaves_review_id_timestamp_cache_and_credit_unchanged (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_duplicate_api_leaves_review_id_timestamp_cache_and_credit_unchanged) ... ok
+DB95_EVIDENCE {"case": "test_duplicate_api_leaves_review_id_timestamp_cache_and_credit_unchanged", "sql_before": [{"reviewee_id": 10, "rating_sum": 4, "rating_count": 1, "credit_score": null, "actual_count": 1, "actual_sum": 4, "actual_average": "4.0000000000000000", "credit_events": 0, "review_id": 3, "party_id": 3, "reviewer_id": 9, "rating": 4, "created_at": "2026-11-14 14:31:02.052299+00:00"}], "http_status": 409, "response": {"error": {"code": "REVIEW_EXISTS", "message": "\u0e04\u0e38\u0e13\u0e23\u0e35\u0e27\u0e34\u0e27\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e19\u0e35\u0e49\u0e43\u0e19\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e19\u0e35\u0e49\u0e41\u0e25\u0e49\u0e27"}}, "sql_after": [{"reviewee_id": 10, "rating_sum": 4, "rating_count": 1, "credit_score": null, "actual_count": 1, "actual_sum": 4, "actual_average": "4.0000000000000000", "credit_events": 0, "review_id": 3, "party_id": 3, "reviewer_id": 9, "rating": 4, "created_at": "2026-11-14 14:31:02.052299+00:00"}]}
+test_multiple_ratings_match_raw_rows_summary_and_credit_history (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_multiple_ratings_match_raw_rows_summary_and_credit_history) ... ok
+DB95_EVIDENCE {"case": "test_multiple_ratings_match_raw_rows_summary_and_credit_history", "sql_before": [{"reviewee_id": 14, "rating_sum": 0, "rating_count": 0, "credit_score": 95, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "sql_after": [{"reviewee_id": 14, "rating_sum": 13, "rating_count": 3, "credit_score": 95, "actual_count": 3, "actual_sum": 13, "actual_average": "4.3333333333333333", "credit_events": 0, "review_id": 5, "party_id": 4, "reviewer_id": 13, "rating": 5, "created_at": "2026-11-14 14:31:02.237389+00:00"}, {"reviewee_id": 14, "rating_sum": 13, "rating_count": 3, "credit_score": 95, "actual_count": 3, "actual_sum": 13, "actual_average": "4.3333333333333333", "credit_events": 0, "review_id": 6, "party_id": 4, "reviewer_id": 15, "rating": 4, "created_at": "2026-11-14 14:31:02.254411+00:00"}, {"reviewee_id": 14, "rating_sum": 13, "rating_count": 3, "credit_score": 95, "actual_count": 3, "actual_sum": 13, "actual_average": "4.3333333333333333", "credit_events": 0, "review_id": 7, "party_id": 5, "reviewer_id": 13, "rating": 4, "created_at": "2026-11-14 14:31:02.282116+00:00"}], "http_statuses": [201, 201, 201], "summary": {"average_rating": 4.33, "rating_count": 3, "total": 3}}
+test_csrf_is_enforced_by_the_middleware (conduct.test_reviews.ReviewAccessTests.test_csrf_is_enforced_by_the_middleware)
+IT-US14-DB-36 ... ok
+test_other_methods_are_405_with_allow (conduct.test_reviews.ReviewAccessTests.test_other_methods_are_405_with_allow)
+IT-US14-DB-35 ... ok
+test_session_without_university_identity_is_403 (conduct.test_reviews.ReviewAccessTests.test_session_without_university_identity_is_403)
+IT-US14-DB-34 ... ok
+test_unauthenticated_request_is_401 (conduct.test_reviews.ReviewAccessTests.test_unauthenticated_request_is_401)
+IT-US14-DB-33 ... ok
+test_duplicate_is_enforced_by_the_database (conduct.test_reviews.ReviewConstraintTests.test_duplicate_is_enforced_by_the_database)
+IT-US14-DB-39 ... ok
+test_rating_cache_cannot_be_negative (conduct.test_reviews.ReviewConstraintTests.test_rating_cache_cannot_be_negative)
+IT-US14-DB-40 ... ok
+test_rating_range_is_enforced_by_the_database (conduct.test_reviews.ReviewConstraintTests.test_rating_range_is_enforced_by_the_database)
+IT-US14-DB-37 ... ok
+test_self_review_is_enforced_by_the_database (conduct.test_reviews.ReviewConstraintTests.test_self_review_is_enforced_by_the_database)
+IT-US14-DB-38 ... ok
+test_party_with_a_review_cannot_be_deleted (conduct.test_reviews.ReviewDeletionProtectionTests.test_party_with_a_review_cannot_be_deleted)
+IT-US14-DB-44: no silent cascade that leaves the rating cache stale. ... ok
+test_party_without_reviews_can_still_be_deleted (conduct.test_reviews.ReviewDeletionProtectionTests.test_party_without_reviews_can_still_be_deleted)
+IT-US14-DB-45 ... ok
+test_user_who_wrote_or_received_a_review_cannot_be_deleted (conduct.test_reviews.ReviewDeletionProtectionTests.test_user_who_wrote_or_received_a_review_cannot_be_deleted)
+IT-US14-DB-46: neither side of a review can be removed from under the cache. ... ok
+test_duplicate_leaves_the_outer_transaction_usable (conduct.test_reviews.ReviewDuplicateTests.test_duplicate_leaves_the_outer_transaction_usable)
+IT-US14-DB-09: the unique conflict is caught outside its failed savepoint. ... ok
+test_duplicate_returns_409_and_does_not_count_twice (conduct.test_reviews.ReviewDuplicateTests.test_duplicate_returns_409_and_does_not_count_twice)
+IT-US14-DB-08 ... ok
+test_other_integrity_errors_are_not_reported_as_duplicates (conduct.test_reviews.ReviewDuplicateTests.test_other_integrity_errors_are_not_reported_as_duplicates)
+IT-US14-DB-10 ... ok
+test_host_without_membership_row_is_a_participant (conduct.test_reviews.ReviewEligibilityTests.test_host_without_membership_row_is_a_participant)
+IT-US14-DB-22 ... ok
+test_member_who_left_at_or_after_end_is_eligible (conduct.test_reviews.ReviewEligibilityTests.test_member_who_left_at_or_after_end_is_eligible)
+IT-US14-DB-21 ... ok
+test_member_who_left_before_end_is_not_eligible (conduct.test_reviews.ReviewEligibilityTests.test_member_who_left_before_end_is_not_eligible)
+IT-US14-DB-20 ... ok
+test_membership_of_another_party_does_not_count (conduct.test_reviews.ReviewEligibilityTests.test_membership_of_another_party_does_not_count)
+IT-US14-DB-23 ... ok
+test_outsider_reviewer_is_forbidden (conduct.test_reviews.ReviewEligibilityTests.test_outsider_reviewer_is_forbidden)
+IT-US14-DB-16 ... ok
+test_reviewee_outsider_missing_and_profileless_are_indistinguishable (conduct.test_reviews.ReviewEligibilityTests.test_reviewee_outsider_missing_and_profileless_are_indistinguishable)
+IT-US14-DB-17: no response reveals that an account exists; nothing is stored. ... ok
+test_reviewee_without_profile_cannot_create_an_uncounted_review (conduct.test_reviews.ReviewEligibilityTests.test_reviewee_without_profile_cannot_create_an_uncounted_review)
+IT-US14-DB-18: the insert is rolled back when no rating cache exists. ... ok
+test_self_review_is_rejected (conduct.test_reviews.ReviewEligibilityTests.test_self_review_is_rejected)
+IT-US14-DB-19 ... ok
+test_cache_accumulates_reviews_from_different_reviewers (conduct.test_reviews.ReviewHappyPathTests.test_cache_accumulates_reviews_from_different_reviewers)
+IT-US14-DB-04 ... ok
+test_host_reviews_member_with_exact_response_and_cache (conduct.test_reviews.ReviewHappyPathTests.test_host_reviews_member_with_exact_response_and_cache)
+IT-US14-DB-01 ... ok
+test_member_reviews_host_and_member_reviews_member (conduct.test_reviews.ReviewHappyPathTests.test_member_reviews_host_and_member_reviews_member)
+IT-US14-DB-03 ... ok
+test_response_exposes_no_login_or_contact_identifier (conduct.test_reviews.ReviewHappyPathTests.test_response_exposes_no_login_or_contact_identifier)
+IT-US14-DB-02 ... ok
+test_reviewer_without_profile_gets_generic_display_name (conduct.test_reviews.ReviewHappyPathTests.test_reviewer_without_profile_gets_generic_display_name)
+IT-US14-DB-07 ... ok
+test_same_reviewee_can_be_reviewed_again_in_another_party (conduct.test_reviews.ReviewHappyPathTests.test_same_reviewee_can_be_reviewed_again_in_another_party)
+IT-US14-DB-06 ... ok
+test_same_reviewer_can_review_a_different_reviewee_in_the_party (conduct.test_reviews.ReviewHappyPathTests.test_same_reviewer_can_review_a_different_reviewee_in_the_party)
+IT-US14-DB-05 ... ok
+test_comment_is_required_text_within_limits (conduct.test_reviews.ReviewInputValidationTests.test_comment_is_required_text_within_limits)
+IT-US14-DB-26 ... ok
+test_comment_of_500_characters_is_accepted (conduct.test_reviews.ReviewInputValidationTests.test_comment_of_500_characters_is_accepted)
+IT-US14-DB-27: the limit counts characters after stripping. ... ok
+test_every_rating_from_1_to_5_is_accepted (conduct.test_reviews.ReviewInputValidationTests.test_every_rating_from_1_to_5_is_accepted)
+IT-US14-DB-25 ... ok
+test_invalid_json_and_non_objects_are_rejected (conduct.test_reviews.ReviewInputValidationTests.test_invalid_json_and_non_objects_are_rejected)
+IT-US14-DB-32 ... ok
+test_missing_fields_are_reported_individually (conduct.test_reviews.ReviewInputValidationTests.test_missing_fields_are_reported_individually)
+IT-US14-DB-29 ... ok
+test_non_json_content_type_is_rejected (conduct.test_reviews.ReviewInputValidationTests.test_non_json_content_type_is_rejected)
+IT-US14-DB-31 ... ok
+test_rating_must_be_an_integer_from_1_to_5 (conduct.test_reviews.ReviewInputValidationTests.test_rating_must_be_an_integer_from_1_to_5)
+IT-US14-DB-24 ... ok
+test_reviewee_id_must_be_an_in_range_integer (conduct.test_reviews.ReviewInputValidationTests.test_reviewee_id_must_be_an_in_range_integer)
+IT-US14-DB-28 ... ok
+test_unknown_fields_are_rejected_including_client_selected_actor_and_cache (conduct.test_reviews.ReviewInputValidationTests.test_unknown_fields_are_rejected_including_client_selected_actor_and_cache)
+IT-US14-DB-30 ... ok
+test_cancelled_party_is_refused_before_and_after_its_end_time (conduct.test_reviews.ReviewPartyStateTests.test_cancelled_party_is_refused_before_and_after_its_end_time)
+IT-US14-DB-14 ... ok
+test_full_party_is_refused (conduct.test_reviews.ReviewPartyStateTests.test_full_party_is_refused)
+IT-US14-DB-12 ... ok
+test_in_progress_party_is_refused (conduct.test_reviews.ReviewPartyStateTests.test_in_progress_party_is_refused)
+IT-US14-DB-13 ... ok
+test_open_party_is_refused (conduct.test_reviews.ReviewPartyStateTests.test_open_party_is_refused)
+IT-US14-DB-11 ... ok
+test_unknown_party_is_404 (conduct.test_reviews.ReviewPartyStateTests.test_unknown_party_is_404)
+IT-US14-DB-15 ... ok
+test_any_logged_in_user_can_read_another_users_reviews (conduct.test_review_list.ReviewListAccessTests.test_any_logged_in_user_can_read_another_users_reviews)
+IT-US14-READ-20: viewers need not share a party with the reviewee. ... ok
+test_inactive_user_with_profile_is_readable_like_the_profile_api (conduct.test_review_list.ReviewListAccessTests.test_inactive_user_with_profile_is_readable_like_the_profile_api)
+IT-US14-READ-23 ... ok
+test_other_methods_are_405_with_allow (conduct.test_review_list.ReviewListAccessTests.test_other_methods_are_405_with_allow)
+IT-US14-READ-26 ... ok
+test_response_is_not_cacheable (conduct.test_review_list.ReviewListAccessTests.test_response_is_not_cacheable)
+IT-US14-READ-27 ... ok
+test_session_without_university_identity_is_403 (conduct.test_review_list.ReviewListAccessTests.test_session_without_university_identity_is_403)
+IT-US14-READ-25 ... ok
+test_unauthenticated_request_is_401 (conduct.test_review_list.ReviewListAccessTests.test_unauthenticated_request_is_401)
+IT-US14-READ-24 ... ok
+test_unknown_user_is_404 (conduct.test_review_list.ReviewListAccessTests.test_unknown_user_is_404)
+IT-US14-READ-21 ... ok
+test_user_can_read_own_reviews (conduct.test_review_list.ReviewListAccessTests.test_user_can_read_own_reviews)
+IT-US14-READ-19 ... ok
+test_user_without_profile_is_404_even_with_review_rows (conduct.test_review_list.ReviewListAccessTests.test_user_without_profile_is_404_even_with_review_rows)
+IT-US14-READ-22 ... ok
+test_default_and_maximum_page_size (conduct.test_review_list.ReviewOrderAndPaginationTests.test_default_and_maximum_page_size)
+IT-US14-READ-11 ... ok
+test_equal_timestamps_are_ordered_by_id_descending (conduct.test_review_list.ReviewOrderAndPaginationTests.test_equal_timestamps_are_ordered_by_id_descending)
+IT-US14-READ-07 ... ok
+test_invalid_page_parameters_are_rejected (conduct.test_review_list.ReviewOrderAndPaginationTests.test_invalid_page_parameters_are_rejected)
+IT-US14-READ-12 ... ok
+test_newest_first_regardless_of_insert_order (conduct.test_review_list.ReviewOrderAndPaginationTests.test_newest_first_regardless_of_insert_order)
+IT-US14-READ-06 ... ok
+test_only_reviews_of_the_requested_user_are_listed (conduct.test_review_list.ReviewOrderAndPaginationTests.test_only_reviews_of_the_requested_user_are_listed)
+IT-US14-READ-08 ... ok
+test_page_beyond_the_end_is_empty (conduct.test_review_list.ReviewOrderAndPaginationTests.test_page_beyond_the_end_is_empty)
+IT-US14-READ-10: a huge page must not overflow the SQL OFFSET. ... ok
+test_pages_split_results_and_report_total (conduct.test_review_list.ReviewOrderAndPaginationTests.test_pages_split_results_and_report_total)
+IT-US14-READ-09 ... ok
+test_query_count_does_not_grow_with_the_page (conduct.test_review_list.ReviewOrderAndPaginationTests.test_query_count_does_not_grow_with_the_page)
+IT-US14-READ-15: reviewers with and without a profile cost no extra query. ... ok
+test_repeated_page_parameter_is_rejected (conduct.test_review_list.ReviewOrderAndPaginationTests.test_repeated_page_parameter_is_rejected)
+IT-US14-READ-13: the same rule as the venue list. ... ok
+test_unknown_query_parameters_are_ignored (conduct.test_review_list.ReviewOrderAndPaginationTests.test_unknown_query_parameters_are_ignored)
+IT-US14-READ-14 ... ok
+test_body_has_no_identifier_or_credit_data (conduct.test_review_list.ReviewPublicFieldsTests.test_body_has_no_identifier_or_credit_data)
+IT-US14-READ-17 ... ok
+test_response_keys_are_exactly_the_allowlist (conduct.test_review_list.ReviewPublicFieldsTests.test_response_keys_are_exactly_the_allowlist)
+IT-US14-READ-16 ... ok
+test_reviewer_without_profile_gets_generic_display_name (conduct.test_review_list.ReviewPublicFieldsTests.test_reviewer_without_profile_gets_generic_display_name)
+IT-US14-READ-18 ... ok
+test_average_of_several_submitted_reviews_is_rounded_to_two_decimals (conduct.test_review_list.ReviewSummaryTests.test_average_of_several_submitted_reviews_is_rounded_to_two_decimals)
+IT-US14-READ-03: 5 and 4 -> 4.5; 5, 4 and 4 -> 4.33. ... ok
+test_no_reviews_reports_null_average_and_empty_page (conduct.test_review_list.ReviewSummaryTests.test_no_reviews_reports_null_average_and_empty_page)
+IT-US14-READ-01 ... ok
+test_one_submitted_review_is_its_own_average (conduct.test_review_list.ReviewSummaryTests.test_one_submitted_review_is_its_own_average)
+IT-US14-READ-02 ... ok
+test_submit_then_read_back_end_to_end (conduct.test_review_list.ReviewSummaryTests.test_submit_then_read_back_end_to_end)
+IT-US14-READ-05 ... ok
+test_summary_comes_from_the_cache_not_the_reviews_table (conduct.test_review_list.ReviewSummaryTests.test_summary_comes_from_the_cache_not_the_reviews_table)
+IT-US14-READ-04 ... ok
+test_different_reviewers_do_not_lose_rating_cache_updates (conduct.test_reviews_concurrency.ReviewConcurrencyTests.test_different_reviewers_do_not_lose_rating_cache_updates)
+DB95_EVIDENCE {"case": "test_different_reviewers_do_not_lose_rating_cache_updates", "sql_before": [{"reviewee_id": 353, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "blocked_workers": [{"waiting_pid": 123, "blocking_pids": [121], "observer_pid": 121}, {"waiting_pid": 122, "blocking_pids": [123], "observer_pid": 121}], "submissions": [{"pid": 123, "reviewer_id": 354, "reviewee_id": 353, "rating": 2, "http_status": 201, "response": {"data": {"review": {"id": 115, "party_id": 89, "reviewer": {"id": 354, "display_name": "\u0e2a\u0e21\u0e32\u0e0a\u0e34\u0e01\u0e2a\u0e2d\u0e07"}, "reviewee_id": 353, "rating": 2, "comment": "\u0e40\u0e25\u0e48\u0e19\u0e2a\u0e19\u0e38\u0e01\u0e21\u0e32\u0e01", "created_at": "2026-11-14T21:31:07.931116+07:00"}}}}, {"pid": 122, "reviewer_id": 352, "reviewee_id": 353, "rating": 5, "http_status": 201, "response": {"data": {"review": {"id": 116, "party_id": 89, "reviewer": {"id": 352, "display_name": "\u0e1c\u0e39\u0e49\u0e08\u0e31\u0e14\u0e23\u0e35\u0e27\u0e34\u0e27"}, "reviewee_id": 353, "rating": 5, "comment": "\u0e40\u0e25\u0e48\u0e19\u0e2a\u0e19\u0e38\u0e01\u0e21\u0e32\u0e01", "created_at": "2026-11-14T21:31:07.944169+07:00"}}}}], "sql_after": [{"reviewee_id": 353, "rating_sum": 7, "rating_count": 2, "credit_score": null, "actual_count": 2, "actual_sum": 7, "actual_average": "3.5000000000000000", "credit_events": 0, "review_id": 115, "party_id": 89, "reviewer_id": 354, "rating": 2, "created_at": "2026-11-14 14:31:07.931116+00:00"}, {"reviewee_id": 353, "rating_sum": 7, "rating_count": 2, "credit_score": null, "actual_count": 2, "actual_sum": 7, "actual_average": "3.5000000000000000", "credit_events": 0, "review_id": 116, "party_id": 89, "reviewer_id": 352, "rating": 5, "created_at": "2026-11-14 14:31:07.944169+00:00"}]}
+IT-US14-DB-42 ... ok
+test_same_review_submitted_concurrently_is_stored_once (conduct.test_reviews_concurrency.ReviewConcurrencyTests.test_same_review_submitted_concurrently_is_stored_once)
+DB95_EVIDENCE {"case": "test_same_review_submitted_concurrently_is_stored_once", "sql_before": [{"reviewee_id": 357, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "blocked_workers": [{"waiting_pid": 126, "blocking_pids": [124], "observer_pid": 124}, {"waiting_pid": 125, "blocking_pids": [126], "observer_pid": 124}], "submissions": [{"pid": 126, "reviewer_id": 356, "reviewee_id": 357, "rating": 4, "http_status": 201, "response": {"data": {"review": {"id": 117, "party_id": 90, "reviewer": {"id": 356, "display_name": "\u0e1c\u0e39\u0e49\u0e08\u0e31\u0e14\u0e23\u0e35\u0e27\u0e34\u0e27"}, "reviewee_id": 357, "rating": 4, "comment": "\u0e40\u0e25\u0e48\u0e19\u0e2a\u0e19\u0e38\u0e01\u0e21\u0e32\u0e01", "created_at": "2026-11-14T21:31:08.306348+07:00"}}}}, {"pid": 125, "reviewer_id": 356, "reviewee_id": 357, "rating": 4, "http_status": 409, "response": {"error": {"code": "REVIEW_EXISTS", "message": "\u0e04\u0e38\u0e13\u0e23\u0e35\u0e27\u0e34\u0e27\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e19\u0e35\u0e49\u0e43\u0e19\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e19\u0e35\u0e49\u0e41\u0e25\u0e49\u0e27"}}}], "sql_after": [{"reviewee_id": 357, "rating_sum": 4, "rating_count": 1, "credit_score": null, "actual_count": 1, "actual_sum": 4, "actual_average": "4.0000000000000000", "credit_events": 0, "review_id": 117, "party_id": 90, "reviewer_id": 356, "rating": 4, "created_at": "2026-11-14 14:31:08.306348+00:00"}]}
+IT-US14-DB-41 ... ok
+test_state_is_read_after_the_party_lock_at_the_exact_end (conduct.test_reviews_concurrency.ReviewConcurrencyTests.test_state_is_read_after_the_party_lock_at_the_exact_end)
+IT-US14-DB-43: a request waiting on the lock may cross ends_at. ... ok
+
+----------------------------------------------------------------------
+Ran 77 tests in 7.195s
+
+OK
+Destroying test database for alias 'default' ('test_s2_task95_review')...

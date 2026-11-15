@@ -1,0 +1,137 @@
+{
+  "case": "Q78-04",
+  "result": "PASS",
+  "kind": "automated PostgreSQL query audit",
+  "not_covered": "manual HTTP/UI/UAT, live TU login, Task84 full acceptance",
+  "source": "14d13e5",
+  "tester": "Gold / agent-operated execution",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "database": "test_task78_audit",
+  "controlled_now": "2030-11-19T12:00:00+07:00",
+  "executed_at": "2026-11-15T23:02:41.090546+07:00",
+  "source_sha256": {
+    "backend/parties/views.py": "c158569131dd1440c00d57110e32b3533e4d20562b83a309a47d7335ff04b432",
+    "backend/parties/models.py": "3b867413e736f1231732d84e2476693104461481511f61073a38a25ddcc1476d",
+    "backend/venues/models.py": "092abff0894d892ecfa382e26b33e9850f421d251ee6c0ac75de6673b86e698a",
+    "backend/parties/test_search_query_audit.py": "3fd472c8290f3209a2ba77335970a63fbd2aef54b60d1b4a7e89ee34eebe2dfc",
+    "database/seeds/us2_search_oracle.sql": "d2aa590863cb4cf6239a340063ecf5e7f92556d36869653739f6dc50185365b5"
+  },
+  "checks": [
+    {
+      "query": {
+        "venue_type": "Indoor",
+        "state": "all",
+        "page_size": 2,
+        "page": 1
+      },
+      "expected": [
+        [
+          463,
+          "Completed",
+          2
+        ],
+        [
+          464,
+          "Cancelled",
+          2
+        ]
+      ],
+      "actual": [
+        [
+          463,
+          "Completed",
+          2
+        ],
+        [
+          464,
+          "Cancelled",
+          2
+        ]
+      ],
+      "expected_total": 9,
+      "actual_total": 9
+    },
+    {
+      "query": {
+        "venue_type": "Indoor",
+        "state": "all",
+        "page_size": 2,
+        "page": 2
+      },
+      "expected": [
+        [
+          462,
+          "InProgress",
+          2
+        ],
+        [
+          457,
+          "Open",
+          2
+        ]
+      ],
+      "actual": [
+        [
+          462,
+          "InProgress",
+          2
+        ],
+        [
+          457,
+          "Open",
+          2
+        ]
+      ],
+      "expected_total": 9,
+      "actual_total": 9
+    },
+    {
+      "query": {
+        "venue_type": "Indoor",
+        "state": "all",
+        "page_size": 2,
+        "page": 3
+      },
+      "expected": [
+        [
+          454,
+          "Open",
+          2
+        ],
+        [
+          460,
+          "Open",
+          2
+        ]
+      ],
+      "actual": [
+        [
+          454,
+          "Open",
+          2
+        ],
+        [
+          460,
+          "Open",
+          2
+        ]
+      ],
+      "expected_total": 9,
+      "actual_total": 9
+    },
+    {
+      "query": {
+        "venue_type": "Indoor",
+        "state": "all",
+        "page_size": 2,
+        "page": 99
+      },
+      "expected": [],
+      "actual": [],
+      "expected_total": 9,
+      "actual_total": 9
+    }
+  ]
+}
