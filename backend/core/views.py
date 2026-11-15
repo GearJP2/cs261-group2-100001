@@ -1,5 +1,6 @@
 from accounts.decorators import require_university_user
 from accounts.models import UserProfile, UserSportInterest
+from django.contrib.auth.decorators import login_required
 from django.db import DatabaseError, connection
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -81,6 +82,7 @@ def ready(request):
     return JsonResponse({"status": "ok", "database": "ok"})
 
 
+@login_required
 def my_parties_page(request):
     parties = Party.objects.filter(host=request.user)
     return render(request, "myparty.html", {"parties": parties})
