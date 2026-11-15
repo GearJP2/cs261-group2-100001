@@ -22,9 +22,9 @@
 
   <form class="search-bar" id="search-form" data-search-form role="search">
     <label class="search-query">
-      <span class="search-sr-only">ค้นหาชื่อปาร์ตี้ กีฬา หรือสนาม</span>
+      <span class="search-sr-only">ค้นหาชื่อปาร์ตี้</span>
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg>
-      <input type="search" name="q" placeholder="ค้นหาชื่อปาร์ตี้ กีฬา หรือสนาม" data-search-query>
+      <input type="search" name="q" placeholder="ค้นหาชื่อปาร์ตี้" data-search-query>
     </label>
     <button class="search-submit" type="submit">ค้นหา</button>
   </form>
@@ -47,6 +47,14 @@
           <option value="">ทุกสนาม</option>
         </select>
       </label>
+      <label class="filter-field">
+        ประเภทสนาม
+        <select name="venue_type" form="search-form" data-filter-venue-type>
+          <option value="">ทุกประเภท</option>
+          <option value="Indoor">ในร่ม</option>
+          <option value="Outdoor">กลางแจ้ง</option>
+        </select>
+      </label>
       <div class="filter-field">
         <span>วันที่</span>
         <input type="date" name="date" form="search-form" data-filter-date>
@@ -54,22 +62,24 @@
       <fieldset class="filter-field filter-time">
         <legend>เวลาเริ่ม</legend>
         <div class="filter-time-inputs">
-          <label><span class="search-sr-only">ตั้งแต่เวลา</span><input type="time" name="time_from" form="search-form" data-filter-time-from aria-label="ตั้งแต่เวลา"></label>
+          <label><span class="search-sr-only">ตั้งแต่เวลา</span><input type="time" name="start_time" form="search-form" data-filter-time-from aria-label="ตั้งแต่เวลา"></label>
           <span aria-hidden="true">–</span>
-          <label><span class="search-sr-only">ถึงเวลา</span><input type="time" name="time_to" form="search-form" data-filter-time-to aria-label="ถึงเวลา"></label>
+          <label><span class="search-sr-only">ก่อนเวลา (ไม่รวม)</span><input type="time" name="end_time" form="search-form" data-filter-time-to aria-label="ก่อนเวลา (ไม่รวม)"></label>
         </div>
       </fieldset>
       <label class="filter-field">
-        จำนวนที่ว่างอย่างน้อย
-        <select name="spots" form="search-form" data-filter-spots>
-          <option value="">ไม่จำกัด</option>
-          <option value="1">1 ที่ขึ้นไป</option>
-          <option value="2">2 ที่ขึ้นไป</option>
-          <option value="3">3 ที่ขึ้นไป</option>
+        สถานะกิจกรรม
+        <select name="state" form="search-form" data-filter-state>
+          <option value="Open">กำลังเปิดรับ</option>
+          <option value="Full">เต็มแล้ว</option>
+          <option value="InProgress">กำลังดำเนินการ</option>
+          <option value="Completed">เสร็จสิ้น</option>
+          <option value="Cancelled">ยกเลิกแล้ว</option>
+          <option value="all">ทุกสถานะ</option>
         </select>
       </label>
       <button class="filter-apply" type="submit" form="search-form">แสดงผลลัพธ์</button>
-      <p class="filter-note">แสดงเฉพาะปาร์ตี้ที่ยังเปิดรับและมีที่ว่าง</p>
+      <p class="filter-note">ค้นหาจากชื่อปาร์ตี้เท่านั้น ช่วงเวลาจะกรองจากเวลาเริ่มกิจกรรม (เวลาไทย)</p>
     </aside>
 
     <section class="search-results" aria-live="polite">
@@ -78,16 +88,10 @@
           <h2 data-result-heading>กิจกรรมที่กำลังเปิดรับ</h2>
           <p data-result-count></p>
         </div>
-        <label class="search-sort">เรียงตาม
-          <select data-search-sort aria-label="เรียงผลลัพธ์ตาม">
-            <option value="soonest">เวลาใกล้ที่สุด</option>
-            <option value="latest">เวลาไกลที่สุด</option>
-          </select>
-        </label>
       </div>
 
       <div class="search-chips" data-search-chips hidden></div>
-      <div class="search-status" data-search-status>กำลังค้นหาปาร์ตี้ทั้งหมดที่ตรงกับตัวกรอง(แสดงผลหน้าละ 12 รายการ)…</div>
+      <div class="search-status" data-search-status>กำลังค้นหาปาร์ตี้ทั้งหมดที่ตรงกับตัวกรอง (แสดงผลหน้าละ 20 รายการ)…</div>
       <div class="search-card-grid" data-search-results hidden></div>
 
       <div class="search-state" data-search-empty hidden>
@@ -101,6 +105,7 @@
         <h3>โหลดกิจกรรมไม่สำเร็จ</h3>
         <p data-search-error-message>กรุณาลองใหม่อีกครั้ง</p>
         <button type="button" class="search-secondary" data-search-retry>ลองอีกครั้ง</button>
+        <button type="button" class="search-secondary" data-search-clear>ล้างตัวกรองและเริ่มใหม่</button>
       </div>
       <nav class="search-pagination" data-search-pagination aria-label="หน้าผลการค้นหา" hidden>
         <button type="button" data-page-previous disabled>ก่อนหน้า</button>

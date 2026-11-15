@@ -221,23 +221,6 @@
   font-size: .72rem;
 }
 
-.search-sort {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #7a808b;
-  font-size: .72rem;
-  white-space: nowrap;
-}
-
-.search-sort select {
-  border: 0;
-  background: transparent;
-  color: #404651;
-  font: inherit;
-  font-size: .72rem;
-}
-
 .search-chips {
   display: flex;
   flex-wrap: wrap;
@@ -343,10 +326,23 @@
   font-weight: 600;
 }
 
-.search-card-open {
+.search-card-state {
   color: #31875c;
   font-size: .67rem;
   white-space: nowrap;
+}
+
+.search-card-state-full,
+.search-card-state-cancelled {
+  color: #bd4b4b;
+}
+
+.search-card-state-inprogress {
+  color: #a8740a;
+}
+
+.search-card-state-completed {
+  color: #667085;
 }
 
 .search-card-main {
@@ -560,12 +556,6 @@
 
   .search-result-head {
     align-items: flex-start;
-  }
-
-  .search-sort {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
   }
 
   .search-footer {

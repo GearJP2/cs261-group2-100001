@@ -6,8 +6,18 @@ class Sport(models.Model):
 
 
 class Venue(models.Model):
+    class Type(models.TextChoices):
+        INDOOR = "Indoor", "Indoor"
+        OUTDOOR = "Outdoor", "Outdoor"
+
     name = models.CharField(max_length=150)
     location_text = models.CharField(max_length=255)
+    venue_type = models.CharField(
+        max_length=7,
+        choices=Type.choices,
+        null=True,
+        blank=True,
+    )
     is_active = models.BooleanField(default=True)
 
 

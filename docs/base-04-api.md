@@ -13,17 +13,31 @@
 
 ### รายการปาร์ตี้และค้นหา
 
-`GET /api/v1/parties` ยังคงคืนรายการปาร์ตี้ที่เปิดรับและมีที่ว่างตามเดิม เมื่อไม่ส่งพารามิเตอร์แบ่งหน้า จะคืนสูงสุด 50 รายการในรูป `{"data": [...]}` เพื่อรองรับผู้เรียกเดิม
-
-หน้า Search ส่งตัวกรองไป API ก่อนนับและแบ่งหน้า:
+`GET /api/v1/parties` ใช้ university session guard และรับตัวกรองสำหรับค้นหาปาร์ตี้ โดยกรองก่อนนับและแบ่งหน้า:
 
 ```text
-GET /api/v1/parties?q=แบดมินตัน&sport_id=1&venue_id=2&date=2026-10-20&time_from=17:00&time_to=20:00&spots=2&sort=soonest&page=1&page_size=12
+GET /api/v1/parties?q=แบดมินตัน&sport_id=1&venue_id=2&venue_type=Indoor&starts_from=2030-11-20T00:00:00%2B07:00&starts_to=2030-11-21T00:00:00%2B07:00&state=Open&page=1&page_size=20
 ```
 
-รองรับคำค้นในชื่อ/คำอธิบายปาร์ตี้ ชื่อผู้จัด ชื่อกีฬา ชื่อสนาม และที่ตั้งสนาม; ตัวกรองกีฬา สนาม วันที่ เวลาเริ่ม และจำนวนที่ว่างใช้ร่วมกันแบบ AND ค่า `sort` รองรับ `soonest` และ `latest` โดย `page` เริ่มที่ 1 และ `page_size` มีค่าสูงสุด 100 เมื่อส่ง `page` หรือ `page_size` response จะมี `page`, `page_size` และ `total` ซึ่งนับหลังใช้ตัวกรองและก่อนตัดหน้า รายการในแต่ละหน้าจึงไม่ทำให้ผลที่อยู่หลัง 50 รายการหายไป
+พารามิเตอร์ที่รองรับ:
 
-พารามิเตอร์ที่ไม่ถูกต้องตอบ HTTP 400 `INVALID_INPUT` พร้อม `fields` ที่ระบุชื่อพารามิเตอร์ รายการยังคงจำกัดเฉพาะปาร์ตี้ที่ยังไม่เริ่ม ไม่ถูกยกเลิก และยังไม่เต็ม
+| Parameter | รูปแบบ / default | ผลการกรอง |
+| --- | --- | --- |
+| `q` | ข้อความ ไม่เกิน 100 ตัวอักษรหลัง trim; ว่างเป็น no-op | ค้นแบบ case-insensitive substring ใน `Party.title` เท่านั้น |
+| `sport_id` | จำนวนเต็มบวก, optional | ตรงกับ `Party.sport_id` |
+| `venue_id` | จำนวนเต็มบวก, optional | ตรงกับ `Party.venue_id` |
+| `venue_type` | `Indoor` หรือ `Outdoor`, optional | ตรงกับ `Venue.venue_type`; ค่า `NULL` ไม่ตรงกับสองประเภทนี้ |
+| `starts_from` | ISO 8601 datetime ต้องมี timezone, optional | `starts_at >= starts_from` (รวมขอบล่าง) |
+| `starts_to` | ISO 8601 datetime ต้องมี timezone, optional | `starts_at < starts_to` (ไม่รวมขอบบน) |
+| `state` | `Open` (default), `Full`, `InProgress`, `Completed`, `Cancelled`, `all` | กรองสถานะตามนิยามเดียวกับ Party Detail; `all` ไม่กรองสถานะ |
+| `page` | จำนวนเต็มบวก, default `1` | หน้าที่ต้องการ |
+| `page_size` | จำนวนเต็ม `1–100`, default `20` | จำนวนรายการต่อหน้า |
+
+ตัวกรองทั้งหมดใช้ AND; `sport_id`, `venue_id` และ `venue_type` เป็นคนละตัวกรองและไม่อนุมานประเภทสนามจากชื่อหรือข้อมูล REAL/MOCK. หากส่ง `starts_from` และ `starts_to` พร้อมกัน ต้องเป็น `starts_from < starts_to`; ส่งขอบใดขอบหนึ่งอย่างเดียวได้. UI ใช้ timezone `Asia/Bangkok` และแปลงวันที่หนึ่งวันเป็นช่วง `[วัน 00:00+07:00, วันถัดไป 00:00+07:00)` ส่วนเวลาที่ระบุใช้เป็นขอบช่วง half-open เช่นกัน
+
+เรียงผล `starts_at ASC, id ASC`. Response มี `page`, `page_size` และ `total` ทุกครั้ง โดย `total` นับหลังกรองทั้งหมดและก่อนแบ่งหน้า; หน้าที่เกินจำนวนผลลัพธ์คืน `data: []` พร้อม `total` จริง. ค่าเริ่มต้น state เป็น `Open` แต่ยังแบ่งหน้าเสมอ
+
+ไม่รับ query parameter ที่ไม่รู้จัก, key ซ้ำ, หรือค่าว่างยกเว้น `q`; ไม่รองรับ `date`, `time_from`, `time_to`, `spots` หรือ `sort`. วันที่/เวลาใน API ต้องเป็น ISO 8601 พร้อม offset หรือ `Z` (ไม่รับ date-only หรือ datetime แบบไม่มี timezone). Query ไม่ถูกต้องตอบ HTTP 400 `INVALID_INPUT` พร้อม `fields` ระบุชื่อพารามิเตอร์และข้อความ validation; ตัวอย่างเช่น `starts_to` ไม่อยู่หลัง `starts_from` จะระบุ error ใน `fields.starts_to`.
 
 `GET /api/v1/parties/{party_id}` ใช้ ID จำนวนเต็ม ไม่มี slash ท้าย ต้องมี session มหาวิทยาลัยที่ผ่าน guard ของ US1-B บัญชี local/Admin อย่างเดียวไม่เพียงพอ
 
