@@ -1,0 +1,18 @@
+ Container s2-task66-database-1 Running 
+ Container s2-task66-database-1 Waiting 
+ Container s2-task66-database-1 Healthy 
+ Container s2-task66-backend-run-b1d28d5fb46e Creating 
+ Container s2-task66-backend-run-b1d28d5fb46e Created 
+System check identified no issues (0 silenced).
+No changes detected
+All checks passed!
+85 files already formatted
+Found 350 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...........................................................................................................................................................................................................sssssss............................................................................................................................................
+----------------------------------------------------------------------
+Ran 350 tests in 22.208s
+
+OK (skipped=7)
+Destroying test database for alias 'default'...

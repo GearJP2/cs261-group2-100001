@@ -1,0 +1,3 @@
+psql:/tmp/us4_leave_rehearsal.sql:8: ERROR:  Use only a disposable s2_task75_ database
+CONTEXT:  PL/pgSQL function inline_code_block line 3 at RAISE
+Expected psql exit=3; actual=3

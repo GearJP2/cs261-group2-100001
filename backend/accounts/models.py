@@ -44,6 +44,9 @@ class UserProfile(models.Model):
         null=True,
         blank=True,
     )
+    # Aggregate of conduct.PartyReview, written only by conduct.services.submit_review.
+    rating_sum = models.IntegerField(default=0)
+    rating_count = models.IntegerField(default=0)
 
     class Meta:
         constraints = [
@@ -54,6 +57,14 @@ class UserProfile(models.Model):
             models.CheckConstraint(
                 condition=~models.Q(display_name__regex=r"^\s*$"),
                 name="user_profile_name_not_blank",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(rating_sum__gte=0),
+                name="user_profile_rating_sum_gte_0",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(rating_count__gte=0),
+                name="user_profile_rating_count_gte_0",
             ),
         ]
 

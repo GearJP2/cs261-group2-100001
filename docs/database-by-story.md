@@ -14,7 +14,8 @@
 | สถานะ | ตาราง | อยู่ที่ไหน |
 | --- | --- | --- |
 | ✅ model + migration แล้ว | `User`, `UniversityIdentity`, `UserProfile`, `UserSportInterest`, `Sport`, `Venue`, `VenueSport`, `VenueOpeningHour`, `Party`, `PartyMembership`, `JoinRequest` (+ ตารางพื้นฐาน Django) | [accounts migrations](../backend/accounts/migrations/), [venues migrations](../backend/venues/migrations/), [parties migrations](../backend/parties/migrations/) |
-| 📝 แบบในเอกสารเท่านั้น | `VenueClosure`, `FriendRequest`, `Friendship`, `PartyInviteLink`, `PartyInvite` (ทางเลือก), `ChatMessage`, `ChatReadState`, `PartyReview`, `NoShowReport`, `ConductCreditEvent`, `Report`, `ModerationAction`, `Notification`, และคอลัมน์ `Venue.venue_type`, `UserProfile.rating_sum/rating_count` | สัญญา หัวข้อ 2.3–2.7 |
+| 📝 แบบในเอกสารเท่านั้น | `VenueClosure`, `FriendRequest`, `Friendship`, `PartyInviteLink`, `PartyInvite` (ทางเลือก), `ChatMessage`, `ChatReadState`, `Report`, `ModerationAction`, `Notification`, และคอลัมน์ `Venue.venue_type` | สัญญา หัวข้อ 2.3–2.7 |
+| ✅ อยู่บน main และตรวจ migration บนฐานทดสอบแล้ว (Task87, 14 พ.ย. 2026) | `PartyReview`, `NoShowReport`, `ConductCreditEvent`, และคอลัมน์ `UserProfile.rating_sum/rating_count` | `accounts/0005_userprofile_rating_cache`, `conduct/0001_initial`, `conduct/0002_noshowreport_conductcreditevent`; ดู [Task87 audit](s2-us14-db-task87.md) และ [มติ No-show ล่าสุด](us14-no-show-approved-policy.md); flag ปิดโดย default ไม่ใช่ไม่มี schema |
 
 Migrations รอบ 1 ที่มีจริง: `venues/0001_initial`, `accounts/0002_universityidentity_userprofile`, `accounts/0003_usersportinterest`, `parties/0001_initial` และ migration follow-up ของ `parties` สำหรับ index/description.
 
@@ -409,7 +410,7 @@ erDiagram
 | ตาราง | app | รอบ | เก็บข้อมูลอะไร (ตัวอย่างแถว) | PK / FK / unique หลัก | Story | สถานะในโค้ด |
 | --- | --- | --- | --- | --- | --- | --- |
 | `User` | accounts | 1 (BASE-01) | บัญชีในระบบเรา — `username`, `is_active`, `is_staff`, `last_login` | PK `id`; `username` unique; M2M `groups`/`user_permissions` | ทุก Story | ✅ migration แล้ว |
-| `UserProfile` | accounts | 1 | โปรไฟล์สาธารณะ 1:1 กับ user — `display_name` (ห้ามว่าง), `credit_score` (nullable), รอบ 5 เพิ่ม `rating_sum`/`rating_count` | PK `id`; `user_id` OneToOne; CheckConstraint ชื่อไม่ว่าง | US5, US8, US14 | ✅ migration แล้ว |
+| `UserProfile` | accounts | 1 | โปรไฟล์สาธารณะ 1:1 กับ user — `display_name` (ห้ามว่าง), `credit_score` (nullable), รอบ 5 เพิ่ม `rating_sum`/`rating_count` | PK `id`; `user_id` OneToOne; CheckConstraint ชื่อไม่ว่าง | US5, US8, US14 | ✅ migration แล้ว; `rating_sum`/`rating_count`: 🟡 migration อยู่ใน PR ที่ยังไม่ merge (`accounts/0005_userprofile_rating_cache`) |
 | `UniversityIdentity` | accounts | 1 | การผูกบัญชีกับ provider มหาวิทยาลัย — `provider_key`, `subject`, `student_verified_at`; **ไม่เก็บรหัสผ่าน/โทเคน** | PK `id`; FK `user_id` (ไม่ OneToOne — ผูกหลาย provider ได้); unique `(provider_key, subject)` | US1 | ✅ migration แล้ว |
 | `Sport` | venues | 1 | แคตตาล็อกกีฬา — `name` | PK `id`; `name` unique | US2, US5, US9 | ✅ migration แล้ว |
 | `UserSportInterest` | accounts | 1 | user คนนี้สนใจกีฬาอะไร | FK `user_id`+`sport_id`, unique คู่ | US2, US5, US8 | ✅ migration แล้ว |
@@ -426,9 +427,9 @@ erDiagram
 | `PartyInvite` (ทางเลือก) | social | 2 | เชิญตรงหาผู้ใช้คนหนึ่ง — `status` Pending/Accepted/Declined/Revoked | PK `id`; FK `party_id`/`inviter_id`/`invitee_id`; unique `(party_id, invitee_id)` | US13 | 📝 แบบในเอกสาร |
 | `ChatMessage` | chat | 4 | ข้อความในปาร์ตี้ — `body` (≤2,000), `created_at`, soft delete `removed_at`/`removed_by_id` | PK `id`; FK `party_id` (CASCADE)/`author_id` (PROTECT)/`removed_by_id` (SET_NULL); index `(party_id, created_at)` | แชท | 📝 แบบในเอกสาร |
 | `ChatReadState` | chat | 4 | ใครอ่านข้อความถึงเวลาไหน (คำนวณ unread) | PK `id`; FK `party_id`/`user_id` (CASCADE); unique `(party_id, user_id)` | แชท | 📝 แบบในเอกสาร |
-| `PartyReview` | conduct | 5 | ดาว 1–5 + คอมเมนต์ ต่อ (Party, ผู้รีวิว, ผู้ถูกรีวิว) | PK `id`; FK `party_id` (CASCADE)/`reviewer_id`/`reviewee_id` (PROTECT); unique `(party_id, reviewer_id, reviewee_id)`; check `1 <= rating <= 5` | US14 | 📝 แบบในเอกสาร |
-| `NoShowReport` | conduct | 5 | รายงานว่าไม่มาตามนัดหลังจบกิจกรรม | PK `id`; FK ทั้งสาม (CASCADE/PROTECT); unique `(party_id, reporter_id, reported_id)` | US14 | 📝 แบบในเอกสาร |
-| `ConductCreditEvent` | conduct | 5 | ledger การเปลี่ยนเครดิตความประพฤติ — `kind`, `delta` (ห้าม 0), `note`, `created_by_id` | PK `id`; FK `user_id` (PROTECT)/`party_id` (SET_NULL)/`created_by_id` (SET_NULL); unique `(party_id, user_id, kind)` | US14 | 📝 แบบในเอกสาร |
+| `PartyReview` | conduct | 5 | ดาว 1–5 + คอมเมนต์ ต่อ (Party, ผู้รีวิว, ผู้ถูกรีวิว) | PK `id`; ORM FK `party_id`/`reviewer_id`/`reviewee_id` ใช้ PROTECT; unique `(party_id, reviewer_id, reviewee_id)`; check `1 <= rating <= 5` และห้ามรีวิวตนเอง | US14 | ✅ main (`conduct/0001_initial`); count/sum cache ต้อง atomic กับการเพิ่มรีวิว |
+| `NoShowReport` | conduct | 5 | รายงานว่าไม่มาตามนัดหลังจบกิจกรรม | PK `id`; FK ทั้งสาม (CASCADE/PROTECT); unique `(party_id, reporter_id, reported_id)` | US14 | ✅ main (`conduct/0002_noshowreport_conductcreditevent`); policy ยืนยันแล้ว แต่ flag ปิดโดย default |
+| `ConductCreditEvent` | conduct | 5 | ledger การเปลี่ยนเครดิตความประพฤติ — `kind`, `delta` (ห้าม 0), `note`, `created_by_id` | PK `id`; FK `user_id` (PROTECT)/`party_id` (SET_NULL)/`created_by_id` (SET_NULL); unique `(party_id, user_id, kind)` | US14 | ✅ main (`conduct/0002_noshowreport_conductcreditevent`); ใช้ opening balance + delta ตามมติใหม่ แยกดาวเฉลี่ย |
 | `Report` | moderation | 5 | รายงานปัญหา — อ้างเป้าเดียว (user / Party / ข้อความ), `reason`, `status`, `handled_by_id`, `handled_at` | PK `id`; FK เป้าทั้งสามเป็น nullable (CASCADE / SET_NULL); check มีเป้าเดียว; index `(status, created_at)` | ผู้ดูแล | 📝 แบบในเอกสาร |
 | `ModerationAction` | moderation | 5 | log การจัดการ ห้ามลบ — `action`, `reason`, เป้าหมาย, อ้าง `Report` | PK `id`; FK `actor_id`/`report_id`/เป้า เป็น nullable + SET_NULL | ผู้ดูแล | 📝 แบบในเอกสาร |
 | `Notification` | notifications | รอ Q-10 | แจ้งเตือนผู้ใช้ — `kind`, `title`, `body`, `link` (path ภายในเท่านั้น), `read_at` | PK `id`; FK `user_id` (CASCADE); index `(user_id, read_at, created_at)` | ยังไม่มี Story | 📝 แบบในเอกสาร |
@@ -485,7 +486,7 @@ erDiagram
 | รอบถัดไป | `venues/0002_venueclosure.py`, `social/0001_invite.py` | `Venue.venue_type`, `VenueClosure`, `PartyInviteLink` | เมื่อ US2/US13 เข้า Sprint |
 | รอบถัดไป | `social/0002_friend.py` | `FriendRequest`, `Friendship` | `accounts.0001_initial` |
 | รอบถัดไป | `chat/0001_initial.py` | `ChatMessage`, `ChatReadState` | `parties.0001` |
-| รอบถัดไป | `accounts/0004_profile_rating.py`, `conduct/0001_initial.py` | rating cache และข้อมูล US14 | ตาม migration รอบ 1 ที่เกี่ยวข้อง |
+| main (US14) | `accounts/0005_userprofile_rating_cache.py`, `conduct/0001_initial.py`, `conduct/0002_noshowreport_conductcreditevent.py` | rating cache, Review และ No-show/credit schema | accounts.0005 หลัง accounts.0004_reject_blank_display_name; conduct.0001 พึ่ง accounts.0005 + parties.0003; conduct.0002 หลัง conduct.0001 |
 
 นโยบาย FK ที่ทุก migration ใช้: แถวส่วนตัวของ user และข้อมูลในบริบทของ Party → `CASCADE`; ข้อมูลที่เป็นประวัติ/ความประพฤติและ entity ที่ห้ามลบ → `PROTECT`; ผู้ที่อาจปิดบัญชีภายหลัง (ผู้ตัดสินคำขอ, ผู้ดูแล, ระบบ) → `SET_NULL` และห้าม hard delete `User`/`Sport`/`Venue`/`Party` ที่ถูกอ้างอิง — ใช้ `is_active`/`cancelled_at` แทน.
 

@@ -1,0 +1,54 @@
+ Container s2-task66-database-1 Running 
+ Container s2-task66-database-1 Waiting 
+ Container s2-task66-database-1 Healthy 
+ Container s2-task66-backend-run-d1a51d3c7882 Creating 
+ Container s2-task66-backend-run-d1a51d3c7882 Created 
+Creating test database for alias 'default' ('test_s2_task66_evidence')...
+Found 7 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: core, messages, staticfiles
+  Apply all migrations: accounts, admin, auth, contenttypes, parties, sessions, venues
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+test_db66_a01_baseline_six_parties_excludes_requests_and_left_history (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a01_baseline_six_parties_excludes_requests_and_left_history) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+test_db66_a02_approve_via_http_increases_sql_and_api_once (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a02_approve_via_http_increases_sql_and_api_once) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+test_db66_a03_reject_via_http_does_not_create_membership (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a03_reject_via_http_does_not_create_membership) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+test_db66_a04_prepared_left_state_preserves_history_and_decrements_once (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a04_prepared_left_state_preserves_history_and_decrements_once) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+test_db66_a05_profile_missing_and_other_party_do_not_change_members (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a05_profile_missing_and_other_party_do_not_change_members) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+test_db66_a06_get_does_not_mutate_membership_request_or_profile (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a06_get_does_not_mutate_membership_request_or_profile) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+test_db66_a07_legacy_host_must_not_disagree_with_actual_sql_rows (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a07_legacy_host_must_not_disagree_with_actual_sql_rows) ... skipped 'BLOCKED Task61: Members route is absent; do not count as PASS'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK (skipped=7)
+Destroying test database for alias 'default' ('test_s2_task66_evidence')...

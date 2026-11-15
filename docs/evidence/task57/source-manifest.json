@@ -1,0 +1,23 @@
+{
+  "recorded_at_bangkok": "2026-11-13T19:46:41.6353943+07:00",
+  "base_commit": "6d0309770056ea0c9b8474354e39487a8c172578",
+  "branch": "test/s2-us10-db-race-evidence",
+  "operator": "Assistant executed at Gold request; not human UI/UAT",
+  "database": "s2_task57_race",
+  "test_database": "test_s2_task57_race",
+  "compose_project": "s2-task57",
+  "hash_basis": "Raw working-tree file bytes mounted in Docker; checkout line endings may differ",
+  "source_sha256": {
+    "backend/parties/services.py": "bca5ec8a7be7cacdcf4d9ddf575892ad501428d36095eb0c1531dc5c88bfe722",
+    "backend/parties/models.py": "3b867413e736f1231732d84e2476693104461481511f61073a38a25ddcc1476d",
+    "backend/parties/test_approval.py": "e396200af05553e29151cd0bac0646a4331db7d7d2f28edea5a2de0558769bc8",
+    "backend/parties/test_approval_concurrency.py": "1cc4426c68e089e8fea60c8add5255f9165763ec8da5dfe2c5edbbab48ba311e",
+    "backend/parties/test_join_requests.py": "07d5c7e556095a76488ffc0140aeca09340db28cd45ae1814e379322bb103a11",
+    "database/seeds/us10_decision_snapshot.sql": "ee009ba70590ffe034795963e04b08ce89d7e51c8c7d34287e5df6db949c2cbf"
+  },
+  "results": {
+    "targeted_tests": "9 passed, 0 skipped",
+    "evidence": "7 JSON observations extracted unchanged from targeted-tests.log",
+    "full_tests": "560 discovered: 559 passed, 1 skipped (US14 policy)"
+  }
+}

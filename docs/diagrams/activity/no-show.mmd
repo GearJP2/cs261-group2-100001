@@ -1,0 +1,21 @@
+flowchart TD
+ A(["POST No-show report"]) --> CSRF{"CSRF valid?"}
+ CSRF -->|No| X["403"]
+ CSRF -->|Yes| FLAG{"NO_SHOW_ENABLED? default false"}
+ FLAG -->|No| OFF["404 before auth/parsing/database"]
+ FLAG -->|Yes| AUTH["Verify session, identity and reported_id"]
+ AUTH --> LOCK["Atomic: lock Party; read clock"]
+ LOCK --> VALID{"Completed, within 7 days inclusive, eligible participants, not self?"}
+ VALID -->|No| ERR["Error; rollback"]
+ VALID -->|Yes| INSERT["Insert report within savepoint"]
+ INSERT --> UNIQUE{"Unique party/reporter/reported?"}
+ UNIQUE -->|No| DUP["409 REPORT_EXISTS; rollback"]
+ UNIQUE -->|Yes| COUNT["Count reporters; N = eligible participants excluding target"]
+ COUNT --> TH{"Reached 1 if N=1, otherwise max(2, floor(N/2)+1)?"}
+ TH -->|No| DONE["Commit; return report only, 201"]
+ TH -->|Yes| EXIST{"Deduction already exists?"}
+ EXIST -->|Yes| DONE
+ EXIST -->|No| CREDIT["Lock target profile; insert unique credit event delta=-5"]
+ CREDIT --> BAL["Balance = existing balance or 100 if NULL, then minus 5"]
+ BAL --> DONE
+ CREDIT -.->|"Any write failure rolls back report and credit"| ERR

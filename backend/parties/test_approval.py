@@ -253,8 +253,37 @@ class ApproveRequestApiTests(JoinRequestFixture, TestCase):
         self.assertTrue(self.party.memberships.filter(user=self.applicant).exists())
         self.assertFalse(self.party.memberships.filter(user=self.other).exists())
 
+    def test_reject_keeps_seat_free_and_later_approve_cannot_overwrite_it(self):
+        sql_before = self.decision_sql_snapshot()
+        members_before = self.membership_snapshot()
+        rejected = self.client.post(
+            self.url,
+            data={"status": "Rejected"},
+            content_type="application/json",
+            HTTP_X_CSRFTOKEN=self.token,
+        )
+        self.assertEqual(rejected.status_code, 200)
+        after_reject = self.decision_sql_snapshot()
+        self.assertEqual(self.membership_snapshot(), members_before)
+        self.assertEqual(after_reject[0]["status"], "Rejected")
+        self.assertEqual(after_reject[0]["active_count"], sql_before[0]["active_count"])
+        self.assertIsNone(after_reject[0]["membership_id"])
+        approve = self.approve()
+        self.assert_error(approve, 409, "REQUEST_DECIDED")
+        self.assertEqual(after_reject, self.decision_sql_snapshot())
+        self.emit_decision_evidence(
+            "reject_keeps_seat_free",
+            sql_before=sql_before,
+            sql_after=after_reject,
+            responses=[
+                {"http_status": rejected.status_code, "body": rejected.json()},
+                {"http_status": approve.status_code, "body": approve.json()},
+            ],
+        )
+
     def test_membership_write_failure_leaves_request_pending(self):
         before = self.snapshot()
+        sql_before = self.decision_sql_snapshot()
         with patch(
             "parties.services.PartyMembership.objects.create",
             side_effect=DatabaseError("injected membership failure"),
@@ -267,6 +296,14 @@ class ApproveRequestApiTests(JoinRequestFixture, TestCase):
                     approved=True,
                 )
         self.assertEqual(self.snapshot(), before)
+        sql_after = self.decision_sql_snapshot()
+        self.assertEqual(sql_before, sql_after)
+        self.emit_decision_evidence(
+            "membership_write_failure",
+            fault="injected DatabaseError before membership insert",
+            sql_before=sql_before,
+            sql_after=sql_after,
+        )
 
     def test_decision_constraint_failure_rolls_back_new_or_reactivated_membership(self):
         original_save = JoinRequest.save
@@ -283,7 +320,19 @@ class ApproveRequestApiTests(JoinRequestFixture, TestCase):
                         party=self.party, user=self.applicant, left_at=self.now
                     )
                 before = self.snapshot()
+                sql_before = self.decision_sql_snapshot()
                 with patch.object(JoinRequest, "save", autospec=True, side_effect=invalid_decision):
-                    with self.assertRaises(IntegrityError):
+                    with self.assertRaises(IntegrityError) as caught:
                         self.approve()
                 self.assertEqual(self.snapshot(), before)
+                sql_after = self.decision_sql_snapshot()
+                self.assertEqual(sql_before, sql_after)
+                self.emit_decision_evidence(
+                    "decision_constraint_rollback",
+                    reactivated=withdrawn,
+                    fault="invalid decided_at injected; real PostgreSQL check violation",
+                    sqlstate=caught.exception.__cause__.sqlstate,
+                    constraint=caught.exception.__cause__.diag.constraint_name,
+                    sql_before=sql_before,
+                    sql_after=sql_after,
+                )

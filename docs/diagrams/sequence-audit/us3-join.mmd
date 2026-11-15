@@ -1,0 +1,27 @@
+sequenceDiagram
+ autonumber
+ actor U as Verified student
+ participant API as Join Request API
+ participant S as submit_join_request
+ participant DB as PostgreSQL
+ U->>API: POST /api/v1/parties/{id}/join-requests + CSRF
+ API->>API: Guard, validate method/body
+ API->>S: party_id, trusted user
+ S->>DB: BEGIN, lock Party
+ S->>S: Read clock, reject cancelled/started/full, Host or active member
+ alt Not eligible
+ S->>DB: ROLLBACK
+ S-->>API: JoinRequestError
+ API-->>U: 404 / 409 (guard errors 401/403)
+ else Eligible
+ S->>DB: Lock/get_or_create request under unique(party,user)
+ alt Existing Pending or invalid Approved history
+ S->>DB: ROLLBACK
+ API-->>U: 409
+ else New request or permitted reopening
+ S->>DB: Save Pending, clear decision on reopen, COMMIT
+ S-->>API: Request
+ API-->>U: 201 Pending
+ end
+ end
+ Note over S,DB: No membership insertion or seat reservation, US10 approval is separate

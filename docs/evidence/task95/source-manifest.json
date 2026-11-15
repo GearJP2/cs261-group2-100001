@@ -1,0 +1,33 @@
+{
+  "branch": "test/s2-us14-db-evidence",
+  "base": "86f2ca26c5f0b3c81973039d17552f95f4edb51c",
+  "date": "2026-11-14 Asia/Bangkok",
+  "targeted": "77 passed, no skips",
+  "regression": "612 discovered: 611 passed, 1 existing US14 unit placeholder skipped",
+  "files": [
+    {
+      "sha256": "609CBB19286FE47CEFDE41853D9BDF37823FCB3A371EEE5519949D274ECE2622",
+      "path": "backend/conduct/test_review_database.py"
+    },
+    {
+      "sha256": "F67E4DF87BE078CBE3CA462CF050A0ADD557B8DC04AC190A5FACC9CC0A10A4CF",
+      "path": "backend/conduct/test_reviews_concurrency.py"
+    },
+    {
+      "sha256": "70AA6CA471E26857D2FBC932AB1D37DA36D14B0616E27B8F8BD90E419B880ECB",
+      "path": "backend/conduct/services.py"
+    },
+    {
+      "sha256": "9658852961E192A7A8E4816B02D6D34D09CF948842F5FFD0DB22B1EAB2C6351F",
+      "path": "database/seeds/us14_review_test_snapshot.sql"
+    },
+    {
+      "sha256": "6CBD04D617398D88BDDD13DBBC6FCC364CBCC2B61EEA8C9D7D0F81DF17BE8D01",
+      "path": "database/seeds/us14_review_seed_snapshot.sql"
+    },
+    {
+      "sha256": "C81B2C5B482CC7032F8B3C85C15AB2FB83315EB9C687696AE274032BB1B3EC07",
+      "path": "docs/evidence/task95/manual-service.py"
+    }
+  ]
+}

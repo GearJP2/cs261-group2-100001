@@ -1,0 +1,69 @@
+ Container s2-task69-database-1 Running 
+ Container s2-task69-database-1 Waiting 
+ Container s2-task69-database-1 Healthy 
+ Container s2-task69-backend-run-2a36b2d2a794 Creating 
+ Container s2-task69-backend-run-2a36b2d2a794 Created 
+1 file reformatted
+Found 13 test(s).
+Creating test database for alias 'default' ('test_s2_task69_leave')...
+Operations to perform:
+  Synchronize unmigrated apps: core, messages, staticfiles
+  Apply all migrations: accounts, admin, auth, conduct, contenttypes, parties, sessions, venues
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying accounts.0005_userprofile_rating_cache... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying conduct.0001_initial... OK
+  Applying conduct.0002_noshowreport_conductcreditevent... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+test_cancelled_precedes_started_and_preserves_membership (parties.test_leave.LeaveServiceTests.test_cancelled_precedes_started_and_preserves_membership) ... ok
+test_database_error_after_write_rolls_back (parties.test_leave.LeaveServiceTests.test_database_error_after_write_rolls_back) ... ok
+DB69_EVIDENCE {"case": "test_database_error_after_write_rolls_back", "sql_before": [{"party_id": 2, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 3, "user_id": 4, "joined_at": "2026-11-13 13:56:30.982213+00:00", "left_at": null}, {"party_id": 2, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 4, "user_id": 5, "joined_at": "2026-11-13 13:56:30.983491+00:00", "left_at": null}], "sql_after": [{"party_id": 2, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 3, "user_id": 4, "joined_at": "2026-11-13 13:56:30.982213+00:00", "left_at": null}, {"party_id": 2, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 4, "user_id": 5, "joined_at": "2026-11-13 13:56:30.983491+00:00", "left_at": null}], "error": "injected after real UPDATE"}
+test_host_and_nonmember_rejected_before_state_checks (parties.test_leave.LeaveServiceTests.test_host_and_nonmember_rejected_before_state_checks) ... ok
+test_open_party_allows_leave (parties.test_leave.LeaveServiceTests.test_open_party_allows_leave) ... ok
+test_pending_and_rejected_applicants_are_not_members (parties.test_leave.LeaveServiceTests.test_pending_and_rejected_applicants_are_not_members) ... ok
+test_rejoin_requires_approval_then_allows_new_leave_cycle (parties.test_leave.LeaveServiceTests.test_rejoin_requires_approval_then_allows_new_leave_cycle) ... ok
+test_soft_leave_and_retry_preserve_history_and_query_count (parties.test_leave.LeaveServiceTests.test_soft_leave_and_retry_preserve_history_and_query_count) ... ok
+DB69_EVIDENCE {"case": "test_soft_leave_and_retry_preserve_history_and_query_count", "sql_before": [{"party_id": 7, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 13, "user_id": 19, "joined_at": "2026-11-13 13:56:31.346173+00:00", "left_at": null}, {"party_id": 7, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 14, "user_id": 20, "joined_at": "2026-11-13 13:56:31.346801+00:00", "left_at": null}], "sql_after": [{"party_id": 7, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 13, "user_id": 19, "joined_at": "2026-11-13 13:56:31.346173+00:00", "left_at": null}, {"party_id": 7, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 14, "user_id": 20, "joined_at": "2026-11-13 13:56:31.346801+00:00", "left_at": "2026-11-13 13:56:31.344151+00:00"}], "retry_left_at": "2026-11-13 13:56:31.344151+00:00"}
+test_start_boundary_and_completed_reject_first_leave (parties.test_leave.LeaveServiceTests.test_start_boundary_and_completed_reject_first_leave) ... ok
+test_unknown_party (parties.test_leave.LeaveServiceTests.test_unknown_party) ... ok
+DB69_EVIDENCE {"case": "test_approve_before_waiting_leave_sees_full_party", "sql_before": [{"party_id": 10, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 19, "user_id": 28, "joined_at": "2026-11-13 13:56:31.566496+00:00", "left_at": null}, {"party_id": 10, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 20, "user_id": 29, "joined_at": "2026-11-13 13:56:31.570715+00:00", "left_at": null}], "blocking": {"waiting_pid": 178, "blocking_pids": [177], "observer_pid": 177}, "sql_after": [{"party_id": 10, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 19, "user_id": 28, "joined_at": "2026-11-13 13:56:31.566496+00:00", "left_at": null}, {"party_id": 10, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 20, "user_id": 29, "joined_at": "2026-11-13 13:56:31.570715+00:00", "left_at": "2026-11-13 13:56:31.633742+00:00"}]}
+test_approve_before_waiting_leave_sees_full_party (parties.test_leave.LeaveLockTests.test_approve_before_waiting_leave_sees_full_party) ... ok
+DB69_EVIDENCE {"case": "test_approve_waits_for_leave_then_reads_freed_slot", "sql_before": [{"party_id": 11, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 21, "user_id": 31, "joined_at": "2026-11-13 13:56:31.875750+00:00", "left_at": null}, {"party_id": 11, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 22, "user_id": 32, "joined_at": "2026-11-13 13:56:31.877855+00:00", "left_at": null}], "blocking": {"waiting_pid": 180, "blocking_pids": [179], "observer_pid": 179}, "sql_after": [{"party_id": 11, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 21, "user_id": 31, "joined_at": "2026-11-13 13:56:31.875750+00:00", "left_at": null}, {"party_id": 11, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 22, "user_id": 32, "joined_at": "2026-11-13 13:56:31.877855+00:00", "left_at": "2026-11-13 13:56:31.914313+00:00"}, {"party_id": 11, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 23, "user_id": 33, "joined_at": "2026-11-13 13:56:31.922049+00:00", "left_at": null}]}
+test_approve_waits_for_leave_then_reads_freed_slot (parties.test_leave.LeaveLockTests.test_approve_waits_for_leave_then_reads_freed_slot) ... ok
+test_leave_rechecks_time_after_lock (parties.test_leave.LeaveLockTests.test_leave_rechecks_time_after_lock) ... ok
+DB69_EVIDENCE {"case": "test_two_leaves_update_once_after_real_lock_wait", "sql_before": [{"party_id": 13, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 26, "user_id": 37, "joined_at": "2026-11-13 13:56:32.308098+00:00", "left_at": null}, {"party_id": 13, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 27, "user_id": 38, "joined_at": "2026-11-13 13:56:32.312397+00:00", "left_at": null}], "blocking": {"waiting_pid": 184, "blocking_pids": [183], "observer_pid": 183}, "sql_after": [{"party_id": 13, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 26, "user_id": 37, "joined_at": "2026-11-13 13:56:32.308098+00:00", "left_at": null}, {"party_id": 13, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 27, "user_id": 38, "joined_at": "2026-11-13 13:56:32.312397+00:00", "left_at": "2026-11-13 13:56:32.376727+00:00"}]}
+test_two_leaves_update_once_after_real_lock_wait (parties.test_leave.LeaveLockTests.test_two_leaves_update_once_after_real_lock_wait) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.683s
+
+OK
+Destroying test database for alias 'default' ('test_s2_task69_leave')...

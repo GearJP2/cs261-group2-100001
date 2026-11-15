@@ -220,6 +220,34 @@ def cancel_party(*, party_id, user):
 
 
 @transaction.atomic
+def leave_party(*, party_id, user):
+    """Soft-leave under Party -> Membership locks; caller supplies a trusted user.
+
+    Repeating a leave retains its original timestamp until membership is
+    reactivated. Do not retry an old command across a new membership cycle.
+    """
+    try:
+        party = Party.objects.select_for_update().get(pk=party_id)
+    except Party.DoesNotExist:
+        raise PartyError("NOT_FOUND", "ไม่พบกิจกรรมที่ต้องการ", 404) from None
+    if party.host_id == user.pk:
+        raise PartyError("HOST_CANNOT_LEAVE", "ผู้จัดกิจกรรมต้องใช้การยกเลิกกิจกรรมแทนการถอนตัว", 403)
+    membership = PartyMembership.objects.select_for_update().filter(party=party, user=user).first()
+    if membership is None:
+        raise PartyError("NOT_MEMBER", "คุณไม่ได้เป็นสมาชิกของกิจกรรมนี้", 403)
+    if membership.left_at is not None:
+        return membership
+    if party.cancelled_at is not None:
+        raise PartyError("PARTY_CANCELLED", "กิจกรรมนี้ถูกยกเลิกแล้ว", 409)
+    now = timezone.now()
+    if now >= party.starts_at:
+        raise PartyError("PARTY_STARTED", "ไม่สามารถถอนตัวเมื่อกิจกรรมเริ่มหรือจบแล้ว", 409)
+    membership.left_at = now
+    membership.save(update_fields=["left_at"])
+    return membership
+
+
+@transaction.atomic
 def submit_join_request(*, party_id, user):
     """Create/reopen a Pending request without changing membership or capacity.
 
@@ -277,6 +305,10 @@ def decide_join_request(*, party_id, request_id, user, approved):
     All capacity-changing writers must take that same Party lock first; a unique
     constraint alone cannot prevent two different applicants taking the last slot.
     Let DB errors escape this atomic boundary so both domain writes roll back.
+
+    Reject also requires Pending and a not-started/non-cancelled Party, but Full
+    is allowed. It changes only the decision; memberships and capacity stay put.
+    A rejected applicant may reopen the same row via submit_join_request.
     """
     try:
         party = Party.objects.select_for_update().get(pk=party_id)

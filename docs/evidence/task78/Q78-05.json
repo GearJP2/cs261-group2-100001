@@ -1,0 +1,130 @@
+{
+  "case": "Q78-05",
+  "result": "PASS",
+  "kind": "automated PostgreSQL query audit",
+  "not_covered": "manual HTTP/UI/UAT, live TU login, Task84 full acceptance",
+  "source": "14d13e5",
+  "tester": "Gold / agent-operated execution",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "database": "test_task78_audit",
+  "controlled_now": "2030-11-19T12:00:00+07:00",
+  "executed_at": "2026-11-15T23:02:41.178272+07:00",
+  "source_sha256": {
+    "backend/parties/views.py": "c158569131dd1440c00d57110e32b3533e4d20562b83a309a47d7335ff04b432",
+    "backend/parties/models.py": "3b867413e736f1231732d84e2476693104461481511f61073a38a25ddcc1476d",
+    "backend/venues/models.py": "092abff0894d892ecfa382e26b33e9850f421d251ee6c0ac75de6673b86e698a",
+    "backend/parties/test_search_query_audit.py": "3fd472c8290f3209a2ba77335970a63fbd2aef54b60d1b4a7e89ee34eebe2dfc",
+    "database/seeds/us2_search_oracle.sql": "d2aa590863cb4cf6239a340063ecf5e7f92556d36869653739f6dc50185365b5"
+  },
+  "expected": "nullable venue_type + FKs + existing indexes",
+  "actual": "matched",
+  "indexes": [
+    [
+      "parties_joinrequest",
+      "parties_joi_party_i_610537_idx",
+      "CREATE INDEX parties_joi_party_i_610537_idx ON public.parties_joinrequest USING btree (party_id, status, created_at)"
+    ],
+    [
+      "parties_joinrequest",
+      "parties_joinrequest_decided_by_id_b1d420eb",
+      "CREATE INDEX parties_joinrequest_decided_by_id_b1d420eb ON public.parties_joinrequest USING btree (decided_by_id)"
+    ],
+    [
+      "parties_joinrequest",
+      "parties_joinrequest_party_id_97da1cef",
+      "CREATE INDEX parties_joinrequest_party_id_97da1cef ON public.parties_joinrequest USING btree (party_id)"
+    ],
+    [
+      "parties_joinrequest",
+      "parties_joinrequest_pkey",
+      "CREATE UNIQUE INDEX parties_joinrequest_pkey ON public.parties_joinrequest USING btree (id)"
+    ],
+    [
+      "parties_joinrequest",
+      "parties_joinrequest_user_id_556e6009",
+      "CREATE INDEX parties_joinrequest_user_id_556e6009 ON public.parties_joinrequest USING btree (user_id)"
+    ],
+    [
+      "parties_joinrequest",
+      "unique_party_join_request",
+      "CREATE UNIQUE INDEX unique_party_join_request ON public.parties_joinrequest USING btree (party_id, user_id)"
+    ],
+    [
+      "parties_party",
+      "parties_par_sport_i_13983d_idx",
+      "CREATE INDEX parties_par_sport_i_13983d_idx ON public.parties_party USING btree (sport_id, starts_at)"
+    ],
+    [
+      "parties_party",
+      "parties_party_host_id_00d64034",
+      "CREATE INDEX parties_party_host_id_00d64034 ON public.parties_party USING btree (host_id)"
+    ],
+    [
+      "parties_party",
+      "parties_party_pkey",
+      "CREATE UNIQUE INDEX parties_party_pkey ON public.parties_party USING btree (id)"
+    ],
+    [
+      "parties_party",
+      "parties_party_sport_id_0d7d9b82",
+      "CREATE INDEX parties_party_sport_id_0d7d9b82 ON public.parties_party USING btree (sport_id)"
+    ],
+    [
+      "parties_party",
+      "parties_party_venue_id_8db7f0ee",
+      "CREATE INDEX parties_party_venue_id_8db7f0ee ON public.parties_party USING btree (venue_id)"
+    ],
+    [
+      "parties_partymembership",
+      "parties_par_party_i_515d7f_idx",
+      "CREATE INDEX parties_par_party_i_515d7f_idx ON public.parties_partymembership USING btree (party_id, left_at)"
+    ],
+    [
+      "parties_partymembership",
+      "parties_partymembership_party_id_a0eb5ea1",
+      "CREATE INDEX parties_partymembership_party_id_a0eb5ea1 ON public.parties_partymembership USING btree (party_id)"
+    ],
+    [
+      "parties_partymembership",
+      "parties_partymembership_pkey",
+      "CREATE UNIQUE INDEX parties_partymembership_pkey ON public.parties_partymembership USING btree (id)"
+    ],
+    [
+      "parties_partymembership",
+      "parties_partymembership_user_id_fc60406f",
+      "CREATE INDEX parties_partymembership_user_id_fc60406f ON public.parties_partymembership USING btree (user_id)"
+    ],
+    [
+      "parties_partymembership",
+      "unique_party_membership",
+      "CREATE UNIQUE INDEX unique_party_membership ON public.parties_partymembership USING btree (party_id, user_id)"
+    ],
+    [
+      "venues_venue",
+      "venues_venue_pkey",
+      "CREATE UNIQUE INDEX venues_venue_pkey ON public.venues_venue USING btree (id)"
+    ],
+    [
+      "venues_venuesport",
+      "unique_venue_sport",
+      "CREATE UNIQUE INDEX unique_venue_sport ON public.venues_venuesport USING btree (venue_id, sport_id)"
+    ],
+    [
+      "venues_venuesport",
+      "venues_venuesport_pkey",
+      "CREATE UNIQUE INDEX venues_venuesport_pkey ON public.venues_venuesport USING btree (id)"
+    ],
+    [
+      "venues_venuesport",
+      "venues_venuesport_sport_id_c91f2325",
+      "CREATE INDEX venues_venuesport_sport_id_c91f2325 ON public.venues_venuesport USING btree (sport_id)"
+    ],
+    [
+      "venues_venuesport",
+      "venues_venuesport_venue_id_8078fa22",
+      "CREATE INDEX venues_venuesport_venue_id_8078fa22 ON public.venues_venuesport USING btree (venue_id)"
+    ]
+  ]
+}

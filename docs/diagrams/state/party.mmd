@@ -1,0 +1,20 @@
+stateDiagram-v2
+ [*] --> Open: create (capacity > active count)
+ [*] --> Full: create (capacity = host count = 1)
+ Open --> Full: approval uses last slot / capacity reduced to count
+ Full --> Open: leave / capacity increased before start
+ Open --> InProgress: starts_at <= now < ends_at
+ Full --> InProgress: starts_at <= now < ends_at
+ InProgress --> Completed: now >= ends_at
+ Open --> Cancelled: Host cancels before start
+ Full --> Cancelled: Host cancels before start
+ note right of Open
+ Derived state; no stored state column.
+ Priority: Cancelled, Completed, InProgress,
+ Full (active >= capacity), otherwise Open.
+ Schedule edits before start can change time boundaries.
+ end note
+ note right of Completed
+ Reads can skip directly to Completed
+ if no request occurs during InProgress.
+ end note

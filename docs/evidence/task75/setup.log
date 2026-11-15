@@ -1,0 +1,47 @@
+ Container s2-task75-database-1 Running 
+ Container s2-task75-database-1 Waiting 
+ Container s2-task75-database-1 Healthy 
+ Container s2-task75-backend-run-9bd0e7357605 Creating 
+ Container s2-task75-backend-run-9bd0e7357605 Created 
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, conduct, contenttypes, parties, sessions, venues
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying accounts.0005_userprofile_rating_cache... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying conduct.0001_initial... OK
+  Applying conduct.0002_noshowreport_conductcreditevent... OK
+  Applying sessions.0001_initial... OK
+Open: party_id=1, active=2, remaining=2
+Last slot: party_id=2, active=2, remaining=1
+Full: party_id=3, active=2, remaining=0
+InProgress: party_id=4, active=2, remaining=2
+Completed: party_id=5, active=2, remaining=2
+Cancelled: party_id=6, active=2, remaining=2
+[S2-DATA] ready: 7 users, 1 sport, 3 venues, 6 parties. Demo users have unusable passwords; no university login is simulated.
+S2-DATA ready at 2026-11-14T06:35:57.730244+00:00: 7 users, 2 sports, 4 venues, 6 parties; 2 active + 1 left per party. Indoor/outdoor and US14 review data are deferred pending schema/policy.
+Python 3.12.15
+5.2.18
