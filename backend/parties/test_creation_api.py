@@ -109,7 +109,9 @@ class PartyCreationHandlerTests(TestCase):
         created = self.post(self.payload).json()["data"]
         response = self.request({}, method="get")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"data": [created]})
+        self.assertEqual(
+            response.json(), {"data": [created], "page": 1, "page_size": 20, "total": 1}
+        )
 
     def test_wrong_method_is_json_405(self):
         response = self.request({}, method="put")

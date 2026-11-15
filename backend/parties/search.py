@@ -1,4 +1,4 @@
-"""US2 query validation and filtered querysets; HTTP integration is separate."""
+"""US2 query validation and filtered querysets for the Party list API."""
 
 import re
 from datetime import timezone as datetime_timezone
@@ -42,7 +42,9 @@ def parse_search_query(query):
         value = entries[0]
         if key == "q":
             value = value.strip()
-            if len(value) > 100:
+            if "\x00" in value:
+                fields[key] = "ข้อความค้นหาต้องไม่มีอักขระ NUL"
+            elif len(value) > 100:
                 fields[key] = "ข้อความค้นหายาวได้ไม่เกิน 100 ตัวอักษร"
             else:
                 values[key] = value
