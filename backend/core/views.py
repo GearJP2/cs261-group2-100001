@@ -81,4 +81,6 @@ def ready(request):
 
 
 def my_parties_page(request):
-    return render(request, "myparty.html")
+    # ดึงปาร์ตี้ที่ผู้ใช้ปัจจุบันเป็น Host (ตาม Model ของโปรเจกต์)
+    parties = Party.objects.filter(host=request.user)
+    return render(request, "myparty.html", {"parties": parties})

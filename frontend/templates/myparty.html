@@ -37,30 +37,30 @@
       <article class="mp-card">
         <div class="mp-card-top">
           <div class="mp-card-header">
-            <span class="mp-tag-sport">{{ party.sport_type }}</span>
-            <span class="mp-tag-status">เปิดรับผู้เข้าร่วม</span>
+            <span class="mp-tag-sport">{{ party.sport.name }}</span>
+            <span class="mp-tag-status">{{ party.state }}</span>
           </div>
-          <h3>{{ party.name }}</h3>
+          <h3>{{ party.title }}</h3>
           <div class="mp-info-row">
             <span class="mp-info-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> 
-              {{ party.date|date:"D d F Y" }} <!-- ตัวอย่างฟอร์แมตวันที่ -->
+              {{ party.start_at|date:"D d F Y" }} <!-- ตัวอย่างฟอร์แมตวันที่ -->
             </span>
             <span class="mp-info-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 
-              {{ party.start_time|time:"H:i" }} – {{ party.end_time|time:"H:i" }} น.
+              {{ party.start_at|time:"H:i" }} – {{ party.end_at|time:"H:i" }} น.
             </span>
           </div>
           <div class="mp-info-row">
             <span class="mp-info-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> 
-              {{ party.location }}
+              {{ party.venue }}
             </span>
           </div>
           <div class="mp-info-row">
             <span class="mp-info-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 
-              เข้าร่วมแล้ว {{ party.current_members }} / {{ party.max_members }} คน
+              เข้าร่วมแล้ว {{ party.current_members_count | default:1 }} / {{ party.capacity }} คน
             </span>
             <span class="mp-info-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> 
