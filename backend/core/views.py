@@ -5,10 +5,9 @@ from accounts.models import UserProfile, UserSportInterest
 from django.contrib.auth.decorators import login_required
 from django.db import DatabaseError, connection
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.utils import timezone
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
