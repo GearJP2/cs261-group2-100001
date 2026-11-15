@@ -125,7 +125,7 @@
   margin-bottom: 6px;
 }
 
-.btn-leave-party:hover {
+.btn-leave-party:hover:not(:disabled) {
   background-color: #f9fafb;
   border-color: #9ca3af;
 }
@@ -135,11 +135,42 @@
   outline-offset: 2px;
 }
 
+/* สไตล์ปุ่มเมื่อถูกปิดใช้งาน (กรณีสถานะรออนุมัติ) */
+.btn-leave-party:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
 .mp-action-note {
   font-size: 0.75rem;
   color: #9ca3af;
   margin: 0;
   text-align: center;
+}
+
+/* กล่องแจ้งเตือนกรณีแท็บประวัติกิจกรรมยังไม่พร้อม */
+.mp-empty-history-box {
+  background: #ffffff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.mp-empty-history-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 6px 0;
+}
+
+.mp-empty-history-desc {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
 }
 
 /* =========================================================

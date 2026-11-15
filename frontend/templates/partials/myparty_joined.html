@@ -3,8 +3,8 @@
   <h3 class="mp-section-title">กิจกรรมที่กำลังจะมาถึง</h3>
 
   <div class="mp-grid-joined-list">
-    <!-- การ์ดที่ 1: สถานะรออนุมัติ (จำลองว่ากดถอนตัวแล้วสำเร็จ) -->
-    <article class="mp-card-horizontal" id="joined-card-1">
+    <!-- การ์ดที่ 1: สถานะรออนุมัติ (แก้ข้อ 2: ปิดปุ่มถอนตัวพร้อมแจ้งเหตุผล เพราะยังไม่ได้เป็นสมาชิก) -->
+    <article class="mp-card-horizontal" id="joined-card-1" data-membership-status="pending">
       <div class="mp-card-horizontal-left">
         <div class="mp-card-header">
           <span class="mp-tag-sport-joined">แบดมินตัน</span>
@@ -40,14 +40,14 @@
       <div class="mp-card-horizontal-right">
         <span class="mp-tag-status-pending">รออนุมัติ</span>
         <div class="mp-action-box">
-          <button type="button" class="btn-leave-party" onclick="openLeaveConfirmModal(1, this)">ถอนตัวจากกิจกรรม</button>
-          <p class="mp-action-note">ส่งคำขอแล้ว รอผู้จัดตอบรับ</p>
+          <button type="button" class="btn-leave-party" disabled aria-disabled="true" title="ยังไม่สามารถถอนตัวได้เนื่องจากคำขอยังรออนุมัติ">ถอนตัวจากกิจกรรม</button>
+          <p class="mp-action-note">รออนุมัติจากผู้จัด จึงยังถอนตัวไม่ได้</p>
         </div>
       </div>
     </article>
 
-    <!-- การ์ดที่ 2: สถานะอนุมัติแล้ว (จำลองกรณีหลังบ้านแจ้งว่าถอนตัวไม่ได้) -->
-    <article class="mp-card-horizontal" id="joined-card-2">
+    <!-- การ์ดที่ 2: สถานะอนุมัติแล้ว (เป็นสมาชิกแล้ว สามารถกดปุ่มถอนตัวได้) -->
+    <article class="mp-card-horizontal" id="joined-card-2" data-membership-status="approved">
       <div class="mp-card-horizontal-left">
         <div class="mp-card-header">
           <span class="mp-tag-sport-joined">เทนนิส</span>
@@ -88,6 +88,16 @@
         </div>
       </div>
     </article>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- แก้ข้อ 3: รองรับแท็บประวัติกิจกรรม ไม่ให้หน้าเว็บว่างเปล่า -->
+<!-- ========================================== -->
+<div class="mp-history-placeholder" id="grid-history-fallback" style="display: none;">
+  <div class="mp-empty-history-box">
+    <p class="mp-empty-history-title">ประวัติกิจกรรมยังไม่พร้อมใช้งานในขณะนี้</p>
+    <p class="mp-empty-history-desc">คุณสามารถตรวจสอบกิจกรรมที่จบไปแล้วได้เมื่อระบบประวัติกิจกรรมเปิดใช้งาน</p>
   </div>
 </div>
 
@@ -135,8 +145,14 @@
   let leavingPartyId = null;
   let lastFocusedWithdrawBtn = null;
 
-  // เปิดป๊อปอัปยืนยันการถอนตัว พร้อมย้าย Focus ไปที่ปุ่มยกเลิก
+  // เปิดป๊อปอัปยืนยันการถอนตัว เฉพาะการ์ดที่มีสถานะอนุมัติแล้ว (approved)
   function openLeaveConfirmModal(partyId, btnElement) {
+    if (btnElement && btnElement.disabled) return;
+    const card = btnElement ? btnElement.closest('[data-membership-status]') : null;
+    if (card && card.getAttribute('data-membership-status') !== 'approved') {
+      return;
+    }
+
     leavingPartyId = partyId;
     lastFocusedWithdrawBtn = btnElement;
     const modal = document.getElementById('leaveConfirmModal');
@@ -152,13 +168,42 @@
     }
   }
 
-  // กดปุ่มยืนยันเพื่อส่งคำขอถอนตัวไปหลังบ้าน
+  // แยกฟังก์ชันแสดงผลลัพธ์ออกจากขั้นตอนเรียก API เพื่อให้เทสหรือ Mock แยกต่างหากได้ชัดเจน
+  function handleLeaveResponse(isSuccess, errorMessage) {
+    document.getElementById('leaveConfirmModal').style.display = 'none';
+
+    if (isSuccess) {
+      // ลบการ์ดที่ถอนตัวสำเร็จออกจากรายการหน้าเว็บ
+      const card = document.getElementById(`joined-card-${leavingPartyId}`);
+      if (card) {
+        card.remove();
+      }
+      document.getElementById('leaveSuccessModal').style.display = 'flex';
+      document.getElementById('btn-ok-success').focus();
+    } else {
+      const defaultMsg = 'ไม่สามารถถอนตัวได้<br>เนื่องจากกิจกรรมเริ่มต้นขึ้นหรือเสร็จสิ้นแล้ว';
+      document.getElementById('leave-error-desc').innerHTML = errorMessage || defaultMsg;
+      document.getElementById('leaveErrorModal').style.display = 'flex';
+      document.getElementById('btn-ok-error').focus();
+    }
+  }
+
+  // แก้ข้อ 1: กดปุ่มยืนยันเพื่อส่งคำขอถอนตัวไปหลังบ้าน (รับ Success เฉพาะผลสำเร็จจริง response.ok เท่านั้น)
   async function submitLeaveParty() {
     const confirmBtn = document.getElementById('btn-confirm-leave');
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'กำลังดำเนินการ...';
 
     try {
+      // หากมีการ inject mock handler จากชุดทดสอบ ให้เรียกผ่าน mock แยกต่างหาก
+      if (typeof window.mockLeavePartyRequest === 'function') {
+        const mockResult = await window.mockLeavePartyRequest(leavingPartyId);
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'ยืนยัน';
+        handleLeaveResponse(Boolean(mockResult && mockResult.ok), mockResult ? mockResult.message : null);
+        return;
+      }
+
       // ดึง CSRF Token สำหรับส่งให้ Django Backend
       let csrftoken = null;
       if (document.cookie && document.cookie !== '') {
@@ -182,41 +227,23 @@
 
       confirmBtn.disabled = false;
       confirmBtn.textContent = 'ยืนยัน';
-      document.getElementById('leaveConfirmModal').style.display = 'none';
 
       if (response.ok) {
-        // กรณีหลังบ้านตอบกลับ 200 OK -> เด้งหน้าถอนตัวสำเร็จ
-        document.getElementById('leaveSuccessModal').style.display = 'flex';
-        document.getElementById('btn-ok-success').focus();
-      } else if (response.status === 404) {
-        // กรณีรันทดสอบหน้าบ้านอย่างเดียว (ยังไม่มี Route API หลังบ้าน)
-        // ให้การ์ดที่ 1 แสดงหน้า "ถอนตัวสำเร็จ" และการ์ดที่ 2 แสดงหน้า "ไม่สามารถถอนตัวได้"
-        if (leavingPartyId === 1) {
-          document.getElementById('leaveSuccessModal').style.display = 'flex';
-          document.getElementById('btn-ok-success').focus();
-        } else {
-          document.getElementById('leaveErrorModal').style.display = 'flex';
-          document.getElementById('btn-ok-error').focus();
-        }
+        // แสดงหน้าถอนตัวสำเร็จเฉพาะเมื่อ API ตอบกลับ 2xx สำเร็จจริงเท่านั้น
+        handleLeaveResponse(true);
       } else {
-        // กรณีหลังบ้านส่ง Error อื่นๆ (เช่น 400/403 กิจกรรมเริ่มแล้วถอนตัวไม่ได้)
+        // กรณี 404, 403, 400 หรือ Error อื่นๆ ให้แสดงหน้าไม่สามารถถอนตัวได้ทั้งหมด
         const errData = await response.json().catch(() => ({}));
-        if (errData.message) {
-          document.getElementById('leave-error-desc').innerHTML = errData.message;
-        }
-        document.getElementById('leaveErrorModal').style.display = 'flex';
-        document.getElementById('btn-ok-error').focus();
+        handleLeaveResponse(false, errData.message || errData.detail);
       }
     } catch (error) {
       confirmBtn.disabled = false;
       confirmBtn.textContent = 'ยืนยัน';
-      document.getElementById('leaveConfirmModal').style.display = 'none';
-      document.getElementById('leaveErrorModal').style.display = 'flex';
-      document.getElementById('btn-ok-error').focus();
+      handleLeaveResponse(false);
     }
   }
 
-  // รองรับการกดปุ่ม Esc บนคีย์บอร์ดเพื่อปิดป๊อปอัป (ตาม Requirement: จัด focus/keyboard)
+  // รองรับการกดปุ่ม Esc บนคีย์บอร์ดเพื่อปิดป๊อปอัป
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       ['leaveConfirmModal', 'leaveSuccessModal', 'leaveErrorModal'].forEach(id => {
@@ -228,7 +255,7 @@
     }
   });
 
-  // ฟังก์ชันสลับแท็บหน้าปาร์ตี้ของฉัน
+  // แก้ข้อ 3: ฟังก์ชันสลับแท็บหน้าปาร์ตี้ของฉัน รองรับครบทั้ง created, joined และ history
   function switchTab(tabName, clickedBtn) {
     const tabBtns = document.querySelectorAll('.mp-tabs .mp-tab-btn');
     tabBtns.forEach(btn => btn.classList.remove('active'));
@@ -236,14 +263,18 @@
 
     const gridCreated = document.querySelector('.mp-grid');
     const gridJoined = document.getElementById('grid-joined');
+    const gridHistory = document.getElementById('grid-history') || document.getElementById('grid-history-fallback');
 
     if (gridCreated) gridCreated.style.display = 'none';
     if (gridJoined) gridJoined.style.display = 'none';
+    if (gridHistory) gridHistory.style.display = 'none';
 
     if (tabName === 'created' && gridCreated) {
       gridCreated.style.display = 'grid';
     } else if (tabName === 'joined' && gridJoined) {
       gridJoined.style.display = 'block';
+    } else if (tabName === 'history' && gridHistory) {
+      gridHistory.style.display = 'block';
     }
   }
 </script>
