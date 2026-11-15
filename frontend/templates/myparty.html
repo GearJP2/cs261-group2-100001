@@ -14,6 +14,7 @@
   
   <!-- โหลด CSS ของหน้าปาร์ตี้ของฉันโดยเฉพาะ -->
   <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=8.0">
+  <link rel="stylesheet" href="{% static 'css/myparty_joined.css' %}">
 
   <!-- โหลด app.js แบบ defer เพื่อให้เมนูบัญชีทำงาน -->
   <script src="{% static 'js/app.js' %}" defer></script>
@@ -34,11 +35,10 @@
       <p>จัดการกิจกรรม นัดเพื่อนร่วมเล่น แล้วเจอกันที่สนาม</p>
     </div>
 
-    <!-- แท็บ -->
     <div class="mp-tabs">
-      <button class="mp-tab-btn active">กิจกรรมที่ฉันสร้าง</button>
-      <button class="mp-tab-btn">กิจกรรมที่เข้าร่วม</button>
-      <button class="mp-tab-btn">ประวัติกิจกรรม</button>
+      <button class="mp-tab-btn active" onclick="switchTab('created', this)">กิจกรรมที่ฉันสร้าง</button>
+      <button class="mp-tab-btn" onclick="switchTab('joined', this)">กิจกรรมที่เข้าร่วม</button>
+      <button class="mp-tab-btn" onclick="switchTab('history', this)">ประวัติกิจกรรม</button>
     </div>
       
     <div class="mp-grid">
@@ -110,6 +110,7 @@
         </div>
       </article>
     </div>
+  {% include "partials/myparty_joined.html" %}
   </div>
 
   <footer class="mp-footer">CS261 UniSport Buddy</footer>
