@@ -181,6 +181,23 @@ class SearchDatabaseAcceptanceTests(LiveServerTestCase):
                 "expected_fixture_names": expected_names,
                 "expected_ids": selected,
                 "actual_ids": [p["id"] for p in actual],
+                "sql_expected_rows": [
+                    {
+                        key: sql_rows[pk][key]
+                        for key in (
+                            "id",
+                            "state",
+                            "active_count",
+                            "capacity",
+                            "starts_at",
+                            "ends_at",
+                            "sport_id",
+                            "venue_id",
+                            "venue_type",
+                        )
+                    }
+                    for pk in selected
+                ],
                 "expected_total": len(expected_ids),
                 "actual_total": body["total"],
                 "page": page,
