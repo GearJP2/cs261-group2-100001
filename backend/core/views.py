@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
+from parties.models import Party
 
 
 @require_GET
@@ -81,6 +82,5 @@ def ready(request):
 
 
 def my_parties_page(request):
-    # ดึงปาร์ตี้ที่ผู้ใช้ปัจจุบันเป็น Host (ตาม Model ของโปรเจกต์)
     parties = Party.objects.filter(host=request.user)
     return render(request, "myparty.html", {"parties": parties})
