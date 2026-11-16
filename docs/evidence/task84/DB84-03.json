@@ -1,0 +1,1758 @@
+{
+  "case": "DB84-03",
+  "result": "PASS",
+  "kind": "agent-operated real loopback HTTP + SQL",
+  "not_covered": "human UI/UAT, live TU login, concurrent race/production load",
+  "source": "d032c84b375dffbaf916c5454cd484a495347fb2",
+  "tester": "agent on Gold workstation",
+  "executed_at": "2026-11-16T01:56:36.222739+07:00",
+  "controlled_now": "2030-11-19T12:00:00+07:00",
+  "database": "test_task84_acceptance",
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "source_sha256": {
+    "backend/parties/views.py": "c158569131dd1440c00d57110e32b3533e4d20562b83a309a47d7335ff04b432",
+    "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+    "backend/parties/test_search_database_acceptance.py": "69405fcce288d34c0cf0e88e38aaa3beb143b5ce40793216ba18f4ba4e4ab49e",
+    "database/seeds/us2_search_snapshot.sql": "98f973e8f3b776fdc0e16027271b88e74624bcf8564492e1cb9d0d1fe19c125b"
+  },
+  "baseline_sql_snapshot": [
+    {
+      "id": 10563,
+      "title": "DB84 ended",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 04:00:00+00:00",
+      "ends_at": "2030-11-19 05:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1193, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1194, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1195, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 446, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 447, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Completed"
+    },
+    {
+      "id": 10564,
+      "title": "DB84 cancelled",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 04:00:00+00:00",
+      "ends_at": "2030-11-19 05:00:00+00:00",
+      "capacity": 2,
+      "cancelled_at": "2030-11-19 05:00:00+00:00",
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1196, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1197, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1198, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 448, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 449, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Cancelled"
+    },
+    {
+      "id": 10562,
+      "title": "DB84 started",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 05:00:00+00:00",
+      "ends_at": "2030-11-19 06:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1190, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1191, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1192, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 444, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 445, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "InProgress"
+    },
+    {
+      "id": 10557,
+      "title": "DB84 overlap",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 16:59:59.999999+00:00",
+      "ends_at": "2030-11-19 17:59:59.999999+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1175, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1176, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1177, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 434, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 435, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10554,
+      "title": "DB84 lower",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1166, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1167, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1168, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 428, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 429, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10558,
+      "title": "DB84 outdoor",
+      "sport_id": 491,
+      "venue_id": 512,
+      "venue_type": "Outdoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1178, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1179, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1180, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 436, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 437, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10559,
+      "title": "DB84 unknown",
+      "sport_id": 491,
+      "venue_id": 513,
+      "venue_type": null,
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1181, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1182, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1183, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 438, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 439, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10560,
+      "title": "DB84 other",
+      "sport_id": 492,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1184, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1185, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1186, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 440, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 441, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10561,
+      "title": "DB84 full",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 2,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1187, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1188, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1189, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 442, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 443, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Full"
+    },
+    {
+      "id": 10555,
+      "title": "DB84 inside",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-20 16:59:59.999999+00:00",
+      "ends_at": "2030-11-20 17:59:59.999999+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1169, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1170, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1171, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 430, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 431, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10556,
+      "title": "DB84 upper",
+      "sport_id": 491,
+      "venue_id": 511,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-20 17:00:00+00:00",
+      "ends_at": "2030-11-20 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 1172, \"left_at\": null, \"user_id\": 1376, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1173, \"left_at\": null, \"user_id\": 1377, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 1174, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 1378, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 432, \"status\": \"Pending\", \"user_id\": 1379, \"decided_at\": null}, {\"id\": 433, \"status\": \"Rejected\", \"user_id\": 1380, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    }
+  ],
+  "events": [
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?state=Open&page=1&page_size=20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": [
+          {
+            "id": 10557,
+            "title": "DB84 overlap",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T23:59:59.999999+07:00",
+            "ends_at": "2030-11-20T00:59:59.999999+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10554,
+            "title": "DB84 lower",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10558,
+            "title": "DB84 outdoor",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 512,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10559,
+            "title": "DB84 unknown",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 513,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10560,
+            "title": "DB84 other",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 492,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10555,
+            "title": "DB84 inside",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T23:59:59.999999+07:00",
+            "ends_at": "2030-11-21T00:59:59.999999+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10556,
+            "title": "DB84 upper",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-21T00:00:00+07:00",
+            "ends_at": "2030-11-21T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 7
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10557",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10557,
+          "title": "DB84 overlap",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T23:59:59.999999+07:00",
+          "ends_at": "2030-11-20T00:59:59.999999+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10554",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10554,
+          "title": "DB84 lower",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10558",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10558,
+          "title": "DB84 outdoor",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 512,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10559",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10559,
+          "title": "DB84 unknown",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 513,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10560",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10560,
+          "title": "DB84 other",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 492,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10555",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10555,
+          "title": "DB84 inside",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T23:59:59.999999+07:00",
+          "ends_at": "2030-11-21T00:59:59.999999+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10556",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10556,
+          "title": "DB84 upper",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-21T00:00:00+07:00",
+          "ends_at": "2030-11-21T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "check": "search_vs_independent_sql",
+      "query": {
+        "state": "Open"
+      },
+      "expected_fixture_names": [
+        "lower",
+        "inside",
+        "upper",
+        "overlap",
+        "outdoor",
+        "unknown",
+        "other"
+      ],
+      "expected_ids": [
+        10557,
+        10554,
+        10558,
+        10559,
+        10560,
+        10555,
+        10556
+      ],
+      "actual_ids": [
+        10557,
+        10554,
+        10558,
+        10559,
+        10560,
+        10555,
+        10556
+      ],
+      "sql_expected_rows": [
+        {
+          "id": 10557,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 16:59:59.999999+00:00",
+          "ends_at": "2030-11-19 17:59:59.999999+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10554,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10558,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 512,
+          "venue_type": "Outdoor"
+        },
+        {
+          "id": 10559,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 513,
+          "venue_type": null
+        },
+        {
+          "id": 10560,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 492,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10555,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-20 16:59:59.999999+00:00",
+          "ends_at": "2030-11-20 17:59:59.999999+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10556,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-20 17:00:00+00:00",
+          "ends_at": "2030-11-20 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        }
+      ],
+      "expected_total": 7,
+      "actual_total": 7,
+      "page": 1,
+      "page_size": 20,
+      "business_before_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_after_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_rows_unchanged": true,
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?state=Full&page=1&page_size=20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": [
+          {
+            "id": 10561,
+            "title": "DB84 full",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 2,
+            "member_count": 2,
+            "remaining_slots": 0,
+            "state": "Full",
+            "is_host": true,
+            "is_member": true
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10561",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10561,
+          "title": "DB84 full",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 2,
+          "member_count": 2,
+          "remaining_slots": 0,
+          "state": "Full",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "check": "search_vs_independent_sql",
+      "query": {
+        "state": "Full"
+      },
+      "expected_fixture_names": [
+        "full"
+      ],
+      "expected_ids": [
+        10561
+      ],
+      "actual_ids": [
+        10561
+      ],
+      "sql_expected_rows": [
+        {
+          "id": 10561,
+          "state": "Full",
+          "active_count": 2,
+          "capacity": 2,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        }
+      ],
+      "expected_total": 1,
+      "actual_total": 1,
+      "page": 1,
+      "page_size": 20,
+      "business_before_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_after_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_rows_unchanged": true,
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?state=InProgress&page=1&page_size=20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": [
+          {
+            "id": 10562,
+            "title": "DB84 started",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T12:00:00+07:00",
+            "ends_at": "2030-11-19T13:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "InProgress",
+            "is_host": true,
+            "is_member": true
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10562",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10562,
+          "title": "DB84 started",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T12:00:00+07:00",
+          "ends_at": "2030-11-19T13:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "InProgress",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "check": "search_vs_independent_sql",
+      "query": {
+        "state": "InProgress"
+      },
+      "expected_fixture_names": [
+        "started"
+      ],
+      "expected_ids": [
+        10562
+      ],
+      "actual_ids": [
+        10562
+      ],
+      "sql_expected_rows": [
+        {
+          "id": 10562,
+          "state": "InProgress",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 05:00:00+00:00",
+          "ends_at": "2030-11-19 06:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        }
+      ],
+      "expected_total": 1,
+      "actual_total": 1,
+      "page": 1,
+      "page_size": 20,
+      "business_before_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_after_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_rows_unchanged": true,
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?state=Completed&page=1&page_size=20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": [
+          {
+            "id": 10563,
+            "title": "DB84 ended",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T11:00:00+07:00",
+            "ends_at": "2030-11-19T12:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Completed",
+            "is_host": true,
+            "is_member": true
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10563",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10563,
+          "title": "DB84 ended",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T11:00:00+07:00",
+          "ends_at": "2030-11-19T12:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Completed",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "check": "search_vs_independent_sql",
+      "query": {
+        "state": "Completed"
+      },
+      "expected_fixture_names": [
+        "ended"
+      ],
+      "expected_ids": [
+        10563
+      ],
+      "actual_ids": [
+        10563
+      ],
+      "sql_expected_rows": [
+        {
+          "id": 10563,
+          "state": "Completed",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 04:00:00+00:00",
+          "ends_at": "2030-11-19 05:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        }
+      ],
+      "expected_total": 1,
+      "actual_total": 1,
+      "page": 1,
+      "page_size": 20,
+      "business_before_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_after_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_rows_unchanged": true,
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?state=Cancelled&page=1&page_size=20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": [
+          {
+            "id": 10564,
+            "title": "DB84 cancelled",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T11:00:00+07:00",
+            "ends_at": "2030-11-19T12:00:00+07:00",
+            "capacity": 2,
+            "member_count": 2,
+            "remaining_slots": 0,
+            "state": "Cancelled",
+            "is_host": true,
+            "is_member": true
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10564",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10564,
+          "title": "DB84 cancelled",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T11:00:00+07:00",
+          "ends_at": "2030-11-19T12:00:00+07:00",
+          "capacity": 2,
+          "member_count": 2,
+          "remaining_slots": 0,
+          "state": "Cancelled",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "check": "search_vs_independent_sql",
+      "query": {
+        "state": "Cancelled"
+      },
+      "expected_fixture_names": [
+        "cancelled"
+      ],
+      "expected_ids": [
+        10564
+      ],
+      "actual_ids": [
+        10564
+      ],
+      "sql_expected_rows": [
+        {
+          "id": 10564,
+          "state": "Cancelled",
+          "active_count": 2,
+          "capacity": 2,
+          "starts_at": "2030-11-19 04:00:00+00:00",
+          "ends_at": "2030-11-19 05:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        }
+      ],
+      "expected_total": 1,
+      "actual_total": 1,
+      "page": 1,
+      "page_size": 20,
+      "business_before_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_after_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_rows_unchanged": true,
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?state=all&page=1&page_size=20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": [
+          {
+            "id": 10563,
+            "title": "DB84 ended",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T11:00:00+07:00",
+            "ends_at": "2030-11-19T12:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Completed",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10564,
+            "title": "DB84 cancelled",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T11:00:00+07:00",
+            "ends_at": "2030-11-19T12:00:00+07:00",
+            "capacity": 2,
+            "member_count": 2,
+            "remaining_slots": 0,
+            "state": "Cancelled",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10562,
+            "title": "DB84 started",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T12:00:00+07:00",
+            "ends_at": "2030-11-19T13:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "InProgress",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10557,
+            "title": "DB84 overlap",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-19T23:59:59.999999+07:00",
+            "ends_at": "2030-11-20T00:59:59.999999+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10554,
+            "title": "DB84 lower",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10558,
+            "title": "DB84 outdoor",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 512,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10559,
+            "title": "DB84 unknown",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 513,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10560,
+            "title": "DB84 other",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 492,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10561,
+            "title": "DB84 full",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T00:00:00+07:00",
+            "ends_at": "2030-11-20T01:00:00+07:00",
+            "capacity": 2,
+            "member_count": 2,
+            "remaining_slots": 0,
+            "state": "Full",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10555,
+            "title": "DB84 inside",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-20T23:59:59.999999+07:00",
+            "ends_at": "2030-11-21T00:59:59.999999+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          },
+          {
+            "id": 10556,
+            "title": "DB84 upper",
+            "description": "",
+            "host": {
+              "id": 1376,
+              "display_name": "ผู้จัดกิจกรรม"
+            },
+            "sport_id": 491,
+            "venue_id": 511,
+            "starts_at": "2030-11-21T00:00:00+07:00",
+            "ends_at": "2030-11-21T01:00:00+07:00",
+            "capacity": 3,
+            "member_count": 2,
+            "remaining_slots": 1,
+            "state": "Open",
+            "is_host": true,
+            "is_member": true
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 11
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10563",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10563,
+          "title": "DB84 ended",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T11:00:00+07:00",
+          "ends_at": "2030-11-19T12:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Completed",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10564",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10564,
+          "title": "DB84 cancelled",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T11:00:00+07:00",
+          "ends_at": "2030-11-19T12:00:00+07:00",
+          "capacity": 2,
+          "member_count": 2,
+          "remaining_slots": 0,
+          "state": "Cancelled",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10562",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10562,
+          "title": "DB84 started",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T12:00:00+07:00",
+          "ends_at": "2030-11-19T13:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "InProgress",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10557",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10557,
+          "title": "DB84 overlap",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-19T23:59:59.999999+07:00",
+          "ends_at": "2030-11-20T00:59:59.999999+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10554",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10554,
+          "title": "DB84 lower",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10558",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10558,
+          "title": "DB84 outdoor",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 512,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10559",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10559,
+          "title": "DB84 unknown",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 513,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10560",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10560,
+          "title": "DB84 other",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 492,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10561",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10561,
+          "title": "DB84 full",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T00:00:00+07:00",
+          "ends_at": "2030-11-20T01:00:00+07:00",
+          "capacity": 2,
+          "member_count": 2,
+          "remaining_slots": 0,
+          "state": "Full",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10555",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10555,
+          "title": "DB84 inside",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-20T23:59:59.999999+07:00",
+          "ends_at": "2030-11-21T00:59:59.999999+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/10556",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 200,
+      "response": {
+        "data": {
+          "id": 10556,
+          "title": "DB84 upper",
+          "description": "",
+          "host": {
+            "id": 1376,
+            "display_name": "ผู้จัดกิจกรรม"
+          },
+          "sport_id": 491,
+          "venue_id": 511,
+          "starts_at": "2030-11-21T00:00:00+07:00",
+          "ends_at": "2030-11-21T01:00:00+07:00",
+          "capacity": 3,
+          "member_count": 2,
+          "remaining_slots": 1,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      }
+    },
+    {
+      "check": "search_vs_independent_sql",
+      "query": {
+        "state": "all"
+      },
+      "expected_fixture_names": [
+        "lower",
+        "inside",
+        "upper",
+        "overlap",
+        "outdoor",
+        "unknown",
+        "other",
+        "full",
+        "started",
+        "ended",
+        "cancelled"
+      ],
+      "expected_ids": [
+        10563,
+        10564,
+        10562,
+        10557,
+        10554,
+        10558,
+        10559,
+        10560,
+        10561,
+        10555,
+        10556
+      ],
+      "actual_ids": [
+        10563,
+        10564,
+        10562,
+        10557,
+        10554,
+        10558,
+        10559,
+        10560,
+        10561,
+        10555,
+        10556
+      ],
+      "sql_expected_rows": [
+        {
+          "id": 10563,
+          "state": "Completed",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 04:00:00+00:00",
+          "ends_at": "2030-11-19 05:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10564,
+          "state": "Cancelled",
+          "active_count": 2,
+          "capacity": 2,
+          "starts_at": "2030-11-19 04:00:00+00:00",
+          "ends_at": "2030-11-19 05:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10562,
+          "state": "InProgress",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 05:00:00+00:00",
+          "ends_at": "2030-11-19 06:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10557,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 16:59:59.999999+00:00",
+          "ends_at": "2030-11-19 17:59:59.999999+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10554,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10558,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 512,
+          "venue_type": "Outdoor"
+        },
+        {
+          "id": 10559,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 513,
+          "venue_type": null
+        },
+        {
+          "id": 10560,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 492,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10561,
+          "state": "Full",
+          "active_count": 2,
+          "capacity": 2,
+          "starts_at": "2030-11-19 17:00:00+00:00",
+          "ends_at": "2030-11-19 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10555,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-20 16:59:59.999999+00:00",
+          "ends_at": "2030-11-20 17:59:59.999999+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        },
+        {
+          "id": 10556,
+          "state": "Open",
+          "active_count": 2,
+          "capacity": 3,
+          "starts_at": "2030-11-20 17:00:00+00:00",
+          "ends_at": "2030-11-20 18:00:00+00:00",
+          "sport_id": 491,
+          "venue_id": 511,
+          "venue_type": "Indoor"
+        }
+      ],
+      "expected_total": 11,
+      "actual_total": 11,
+      "page": 1,
+      "page_size": 20,
+      "business_before_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_after_sha256": "35240eaf679a402b8395217d0bd6fc500fad021c9d9ab8b4a71e10e6b11acc56",
+      "business_rows_unchanged": true,
+      "result": "PASS"
+    }
+  ]
+}

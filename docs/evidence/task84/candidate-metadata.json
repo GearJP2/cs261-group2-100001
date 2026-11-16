@@ -1,0 +1,10 @@
+{
+  "kind": "candidate preview, not merged acceptance",
+  "candidate_commit": "c0639a835a7506daac0e04f869e1e254e35a602a",
+  "task84_test_source": "d032c84b375dffbaf916c5454cd484a495347fb2",
+  "task84_test_sha256": "69405fcce288d34c0cf0e88e38aaa3beb143b5ce40793216ba18f4ba4e4ab49e",
+  "database": "test_task84_candidate",
+  "result": "6 tests OK, 0 skipped",
+  "duration_seconds": 11.729,
+  "transcript": "candidate-task79-suite.txt"
+}
