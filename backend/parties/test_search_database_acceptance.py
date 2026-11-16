@@ -222,7 +222,7 @@ class SearchDatabaseAcceptanceTests(LiveServerTestCase):
             "kind": "agent-operated real loopback HTTP + SQL",
             "not_covered": "human UI/UAT, live TU login, concurrent race/production load",
             "source": os.environ.get("TASK84_SOURCE", "unspecified checkout"),
-            "tester": "agent on Gold workstation",
+            "tester": os.environ.get("TASK84_TESTER", "agent on Gold workstation"),
             "executed_at": datetime.now(ZoneInfo("Asia/Bangkok")).isoformat(),
             "controlled_now": self.at.isoformat(),
             "database": database,

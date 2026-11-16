@@ -1,0 +1,9 @@
+ Container unisport-buddy-database-1 Running 
+ Container unisport-buddy-database-1 Waiting 
+ Container unisport-buddy-database-1 Healthy 
+ Container unisport-buddy-backend-run-be370147961f Creating 
+ Container unisport-buddy-backend-run-be370147961f Created 
+Got an error creating the test database: database "test_unisport" already exists
+Got an error recreating the test database: database "test_unisport" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+
