@@ -1,0 +1,97 @@
+ Container unisport-buddy-database-1 Running 
+ Container unisport-buddy-database-1 Waiting 
+ Container unisport-buddy-database-1 Healthy 
+ Container unisport-buddy-backend-run-4c2b77bdfaf2 Creating 
+ Container unisport-buddy-backend-run-4c2b77bdfaf2 Created 
+Found 38 test(s).
+Creating test database for alias 'default' ('test_unisport')...
+Got an error creating the test database: database "test_unisport" already exists
+Destroying old test database for alias 'default' ('test_unisport')...
+Operations to perform:
+  Synchronize unmigrated apps: core, messages, staticfiles
+  Apply all migrations: accounts, admin, auth, conduct, contenttypes, parties, sessions, venues
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying accounts.0005_userprofile_rating_cache... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying conduct.0001_initial... OK
+  Applying conduct.0002_noshowreport_conductcreditevent... OK
+  Applying sessions.0001_initial... OK
+  Applying venues.0002_venue_venue_type... OK
+System check identified no issues (0 silenced).
+test_all_states_match_detail_precedence_at_one_instant (parties.test_search_filters.SearchFilterTests.test_all_states_match_detail_precedence_at_one_instant) ... ok
+test_combined_filters_are_and_and_sport_is_not_venue_type (parties.test_search_filters.SearchFilterTests.test_combined_filters_are_and_and_sport_is_not_venue_type) ... ok
+test_pending_rejected_and_left_do_not_inflate_active_count (parties.test_search_filters.SearchFilterTests.test_pending_rejected_and_left_do_not_inflate_active_count) ... ok
+test_starts_within_inclusive_lower_exclusive_upper_not_overlap (parties.test_search_filters.SearchFilterTests.test_starts_within_inclusive_lower_exclusive_upper_not_overlap) ... ok
+test_text_matches_only_title_and_combines_with_state (parties.test_search_filters.SearchFilterTests.test_text_matches_only_title_and_combines_with_state) ... ok
+test_ties_have_stable_id_order_and_search_does_not_write (parties.test_search_filters.SearchFilterTests.test_ties_have_stable_id_order_and_search_does_not_write) ... ok
+test_unknown_type_and_inactive_venue_are_not_hidden_by_default (parties.test_search_filters.SearchFilterTests.test_unknown_type_and_inactive_venue_are_not_hidden_by_default) ... ok
+test_defaults_allowlist_and_detail_shape_without_csrf (parties.test_search_api.SearchAPITests.test_defaults_allowlist_and_detail_shape_without_csrf) ... ok
+test_guard_runs_before_query_validation (parties.test_search_api.SearchAPITests.test_guard_runs_before_query_validation) ... ok
+test_http_combined_filters_and_state_do_not_mutate (parties.test_search_api.SearchAPITests.test_http_combined_filters_and_state_do_not_mutate) ... ok
+test_invalid_queries_are_errors_not_empty_results (parties.test_search_api.SearchAPITests.test_invalid_queries_are_errors_not_empty_results) ... ok
+test_pagination_total_tie_order_and_out_of_range (parties.test_search_api.SearchAPITests.test_pagination_total_tie_order_and_out_of_range) ... ok
+test_state_filter_and_serialization_share_one_now (parties.test_search_api.SearchAPITests.test_state_filter_and_serialization_share_one_now) ... ok
+test_unknown_ids_return_empty_even_outside_database_integer_range (parties.test_search_api.SearchAPITests.test_unknown_ids_return_empty_even_outside_database_integer_range) ... ok
+test_q78_01_mapping_and_filters_do_not_multiply_active_counts (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_01_mapping_and_filters_do_not_multiply_active_counts) ... ok
+test_q78_02_half_open_bangkok_and_utc_boundaries (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_02_half_open_bangkok_and_utc_boundaries) ... ok
+test_q78_03_state_precedence_and_detail_agree_at_same_instant (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_03_state_precedence_and_detail_agree_at_same_instant) ... ok
+test_q78_04_pagination_after_filter_with_stable_ties (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_04_pagination_after_filter_with_stable_ties) ... ok
+test_q78_05_schema_and_existing_index_inventory (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_05_schema_and_existing_index_inventory) ... ok
+test_q78_06_explain_actual_api_query_on_selective_10011_party_fixture (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_06_explain_actual_api_query_on_selective_10011_party_fixture) ... ok
+test_all_enum_values (parties.test_search_query.SearchQueryTests.test_all_enum_values) ... ok
+test_aware_times_normalized_to_same_instant_and_single_bounds (parties.test_search_query.SearchQueryTests.test_aware_times_normalized_to_same_instant_and_single_bounds) ... ok
+test_defaults_and_normalization (parties.test_search_query.SearchQueryTests.test_defaults_and_normalization) ... ok
+test_integer_validation (parties.test_search_query.SearchQueryTests.test_integer_validation) ... ok
+test_invalid_dates_offsets_and_range (parties.test_search_query.SearchQueryTests.test_invalid_dates_offsets_and_range) ... ok
+test_text_limits_after_trim (parties.test_search_query.SearchQueryTests.test_text_limits_after_trim) ... ok
+test_unknown_repeated_empty_and_invalid_enum (parties.test_search_query.SearchQueryTests.test_unknown_repeated_empty_and_invalid_enum) ... ok
+test_ut02_combined_filters_require_all_conditions (parties.test_search_unit.SearchBuilderUnitTests.test_ut02_combined_filters_require_all_conditions) ... ok
+test_ut02_stable_order_and_no_state_predicate_for_all (parties.test_search_unit.SearchBuilderUnitTests.test_ut02_stable_order_and_no_state_predicate_for_all) ... ok
+test_ut03_sport_and_venue_type_are_independent_predicates (parties.test_search_unit.SearchBuilderUnitTests.test_ut03_sport_and_venue_type_are_independent_predicates) ... ok
+test_ut04_bangkok_boundaries_are_start_inclusive_end_exclusive (parties.test_search_unit.SearchBuilderUnitTests.test_ut04_bangkok_boundaries_are_start_inclusive_end_exclusive) ... ok
+test_ut05_state_predicates_match_detail_and_precedence (parties.test_search_unit.SearchBuilderUnitTests.test_ut05_state_predicates_match_detail_and_precedence) ... ok
+test_db84_01_and_multi_sport_venue_type_null_and_no_fanout (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_01_and_multi_sport_venue_type_null_and_no_fanout) ... ok
+test_db84_02_half_open_one_sided_and_offset_equivalence (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_02_half_open_one_sided_and_offset_equivalence) ... ok
+test_db84_03_all_states_exact_time_and_detail (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_03_all_states_exact_time_and_detail) ... ok
+test_db84_04_101_tied_results_filter_before_count_and_pagination (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_04_101_tied_results_filter_before_count_and_pagination) ... ok
+test_db84_05_search_refresh_after_committed_approve_leave_cancel (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_05_search_refresh_after_committed_approve_leave_cancel) ... ok
+test_db84_06_invalid_queries_preserve_business_rows (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_06_invalid_queries_preserve_business_rows) ... Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+ok
+
+----------------------------------------------------------------------
+Ran 38 tests in 11.844s
+
+OK
+Destroying test database for alias 'default' ('test_unisport')...

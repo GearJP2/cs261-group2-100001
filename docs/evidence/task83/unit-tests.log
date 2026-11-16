@@ -1,0 +1,22 @@
+ Container unisport-buddy-backend-run-4d00e75ddfcf Creating 
+ Container unisport-buddy-backend-run-4d00e75ddfcf Created 
+Found 12 test(s).
+Skipping setup of unused database(s): default.
+System check identified no issues (0 silenced).
+test_all_enum_values (parties.test_search_query.SearchQueryTests.test_all_enum_values) ... ok
+test_aware_times_normalized_to_same_instant_and_single_bounds (parties.test_search_query.SearchQueryTests.test_aware_times_normalized_to_same_instant_and_single_bounds) ... ok
+test_defaults_and_normalization (parties.test_search_query.SearchQueryTests.test_defaults_and_normalization) ... ok
+test_integer_validation (parties.test_search_query.SearchQueryTests.test_integer_validation) ... ok
+test_invalid_dates_offsets_and_range (parties.test_search_query.SearchQueryTests.test_invalid_dates_offsets_and_range) ... ok
+test_text_limits_after_trim (parties.test_search_query.SearchQueryTests.test_text_limits_after_trim) ... ok
+test_unknown_repeated_empty_and_invalid_enum (parties.test_search_query.SearchQueryTests.test_unknown_repeated_empty_and_invalid_enum) ... ok
+test_ut02_combined_filters_require_all_conditions (parties.test_search_unit.SearchBuilderUnitTests.test_ut02_combined_filters_require_all_conditions) ... ok
+test_ut02_stable_order_and_no_state_predicate_for_all (parties.test_search_unit.SearchBuilderUnitTests.test_ut02_stable_order_and_no_state_predicate_for_all) ... ok
+test_ut03_sport_and_venue_type_are_independent_predicates (parties.test_search_unit.SearchBuilderUnitTests.test_ut03_sport_and_venue_type_are_independent_predicates) ... ok
+test_ut04_bangkok_boundaries_are_start_inclusive_end_exclusive (parties.test_search_unit.SearchBuilderUnitTests.test_ut04_bangkok_boundaries_are_start_inclusive_end_exclusive) ... ok
+test_ut05_state_predicates_match_detail_and_precedence (parties.test_search_unit.SearchBuilderUnitTests.test_ut05_state_predicates_match_detail_and_precedence) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.010s
+
+OK

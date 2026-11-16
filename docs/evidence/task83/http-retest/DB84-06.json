@@ -1,0 +1,344 @@
+{
+  "case": "DB84-06",
+  "result": "PASS",
+  "kind": "agent-operated real loopback HTTP + SQL",
+  "not_covered": "human UI/UAT, live TU login, concurrent race/production load",
+  "source": "48e189c",
+  "tester": "agent assisting Golf / Seamui for Task83",
+  "executed_at": "2026-11-16T22:28:46.560005+07:00",
+  "controlled_now": "2030-11-19T12:00:00+07:00",
+  "database": "test_unisport",
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "source_sha256": {
+    "backend/parties/views.py": "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+    "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+    "backend/parties/test_search_database_acceptance.py": "340c923e72bb653d144280b77062b7dc738d2f2d37230388c5e5ad58cb30e17d",
+    "database/seeds/us2_search_snapshot.sql": "98f973e8f3b776fdc0e16027271b88e74624bcf8564492e1cb9d0d1fe19c125b"
+  },
+  "baseline_sql_snapshot": [
+    {
+      "id": 10228,
+      "title": "DB84 ended",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 04:00:00+00:00",
+      "ends_at": "2030-11-19 05:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 281, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 282, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 283, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 153, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 154, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Completed"
+    },
+    {
+      "id": 10229,
+      "title": "DB84 cancelled",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 04:00:00+00:00",
+      "ends_at": "2030-11-19 05:00:00+00:00",
+      "capacity": 2,
+      "cancelled_at": "2030-11-19 05:00:00+00:00",
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 284, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 285, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 286, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 155, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 156, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Cancelled"
+    },
+    {
+      "id": 10227,
+      "title": "DB84 started",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 05:00:00+00:00",
+      "ends_at": "2030-11-19 06:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 278, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 279, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 280, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 151, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 152, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "InProgress"
+    },
+    {
+      "id": 10222,
+      "title": "DB84 overlap",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 16:59:59.999999+00:00",
+      "ends_at": "2030-11-19 17:59:59.999999+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 263, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 264, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 265, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 141, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 142, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10219,
+      "title": "DB84 lower",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 254, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 255, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 256, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 135, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 136, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10223,
+      "title": "DB84 outdoor",
+      "sport_id": 28,
+      "venue_id": 36,
+      "venue_type": "Outdoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 266, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 267, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 268, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 143, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 144, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10224,
+      "title": "DB84 unknown",
+      "sport_id": 28,
+      "venue_id": 37,
+      "venue_type": null,
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 269, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 270, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 271, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 145, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 146, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10225,
+      "title": "DB84 other",
+      "sport_id": 29,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 272, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 273, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 274, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 147, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 148, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10226,
+      "title": "DB84 full",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-19 17:00:00+00:00",
+      "ends_at": "2030-11-19 18:00:00+00:00",
+      "capacity": 2,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 275, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 276, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 277, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 149, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 150, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Full"
+    },
+    {
+      "id": 10220,
+      "title": "DB84 inside",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-20 16:59:59.999999+00:00",
+      "ends_at": "2030-11-20 17:59:59.999999+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 257, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 258, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 259, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 137, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 138, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    },
+    {
+      "id": 10221,
+      "title": "DB84 upper",
+      "sport_id": 28,
+      "venue_id": 35,
+      "venue_type": "Indoor",
+      "starts_at": "2030-11-20 17:00:00+00:00",
+      "ends_at": "2030-11-20 18:00:00+00:00",
+      "capacity": 3,
+      "cancelled_at": null,
+      "updated_at": "2030-11-19 05:00:00+00:00",
+      "active_count": 2,
+      "memberships": "[{\"id\": 260, \"left_at\": null, \"user_id\": 73, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 261, \"left_at\": null, \"user_id\": 74, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}, {\"id\": 262, \"left_at\": \"2030-11-19T05:00:00+00:00\", \"user_id\": 75, \"joined_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "requests": "[{\"id\": 139, \"status\": \"Pending\", \"user_id\": 76, \"decided_at\": null}, {\"id\": 140, \"status\": \"Rejected\", \"user_id\": 77, \"decided_at\": \"2030-11-19T05:00:00+00:00\"}]",
+      "state": "Open"
+    }
+  ],
+  "events": [
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?starts_from=2030-11-20T00%3A00%3A00%2B07%3A00&starts_to=2030-11-20T00%3A00%3A00%2B07%3A00",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "starts_to": "ต้องอยู่หลัง starts_from"
+          }
+        }
+      }
+    },
+    {
+      "check": "invalid_query_read_only",
+      "expected_status": 400,
+      "actual_status": 400,
+      "business_before_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "business_after_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?starts_from=2030-11-21T00%3A00%3A00%2B07%3A00&starts_to=2030-11-20T00%3A00%3A00%2B07%3A00",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "starts_to": "ต้องอยู่หลัง starts_from"
+          }
+        }
+      }
+    },
+    {
+      "check": "invalid_query_read_only",
+      "expected_status": 400,
+      "actual_status": 400,
+      "business_before_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "business_after_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?starts_from=2030-11-20T00%3A00%3A00",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "starts_from": "กรุณาระบุ ISO 8601 datetime พร้อม timezone ที่อยู่ในช่วงที่รองรับ"
+          }
+        }
+      }
+    },
+    {
+      "check": "invalid_query_read_only",
+      "expected_status": 400,
+      "actual_status": 400,
+      "business_before_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "business_after_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?starts_to=2030-11-20",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "starts_to": "กรุณาระบุ ISO 8601 datetime พร้อม timezone ที่อยู่ในช่วงที่รองรับ"
+          }
+        }
+      }
+    },
+    {
+      "check": "invalid_query_read_only",
+      "expected_status": 400,
+      "actual_status": 400,
+      "business_before_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "business_after_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?unknown=ignored%3F",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "unknown": "ไม่รองรับตัวกรองนี้"
+          }
+        }
+      }
+    },
+    {
+      "check": "invalid_query_read_only",
+      "expected_status": 400,
+      "actual_status": 400,
+      "business_before_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "business_after_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "result": "PASS"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page_size=101",
+      "actor_alias": "db84_0",
+      "payload": null,
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "page_size": "ต้องเป็นจำนวนเต็ม 1–100"
+          }
+        }
+      }
+    },
+    {
+      "check": "invalid_query_read_only",
+      "expected_status": 400,
+      "actual_status": 400,
+      "business_before_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "business_after_sha256": "88e04e9064807d5576976c4d2e037fd15b7435f8a1dcb3a8a27430cf0abe3733",
+      "result": "PASS"
+    }
+  ]
+}
