@@ -1,0 +1,5696 @@
+{
+  "kind": "assistant-operated real HTTP + SQL; not human UAT or live TU authentication",
+  "started_at": "2026-11-16T16:50:49.285311+07:00",
+  "source_commit": "05ce80ebcf25415e299452e1b061e7ef8545328a",
+  "database": "s2_task56_api",
+  "base_url": "http://127.0.0.1:8000",
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "fixture_prefix": "t56_a45f4205e8",
+  "source_sha256": {
+    "scripts/us10-api-evidence.py": "349cd051b665780a0ff54f397143572fbe4c831adc4535465290e8c9f0f504cc",
+    "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+    "backend/parties/views.py": "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+    "backend/parties/urls.py": "97fd03cc5a1bfd23c6f9dcc2754c3b033a42915b3468dbe9603aae211d034e0b",
+    "backend/accounts/decorators.py": "443b259afcdb17524380003dbc0f70569c7be6dc6b5f04de22292f0bd016e0c9",
+    "backend/parties/test_decision_unit.py": "0bb7b253bbbf1901e8e352d155276e6f02bf8ae550260de0f2205f77ec5c0ea0"
+  },
+  "cases": [
+    {
+      "id": "QA-US10-API-01/host",
+      "executed_at": "2026-11-16T16:50:49.632813+07:00",
+      "actor": "host",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/parties/1/join-requests/pending",
+        "payload": null,
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": [
+            {
+              "id": 1,
+              "display_name": "Task56 applicant",
+              "created_at": "2026-11-16T16:50:49.591868+07:00"
+            }
+          ]
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "no_domain_mutation": true,
+        "public_pending": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-01/nonhost",
+      "executed_at": "2026-11-16T16:50:49.669626+07:00",
+      "actor": "outsider",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/parties/1/join-requests/pending",
+        "payload": null,
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมเท่านั้นที่ดูคำขอได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/anonymous-Approved",
+      "executed_at": "2026-11-16T16:50:49.692996+07:00",
+      "actor": "anonymous",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/anonymous-Rejected",
+      "executed_at": "2026-11-16T16:50:49.715007+07:00",
+      "actor": "anonymous",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/unverified-Approved",
+      "executed_at": "2026-11-16T16:50:49.748077+07:00",
+      "actor": "unverified",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "กรุณายืนยันบัญชีมหาวิทยาลัย"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/unverified-Rejected",
+      "executed_at": "2026-11-16T16:50:49.787977+07:00",
+      "actor": "unverified",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "กรุณายืนยันบัญชีมหาวิทยาลัย"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/inactive-Approved",
+      "executed_at": "2026-11-16T16:50:49.829387+07:00",
+      "actor": "inactive",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/inactive-Rejected",
+      "executed_at": "2026-11-16T16:50:49.861937+07:00",
+      "actor": "inactive",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/expired-Approved",
+      "executed_at": "2026-11-16T16:50:49.892003+07:00",
+      "actor": "expired",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/expired-Rejected",
+      "executed_at": "2026-11-16T16:50:49.915754+07:00",
+      "actor": "expired",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/outsider-Approved",
+      "executed_at": "2026-11-16T16:50:49.952418+07:00",
+      "actor": "outsider",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมเท่านั้นที่จัดการคำขอได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/outsider-Rejected",
+      "executed_at": "2026-11-16T16:50:49.991193+07:00",
+      "actor": "outsider",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมเท่านั้นที่จัดการคำขอได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/applicant-Approved",
+      "executed_at": "2026-11-16T16:50:50.037052+07:00",
+      "actor": "applicant",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมเท่านั้นที่จัดการคำขอได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/applicant-Rejected",
+      "executed_at": "2026-11-16T16:50:50.072150+07:00",
+      "actor": "applicant",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมเท่านั้นที่จัดการคำขอได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "domain_after_sha256": "51673cfcae541e803c6f1e25d9da3cc28cb00730e1e0162fc7336c9d0a0ebf7e",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-05/cross-party-Approved",
+      "executed_at": "2026-11-16T16:50:50.112749+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/2/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบคำขอเข้าร่วม"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-05/cross-party-Rejected",
+      "executed_at": "2026-11-16T16:50:50.148535+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/2/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบคำขอเข้าร่วม"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-05/missing-party",
+      "executed_at": "2026-11-16T16:50:50.183949+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/0/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบกิจกรรมที่ต้องการ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-05/missing-request",
+      "executed_at": "2026-11-16T16:50:50.219701+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/0/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบคำขอเข้าร่วม"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/input-json",
+      "executed_at": "2026-11-16T16:50:50.252335+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": null,
+        "options": {
+          "raw": "{"
+        }
+      },
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "รูปแบบ JSON ไม่ถูกต้อง"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/input-array",
+      "executed_at": "2026-11-16T16:50:50.290818+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": null,
+        "options": {
+          "raw": "{\"status\":[]}"
+        }
+      },
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ระบุสถานะ Approved หรือ Rejected"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/input-object",
+      "executed_at": "2026-11-16T16:50:50.324035+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": null,
+        "options": {
+          "raw": "{\"status\":{}}"
+        }
+      },
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ระบุสถานะ Approved หรือ Rejected"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/input-status",
+      "executed_at": "2026-11-16T16:50:50.358869+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": null,
+        "options": {
+          "raw": "{\"status\":\"Pending\"}"
+        }
+      },
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ระบุสถานะ Approved หรือ Rejected"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/input-actor",
+      "executed_at": "2026-11-16T16:50:50.391466+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": null,
+        "options": {
+          "raw": "{\"status\":\"Approved\",\"user_id\":99}"
+        }
+      },
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ระบุสถานะ Approved หรือ Rejected"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/csrf-missing",
+      "executed_at": "2026-11-16T16:50:50.417265+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {
+          "csrf": "missing"
+        }
+      },
+      "expected": {
+        "status": 403,
+        "code": "CSRF_FAILED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "CSRF_FAILED",
+            "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/csrf-wrong",
+      "executed_at": "2026-11-16T16:50:50.456844+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {
+          "csrf": "wrong"
+        }
+      },
+      "expected": {
+        "status": 403,
+        "code": "CSRF_FAILED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "CSRF_FAILED",
+            "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/origin",
+      "executed_at": "2026-11-16T16:50:50.494130+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {
+          "origin": "https://untrusted.invalid"
+        }
+      },
+      "expected": {
+        "status": 403,
+        "code": "CSRF_FAILED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "CSRF_FAILED",
+            "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/method",
+      "executed_at": "2026-11-16T16:50:50.530189+07:00",
+      "actor": "host",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": null,
+        "options": {}
+      },
+      "expected": {
+        "status": 405,
+        "code": "METHOD_NOT_ALLOWED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 405,
+        "body": {
+          "error": {
+            "code": "METHOD_NOT_ALLOWED",
+            "message": "รองรับเฉพาะ POST"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": "POST"
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "domain_after_sha256": "fdf5fd92ce67a9defe05b50002454ef72ce893eb0e6cf5c7999713856415aac1",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/Full-Approved",
+      "executed_at": "2026-11-16T16:50:50.593182+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/3/join-requests/3/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_FULL",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_FULL",
+            "message": "กิจกรรมนี้เต็มแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 3,
+            "title": "t56_a45f4205e8 Full",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.534550+00:00",
+            "updated_at": "2026-11-16 09:50:50.542286+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 3,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.543694+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 3
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 3,
+            "joined_at": "2026-11-16 09:50:50.538782+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 1
+          },
+          {
+            "id": 4,
+            "joined_at": "2026-11-16 09:50:50.540930+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 3
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 3,
+            "title": "t56_a45f4205e8 Full",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.534550+00:00",
+            "updated_at": "2026-11-16 09:50:50.542286+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 3,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.543694+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 3
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 3,
+            "joined_at": "2026-11-16 09:50:50.538782+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 1
+          },
+          {
+            "id": 4,
+            "joined_at": "2026-11-16 09:50:50.540930+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 3
+          }
+        ]
+      },
+      "domain_before_sha256": "658411269cd1e30679091cb78fbfc5dda45953ce8447128b890a9bca6b16226d",
+      "domain_after_sha256": "658411269cd1e30679091cb78fbfc5dda45953ce8447128b890a9bca6b16226d",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/Full-Rejected",
+      "executed_at": "2026-11-16T16:50:50.645072+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/3/join-requests/3/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": false,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": {
+            "id": 3,
+            "status": "Rejected"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 3,
+            "title": "t56_a45f4205e8 Full",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.534550+00:00",
+            "updated_at": "2026-11-16 09:50:50.542286+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 3,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.543694+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 3
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 3,
+            "joined_at": "2026-11-16 09:50:50.538782+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 1
+          },
+          {
+            "id": 4,
+            "joined_at": "2026-11-16 09:50:50.540930+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 3
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 3,
+            "title": "t56_a45f4205e8 Full",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.534550+00:00",
+            "updated_at": "2026-11-16 09:50:50.542286+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 3,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:50.543694+00:00",
+            "decided_at": "2026-11-16 09:50:50.640869+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 3
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 3,
+            "joined_at": "2026-11-16 09:50:50.538782+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 1
+          },
+          {
+            "id": 4,
+            "joined_at": "2026-11-16 09:50:50.540930+00:00",
+            "left_at": null,
+            "party_id": 3,
+            "user_id": 3
+          }
+        ]
+      },
+      "domain_before_sha256": "658411269cd1e30679091cb78fbfc5dda45953ce8447128b890a9bca6b16226d",
+      "domain_after_sha256": "7ade25c28bd67db25de40e2d9285788566f8437ca229a87269fc28fddc89e020",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "exact_body": true,
+        "decision": true,
+        "party_unchanged": true,
+        "members_unchanged": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/InProgress-Approved",
+      "executed_at": "2026-11-16T16:50:50.707150+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/4/join-requests/4/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_STARTED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_STARTED",
+            "message": "กิจกรรมนี้เริ่มแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 4,
+            "title": "t56_a45f4205e8 InProgress",
+            "description": "",
+            "starts_at": "2026-11-16 08:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.645561+00:00",
+            "updated_at": "2026-11-16 09:50:50.650970+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 4,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.653924+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 4
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 5,
+            "joined_at": "2026-11-16 09:50:50.647668+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 4,
+            "title": "t56_a45f4205e8 InProgress",
+            "description": "",
+            "starts_at": "2026-11-16 08:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.645561+00:00",
+            "updated_at": "2026-11-16 09:50:50.650970+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 4,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.653924+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 4
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 5,
+            "joined_at": "2026-11-16 09:50:50.647668+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "c94a0926260ebfe2a1db30e51f895b84d936ade64e0ca1889526c2c96750b804",
+      "domain_after_sha256": "c94a0926260ebfe2a1db30e51f895b84d936ade64e0ca1889526c2c96750b804",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/InProgress-Rejected",
+      "executed_at": "2026-11-16T16:50:50.749754+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/4/join-requests/4/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_STARTED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_STARTED",
+            "message": "กิจกรรมนี้เริ่มแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 4,
+            "title": "t56_a45f4205e8 InProgress",
+            "description": "",
+            "starts_at": "2026-11-16 08:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.645561+00:00",
+            "updated_at": "2026-11-16 09:50:50.650970+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 4,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.653924+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 4
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 5,
+            "joined_at": "2026-11-16 09:50:50.647668+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 4,
+            "title": "t56_a45f4205e8 InProgress",
+            "description": "",
+            "starts_at": "2026-11-16 08:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.645561+00:00",
+            "updated_at": "2026-11-16 09:50:50.650970+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 4,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.653924+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 4
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 5,
+            "joined_at": "2026-11-16 09:50:50.647668+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "c94a0926260ebfe2a1db30e51f895b84d936ade64e0ca1889526c2c96750b804",
+      "domain_after_sha256": "c94a0926260ebfe2a1db30e51f895b84d936ade64e0ca1889526c2c96750b804",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/Completed-Approved",
+      "executed_at": "2026-11-16T16:50:50.799602+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/5/join-requests/5/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_STARTED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_STARTED",
+            "message": "กิจกรรมนี้เริ่มแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 5,
+            "title": "t56_a45f4205e8 Completed",
+            "description": "",
+            "starts_at": "2026-11-16 07:50:49.285311+00:00",
+            "ends_at": "2026-11-16 08:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.750333+00:00",
+            "updated_at": "2026-11-16 09:50:50.752903+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 5,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.754122+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 5
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 6,
+            "joined_at": "2026-11-16 09:50:50.751830+00:00",
+            "left_at": null,
+            "party_id": 5,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 5,
+            "title": "t56_a45f4205e8 Completed",
+            "description": "",
+            "starts_at": "2026-11-16 07:50:49.285311+00:00",
+            "ends_at": "2026-11-16 08:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.750333+00:00",
+            "updated_at": "2026-11-16 09:50:50.752903+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 5,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.754122+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 5
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 6,
+            "joined_at": "2026-11-16 09:50:50.751830+00:00",
+            "left_at": null,
+            "party_id": 5,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "c17b7da80b70905f5c92a46ec0c2f1b98c2394d1cbc02b501a4969719745d4ee",
+      "domain_after_sha256": "c17b7da80b70905f5c92a46ec0c2f1b98c2394d1cbc02b501a4969719745d4ee",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/Completed-Rejected",
+      "executed_at": "2026-11-16T16:50:50.835544+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/5/join-requests/5/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_STARTED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_STARTED",
+            "message": "กิจกรรมนี้เริ่มแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 5,
+            "title": "t56_a45f4205e8 Completed",
+            "description": "",
+            "starts_at": "2026-11-16 07:50:49.285311+00:00",
+            "ends_at": "2026-11-16 08:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.750333+00:00",
+            "updated_at": "2026-11-16 09:50:50.752903+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 5,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.754122+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 5
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 6,
+            "joined_at": "2026-11-16 09:50:50.751830+00:00",
+            "left_at": null,
+            "party_id": 5,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 5,
+            "title": "t56_a45f4205e8 Completed",
+            "description": "",
+            "starts_at": "2026-11-16 07:50:49.285311+00:00",
+            "ends_at": "2026-11-16 08:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.750333+00:00",
+            "updated_at": "2026-11-16 09:50:50.752903+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 5,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.754122+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 5
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 6,
+            "joined_at": "2026-11-16 09:50:50.751830+00:00",
+            "left_at": null,
+            "party_id": 5,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "c17b7da80b70905f5c92a46ec0c2f1b98c2394d1cbc02b501a4969719745d4ee",
+      "domain_after_sha256": "c17b7da80b70905f5c92a46ec0c2f1b98c2394d1cbc02b501a4969719745d4ee",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/Cancelled-Approved",
+      "executed_at": "2026-11-16T16:50:50.880767+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/6/join-requests/6/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_CANCELLED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_CANCELLED",
+            "message": "กิจกรรมนี้ถูกยกเลิกแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 6,
+            "title": "t56_a45f4205e8 Cancelled",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": "2026-11-16 09:50:49.285311+00:00",
+            "created_at": "2026-11-16 09:50:50.839151+00:00",
+            "updated_at": "2026-11-16 09:50:50.841673+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 6,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.842880+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 6
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 7,
+            "joined_at": "2026-11-16 09:50:50.840770+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 6,
+            "title": "t56_a45f4205e8 Cancelled",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": "2026-11-16 09:50:49.285311+00:00",
+            "created_at": "2026-11-16 09:50:50.839151+00:00",
+            "updated_at": "2026-11-16 09:50:50.841673+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 6,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.842880+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 6
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 7,
+            "joined_at": "2026-11-16 09:50:50.840770+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "58f54fac61a4bc6f44831236edeb987663e2347dd21da5cb5d3f57684fe6e592",
+      "domain_after_sha256": "58f54fac61a4bc6f44831236edeb987663e2347dd21da5cb5d3f57684fe6e592",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-07/Cancelled-Rejected",
+      "executed_at": "2026-11-16T16:50:50.917169+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/6/join-requests/6/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "PARTY_CANCELLED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_CANCELLED",
+            "message": "กิจกรรมนี้ถูกยกเลิกแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 6,
+            "title": "t56_a45f4205e8 Cancelled",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": "2026-11-16 09:50:49.285311+00:00",
+            "created_at": "2026-11-16 09:50:50.839151+00:00",
+            "updated_at": "2026-11-16 09:50:50.841673+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 6,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.842880+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 6
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 7,
+            "joined_at": "2026-11-16 09:50:50.840770+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 6,
+            "title": "t56_a45f4205e8 Cancelled",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": "2026-11-16 09:50:49.285311+00:00",
+            "created_at": "2026-11-16 09:50:50.839151+00:00",
+            "updated_at": "2026-11-16 09:50:50.841673+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 6,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.842880+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 6
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 7,
+            "joined_at": "2026-11-16 09:50:50.840770+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "58f54fac61a4bc6f44831236edeb987663e2347dd21da5cb5d3f57684fe6e592",
+      "domain_after_sha256": "58f54fac61a4bc6f44831236edeb987663e2347dd21da5cb5d3f57684fe6e592",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-02/approve",
+      "executed_at": "2026-11-16T16:50:50.961093+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/7/join-requests/7/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": false,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": {
+            "id": 7,
+            "status": "Approved"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 7,
+            "title": "t56_a45f4205e8 approve",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.917665+00:00",
+            "updated_at": "2026-11-16 09:50:50.919751+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 7,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:50.920938+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 7
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 8,
+            "joined_at": "2026-11-16 09:50:50.918862+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 7,
+            "title": "t56_a45f4205e8 approve",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.917665+00:00",
+            "updated_at": "2026-11-16 09:50:50.919751+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 7,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:50.920938+00:00",
+            "decided_at": "2026-11-16 09:50:50.957768+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 7
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 8,
+            "joined_at": "2026-11-16 09:50:50.918862+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 1
+          },
+          {
+            "id": 9,
+            "joined_at": "2026-11-16 09:50:50.957334+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 2
+          }
+        ]
+      },
+      "domain_before_sha256": "387fd19fa143fa670f277ab3be134bc5c02abb0f5ab24fed60cb7de42815ef31",
+      "domain_after_sha256": "86302dfaa8360b497cabd39f06e356be9f7d9f7bd88f18ae9ab7f79099d59640",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "exact_body": true,
+        "decision": true,
+        "party_unchanged": true,
+        "applicant_active_once": true,
+        "one_member_added": true,
+        "capacity_respected": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-06/after-approve-Approved",
+      "executed_at": "2026-11-16T16:50:50.996004+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/7/join-requests/7/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "REQUEST_DECIDED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "REQUEST_DECIDED",
+            "message": "คำขอนี้ได้รับการตัดสินแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 7,
+            "title": "t56_a45f4205e8 approve",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.917665+00:00",
+            "updated_at": "2026-11-16 09:50:50.919751+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 7,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:50.920938+00:00",
+            "decided_at": "2026-11-16 09:50:50.957768+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 7
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 8,
+            "joined_at": "2026-11-16 09:50:50.918862+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 1
+          },
+          {
+            "id": 9,
+            "joined_at": "2026-11-16 09:50:50.957334+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 7,
+            "title": "t56_a45f4205e8 approve",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.917665+00:00",
+            "updated_at": "2026-11-16 09:50:50.919751+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 7,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:50.920938+00:00",
+            "decided_at": "2026-11-16 09:50:50.957768+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 7
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 8,
+            "joined_at": "2026-11-16 09:50:50.918862+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 1
+          },
+          {
+            "id": 9,
+            "joined_at": "2026-11-16 09:50:50.957334+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 2
+          }
+        ]
+      },
+      "domain_before_sha256": "86302dfaa8360b497cabd39f06e356be9f7d9f7bd88f18ae9ab7f79099d59640",
+      "domain_after_sha256": "86302dfaa8360b497cabd39f06e356be9f7d9f7bd88f18ae9ab7f79099d59640",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-06/after-approve-Rejected",
+      "executed_at": "2026-11-16T16:50:51.030593+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/7/join-requests/7/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "REQUEST_DECIDED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "REQUEST_DECIDED",
+            "message": "คำขอนี้ได้รับการตัดสินแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 7,
+            "title": "t56_a45f4205e8 approve",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.917665+00:00",
+            "updated_at": "2026-11-16 09:50:50.919751+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 7,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:50.920938+00:00",
+            "decided_at": "2026-11-16 09:50:50.957768+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 7
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 8,
+            "joined_at": "2026-11-16 09:50:50.918862+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 1
+          },
+          {
+            "id": 9,
+            "joined_at": "2026-11-16 09:50:50.957334+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 7,
+            "title": "t56_a45f4205e8 approve",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:50.917665+00:00",
+            "updated_at": "2026-11-16 09:50:50.919751+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 7,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:50.920938+00:00",
+            "decided_at": "2026-11-16 09:50:50.957768+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 7
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 8,
+            "joined_at": "2026-11-16 09:50:50.918862+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 1
+          },
+          {
+            "id": 9,
+            "joined_at": "2026-11-16 09:50:50.957334+00:00",
+            "left_at": null,
+            "party_id": 7,
+            "user_id": 2
+          }
+        ]
+      },
+      "domain_before_sha256": "86302dfaa8360b497cabd39f06e356be9f7d9f7bd88f18ae9ab7f79099d59640",
+      "domain_after_sha256": "86302dfaa8360b497cabd39f06e356be9f7d9f7bd88f18ae9ab7f79099d59640",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-04/reject",
+      "executed_at": "2026-11-16T16:50:51.076051+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/8/join-requests/8/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": false,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": {
+            "id": 8,
+            "status": "Rejected"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": "2026-11-16 09:50:51.072953+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "7f7fb2d892af5d1c0f9a95f84be2812d0d7463ca2ac28210435a4a69f3b4c487",
+      "domain_after_sha256": "873506587c6c99ef8b8d4478ceceb23dd6f1c2c80e7a6b9692dd9faa49356268",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "exact_body": true,
+        "decision": true,
+        "party_unchanged": true,
+        "members_unchanged": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-06/after-reject-Approved",
+      "executed_at": "2026-11-16T16:50:51.112125+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/8/join-requests/8/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "REQUEST_DECIDED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "REQUEST_DECIDED",
+            "message": "คำขอนี้ได้รับการตัดสินแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": "2026-11-16 09:50:51.072953+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": "2026-11-16 09:50:51.072953+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "873506587c6c99ef8b8d4478ceceb23dd6f1c2c80e7a6b9692dd9faa49356268",
+      "domain_after_sha256": "873506587c6c99ef8b8d4478ceceb23dd6f1c2c80e7a6b9692dd9faa49356268",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-06/after-reject-Rejected",
+      "executed_at": "2026-11-16T16:50:51.148757+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/8/join-requests/8/decision",
+        "payload": {
+          "status": "Rejected"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 409,
+        "code": "REQUEST_DECIDED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "REQUEST_DECIDED",
+            "message": "คำขอนี้ได้รับการตัดสินแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": "2026-11-16 09:50:51.072953+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": "2026-11-16 09:50:51.072953+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "873506587c6c99ef8b8d4478ceceb23dd6f1c2c80e7a6b9692dd9faa49356268",
+      "domain_after_sha256": "873506587c6c99ef8b8d4478ceceb23dd6f1c2c80e7a6b9692dd9faa49356268",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-04/reapply",
+      "executed_at": "2026-11-16T16:50:51.185538+07:00",
+      "actor": "applicant",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/8/join-requests",
+        "payload": {},
+        "options": {}
+      },
+      "expected": {
+        "status": 201,
+        "code": null,
+        "unchanged": false,
+        "description": ""
+      },
+      "actual": {
+        "status": 201,
+        "body": {
+          "data": {
+            "id": 8,
+            "party_id": 8,
+            "status": "Pending",
+            "created_at": "2026-11-16T16:50:51.179797+07:00"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Rejected",
+            "created_at": "2026-11-16 09:50:51.034519+00:00",
+            "decided_at": "2026-11-16 09:50:51.072953+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "873506587c6c99ef8b8d4478ceceb23dd6f1c2c80e7a6b9692dd9faa49356268",
+      "domain_after_sha256": "4d48b4b319a29d0f6ae275ab3c2bbb0f04c4c852249bb4f833aa2f708f827d68",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "same_id": true,
+        "pending": true,
+        "row_count": true,
+        "no_member_change": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-04/approve-reopened",
+      "executed_at": "2026-11-16T16:50:51.222225+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/8/join-requests/8/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": false,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": {
+            "id": 8,
+            "status": "Approved"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": "2026-11-16 09:50:51.219048+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-16 09:50:51.218717+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 2
+          }
+        ]
+      },
+      "domain_before_sha256": "4d48b4b319a29d0f6ae275ab3c2bbb0f04c4c852249bb4f833aa2f708f827d68",
+      "domain_after_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "exact_body": true,
+        "decision": true,
+        "party_unchanged": true,
+        "applicant_active_once": true,
+        "one_member_added": true,
+        "capacity_respected": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-04/read-pending",
+      "executed_at": "2026-11-16T16:50:51.261500+07:00",
+      "actor": "host",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/parties/8/join-requests/pending",
+        "payload": null,
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": []
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": "2026-11-16 09:50:51.219048+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-16 09:50:51.218717+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": "2026-11-16 09:50:51.219048+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-16 09:50:51.218717+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 2
+          }
+        ]
+      },
+      "domain_before_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "domain_after_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "no_domain_mutation": true,
+        "read_result": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-04/read-detail",
+      "executed_at": "2026-11-16T16:50:51.295457+07:00",
+      "actor": "host",
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/parties/8",
+        "payload": null,
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Task56 host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-17T16:50:49.285311+07:00",
+            "ends_at": "2026-11-17T17:50:49.285311+07:00",
+            "capacity": 2,
+            "member_count": 2,
+            "remaining_slots": 0,
+            "state": "Full",
+            "is_host": true,
+            "is_member": true
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": "2026-11-16 09:50:51.219048+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-16 09:50:51.218717+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 8,
+            "title": "t56_a45f4205e8 reapply",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:51.031075+00:00",
+            "updated_at": "2026-11-16 09:50:51.033325+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 8,
+            "status": "Approved",
+            "created_at": "2026-11-16 09:50:51.179797+00:00",
+            "decided_at": "2026-11-16 09:50:51.219048+00:00",
+            "decided_by_id": 1,
+            "user_id": 2,
+            "party_id": 8
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 10,
+            "joined_at": "2026-11-16 09:50:51.032342+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 1
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-16 09:50:51.218717+00:00",
+            "left_at": null,
+            "party_id": 8,
+            "user_id": 2
+          }
+        ]
+      },
+      "domain_before_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "domain_after_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "no_domain_mutation": true,
+        "read_result": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/logout",
+      "executed_at": "2026-11-16T16:50:51.332347+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/auth/logout",
+        "payload": {},
+        "options": {}
+      },
+      "expected": {
+        "status": 200,
+        "code": null,
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 200,
+        "body": {
+          "data": {
+            "logged_out": true
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "domain_after_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "QA-US10-API-08/stale-cookie",
+      "executed_at": "2026-11-16T16:50:51.364509+07:00",
+      "actor": "host",
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/parties/1/join-requests/1/decision",
+        "payload": {
+          "status": "Approved"
+        },
+        "options": {}
+      },
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "description": ""
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "sql_after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "t56_a45f4205e8 permissions",
+            "description": "",
+            "starts_at": "2026-11-17 09:50:49.285311+00:00",
+            "ends_at": "2026-11-17 10:50:49.285311+00:00",
+            "capacity": 2,
+            "cancelled_at": null,
+            "created_at": "2026-11-16 09:50:49.586979+00:00",
+            "updated_at": "2026-11-16 09:50:49.590524+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 1,
+            "status": "Pending",
+            "created_at": "2026-11-16 09:50:49.591868+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 2,
+            "party_id": 1
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-16 09:50:49.589110+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ]
+      },
+      "domain_before_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "domain_after_sha256": "e54ad4d167521b01111525d98dfa30cbb426ec35bb2501f44db3c6be8acfc10d",
+      "checks": {
+        "status": true,
+        "json": true,
+        "no_store": true,
+        "error_code": true,
+        "no_domain_mutation": true
+      },
+      "result": "Pass"
+    }
+  ],
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "finished_at": "2026-11-16T16:50:51.364825+07:00",
+  "summary": {
+    "Pass": 47,
+    "Fail": 0
+  },
+  "not_run": [
+    "Live TU login",
+    "Human manual sign-off / browser UAT",
+    "Exact starts_at boundary over HTTP (controlled-clock unit/IT cover it)"
+  ]
+}

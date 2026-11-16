@@ -1,0 +1,28 @@
+ Container unisport-buddy-backend-run-4c3f09e55ed8 Creating
+ Container unisport-buddy-backend-run-4c3f09e55ed8 Created
+Found 18 test(s).
+Skipping setup of unused database(s): default.
+System check identified no issues (0 silenced).
+test_ut01_non_host_never_reads_request_or_mutates (parties.test_decision_unit.DecisionServiceUnitTests.test_ut01_non_host_never_reads_request_or_mutates) ... ok
+test_ut02_request_lookup_is_scoped_to_locked_party (parties.test_decision_unit.DecisionServiceUnitTests.test_ut02_request_lookup_is_scoped_to_locked_party) ... ok
+test_ut03_decided_request_does_not_write_again (parties.test_decision_unit.DecisionServiceUnitTests.test_ut03_decided_request_does_not_write_again) ... ok
+test_ut04_cancelled_started_completed_and_exact_start_block_decisions (parties.test_decision_unit.DecisionServiceUnitTests.test_ut04_cancelled_started_completed_and_exact_start_block_decisions) ... ok
+test_ut04_full_party_blocks_approve (parties.test_decision_unit.DecisionServiceUnitTests.test_ut04_full_party_blocks_approve) ... ok
+test_ut05_active_member_cannot_be_approved (parties.test_decision_unit.DecisionServiceUnitTests.test_ut05_active_member_cannot_be_approved) ... ok
+test_ut05_approve_creates_member_and_records_host_and_time (parties.test_decision_unit.DecisionServiceUnitTests.test_ut05_approve_creates_member_and_records_host_and_time) ... ok
+test_ut05_approve_reactivates_existing_membership (parties.test_decision_unit.DecisionServiceUnitTests.test_ut05_approve_reactivates_existing_membership) ... ok
+test_ut06_full_party_blocks_reapplication_before_request_write (parties.test_decision_unit.DecisionServiceUnitTests.test_ut06_full_party_blocks_reapplication_before_request_write) ... ok
+test_ut06_reapplication_reuses_rejected_row_and_clears_decision (parties.test_decision_unit.DecisionServiceUnitTests.test_ut06_reapplication_reuses_rejected_row_and_clears_decision) ... ok
+test_ut06_reject_full_party_changes_only_decision (parties.test_decision_unit.DecisionServiceUnitTests.test_ut06_reject_full_party_changes_only_decision) ... ok
+test_invalid_payload_never_reaches_service (parties.test_decision_unit.DecisionViewUnitTests.test_invalid_payload_never_reaches_service) ... ok
+test_service_error_preserves_status_and_code (parties.test_decision_unit.DecisionViewUnitTests.test_service_error_preserves_status_and_code) ... ok
+test_ut01_anonymous_never_calls_identity_or_mutation (parties.test_decision_unit.DecisionViewUnitTests.test_ut01_anonymous_never_calls_identity_or_mutation) ... ok
+test_ut01_inactive_actor_never_calls_identity_or_mutation (parties.test_decision_unit.DecisionViewUnitTests.test_ut01_inactive_actor_never_calls_identity_or_mutation) ... ok
+test_ut01_missing_or_invalid_university_evidence_never_calls_mutation (parties.test_decision_unit.DecisionViewUnitTests.test_ut01_missing_or_invalid_university_evidence_never_calls_mutation) ... ok
+test_ut05_ut06_view_passes_session_actor_and_exact_decision (parties.test_decision_unit.DecisionViewUnitTests.test_ut05_ut06_view_passes_session_actor_and_exact_decision) ... ok
+test_wrong_method_never_reaches_service (parties.test_decision_unit.DecisionViewUnitTests.test_wrong_method_never_reaches_service) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.038s
+
+OK

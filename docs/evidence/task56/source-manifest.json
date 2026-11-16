@@ -1,0 +1,27 @@
+{
+    "source_commit":  "05ce80ebcf25415e299452e1b061e7ef8545328a",
+    "base_commit":  "1b5c97b",
+    "unit_commit":  "50ab911",
+    "http_run_started_at":  "2026-11-16T16:50:49.285311+07:00",
+    "http_run_finished_at":  "2026-11-16T16:50:51.364825+07:00",
+    "environment":  "Docker Desktop/Linux containers on Windows; isolated Compose project us10-task56",
+    "database":  "s2_task56_api",
+    "source_sha256":  {
+                          "scripts/us10-api-evidence.py":  "349cd051b665780a0ff54f397143572fbe4c831adc4535465290e8c9f0f504cc",
+                          "backend/parties/services.py":  "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+                          "backend/parties/views.py":  "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+                          "backend/parties/urls.py":  "97fd03cc5a1bfd23c6f9dcc2754c3b033a42915b3468dbe9603aae211d034e0b",
+                          "backend/accounts/decorators.py":  "443b259afcdb17524380003dbc0f70569c7be6dc6b5f04de22292f0bd016e0c9",
+                          "backend/parties/test_decision_unit.py":  "0bb7b253bbbf1901e8e352d155276e6f02bf8ae550260de0f2205f77ec5c0ea0"
+                      },
+    "files":  {
+                  ".gitattributes":  "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9",
+                  "execution.csv":  "31f7a43a2ea6534894309f124c4ae9fadf46b9fb4c0180b0585fd2f9bdeb0019",
+                  "guard-refusal.log":  "cac5a5a553be6b76a01ddd1b2abac7390e0cb723dcae8ce74f64fb7ad55a9a4d",
+                  "http-results.json":  "f4c68b46f95faf728ff56baf7025a4a9a2e8bbeae01e95794780ad344a170d48",
+                  "smoke.log":  "5a14732318d97f87e08486656ea3a5be62b51c5e88f63ae3b3de7ad226a2ead5",
+                  "startup.log":  "5b4704caf33e79310793b7e96b9d90a39a205c08c97d00f520910e273941eb0f",
+                  "unit-tests.log":  "16fd942346956d23e0b25f6feda20aa7d93964382f877b32c79302f9132d83a1",
+                  "verify.log":  "70fdd46f7a477f37dc71fcb42fee3cf76ea8ad6eb014471f3e03e7fd50c3a984"
+              }
+}
