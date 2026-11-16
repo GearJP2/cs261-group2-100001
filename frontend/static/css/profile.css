@@ -255,3 +255,7 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.profile-page [hidden] {
+    display: none !important;
+}

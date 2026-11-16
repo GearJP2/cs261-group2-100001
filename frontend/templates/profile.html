@@ -6,7 +6,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-<script src="{% static 'js/profile-reviews.js' %}" defer></script>
 {% endblock %}
 {% block body_class %}profile-page-body{% endblock %}
 
@@ -125,4 +124,9 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/app.js' %}" defer></script>
+<script src="{% static 'js/profile-reviews.js' %}" defer></script>
 {% endblock %}
