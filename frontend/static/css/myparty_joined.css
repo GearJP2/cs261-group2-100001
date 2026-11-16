@@ -1,0 +1,7 @@
+#grid-joined .mp-card-horizontal { display:flex; justify-content:space-between; gap:1rem; padding:1.5rem; margin:1rem 0; background:white; border:1px solid #ddd; border-radius:12px; }
+#grid-joined button { font:inherit; padding:.65rem 1rem; cursor:pointer; }
+#grid-joined button:disabled { cursor:not-allowed; color:#666; }
+#leave-dialog { width:min(90vw,30rem); max-height:85vh; overflow:auto; border:1px solid #ddd; border-radius:12px; padding:1.5rem; }
+#leave-dialog::backdrop { background:rgb(0 0 0 / 45%); }
+#leave-dialog :focus-visible, #grid-joined button:focus-visible { outline:3px solid #8c6300; outline-offset:2px; }
+@media(max-width:640px) { #grid-joined .mp-card-horizontal { flex-direction:column; } }
