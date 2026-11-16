@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
   <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=9.2">
   <link rel="stylesheet" href="{% static 'css/myparty_joined.css' %}">
+  <link rel="stylesheet" href="{% static 'css/myparty_history.css' %}?v=1.0">
 
   <script src="{% static 'js/app.js' %}" defer></script>
   <script src="{% static 'js/myparty-tabs.js' %}" defer></script>
@@ -26,6 +27,7 @@
       <p>จัดการกิจกรรม นัดเพื่อนร่วมเล่น แล้วเจอกันที่สนาม</p>
     </div>
 
+    <!-- แท็บ -->
     <div class="mp-tabs" role="group" aria-label="ประเภทกิจกรรม">
       <button type="button" class="mp-tab-btn active" data-myparty-tab="created" aria-pressed="true">กิจกรรมที่ฉันสร้าง</button>
       <button type="button" class="mp-tab-btn" data-myparty-tab="joined" aria-pressed="false">กิจกรรมที่เข้าร่วม</button>
@@ -92,6 +94,7 @@
       {% endfor %}
     </div>
   {% include "partials/myparty_joined.html" %}
+    {% include "partials/myparty_history.html" %}
   </div>
 
   <footer class="mp-footer">CS261 UniSport Buddy</footer>

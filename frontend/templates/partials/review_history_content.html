@@ -1,0 +1,39 @@
+<section id="grid-history" hidden aria-labelledby="history-heading">
+  <h2 id="history-heading" tabindex="-1">กิจกรรมที่ผ่านมา</h2>
+  {% for party in history %}
+  <article class="mp-card-horizontal">
+    <div><span>{{ party.sport.name }}</span><h3>{{ party.title }}</h3>
+      <p>{{ party.venue.name }} · {{ party.starts_at|date:"d M Y H:i" }} – {{ party.ends_at|date:"H:i" }}</p>
+      <p>กิจกรรมสิ้นสุดแล้ว</p>
+    </div>
+    <button type="button" class="btn-review" data-open-review="review-dialog-{{ party.pk }}" {% if not party.can_review %}disabled{% endif %}>
+      {% if party.can_review %}ให้คะแนนและรีวิว{% else %}ไม่มีสมาชิกที่ยังรีวิวได้{% endif %}
+    </button>
+  </article>
+  <dialog id="review-dialog-{{ party.pk }}" data-review-dialog data-party-id="{{ party.pk }}" aria-labelledby="review-title-{{ party.pk }}">
+    <form>
+      <h3 id="review-title-{{ party.pk }}">รีวิว {{ party.title }}</h3>
+      <label for="review-target-{{ party.pk }}">สมาชิกที่ต้องการรีวิว</label>
+      <select id="review-target-{{ party.pk }}" name="reviewee_id" required>
+        <option value="">เลือกสมาชิก</option>
+        {% for target in party.review_targets %}
+        <option value="{{ target.id }}" {% if target.reviewed %}disabled{% endif %}>{{ target.name }}{% if target.reviewed %} — รีวิวแล้ว{% endif %}</option>
+        {% endfor %}
+      </select>
+      <fieldset><legend>คะแนนดาว (1–5)</legend>
+        <label><input type="radio" name="rating" value="1" required>1 ★</label>
+        <label><input type="radio" name="rating" value="2">2 ★</label>
+        <label><input type="radio" name="rating" value="3">3 ★</label>
+        <label><input type="radio" name="rating" value="4">4 ★</label>
+        <label><input type="radio" name="rating" value="5">5 ★</label>
+      </fieldset>
+      <label for="review-comment-{{ party.pk }}">ความคิดเห็น (จำเป็น)</label>
+      <textarea id="review-comment-{{ party.pk }}" name="comment" rows="4" maxlength="500" required></textarea>
+      <p><output data-review-count>0</output>/500</p>
+      <p data-review-message role="status" aria-live="polite"></p>
+      <button type="button" data-review-close autofocus>ปิด</button>
+      <button type="submit" class="btn-modal-ok">ส่งคะแนนและรีวิว</button>
+    </form>
+  </dialog>
+  {% empty %}<p>ยังไม่มีกิจกรรมที่จบแล้วซึ่งคุณมีสิทธิ์รีวิว</p>{% endfor %}
+</section>

@@ -1,0 +1,9 @@
+#grid-history .mp-card-horizontal { display:flex; justify-content:space-between; gap:1rem; padding:1.5rem; margin:1rem 0; background:white; border:1px solid #ddd; border-radius:12px; }
+[data-review-dialog] { width:min(90vw,32rem); max-height:85vh; overflow:auto; border:1px solid #ddd; border-radius:12px; padding:1.5rem; }
+[data-review-dialog]::backdrop { background:rgb(0 0 0 / 45%); }
+[data-review-dialog] form { display:grid; gap:.75rem; }
+[data-review-dialog] textarea, [data-review-dialog] select { box-sizing:border-box; width:100%; font:inherit; padding:.6rem; }
+[data-review-dialog] fieldset label { display:inline-block; margin:.25rem; }
+[data-review-dialog] button { font:inherit; padding:.6rem; }
+[data-review-dialog] :focus-visible { outline:3px solid #8c6300; outline-offset:2px; }
+@media(max-width:640px) { #grid-history .mp-card-horizontal { flex-direction:column; } }
