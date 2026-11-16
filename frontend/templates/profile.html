@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="{% static 'js/profile-reviews.js' %}" defer></script>
 {% endblock %}
 {% block body_class %}profile-page-body{% endblock %}
 
@@ -77,6 +78,49 @@
                 {% else %}
                     <p class="profile-empty">ยังไม่ได้ระบุกีฬาที่สนใจ</p>
                 {% endif %}
+
+            </section>
+            <!-- ส่วนแสดงคะแนนรีวิวสรุป (แยกดาวออกจากเครดิตตาม) -->
+            <section class="profile-card reviews-summary-card" aria-labelledby="reviews-summary-title">
+                <div class="card-left">
+                    <span class="card-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#ffc83d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <h2 id="reviews-summary-title">คะแนนรีวิวจากผู้เล่น:</h2>
+                </div>
+                <div class="card-right">
+                    <span class="profile-empty" data-review-summary>กำลังโหลด...</span>
+                </div>
+            </section>
+
+            <!-- ส่วนแสดงรายการรีวิว พร้อมสถานะ loading / empty / error และ pagination -->
+            <section
+                class="profile-card reviews-list-card"
+                aria-labelledby="reviews-list-title"
+                data-profile-reviews
+                data-user-id="{{ profile.id|default:'' }}"
+            >
+                <div class="reviews-header">
+                    <h2 id="reviews-list-title">รีวิวจากเพื่อนร่วมกิจกรรม</h2>
+                    <span class="reviews-count" data-review-count>0 รีวิว</span>
+                </div>
+
+                <p class="profile-empty" data-review-status aria-live="polite">กำลังโหลดรีวิว...</p>
+
+                <div class="reviews-error" data-review-error hidden>
+                    <p class="profile-empty" data-review-error-message>ไม่สามารถโหลดข้อมูลรีวิวได้</p>
+                    <button type="button" class="review-action-btn" data-review-retry>ลองใหม่</button>
+                </div>
+
+                <div class="reviews-items" data-review-list hidden></div>
+
+                <div class="reviews-pagination" data-review-pagination hidden>
+                    <button type="button" class="review-action-btn" data-review-prev>ก่อนหน้า</button>
+                    <span class="reviews-page-label" data-review-page-label>หน้า 1 จาก 1</span>
+                    <button type="button" class="review-action-btn" data-review-next>ถัดไป</button>
+                </div>
             </section>
         {% endif %}
     </div>

@@ -156,3 +156,102 @@
     margin: 0;
     letter-spacing: -0.5px;
 }
+
+
+/*CSS us14 */
+.reviews-list-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+}
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.reviews-count {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #64748b;
+}
+.reviews-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+}
+.review-item {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.review-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.review-reviewer {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1f2430;
+}
+.review-stars {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #f59e0b;
+}
+.review-comment {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #334155;
+    line-height: 1.5;
+    word-break: break-word;
+}
+.review-meta {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+.reviews-error {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    width: 100%;
+}
+.reviews-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f1f5f9;
+}
+.reviews-page-label {
+    font-size: 0.85rem;
+    color: #475569;
+}
+.review-action-btn {
+    padding: 0.45rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #1f2430;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.review-action-btn:hover:not(:disabled) {
+    background-color: #f1f5f9;
+}
+.review-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
