@@ -182,3 +182,7 @@ Flowทีม: ToDo → Doing(ผู้รับงานใส่ชื่อ) 
 - [ ] Gearตรวจเอกสารฉบับรวม/บันทึกมติจริงก่อนปิดTask44; mergeเอกสารที่ยังมีpendingdecisionsไม่ทำให้pendingเหล่านั้นหายไป
 
 งานรอบนี้เป็น**document/source audit** ไม่รันAPI/UI/PostgreSQLtestsใหม่ ไม่เอาlogTaskอื่นมาอ้างว่ารันทุกรายการใหม่. หลักฐานตรวจเอกสารและsnapshotอยู่ [Task44 audit](evidence/task44/audit.md). ไม่มีการแก้runtime/schemaหรืออนุมัติแทนทีม
+
+## Test scope handoff — Task45
+
+[Coverage matrix และ inventory ของ #118](qa/README.md) ใช้ PLAN IDs ในแผนนี้เชื่อม Test Case และ execution template; ทุกเคสเริ่ม Not run ไม่ใช่ผลรันใหม่หรือการรับรอง AC แทนทีม

@@ -2,7 +2,6 @@ import json
 
 from accounts.decorators import require_university_user
 from core.api import json_error, require_authenticated_api
-from django.db.models import Count, F, Q
 from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
@@ -10,6 +9,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .models import JoinRequest, Party
+from .search import parse_search_query, search_parties
 from .services import (
     PARTY_EDIT_FIELDS,
     JoinRequestError,
@@ -59,7 +59,7 @@ def leave_party_api(request, party_id):
     )
 
 
-def party_data(party, user):
+def party_data(party, user, *, now=None):
     profile = getattr(party.host, "profile", None)
     member_count = (
         party.active_member_count
@@ -83,7 +83,7 @@ def party_data(party, user):
         "capacity": party.capacity,
         "member_count": member_count,
         "remaining_slots": party.capacity - member_count,
-        "state": get_party_state(party, member_count=member_count),
+        "state": get_party_state(party, now=now, member_count=member_count),
         "is_host": user.pk == party.host_id,
         "is_member": party.memberships.filter(user=user, left_at__isnull=True).exists(),
     }
@@ -321,22 +321,24 @@ def parse_party_datetimes(payload, fields):
 @require_university_user
 def create_party_api(request):
     if request.method == "GET":
-        parties = (
-            Party.objects.select_related("host__profile")
-            .filter(cancelled_at__isnull=True, starts_at__gt=timezone.now())
-            .annotate(
-                active_member_count=Count(
-                    "memberships", filter=Q(memberships__left_at__isnull=True)
-                )
-            )
-            .filter(active_member_count__lt=F("capacity"))
-            .order_by("starts_at")[:50]
+        try:
+            filters = parse_search_query(request.GET)
+        except PartyError as error:
+            return json_error(error.code, error.message, error.status, error.fields)
+        now = timezone.now()
+        parties = search_parties(filters, now=now)
+        total = parties.count()
+        offset = (filters["page"] - 1) * filters["page_size"]
+        # Avoid a database OFFSET overflow for valid but extremely large pages.
+        rows = parties[offset : offset + filters["page_size"]] if offset < total else []
+        return JsonResponse(
+            {
+                "data": [party_data(party, request.user, now=now) for party in rows],
+                "page": filters["page"],
+                "page_size": filters["page_size"],
+                "total": total,
+            }
         )
-        data = []
-        for party in parties:
-            item = party_data(party, request.user)
-            data.append(item)
-        return JsonResponse({"data": data})
     if request.method != "POST":
         response = json_error("METHOD_NOT_ALLOWED", "รองรับเฉพาะ GET และ POST", 405)
         response["Allow"] = "GET, POST"

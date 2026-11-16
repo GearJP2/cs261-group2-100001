@@ -8,7 +8,7 @@
 {% block body_class %}app-body{% endblock %}
 {% block content %}
 {% include "partials/navbar.html" with active="" show_create=False %}
-<section class="auth-shell"><form class="auth-card" data-login-form novalidate>
+<section class="auth-shell"><form class="auth-card" data-login-form data-next-url="{{ next_url }}" novalidate>
   <span class="app-kicker">บัญชีมหาวิทยาลัยธรรมศาสตร์</span><h1>เข้าสู่ระบบ</h1><p>ยืนยันตัวตนด้วย Username และ Password ของมหาวิทยาลัย</p>
   <label>Username / รหัสนักศึกษา<input name="username" autocomplete="username" required></label>
   <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
