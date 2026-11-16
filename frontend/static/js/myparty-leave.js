@@ -1,6 +1,7 @@
 (() => {
   const pane = document.getElementById('grid-joined');
   const dialog = document.getElementById('leave-dialog');
+  if (!pane || !dialog) return;
   const form = dialog.querySelector('form');
   const message = dialog.querySelector('[data-leave-message]');
   const close = dialog.querySelector('[data-leave-close]');
@@ -34,25 +35,61 @@
     if (pending || finished || !opener) return;
     const partyId = opener.dataset.leaveParty;
     const submittedCard = card;
+    const triggerBtn = opener;
     pending = true;
-    confirm.disabled = close.disabled = true;
+    confirm.disabled = close.disabled = triggerBtn.disabled = true;
     message.textContent = 'กำลังถอนตัว…';
     try {
       await window.UniSport.request(`/parties/${partyId}/leave`, { method: 'POST', body: '{}' });
       finished = true;
       submittedCard.remove();
       pane.querySelector('[data-joined-empty]').hidden = Boolean(pane.querySelector('[data-joined-party]'));
+      // ล้างรายชื่อสมาชิกของกิจกรรมที่ถอนตัวแล้ว (กรณีแสดงร่วมกับ Members UI #77/#78)
+      document.querySelectorAll(`[data-party-members="${partyId}"], [data-party-id="${partyId}"] [data-member-list], [data-member-list]`).forEach(el => {
+        el.innerHTML = '';
+        el.hidden = true;
+      });
       let result = 'ถอนตัวสำเร็จแล้ว';
       try {
         const detail = await window.UniSport.request(`/parties/${partyId}`);
         result += ` สมาชิกปัจจุบัน ${detail.member_count} คน ที่ว่าง ${detail.remaining_slots} ที่`;
-      } catch (_) {
-        result += ' แต่โหลดข้อมูลล่าสุดไม่ได้ กรุณาโหลดหน้าใหม่เพื่อตรวจจำนวนสมาชิก';
+        const countNode = document.querySelector(`[data-party-count="${partyId}"], [data-member-count]`);
+        if (countNode) countNode.textContent = String(detail.member_count);
+        const slotsNode = document.querySelector(`[data-party-slots="${partyId}"], [data-remaining-slots]`);
+        if (slotsNode) slotsNode.textContent = String(detail.remaining_slots);
+      } catch (detailError) {
+        if (detailError && (detailError.status === 401 || detailError.status === 403)) {
+          result += ' (คุณไม่มีสิทธิ์ดูรายชื่อสมาชิกของกิจกรรมนี้อีกต่อไป)';
+        } else {
+          result += ' แต่โหลดข้อมูลล่าสุดไม่ได้ กรุณาโหลดหน้าใหม่เพื่อตรวจจำนวนสมาชิก';
+        }
       }
       message.textContent = result;
       pane.querySelector('[data-leave-result]').textContent = result;
     } catch (error) {
-      message.textContent = error.status ? error.message : 'ยังยืนยันผลถอนตัวไม่ได้ กรุณาโหลดหน้าใหม่เพื่อตรวจสถานะ ห้ามถือว่าถอนตัวสำเร็จแล้ว';
+      if (error.status === 401 || error.status === 403) {
+        message.textContent = error.message || 'คุณไม่มีสิทธิ์ดำเนินการ หรือเซสชันหมดอายุ ระบบได้ซ่อนข้อมูลสมาชิกแล้ว';
+        // ล้างข้อมูล Members ทันทีเมื่อเสียสิทธิ์ (401/403)
+        submittedCard?.querySelectorAll('[data-member-list], [data-party-members], .member-list').forEach(el => {
+          el.innerHTML = '';
+          el.hidden = true;
+        });
+        document.querySelectorAll(`[data-party-members="${partyId}"], [data-member-list]`).forEach(el => {
+          el.innerHTML = '';
+          el.hidden = true;
+        });
+        const countEl = submittedCard?.querySelector('[data-joined-count]');
+        if (countEl) countEl.textContent = '-';
+        pane.querySelector('[data-leave-result]').textContent = message.textContent;
+      } else if (error.status === 409) {
+        message.textContent = error.message || 'ไม่สามารถถอนตัวได้เนื่องจากสถานะกิจกรรมเปลี่ยนไปแล้ว';
+        pane.querySelector('[data-leave-result]').textContent = message.textContent;
+      } else {
+        message.textContent = error.status
+          ? error.message
+          : 'ยังยืนยันผลถอนตัวไม่ได้ กรุณาโหลดหน้าใหม่เพื่อตรวจสถานะ ห้ามถือว่าถอนตัวสำเร็จแล้ว';
+        if (!error.status) triggerBtn.disabled = false;
+      }
       // Old commands must not be retried across a reapproval cycle.
       confirm.hidden = true;
     } finally {
