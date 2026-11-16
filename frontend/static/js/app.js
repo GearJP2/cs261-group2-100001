@@ -200,7 +200,7 @@
     let venueSports = new Map();
     let searchReady = false;
     let loadState = "loading";
-    let requestId = 0;
+    const searchState = window.UniSportSearchState.create();
 
     function setVisible(node, visible) { node.hidden = !visible; }
 
@@ -405,7 +405,6 @@
       if (!searchReady) return;
       updateSearchUrl(pageNumber);
       const params = searchParams(pageNumber);
-      const currentRequestId = ++requestId;
       loadState = "loading";
       status.textContent = `กำลังค้นหาปาร์ตี้ทั้งหมดที่ตรงกับตัวกรองจาก API (แสดงผลหน้าละ ${pageSize} รายการ)…`;
       setVisible(status, true);
@@ -414,18 +413,17 @@
       setVisible(errorState, false);
       setVisible(loginState, false);
       setVisible(pagination, false);
-      try {
-        const response = await request(`/parties?${params.toString()}`, undefined, true);
-        if (currentRequestId !== requestId) return;
-        parties = response.data;
-        totalResults = response.total;
-        currentPage = response.page;
-        loadState = "success";
-        renderResults();
-      } catch (error) {
-        if (currentRequestId !== requestId) return;
-        showError(error.message);
-      }
+      await searchState.run(
+        () => request(`/parties?${params.toString()}`, undefined, true),
+        (response) => {
+          parties = response.data;
+          totalResults = response.total;
+          currentPage = response.page;
+          loadState = "success";
+          renderResults();
+        },
+        (error) => showError(error.message),
+      );
     }
 
     function clearFilters() {
@@ -433,6 +431,7 @@
       sportSelect.value = "";
       updateTimeControls();
       updateVenueOptions();
+      searchState.reset();
       loadSearchResults(1);
     }
 
@@ -526,11 +525,15 @@
       venues = [...venueById.values()];
       venueNames = new Map(venues.map((venue) => [venue.id, venue]));
       updateVenueOptions();
-      sportSelect.value = initialParams.get("sport_id") || "";
-      updateVenueOptions();
-      venueSelect.value = initialParams.get("venue_id") || "";
+      if (searchState.shouldApplyInitialFilters()) {
+        sportSelect.value = initialParams.get("sport_id") || "";
+        updateVenueOptions();
+        venueSelect.value = initialParams.get("venue_id") || "";
+      }
       searchReady = true;
-      await loadSearchResults(initialParams.get("page") || 1);
+      const initialPage = searchState.initialPage(initialParams.get("page") || 1);
+      searchState.markInitialized();
+      await loadSearchResults(initialPage);
     } catch (error) {
       searchReady = false;
       showError(error.message);
