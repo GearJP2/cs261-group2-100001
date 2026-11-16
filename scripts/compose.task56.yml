@@ -1,0 +1,10 @@
+# Optional overlay for Task56 only; pair with the root docker-compose.yml.
+# Use a fresh project name and disposable volume, never the development project.
+services:
+  database:
+    environment:
+      POSTGRES_DB: s2_task56_api
+  backend:
+    environment:
+      POSTGRES_DB: s2_task56_api
+      DEBUG: "true"

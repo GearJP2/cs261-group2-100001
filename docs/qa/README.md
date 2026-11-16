@@ -54,6 +54,8 @@ Controlled clock: Python mock clock สำหรับ tests; manual ให้�
 
 ## Evidence reuse / handoff / gaps
 
+ผลรัน Task56 วันที่ 16 พ.ย. 2026: [US10 API acceptance report](../us10-t-api-test-report.md) — 18 unit tests และ 47 HTTP variants พร้อม SQL; แยก exact-time HTTP/TU login/browser UAT ที่ยัง Not run และไม่เปลี่ยนผล inventory ทั้งแถวจาก variant บางส่วน
+
 | Story | แหล่งเดิมที่ใช้ต่อ | งานรัน/รับรองแยก |
 |---|---|---|
 | US10 | [Pending design](../us10-pending-api-test-cases.md), [Reject19tests](../us10-b-03-test-report.md), [DB57](../s2-us10-t-db-task57.md) | UI#70, API#71, DB#72; #135 ยังเปิด ณตรวจ ต้องตรวจ head จริงก่อนรันUIรับงาน |
