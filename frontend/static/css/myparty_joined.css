@@ -1,4 +1,5 @@
 #grid-joined .mp-card-horizontal { display:flex; justify-content:space-between; gap:1rem; padding:1.5rem; margin:1rem 0; background:white; border:1px solid #ddd; border-radius:12px; }
+#grid-joined .mp-party-members { margin-top:.75rem; }
 #grid-joined button { font:inherit; padding:.65rem 1rem; cursor:pointer; }
 #grid-joined button:disabled { cursor:not-allowed; color:#666; }
 #grid-joined .mp-party-actions { display:flex; flex-direction:column; justify-content:center; gap:.55rem; min-width:8.5rem; }

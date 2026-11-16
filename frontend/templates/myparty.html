@@ -10,11 +10,12 @@
   
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=9.2">
-  <link rel="stylesheet" href="{% static 'css/myparty_joined.css' %}">
+  <link rel="stylesheet" href="{% static 'css/myparty.css' %}?v=9.3">
+  <link rel="stylesheet" href="{% static 'css/myparty_joined.css' %}?v=members-api-20261117">
   <link rel="stylesheet" href="{% static 'css/myparty_history.css' %}?v=1.0">
 
   <script src="{% static 'js/app.js' %}" defer></script>
+  <script src="{% static 'js/party-members.js' %}?v=members-api-20261117" defer></script>
   <script src="{% static 'js/myparty-tabs.js' %}" defer></script>
 </head>
 <body>
@@ -60,15 +61,20 @@
               {{ party.venue.name }}
             </span>
           </div>
-          <div class="mp-info-row">
-            <span class="mp-info-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> 
-              เข้าร่วมแล้ว {{ party.get_active_members_count }} / {{ party.capacity }} คน
-            </span>
-            <span class="mp-info-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> 
-              ผู้จัด: คุณ
-            </span>
+          <div class="mp-party-members" data-party-members="{{ party.pk }}" data-party-capacity="{{ party.capacity }}">
+            <div class="mp-info-row">
+              <span class="mp-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                สมาชิกปัจจุบัน <span data-member-count>{{ party.get_active_members_count }}</span> / {{ party.capacity }} คน
+              </span>
+              <span class="mp-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                ผู้จัด: คุณ
+              </span>
+            </div>
+            <ul class="mp-member-list" data-member-list aria-label="รายชื่อสมาชิกปัจจุบัน"></ul>
+            <p class="mp-member-status" data-member-status role="status" aria-live="polite"></p>
+            <button type="button" class="mp-member-retry" data-member-retry hidden>ลองโหลดรายชื่ออีกครั้ง</button>
           </div>
           <div class="mp-party-detail-action">
             <a class="mp-party-detail-link" href="{% url 'party-detail-page' party.pk %}">ดูรายละเอียด</a>
@@ -214,6 +220,10 @@
         });
 
         if (response.ok) {
+          if (action === 'approve') {
+            const refreshed = await window.PartyMembers.refresh(partyId);
+            if (refreshed.status === 'unauthorized') return;
+          }
           if (action === 'approve') {
             actionContainer.innerHTML = `<button class="btn-action btn-success" disabled>เป็นสมาชิกแล้ว</button>`;
           } else {

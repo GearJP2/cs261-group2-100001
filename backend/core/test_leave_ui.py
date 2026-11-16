@@ -3,13 +3,33 @@ from datetime import timedelta
 from accounts.test_support import force_university_login
 from django.test import Client, TestCase
 from django.urls import reverse
-from parties.models import JoinRequest, PartyMembership
+from parties.models import JoinRequest, Party, PartyMembership
 from parties.test_join_requests import JoinRequestFixture
 
 from .templatetags.leave_ui import joined_parties
 
 
 class JoinedPartyUITests(JoinRequestFixture, TestCase):
+    def test_only_active_joined_parties_render_members_panel(self):
+        PartyMembership.objects.create(party=self.party, user=self.applicant)
+        pending_party = Party.objects.create(
+            host=self.other,
+            sport=self.party.sport,
+            venue=self.party.venue,
+            title="Pending only",
+            starts_at=self.party.starts_at,
+            ends_at=self.party.ends_at,
+            capacity=2,
+        )
+        JoinRequest.objects.create(party=pending_party, user=self.applicant)
+        force_university_login(self.client, self.applicant)
+
+        response = self.client.get(reverse("my-parties-page"))
+
+        self.assertContains(response, f'data-party-members="{self.party.pk}"')
+        self.assertNotContains(response, f'data-party-members="{pending_party.pk}"')
+        self.assertContains(response, 'data-member-list aria-label="รายชื่อสมาชิกปัจจุบัน"')
+
     def test_host_created_party_links_to_detail(self):
         force_university_login(self.client, self.host)
 

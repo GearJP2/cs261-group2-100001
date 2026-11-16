@@ -7,7 +7,16 @@
     <div><span>{{ party.sport.name }}</span><h3>{{ party.title }}</h3>
       <p>{{ party.venue.name }} · {{ party.starts_at|date:"d M Y H:i" }} – {{ party.ends_at|date:"H:i" }}</p>
       <p>{{ party.ui_state }} · {% if party.ui_active %}อนุมัติแล้ว{% else %}รออนุมัติ{% endif %}</p>
+      {% if party.ui_active %}
+      <div class="mp-party-members" data-party-members="{{ party.pk }}" data-party-capacity="{{ party.capacity }}">
+        <p>สมาชิกปัจจุบัน <span data-joined-count data-member-count>{{ party.ui_count }}</span> / {{ party.capacity }} คน</p>
+        <ul class="mp-member-list" data-member-list aria-label="รายชื่อสมาชิกปัจจุบัน"></ul>
+        <p class="mp-member-status" data-member-status role="status" aria-live="polite"></p>
+        <button type="button" class="mp-member-retry" data-member-retry hidden>ลองโหลดรายชื่ออีกครั้ง</button>
+      </div>
+      {% else %}
       <p>สมาชิก <span data-joined-count>{{ party.ui_count }}</span> / {{ party.capacity }} คน</p>
+      {% endif %}
     </div>
     <div class="mp-party-actions">
       <a class="mp-party-detail-link" href="{% url 'party-detail-page' party.pk %}">ดูรายละเอียด</a>

@@ -7,6 +7,6 @@
 - ใช้ `{% load static %}` และ `{% static 'css/site.css' %}` อ้างอิง asset
 - เมื่อ API พร้อมให้เชื่อมผ่าน origin เดียวกันตาม contract ของ Story และแนบ CSRF เมื่อส่งคำขอเปลี่ยนข้อมูล
 - โฟลเดอร์ pages/components/styles/public/utils เดิมเป็น placeholder; runtime โหลดจาก templates/static ตาม settings
-- รันทดสอบการนำทางปาร์ตี้ด้วย Node.js: `node --test frontend/tests/party-navigation.test.cjs`
+- รัน Frontend tests ด้วย Node.js: `node --test frontend/tests/*.test.cjs`
 
 เริ่มด้วย `make up` จาก root แล้วเปิด <http://localhost:8000/> รัน `make smoke` เพื่อตรวจทั้ง template และ static CSS
