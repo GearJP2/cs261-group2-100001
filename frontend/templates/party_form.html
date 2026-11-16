@@ -9,13 +9,13 @@
 {% block content %}
 {% include "partials/navbar.html" with active="" show_create=True %}
 <section class="app-wrap form-layout" data-party-form-page data-mode="{{ mode }}" data-sport-id="{{ sport_id }}" data-venue-id="{{ venue_id }}"{% if party_id %} data-party-id="{{ party_id }}"{% endif %}>
-  <div class="form-heading"><a href="{% url 'home' %}" class="app-back">← กลับหน้าหลัก</a><h1>{% if mode == "edit" %}แก้ไขปาร์ตี้{% else %}สร้างปาร์ตี้ใหม่{% endif %}</h1><p>ระบบตรวจสอบเวลาเปิดบริการของสนามก่อนบันทึก</p></div>
+  <div class="form-heading"><a href="{% if mode == 'edit' %}{% url 'party-detail-page' party_id %}{% else %}{% url 'home' %}{% endif %}" class="app-back" data-party-form-return>← ย้อนกลับ</a><h1>{% if mode == "edit" %}แก้ไขปาร์ตี้{% else %}สร้างปาร์ตี้ใหม่{% endif %}</h1><p>ระบบตรวจสอบเวลาเปิดบริการของสนามก่อนบันทึก</p></div>
   <form class="party-form" data-party-form novalidate>
     <section><h2>ข้อมูลกิจกรรม</h2><label>ชื่อปาร์ตี้<input name="title" maxlength="150" required placeholder="เช่น ตีแบดหลังเลิกเรียน"></label><label>รายละเอียด <span class="app-optional">(ไม่บังคับ)</span><textarea name="description" maxlength="2000" rows="4" placeholder="บอกระดับฝีมือหรือสิ่งที่ควรเตรียม"></textarea></label></section>
     <section><h2>กีฬาและสนาม</h2><div class="two-col"><label>ประเภทกีฬา<select name="sport_id" required data-sport-select><option value="">เลือกกีฬา</option></select></label><label>สนามที่รองรับ<select name="venue_id" required disabled data-venue-select><option value="">เลือกกีฬาก่อน</option></select></label></div><div class="hours-card" data-hours-message>เลือกสนามเพื่อดูเวลาเปิดบริการ</div></section>
     <section><h2>วัน เวลา และจำนวนคน</h2><div class="three-col"><label>วันที่<input type="date" name="date" required></label><label>เวลาเริ่ม<select name="start_time" required disabled><option value="">เลือกวันที่และสนามก่อน</option></select></label><label>เวลาสิ้นสุด<select name="end_time" required disabled><option value="">เลือกเวลาเริ่มก่อน</option></select></label></div><label class="capacity-field">จำนวนผู้เข้าร่วมสูงสุด<input type="number" name="capacity" min="1" step="1" required></label></section>
-    <div class="app-error" data-form-error hidden></div><div class="form-actions"><a href="{% url 'home' %}" class="app-secondary">ยกเลิก</a><button class="app-primary" type="submit" data-submit-party>{% if mode == "edit" %}บันทึกการแก้ไข{% else %}สร้างปาร์ตี้{% endif %}</button></div>
+    <div class="app-error" data-form-error hidden></div><div class="form-actions"><a href="{% if mode == 'edit' %}{% url 'party-detail-page' party_id %}{% else %}{% url 'home' %}{% endif %}" class="app-secondary" data-party-form-return>ยกเลิก</a><button class="app-primary" type="submit" data-submit-party>{% if mode == "edit" %}บันทึกการแก้ไข{% else %}สร้างปาร์ตี้{% endif %}</button></div>
   </form>
 </section>
 {% endblock %}
-{% block extra_js %}<script src="{% static 'js/app.js' %}" defer></script>{% endblock %}
+{% block extra_js %}<script src="{% static 'js/app.js' %}?v=skip-duplicate-detail-20261116" defer></script>{% endblock %}

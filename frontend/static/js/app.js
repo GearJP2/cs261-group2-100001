@@ -10,6 +10,32 @@
     return node;
   }
 
+  function configurePreviousPageLinks(links, options) {
+    const referrer = document.referrer ? new URL(document.referrer, window.location.href) : null;
+    const sameOriginReferrer = referrer?.origin === window.location.origin;
+    const historySteps = options?.historySteps || 1;
+    if (!sameOriginReferrer && historySteps === 1) return;
+    if (sameOriginReferrer && !options?.ignoreReferrer) {
+      const destination = `${referrer.pathname}${referrer.search}${referrer.hash}`;
+      links.forEach((link) => { link.href = destination; });
+    }
+    links.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (window.history.length > historySteps) {
+          event.preventDefault();
+          if (options?.consumeSkipDuplicate) {
+            const state = window.history.state && typeof window.history.state === "object"
+              ? { ...window.history.state }
+              : {};
+            delete state.partyDetailSkipDuplicate;
+            window.history.replaceState(state, "", window.location.href);
+          }
+          window.history.go(-historySteps);
+        }
+      });
+    });
+  }
+
   function apiMessage(payload, fallback) {
     if (!payload || !payload.error) return fallback;
     const fields = payload.error.fields || {};
@@ -626,10 +652,15 @@
   async function initPartyForm() {
     const page = document.querySelector("[data-party-form-page]");
     if (!page) return;
+    configurePreviousPageLinks(page.querySelectorAll("[data-party-form-return]"));
     if (!await currentUser()) { window.location.replace("/login/"); return; }
     const form = page.querySelector("[data-party-form]");
     const mode = page.dataset.mode;
     const partyId = page.dataset.partyId;
+    const referrer = document.referrer ? new URL(document.referrer, window.location.href) : null;
+    const editedFromDetail = mode === "edit"
+      && referrer?.origin === window.location.origin
+      && referrer.pathname === `/parties/${partyId}/`;
     const sportSelect = form.querySelector("[data-sport-select]");
     const venueSelect = form.querySelector("[data-venue-select]");
     const hoursBox = form.querySelector("[data-hours-message]");
@@ -700,7 +731,12 @@
       const submit = form.querySelector("[data-submit-party]"); submit.disabled = true;
       try {
         const party = await request(mode === "edit" ? `/parties/${partyId}` : "/parties", { method: mode === "edit" ? "PATCH" : "POST", body: JSON.stringify(payload) });
-        window.location.assign(`/parties/${party.id}/`);
+        if (mode === "edit") {
+          const skipDuplicateQuery = editedFromDetail ? "?skip_duplicate_detail=1" : "";
+          window.location.replace(`/parties/${party.id}/${skipDuplicateQuery}`);
+        } else {
+          window.location.assign(`/parties/${party.id}/`);
+        }
       } catch (error) { setError(errorBox, error.message); submit.disabled = false; }
     });
   }
@@ -738,21 +774,32 @@
   async function initPartyDetail() {
     const root = document.querySelector("[data-party-detail]");
     if (!root) return;
-    const backLink = document.querySelector("[data-party-detail-back]");
-    if (backLink && document.referrer) {
-      const referrer = new URL(document.referrer, window.location.href);
-      if (referrer.origin === window.location.origin) {
-        backLink.href = `${referrer.pathname}${referrer.search}${referrer.hash}`;
-        backLink.addEventListener("click", (event) => {
-          if (window.history.length > 1) {
-            event.preventDefault();
-            window.history.back();
-          }
-        });
-      }
-    }
-    if (!await currentUser()) { window.location.replace("/login/"); return; }
     const partyId = root.dataset.partyId;
+    const detailUrl = new URL(window.location.href);
+    const hasSkipDuplicateFlag = detailUrl.searchParams.get("skip_duplicate_detail") === "1";
+    const skipDuplicateDetail = hasSkipDuplicateFlag
+      || window.history.state?.partyDetailSkipDuplicate === true;
+    if (hasSkipDuplicateFlag) {
+      detailUrl.searchParams.delete("skip_duplicate_detail");
+      const state = window.history.state && typeof window.history.state === "object"
+        ? { ...window.history.state }
+        : {};
+      state.partyDetailSkipDuplicate = true;
+      window.history.replaceState(
+        state,
+        "",
+        `${detailUrl.pathname}${detailUrl.search}${detailUrl.hash}`,
+      );
+    }
+    const referrer = document.referrer ? new URL(document.referrer, window.location.href) : null;
+    const returnedFromEdit = referrer?.origin === window.location.origin
+      && referrer.pathname === `/parties/${partyId}/edit/`;
+    configurePreviousPageLinks(document.querySelectorAll("[data-party-detail-back]"), {
+      ignoreReferrer: returnedFromEdit,
+      historySteps: skipDuplicateDetail && returnedFromEdit ? 2 : 1,
+      consumeSkipDuplicate: skipDuplicateDetail && returnedFromEdit,
+    });
+    if (!await currentUser()) { window.location.replace("/login/"); return; }
     const loadingMessage = root.querySelector(".app-message");
     try {
       const party = await request(`/parties/${partyId}`);
