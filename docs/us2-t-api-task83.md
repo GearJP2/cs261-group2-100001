@@ -75,5 +75,20 @@ docker compose run --rm -T -v "$PWD/docs:/app/docs" -e TASK84_EVIDENCE_DIR=/app/
 
 ## ขั้นถัดไป
 
-- [ ] รัน checks ทั้งโปรเจกต์ แนบ commit/PR/GitHub CI
+- [ ] แนบ PR และผล GitHub CI ก่อนปิด #98
 - [ ] ให้ Austin review ความครบของ AC/contract และหลักฐาน HTTP สำหรับ Manual API; หากต้องการ human retest ให้บันทึกแยก
+
+## Final local verification — 16 พฤศจิกายน 2026
+
+ตรวจ source commit `f8237e8` หลังบันทึก unit และ HTTP evidence แล้ว ไม่มีการแก้ runtime เพิ่มในขั้นนี้
+
+| การตรวจ | ผล | หลักฐาน |
+| --- | --- | --- |
+| `make verify` | ผ่าน Django/migration checks, Ruff check/format และ 708 tests (skip 1) | [verification.log](evidence/task83/verification.log) |
+| `make smoke` | ผ่าน HTTP, PostgreSQL readiness, Django template และ static CSS | [smoke.log](evidence/task83/smoke.log) |
+| evidence JSON/source hashes | ผ่าน 6 กลุ่ม รวม 303 HTTP requests; snapshot hashes ของ read-only checks ก่อน/หลังตรงกัน | ตรวจ local จาก http-retest/ |
+| cookie/session values | ไม่พบค่า sessionid= หรือ csrftoken= ในไฟล์หลักฐาน | ตรวจ local |
+
+ผล local นี้ไม่ใช่ GitHub CI, peer review หรือ human Manual API/UAT และไม่เปลี่ยนผล failed รอบแรกให้เป็น Pass
+
+เคสที่ skip คือ UT-US14-API-06 เพราะ policy ไม่ยืนยันใน #100/#105 เป็นข้อจำกัดเดิมของ US14 ไม่ใช่ Task83 ไม่เปลี่ยนเป็น Pass; ลิงก์ไฟล์หลักฐานและ `git diff --check` ผ่าน
