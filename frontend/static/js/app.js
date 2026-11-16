@@ -10,27 +10,17 @@
     return node;
   }
 
-  function configurePreviousPageLinks(links, options) {
+  function configurePreviousPageLinks(links) {
     const referrer = document.referrer ? new URL(document.referrer, window.location.href) : null;
     const sameOriginReferrer = referrer?.origin === window.location.origin;
-    const historySteps = options?.historySteps || 1;
-    if (!sameOriginReferrer && historySteps === 1) return;
-    if (sameOriginReferrer && !options?.ignoreReferrer) {
-      const destination = `${referrer.pathname}${referrer.search}${referrer.hash}`;
-      links.forEach((link) => { link.href = destination; });
-    }
+    if (!sameOriginReferrer) return;
+    const destination = `${referrer.pathname}${referrer.search}${referrer.hash}`;
+    links.forEach((link) => { link.href = destination; });
     links.forEach((link) => {
       link.addEventListener("click", (event) => {
-        if (window.history.length > historySteps) {
+        if (window.history.length > 1) {
           event.preventDefault();
-          if (options?.consumeSkipDuplicate) {
-            const state = window.history.state && typeof window.history.state === "object"
-              ? { ...window.history.state }
-              : {};
-            delete state.partyDetailSkipDuplicate;
-            window.history.replaceState(state, "", window.location.href);
-          }
-          window.history.go(-historySteps);
+          window.history.back();
         }
       });
     });
@@ -652,15 +642,29 @@
   async function initPartyForm() {
     const page = document.querySelector("[data-party-form-page]");
     if (!page) return;
-    configurePreviousPageLinks(page.querySelectorAll("[data-party-form-return]"));
-    if (!await currentUser()) { window.location.replace("/login/"); return; }
-    const form = page.querySelector("[data-party-form]");
     const mode = page.dataset.mode;
     const partyId = page.dataset.partyId;
-    const referrer = document.referrer ? new URL(document.referrer, window.location.href) : null;
-    const editedFromDetail = mode === "edit"
-      && referrer?.origin === window.location.origin
-      && referrer.pathname === `/parties/${partyId}/`;
+    const returnLinks = page.querySelectorAll("[data-party-form-return]");
+    let returnTo = null;
+    if (mode === "edit") {
+      returnTo = window.PartyNavigation.resolveReturnTo({
+        currentUrl: window.location.href,
+        referrerUrl: "",
+        fallback: "/my-parties/",
+        partyId,
+        origin: window.location.origin,
+      });
+      const detailUrl = window.PartyNavigation.withReturnTo(
+        `/parties/${partyId}/`,
+        returnTo,
+        window.location.origin,
+      );
+      returnLinks.forEach((link) => { link.href = detailUrl; });
+    } else {
+      configurePreviousPageLinks(returnLinks);
+    }
+    if (!await currentUser()) { window.location.replace("/login/"); return; }
+    const form = page.querySelector("[data-party-form]");
     const sportSelect = form.querySelector("[data-sport-select]");
     const venueSelect = form.querySelector("[data-venue-select]");
     const hoursBox = form.querySelector("[data-hours-message]");
@@ -732,8 +736,12 @@
       try {
         const party = await request(mode === "edit" ? `/parties/${partyId}` : "/parties", { method: mode === "edit" ? "PATCH" : "POST", body: JSON.stringify(payload) });
         if (mode === "edit") {
-          const skipDuplicateQuery = editedFromDetail ? "?skip_duplicate_detail=1" : "";
-          window.location.replace(`/parties/${party.id}/${skipDuplicateQuery}`);
+          const detailUrl = window.PartyNavigation.withReturnTo(
+            `/parties/${party.id}/`,
+            returnTo,
+            window.location.origin,
+          );
+          window.location.replace(detailUrl);
         } else {
           window.location.assign(`/parties/${party.id}/`);
         }
@@ -775,30 +783,15 @@
     const root = document.querySelector("[data-party-detail]");
     if (!root) return;
     const partyId = root.dataset.partyId;
-    const detailUrl = new URL(window.location.href);
-    const hasSkipDuplicateFlag = detailUrl.searchParams.get("skip_duplicate_detail") === "1";
-    const skipDuplicateDetail = hasSkipDuplicateFlag
-      || window.history.state?.partyDetailSkipDuplicate === true;
-    if (hasSkipDuplicateFlag) {
-      detailUrl.searchParams.delete("skip_duplicate_detail");
-      const state = window.history.state && typeof window.history.state === "object"
-        ? { ...window.history.state }
-        : {};
-      state.partyDetailSkipDuplicate = true;
-      window.history.replaceState(
-        state,
-        "",
-        `${detailUrl.pathname}${detailUrl.search}${detailUrl.hash}`,
-      );
-    }
-    const referrer = document.referrer ? new URL(document.referrer, window.location.href) : null;
-    const returnedFromEdit = referrer?.origin === window.location.origin
-      && referrer.pathname === `/parties/${partyId}/edit/`;
-    configurePreviousPageLinks(document.querySelectorAll("[data-party-detail-back]"), {
-      ignoreReferrer: returnedFromEdit,
-      historySteps: skipDuplicateDetail && returnedFromEdit ? 2 : 1,
-      consumeSkipDuplicate: skipDuplicateDetail && returnedFromEdit,
+    const backLinks = document.querySelectorAll("[data-party-detail-back]");
+    const returnTo = window.PartyNavigation.resolveReturnTo({
+      currentUrl: window.location.href,
+      referrerUrl: document.referrer,
+      fallback: backLinks[0]?.getAttribute("href") || "/my-parties/",
+      partyId,
+      origin: window.location.origin,
     });
+    backLinks.forEach((link) => { link.href = returnTo; });
     if (!await currentUser()) { window.location.replace("/login/"); return; }
     const loadingMessage = root.querySelector(".app-message");
     try {
@@ -975,7 +968,12 @@
       const actions = element("div", "detail-overview-actions");
       let loadJoinAction = null;
       if (party.is_host) {
-        const edit = element("a", "app-primary", "แก้ไขปาร์ตี้"); edit.href = `/parties/${party.id}/edit/`;
+        const edit = element("a", "app-primary", "แก้ไขปาร์ตี้");
+        edit.href = window.PartyNavigation.withReturnTo(
+          `/parties/${party.id}/edit/`,
+          returnTo,
+          window.location.origin,
+        );
         const cancel = element("button", "app-secondary app-danger", "ยกเลิกปาร์ตี้");
         cancel.addEventListener("click", async () => {
           if (!window.confirm("ต้องการยกเลิกปาร์ตี้นี้หรือไม่?")) return;

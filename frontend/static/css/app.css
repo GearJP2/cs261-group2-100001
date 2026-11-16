@@ -59,7 +59,7 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(245,196,81,.
 .party-detail-summary .mp-card-header { margin-bottom: 10px; }
 .party-detail-summary .mp-tag-sport, .party-detail-summary .mp-tag-status { padding: 3px 8px; font-size: .7rem; white-space: nowrap; }
 .detail-summary-title { margin: 0 0 8px; overflow-wrap: anywhere; font-size: 1.08rem; font-weight: 600; }
-.detail-summary-description { display: -webkit-box; margin: 0 0 8px; overflow: hidden; color: #555; font-size: .78rem; line-height: 1.4; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.detail-summary-description { margin: 0 0 8px; overflow-wrap: anywhere; color: #555; font-size: .78rem; line-height: 1.4; }
 .detail-host-summary { display: flex; align-items: center; gap: 8px; margin-bottom: 0; padding: 0; border-radius: 0; background: transparent; }
 .detail-host-avatar { display: grid; flex: 0 0 30px; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: #fff; color: #684b06; font-size: .8rem; font-weight: 600; }
 .detail-host-identity { display: flex; min-width: 0; align-items: center; gap: 6px; }
