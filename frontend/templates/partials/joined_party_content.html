@@ -1,0 +1,28 @@
+<section id="grid-joined" hidden aria-labelledby="joined-heading">
+  <h2 id="joined-heading" tabindex="-1">กิจกรรมที่เข้าร่วมและคำขอที่รออนุมัติ</h2>
+  <p data-joined-empty {% if joined %}hidden{% endif %}>ยังไม่มีกิจกรรมที่เข้าร่วมหรือคำขอที่รออนุมัติ</p>
+  <p data-leave-result role="status" aria-live="polite"></p>
+  {% for party in joined %}
+  <article class="mp-card-horizontal" data-joined-party="{{ party.pk }}">
+    <div><span>{{ party.sport.name }}</span><h3>{{ party.title }}</h3>
+      <p>{{ party.venue.name }} · {{ party.starts_at|date:"d M Y H:i" }} – {{ party.ends_at|date:"H:i" }}</p>
+      <p>{{ party.ui_state }} · {% if party.ui_active %}อนุมัติแล้ว{% else %}รออนุมัติ{% endif %}</p>
+      <p>สมาชิก <span data-joined-count>{{ party.ui_count }}</span> / {{ party.capacity }} คน</p>
+    </div>
+    <div><button type="button" data-leave-party="{{ party.pk }}" {% if party.ui_leave_reason %}disabled aria-describedby="leave-reason-{{ party.pk }}"{% endif %}>ถอนตัวจากกิจกรรม</button>
+      <p id="leave-reason-{{ party.pk }}">{{ party.ui_leave_reason }}</p>
+      {% if party.host_id == viewer_id %}<a href="{% url 'party-detail-page' party.pk %}">จัดการกิจกรรม</a>{% endif %}
+    </div>
+  </article>
+  {% endfor %}
+  <dialog id="leave-dialog" aria-labelledby="leave-dialog-title">
+    <form>
+      <h3 id="leave-dialog-title">ยืนยันถอนตัวจากกิจกรรม</h3>
+      <p data-leave-title></p>
+      <p>การถอนตัวสำเร็จจะคืนที่ว่าง หากต้องการกลับเข้าร่วมต้องขอและรออนุมัติใหม่</p>
+      <p data-leave-message role="status" aria-live="polite"></p>
+      <button type="button" data-leave-close autofocus>ยกเลิก</button>
+      <button type="submit" data-leave-confirm>ยืนยันถอนตัว</button>
+    </form>
+  </dialog>
+</section>
