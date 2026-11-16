@@ -84,6 +84,7 @@ def public_profile_page(request, user_id):
         "profile.html",
         {
             "profile": {
+                "id": user_id,
                 "name": profile.display_name,
                 "credit": profile.credit_score,
                 "interests": list(interests.values_list("sport__name", flat=True)),
