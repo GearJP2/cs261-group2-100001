@@ -27,7 +27,7 @@ docker compose run --rm -T --no-deps backend python backend/manage.py test parti
 
 ผลจริง: **11 tests ผ่าน ไม่มี skipped** และ output ระบุ `Skipping setup of unused database(s): default.` ดู [raw log](evidence/task74/unit-tests.log)
 Ruff check/format และ `git diff --check` ผ่าน ไม่มีการเปลี่ยน runtime code
-Raw log ชุดนี้เป็นผล local ของ working tree ที่เพิ่มไฟล์ test นี้ รอแนบ commit/PR จริงหลังผู้ใช้ commit; ไม่ใช่ผล GitHub CI
+Raw log ชุดนี้เป็นผล local ของ working tree ที่เพิ่มไฟล์ test นี้ และผู้ใช้บันทึก unit tests ใน commit `dcf17c1` แล้ว; ไม่ใช่ผล GitHub CI
 
 ## HTTP + SQL rehearsal — 16 พฤศจิกายน 2026
 
@@ -82,4 +82,18 @@ PostgreSQL integration เดิมพิสูจน์ concurrent leave/approv
 ## งานที่ยังเหลือ
 
 - [ ] ให้ผู้ตรวจยืนยันว่า agent-operated HTTP rehearsal เป็นหลักฐานที่รับได้สำหรับ Manual API; หากต้องการมนุษย์รันให้บันทึก human retest
-- [ ] รัน checks ทั้งชุด แนบ commit/PR/CI และให้ Austin review ก่อนปิด #89
+- [ ] แนบ PR/GitHub CI และให้ Austin review ก่อนปิด #89
+
+## Final local verification — 16 พฤศจิกายน 2026
+
+ตรวจ source commit `43c1569` หลังบันทึก unit tests และ HTTP rehearsal แล้ว โดยไม่ได้แก้ runtime เพิ่ม:
+
+| การตรวจ | ผล | หลักฐาน |
+| --- | --- | --- |
+| `make verify` | ผ่าน Django/migration checks, Ruff check/format และ 684 tests (skip 1) | [verification.log](evidence/task74/verification.log) |
+| `make smoke` | ผ่าน HTTP, PostgreSQL readiness, Django template และ static CSS | [smoke.log](evidence/task74/smoke.log) |
+| report links / evidence JSON / source hashes / whitespace | ผ่าน | ตรวจ local |
+
+smoke เป็น runtime smoke ทั่วไป ไม่ใช่หลักฐาน human Manual API/UAT และไม่ใช่ผล GitHub CI
+
+เคสที่ skip คือ UT-US14-API-06 เพราะ policy ไม่ยืนยันใน #100/#105 เป็นข้อจำกัดเดิมของ US14 ไม่ใช่ Task74 ไม่เปลี่ยนเป็น Pass และไม่ติ๊ก review/CI จากผล local นี้
