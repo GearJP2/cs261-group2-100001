@@ -42,6 +42,8 @@
     return includeMeta ? payload : payload.data;
   }
 
+  window.UniSport = { request };
+
   async function currentUser() {
     try { return await request("/me"); } catch (error) { return null; }
   }
