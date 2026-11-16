@@ -705,62 +705,403 @@
     });
   }
 
-  function detailRow(label, value) { const row = element("div"); row.append(element("strong", "", `${label}: `), document.createTextNode(value)); return row; }
+  function detailIcon(name) {
+    const icons = {
+      calendar: ["M8 3v3", "M16 3v3", "M4 8h16", "M6 4h12a2 2 0 0 1 2 2v14H4V6a2 2 0 0 1 2-2Z"],
+      clock: ["M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z", "M12 6v6l4 2"],
+      pin: ["M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z", "M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"],
+    };
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    icons[name].forEach((pathData) => {
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      svg.append(path);
+    });
+    return svg;
+  }
+
+  function detailRow(label, value, iconName) {
+    const row = element("span", "mp-info-item detail-info-item");
+    row.setAttribute("aria-label", `${label}: ${value}`);
+    row.append(detailIcon(iconName), element("span", "detail-info-value", value));
+    return row;
+  }
 
   async function initPartyDetail() {
     const root = document.querySelector("[data-party-detail]");
     if (!root) return;
+    const backLink = document.querySelector("[data-party-detail-back]");
+    if (backLink && document.referrer) {
+      const referrer = new URL(document.referrer, window.location.href);
+      if (referrer.origin === window.location.origin) {
+        backLink.href = `${referrer.pathname}${referrer.search}${referrer.hash}`;
+        backLink.addEventListener("click", (event) => {
+          if (window.history.length > 1) {
+            event.preventDefault();
+            window.history.back();
+          }
+        });
+      }
+    }
     if (!await currentUser()) { window.location.replace("/login/"); return; }
     const partyId = root.dataset.partyId;
+    const loadingMessage = root.querySelector(".app-message");
     try {
       const party = await request(`/parties/${partyId}`);
       const [sports, venues] = await Promise.all([request("/sports"), request(`/venues?sport_id=${party.sport_id}`)]);
-      const sport = sports.find((item) => item.id === party.sport_id); const venue = venues.find((item) => item.id === party.venue_id);
-      const layout = element("div", "detail-layout"); const main = element("article", "detail-card");
-      main.append(element("div", "detail-status", party.state === "Open" ? "● เปิดรับอยู่" : party.state), element("h1", "", party.title), element("p", "detail-description", party.description || "ไม่มีรายละเอียดเพิ่มเติม"));
-      const meta = element("div", "detail-meta");
-      meta.append(detailRow("กีฬา", sport ? sport.name : "-"), detailRow("สนาม", venue ? `${venue.name} — ${venue.location_text}` : "-"), detailRow("วันและเวลา", `${formatDateTime(party.starts_at)} – ${new Intl.DateTimeFormat("th-TH", { timeStyle: "short", timeZone: "Asia/Bangkok" }).format(new Date(party.ends_at))}`));
-      main.append(meta);
-      const side = element("aside", "detail-side"); const slots = element("section", "detail-card");
-      slots.append(element("div", "", "ผู้เล่นที่เข้าร่วม"), element("div", "detail-number", `${party.member_count}/${party.capacity}`), element("div", "", `เหลือ ${party.remaining_slots} ที่`)); side.append(slots);
-      const host = element("section", "detail-card"); host.append(element("div", "", "จัดโดย")); const profile = element("a", "detail-host", party.host.display_name); profile.href = `/users/${party.host.id}/`; host.append(profile); side.append(host);
-      const actions = element("section", "detail-card detail-actions");
+      const sport = sports.find((item) => item.id === party.sport_id);
+      const venue = venues.find((item) => item.id === party.venue_id);
+      const layout = element("div", "detail-layout party-detail-layout");
+      const summary = element("article", "detail-card party-detail-summary mp-card");
+      const summaryTop = element("div", "mp-card-top detail-summary-top");
+      const summaryDetails = element("div", "mp-card-bottom detail-summary-bottom");
+      const content = element("section", "detail-card detail-members-card mp-card");
+      content.setAttribute("aria-label", "สมาชิกและคำขอเข้าร่วม");
+      const summaryHeader = element("div", "mp-card-header");
+      summaryHeader.append(
+        element("span", "mp-tag-sport", sport ? sport.name : "กีฬา"),
+        element("span", `mp-tag-status detail-state-${String(party.state).toLowerCase()}`, party.state),
+      );
+      summaryTop.append(
+        summaryHeader,
+        element("h3", "detail-summary-title", party.title),
+      );
+      const description = element("p", "detail-description detail-summary-description", party.description || "ไม่มีรายละเอียดเพิ่มเติม");
+
+      const hostSummary = element("div", "detail-host-summary");
+      const hostAvatar = element("span", "detail-host-avatar", initials(party.host.display_name));
+      hostAvatar.setAttribute("aria-hidden", "true");
+      const hostLink = element("a", "detail-host", party.host.display_name);
+      hostLink.href = `/users/${party.host.id}/`;
+      const hostIdentity = element("div", "detail-host-identity");
+      hostIdentity.append(element("span", "detail-host-summary-label", "ผู้จัด:"), hostLink);
+      hostSummary.append(hostAvatar, hostIdentity);
+      summaryTop.append(hostSummary);
+      summaryDetails.append(description);
+
+      const startsAt = new Date(party.starts_at);
+      const weekday = new Intl.DateTimeFormat("en-US", {
+        weekday: "short",
+        timeZone: "Asia/Bangkok",
+      }).format(startsAt);
+      const thaiWeekdays = { Sun: "อา.", Mon: "จ.", Tue: "อ.", Wed: "พ.", Thu: "พฤ.", Fri: "ศ.", Sat: "ส." };
+      const dateTime = `${thaiWeekdays[weekday]} ${new Intl.DateTimeFormat("th-TH", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "Asia/Bangkok",
+      }).format(startsAt)}`;
+      const startTime = new Intl.DateTimeFormat("th-TH", {
+        timeStyle: "short",
+        timeZone: "Asia/Bangkok",
+      }).format(new Date(party.starts_at));
+      const endTime = new Intl.DateTimeFormat("th-TH", {
+        timeStyle: "short",
+        timeZone: "Asia/Bangkok",
+      }).format(new Date(party.ends_at));
+      const meta = element("div", "detail-meta detail-summary-meta");
+      const venueRow = element("div", "mp-info-row detail-summary-info-row");
+      venueRow.append(detailRow("สนาม", venue ? `${venue.name} — ${venue.location_text}` : "-", "pin"));
+      const dateRow = element("div", "mp-info-row detail-summary-info-row");
+      dateRow.append(detailRow("วันที่", dateTime, "calendar"));
+      const timeRow = element("div", "mp-info-row detail-summary-info-row");
+      timeRow.append(detailRow("เวลา", `${startTime}–${endTime} น.`, "clock"));
+      meta.append(venueRow, dateRow, timeRow);
+      summaryDetails.append(meta);
+
+      const capacity = element("div", "detail-capacity");
+      const capacityHeading = element("div", "detail-capacity-heading");
+      const capacityCount = element("strong", "detail-capacity-count", `${party.member_count} / ${party.capacity} คน`);
+      capacityHeading.append(element("span", "detail-capacity-label", "เข้าร่วมแล้ว"), capacityCount);
+      const capacityProgress = element("div", "detail-capacity-progress");
+      capacityProgress.setAttribute("role", "progressbar");
+      capacityProgress.setAttribute("aria-label", "สัดส่วนผู้เข้าร่วม");
+      capacityProgress.setAttribute("aria-valuemin", "0");
+      capacityProgress.setAttribute("aria-valuemax", String(party.capacity));
+      capacityProgress.setAttribute("aria-valuenow", String(party.member_count));
+      const capacityFill = element("span", "detail-capacity-fill");
+      capacityFill.style.width = `${Math.min(100, (party.member_count / party.capacity) * 100)}%`;
+      capacityProgress.append(capacityFill);
+      capacity.append(
+        capacityHeading,
+        element("span", "detail-capacity-remaining", `${party.remaining_slots} ที่ว่าง`),
+        capacityProgress,
+      );
+      summaryDetails.append(capacity);
+      summary.append(summaryTop, summaryDetails);
+
+      const tabList = element("div", "detail-tabs");
+      tabList.setAttribute("role", "tablist");
+      tabList.setAttribute("aria-label", "ข้อมูลการเข้าร่วม");
+      const tabs = [];
+      function activateTab(active, moveFocus = false) {
+        tabs.forEach(({ button, panel }) => {
+          const selected = button === active.button;
+          button.setAttribute("aria-selected", String(selected));
+          button.tabIndex = selected ? 0 : -1;
+          panel.hidden = !selected;
+        });
+        if (moveFocus) active.button.focus();
+      }
+      function addTab(key, label, panel, selected) {
+        const button = element("button", "detail-tab", label);
+        button.type = "button";
+        button.id = `party-${key}-tab-${partyId}`;
+        button.setAttribute("role", "tab");
+        button.setAttribute("aria-controls", panel.id);
+        button.setAttribute("aria-selected", String(selected));
+        button.tabIndex = selected ? 0 : -1;
+        panel.setAttribute("role", "tabpanel");
+        panel.setAttribute("aria-labelledby", button.id);
+        panel.tabIndex = 0;
+        panel.hidden = !selected;
+        const entry = { button, panel };
+        tabs.push(entry);
+        button.addEventListener("click", () => activateTab(entry));
+        button.addEventListener("keydown", (event) => {
+          let index = tabs.indexOf(entry);
+          if (event.key === "ArrowRight") index = (index + 1) % tabs.length;
+          else if (event.key === "ArrowLeft") index = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") index = 0;
+          else if (event.key === "End") index = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          activateTab(tabs[index], true);
+        });
+        tabList.append(button);
+        return button;
+      }
+
+      const membersPanel = element("section", "detail-tab-panel");
+      membersPanel.id = `party-members-panel-${partyId}`;
+      membersPanel.setAttribute("aria-busy", "true");
+      const membersTab = addTab("members", `สมาชิกปัจจุบัน ${party.member_count} คน`, membersPanel, true);
+      const memberHint = element("p", "detail-members-hint", "รายชื่อผู้จัดและสมาชิกที่ยืนยันเข้าร่วมกิจกรรม");
+      const memberStatus = element("p", "detail-members-state", "กำลังโหลดรายชื่อสมาชิก…");
+      memberStatus.setAttribute("role", "status");
+      memberStatus.setAttribute("aria-live", "polite");
+      const memberSkeleton = element("div", "detail-member-skeleton");
+      memberSkeleton.setAttribute("aria-hidden", "true");
+      for (let index = 0; index < 3; index += 1) memberSkeleton.append(element("span"));
+      const memberList = element("ul", "detail-member-list");
+      memberList.setAttribute("aria-label", "รายชื่อสมาชิกปัจจุบัน");
+      memberList.hidden = true;
+      const memberRetry = element("button", "app-secondary detail-member-retry", "ลองโหลดรายชื่ออีกครั้ง");
+      memberRetry.type = "button";
+      memberRetry.hidden = true;
+      memberRetry.addEventListener("click", loadMembers);
+      membersPanel.append(memberHint, memberStatus, memberSkeleton, memberList, memberRetry);
+
+      let requestsPanel = null;
+      let requestsStatus = null;
+      let requestsList = null;
+      let requestsRetry = null;
+      if (party.is_host) {
+        requestsPanel = element("section", "detail-tab-panel");
+        requestsPanel.id = `party-requests-panel-${partyId}`;
+        requestsPanel.setAttribute("aria-busy", "true");
+        addTab("requests", "คำขอเข้าร่วม", requestsPanel, false);
+        requestsPanel.append(element("p", "detail-members-hint", "คำขอจากผู้เล่นที่รอการยืนยันจากผู้จัด"));
+        requestsStatus = element("p", "detail-requests-state", "กำลังโหลดคำขอ…");
+        requestsStatus.setAttribute("role", "status");
+        requestsStatus.setAttribute("aria-live", "polite");
+        requestsList = element("ul", "detail-request-list");
+        requestsList.setAttribute("aria-label", "คำขอเข้าร่วมที่รออนุมัติ");
+        requestsList.hidden = true;
+        requestsRetry = element("button", "app-secondary detail-member-retry", "ลองโหลดคำขออีกครั้ง");
+        requestsRetry.type = "button";
+        requestsRetry.hidden = true;
+        requestsRetry.addEventListener("click", loadRequests);
+        requestsPanel.append(requestsStatus, requestsList, requestsRetry);
+      }
+      content.append(tabList, membersPanel);
+      if (requestsPanel) content.append(requestsPanel);
+
+      const actions = element("div", "detail-overview-actions");
+      let loadJoinAction = null;
       if (party.is_host) {
         const edit = element("a", "app-primary", "แก้ไขปาร์ตี้"); edit.href = `/parties/${party.id}/edit/`;
         const cancel = element("button", "app-secondary app-danger", "ยกเลิกปาร์ตี้");
-        cancel.addEventListener("click", async () => { if (!window.confirm("ต้องการยกเลิกปาร์ตี้นี้หรือไม่?")) return; cancel.disabled = true; try { await request(`/parties/${party.id}/cancel`, { method: "POST", body: "{}" }); window.location.reload(); } catch (error) { cancel.disabled = false; alert(error.message); } });
+        cancel.addEventListener("click", async () => {
+          if (!window.confirm("ต้องการยกเลิกปาร์ตี้นี้หรือไม่?")) return;
+          cancel.disabled = true;
+          try {
+            await request(`/parties/${party.id}/cancel`, { method: "POST", body: "{}" });
+            window.location.reload();
+          } catch (error) {
+            cancel.disabled = false;
+            alert(error.message);
+          }
+        });
         actions.append(edit, cancel);
-        const pending = await request(`/parties/${party.id}/join-requests/pending`);
-        if (pending.length) {
-          const requests = element("div", "detail-pending");
-          requests.append(element("strong", "", "คำขอเข้าร่วม"));
-          pending.forEach((entry) => {
-            const row = element("div", "detail-request", entry.display_name);
-            ["Approved", "Rejected"].forEach((status) => {
-              const button = element("button", status === "Approved" ? "app-primary" : "app-secondary", status === "Approved" ? "อนุมัติ" : "ปฏิเสธ");
-              button.addEventListener("click", async () => {
-                button.disabled = true;
-                try { await request(`/parties/${party.id}/join-requests/${entry.id}/decision`, { method: "POST", body: JSON.stringify({ status }) }); window.location.reload(); }
-                catch (error) { button.disabled = false; alert(error.message); }
-              });
-              row.append(button);
+      } else if (party.is_member) {
+        actions.append(element("div", "app-success", "คุณเป็นสมาชิกของปาร์ตี้นี้แล้ว"));
+      } else if (party.state === "Open") {
+        const joinStatus = element("p", "app-message", "กำลังตรวจสอบคำขอเข้าร่วม…");
+        joinStatus.setAttribute("role", "status");
+        joinStatus.setAttribute("aria-live", "polite");
+        actions.append(joinStatus);
+        loadJoinAction = async function () {
+          try {
+            const existing = await request(`/parties/${party.id}/join-requests/me`);
+            if (existing && existing.status === "Pending") {
+              joinStatus.className = "app-success";
+              joinStatus.textContent = "ส่งคำขอเข้าร่วมแล้ว กำลังรอการตอบรับ";
+              return;
+            }
+            const join = element("button", "app-primary", "ขอเข้าร่วม");
+            join.type = "button";
+            join.addEventListener("click", async () => {
+              join.disabled = true;
+              try {
+                await request(`/parties/${party.id}/join-requests`, { method: "POST", body: "{}" });
+                window.location.reload();
+              } catch (error) {
+                join.disabled = false;
+                alert(error.message);
+              }
             });
-            requests.append(row);
-          });
-          actions.append(requests);
+            joinStatus.replaceWith(join);
+          } catch (error) {
+            joinStatus.className = "app-error";
+            joinStatus.textContent = error.message;
+          }
         }
-      } else if (party.is_member) actions.append(element("div", "app-success", "คุณเป็นสมาชิกของปาร์ตี้นี้แล้ว"));
-      else if (party.state === "Open") {
-        const existing = await request(`/parties/${party.id}/join-requests/me`);
-        if (existing && existing.status === "Pending") actions.append(element("div", "app-success", "ส่งคำขอเข้าร่วมแล้ว กำลังรอการตอบรับ"));
-        else {
-          const join = element("button", "app-primary", "ขอเข้าร่วม");
-          join.addEventListener("click", async () => { join.disabled = true; try { await request(`/parties/${party.id}/join-requests`, { method: "POST", body: "{}" }); window.location.reload(); } catch (error) { join.disabled = false; alert(error.message); } });
-          actions.append(join);
+      } else {
+        actions.append(element("div", "app-message", "ปาร์ตี้นี้ไม่เปิดรับคำขอในขณะนี้"));
+      }
+      const contentColumn = element("div", "party-detail-content-column");
+      contentColumn.append(content, actions);
+      layout.append(summary, contentColumn);
+      loadingMessage.replaceWith(layout);
+      root.setAttribute("aria-busy", "false");
+
+      async function loadMembers() {
+        membersPanel.setAttribute("aria-busy", "true");
+        memberStatus.className = "detail-members-state";
+        memberStatus.setAttribute("role", "status");
+        memberStatus.textContent = "กำลังโหลดรายชื่อสมาชิก…";
+        memberStatus.hidden = false;
+        memberSkeleton.hidden = false;
+        memberList.hidden = true;
+        memberRetry.hidden = true;
+        try {
+          const result = await request(`/parties/${partyId}/members`);
+          if (!result || !Array.isArray(result.members) || !Number.isInteger(result.member_count)) {
+            throw new Error("ข้อมูลรายชื่อสมาชิกไม่ถูกต้อง");
+          }
+          memberList.replaceChildren(...result.members.map((member) => {
+            const item = element("li", "detail-member-item");
+            const name = member.display_name || (member.role === "Host" ? "ผู้จัดกิจกรรม" : "ผู้ใช้");
+            const avatar = element("span", "detail-member-avatar", initials(name));
+            avatar.setAttribute("aria-hidden", "true");
+            const roleText = member.role === "Host" ? "Host" : "Member";
+            const role = element("span", `detail-member-role${member.role === "Host" ? " is-host" : ""}`, roleText);
+            item.append(avatar, element("span", "detail-member-name", name), role);
+            return item;
+          }));
+          membersTab.textContent = `สมาชิกปัจจุบัน ${result.member_count} คน`;
+          summary.querySelector(".detail-capacity-count").textContent = `${result.member_count} / ${party.capacity} คน`;
+          const progress = summary.querySelector(".detail-capacity-progress");
+          progress.setAttribute("aria-valuenow", String(result.member_count));
+          progress.querySelector(".detail-capacity-fill").style.width = `${Math.min(100, (result.member_count / party.capacity) * 100)}%`;
+          summary.querySelector(".detail-capacity-remaining").textContent = `${Math.max(0, party.capacity - result.member_count)} ที่ว่าง`;
+          memberStatus.className = "detail-members-state is-empty";
+          memberStatus.textContent = result.members.length ? "" : "ยังไม่มีสมาชิกที่แสดงได้";
+          memberStatus.hidden = Boolean(result.members.length);
+          memberSkeleton.hidden = true;
+          memberList.hidden = !result.members.length;
+          membersPanel.setAttribute("aria-busy", "false");
+        } catch (error) {
+          memberStatus.className = "detail-members-state is-error";
+          memberStatus.setAttribute("role", "alert");
+          memberStatus.textContent = error.status === 403
+            ? "เฉพาะผู้จัดกิจกรรมหรือสมาชิกปัจจุบันเท่านั้นที่ดูรายชื่อสมาชิกได้"
+            : error.message;
+          memberStatus.hidden = false;
+          memberSkeleton.hidden = true;
+          memberList.hidden = true;
+          memberRetry.hidden = error.status === 403;
+          membersPanel.setAttribute("aria-busy", "false");
         }
-      } else actions.append(element("div", "app-message", "ปาร์ตี้นี้ไม่เปิดรับคำขอในขณะนี้"));
-      side.append(actions); layout.append(main, side); root.querySelector(".app-message").replaceWith(layout);
-    } catch (error) { const message = root.querySelector(".app-message"); message.textContent = error.message; }
+      }
+
+      async function loadRequests() {
+        if (!requestsPanel) return;
+        requestsPanel.setAttribute("aria-busy", "true");
+        requestsStatus.className = "detail-requests-state";
+        requestsStatus.setAttribute("role", "status");
+        requestsStatus.textContent = "กำลังโหลดคำขอ…";
+        requestsStatus.hidden = false;
+        requestsList.hidden = true;
+        requestsRetry.hidden = true;
+        try {
+          const requests = await request(`/parties/${partyId}/join-requests/pending`);
+          if (!Array.isArray(requests)) throw new Error("ข้อมูลคำขอเข้าร่วมไม่ถูกต้อง");
+          requestsList.replaceChildren(...requests.map((entry) => {
+            const row = element("li", "detail-request-item");
+            const name = element("span", "detail-request-name", entry.display_name || "ผู้สมัคร");
+            const state = element("span", "detail-request-status", "รออนุมัติ");
+            const controls = element("div", "detail-request-actions");
+            ["Approved", "Rejected"].forEach((decision) => {
+              const button = element("button", "", decision === "Approved" ? "อนุมัติ" : "ไม่อนุมัติ");
+              button.type = "button";
+              button.dataset.requestDecision = decision;
+              button.addEventListener("click", async () => {
+                controls.querySelectorAll("button").forEach((control) => { control.disabled = true; });
+                requestsStatus.textContent = "กำลังบันทึกการตัดสินใจ…";
+                requestsStatus.hidden = false;
+                try {
+                  await request(`/parties/${partyId}/join-requests/${entry.id}/decision`, {
+                    method: "POST",
+                    body: JSON.stringify({ status: decision }),
+                  });
+                  window.location.reload();
+                } catch (error) {
+                  requestsStatus.className = "detail-requests-state is-error";
+                  requestsStatus.setAttribute("role", "alert");
+                  requestsStatus.textContent = error.message;
+                  controls.querySelectorAll("button").forEach((control) => { control.disabled = false; });
+                }
+              });
+              controls.append(button);
+            });
+            row.append(name, state, controls);
+            return row;
+          }));
+          requestsStatus.className = "detail-requests-state is-empty";
+          requestsStatus.textContent = requests.length ? "" : "ไม่มีคำขอที่รออนุมัติ";
+          requestsStatus.hidden = Boolean(requests.length);
+          requestsList.hidden = !requests.length;
+          requestsPanel.setAttribute("aria-busy", "false");
+        } catch (error) {
+          requestsStatus.className = "detail-requests-state is-error";
+          requestsStatus.setAttribute("role", "alert");
+          requestsStatus.textContent = error.message;
+          requestsStatus.hidden = false;
+          requestsRetry.hidden = false;
+          requestsPanel.setAttribute("aria-busy", "false");
+        }
+      }
+
+      const initialLoads = [loadMembers()];
+      if (party.is_host) initialLoads.push(loadRequests());
+      if (loadJoinAction) initialLoads.push(loadJoinAction());
+      await Promise.all(initialLoads);
+    } catch (error) {
+      loadingMessage.className = "app-error";
+      loadingMessage.setAttribute("role", "alert");
+      loadingMessage.textContent = error.message;
+      root.setAttribute("aria-busy", "false");
+    }
   }
 
   document.addEventListener("DOMContentLoaded", async function () {

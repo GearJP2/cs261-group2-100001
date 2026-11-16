@@ -10,6 +10,16 @@ from .templatetags.leave_ui import joined_parties
 
 
 class JoinedPartyUITests(JoinRequestFixture, TestCase):
+    def test_host_created_party_links_to_detail(self):
+        force_university_login(self.client, self.host)
+
+        response = self.client.get(reverse("my-parties-page"))
+
+        self.assertContains(
+            response,
+            f'href="{reverse("party-detail-page", args=[self.party.pk])}">ดูรายละเอียด</a>',
+        )
+
     def test_pending_user_sees_real_party_with_disabled_leave(self):
         JoinRequest.objects.create(party=self.party, user=self.applicant)
         self.assertEqual(joined_parties(self.other)["joined"], [])
@@ -19,6 +29,21 @@ class JoinedPartyUITests(JoinRequestFixture, TestCase):
         force_university_login(self.client, self.applicant)
         response = self.client.get(reverse("my-parties-page"))
         self.assertContains(response, f'data-leave-party="{self.party.pk}" disabled')
+        self.assertContains(
+            response,
+            f'href="{reverse("party-detail-page", args=[self.party.pk])}">ดูรายละเอียด</a>',
+        )
+
+    def test_active_member_can_open_party_detail_from_joined_card(self):
+        PartyMembership.objects.create(party=self.party, user=self.applicant)
+        force_university_login(self.client, self.applicant)
+
+        response = self.client.get(reverse("my-parties-page"))
+
+        self.assertContains(
+            response,
+            f'href="{reverse("party-detail-page", args=[self.party.pk])}">ดูรายละเอียด</a>',
+        )
 
     def test_active_member_can_leave_and_restricted_states_cannot(self):
         PartyMembership.objects.create(party=self.party, user=self.applicant)

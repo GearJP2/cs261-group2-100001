@@ -3,11 +3,43 @@
 {% block title %}รายละเอียดปาร์ตี้ | UniSport Buddy{% endblock %}
 {% block extra_css %}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/navbar.css' %}"><link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}"><link rel="stylesheet" href="{% static 'css/myparty.css' %}"><link rel="stylesheet" href="{% static 'css/app.css' %}?v=party-detail-20261116">
 {% endblock %}
-{% block body_class %}app-body{% endblock %}
+{% block body_class %}app-body party-detail-body{% endblock %}
 {% block content %}
-{% include "partials/navbar.html" with active="home" show_create=True %}
-<section class="app-wrap" data-party-detail data-party-id="{{ party_id }}"><a class="app-back" href="{% url 'home' %}">← กลับหน้าหลัก</a><div class="app-message">กำลังโหลดรายละเอียดปาร์ตี้…</div></section>
+{% include "partials/navbar.html" with active="myparty" show_create=True %}
+<section class="app-wrap mp-container party-detail-page" data-party-detail data-party-id="{{ party_id }}" aria-busy="true">
+  <header class="mp-header">
+    <h1>ปาร์ตี้ของฉัน</h1>
+    <p>จัดการกิจกรรม นัดเพื่อนร่วมเล่น แล้วเจอกันที่สนาม</p>
+  </header>
+  <a class="app-back detail-page-back" data-party-detail-back href="{% url 'my-parties-page' %}">← ย้อนกลับ</a>
+  <div class="app-message party-detail-loading" role="status" aria-live="polite">
+    <span class="party-detail-loading-text">กำลังโหลดรายละเอียดปาร์ตี้…</span>
+    <div class="party-detail-loading-layout" aria-hidden="true">
+      <div class="party-detail-loading-card party-detail-loading-summary">
+        <div class="party-detail-loading-pills"><span></span><span></span></div>
+        <span class="party-detail-loading-line is-title"></span>
+        <span class="party-detail-loading-line"></span>
+        <span class="party-detail-loading-line is-short"></span>
+        <span class="party-detail-loading-divider"></span>
+        <span class="party-detail-loading-line"></span>
+        <span class="party-detail-loading-line is-short"></span>
+        <span class="party-detail-loading-line is-short"></span>
+      </div>
+      <div class="party-detail-loading-card party-detail-loading-members">
+        <div class="party-detail-loading-tabs"><span></span><span></span></div>
+        <span class="party-detail-loading-notice"></span>
+        <div class="party-detail-loading-member"><span></span><div><i></i><i></i></div><b></b></div>
+        <div class="party-detail-loading-member"><span></span><div><i></i><i></i></div><b></b></div>
+        <div class="party-detail-loading-member"><span></span><div><i></i><i></i></div><b></b></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="mp-footer party-detail-footer">
+  <span>UniSport Buddy · เล่นกีฬาไปด้วยกัน</span>
+  <span>รายละเอียดกิจกรรมในมหาวิทยาลัย</span>
+</footer>
 {% endblock %}
 {% block extra_js %}<script src="{% static 'js/app.js' %}" defer></script>{% endblock %}
