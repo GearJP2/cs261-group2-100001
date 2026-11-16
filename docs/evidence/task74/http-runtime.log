@@ -1,0 +1,12 @@
+ Container s2-task74-backend-run-49f32032b045 Creating 
+ Container s2-task74-backend-run-49f32032b045 Created 
+Unauthorized: /api/v1/parties/2/leave
+Bad Request: /api/v1/parties/2/leave
+Forbidden: /api/v1/parties/2/leave
+Forbidden: /api/v1/parties/2/leave
+Forbidden (CSRF token missing.): /api/v1/parties/2/leave
+Method Not Allowed: /api/v1/parties/2/leave
+Conflict: /api/v1/parties/2/leave
+Conflict: /api/v1/parties/2/leave
+Conflict: /api/v1/parties/2/leave
+PASS: 11 real HTTP + SQL cases; credentials omitted

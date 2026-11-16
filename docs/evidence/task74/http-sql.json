@@ -1,0 +1,944 @@
+{
+  "kind": "assistant-operated real HTTP + SQL; NOT human manual UAT or TU login",
+  "executed_at": "2026-11-16T13:55:41.375016+07:00",
+  "source_commit": "dcf17c16f8c549f40e9f85d00a1ecb30f119c8d3",
+  "source_sha256": {
+    "scripts/us4-api-evidence.py": "d3c2e68431b3a31306aeb02c8b0807bf613dffed1703d38bcef1d69be2b50f83",
+    "backend/parties/views.py": "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+    "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+    "backend/accounts/decorators.py": "443b259afcdb17524380003dbc0f70569c7be6dc6b5f04de22292f0bd016e0c9"
+  },
+  "python": "3.12.15",
+  "django": "5.2.18",
+  "database": "s2_task74_http_retest",
+  "vendor": "postgresql",
+  "exact_start_boundary": "See mock clock unit test; not claimed as HTTP timing proof",
+  "observations": [
+    {
+      "case": "HTTP01-success",
+      "expected": {
+        "status": 200,
+        "code": null,
+        "mutation": true
+      },
+      "actual": {
+        "status": 200,
+        "response": {
+          "data": {
+            "party_id": 1,
+            "is_member": false,
+            "left_at": "2026-11-16T13:55:40.685875+07:00"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          1,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            1,
+            1,
+            "2026-11-16 06:55:40.605054+00:00",
+            null
+          ],
+          [
+            2,
+            2,
+            "2026-11-16 06:55:40.606656+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            1,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.607935+00:00",
+            "2026-11-16 06:55:40.602059+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          1,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            1,
+            1,
+            "2026-11-16 06:55:40.605054+00:00",
+            null
+          ],
+          [
+            2,
+            2,
+            "2026-11-16 06:55:40.606656+00:00",
+            "2026-11-16 06:55:40.685875+00:00"
+          ]
+        ],
+        "requests": [
+          [
+            1,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.607935+00:00",
+            "2026-11-16 06:55:40.602059+00:00",
+            1
+          ]
+        ],
+        "active_count": 1,
+        "remaining_slots": 2
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP02-retry",
+      "expected": {
+        "status": 200,
+        "code": null,
+        "mutation": false
+      },
+      "actual": {
+        "status": 200,
+        "response": {
+          "data": {
+            "party_id": 1,
+            "is_member": false,
+            "left_at": "2026-11-16T13:55:40.685875+07:00"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          1,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            1,
+            1,
+            "2026-11-16 06:55:40.605054+00:00",
+            null
+          ],
+          [
+            2,
+            2,
+            "2026-11-16 06:55:40.606656+00:00",
+            "2026-11-16 06:55:40.685875+00:00"
+          ]
+        ],
+        "requests": [
+          [
+            1,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.607935+00:00",
+            "2026-11-16 06:55:40.602059+00:00",
+            1
+          ]
+        ],
+        "active_count": 1,
+        "remaining_slots": 2
+      },
+      "after": {
+        "party": [
+          1,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            1,
+            1,
+            "2026-11-16 06:55:40.605054+00:00",
+            null
+          ],
+          [
+            2,
+            2,
+            "2026-11-16 06:55:40.606656+00:00",
+            "2026-11-16 06:55:40.685875+00:00"
+          ]
+        ],
+        "requests": [
+          [
+            1,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.607935+00:00",
+            "2026-11-16 06:55:40.602059+00:00",
+            1
+          ]
+        ],
+        "active_count": 1,
+        "remaining_slots": 2
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP03-anonymous",
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "mutation": false
+      },
+      "actual": {
+        "status": 401,
+        "response": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP04-forged-user",
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "mutation": false
+      },
+      "actual": {
+        "status": 400,
+        "response": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "รับเฉพาะ JSON object ว่าง"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP05-nonmember",
+      "expected": {
+        "status": 403,
+        "code": "NOT_MEMBER",
+        "mutation": false
+      },
+      "actual": {
+        "status": 403,
+        "response": {
+          "error": {
+            "code": "NOT_MEMBER",
+            "message": "คุณไม่ได้เป็นสมาชิกของกิจกรรมนี้"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP06-host",
+      "expected": {
+        "status": 403,
+        "code": "HOST_CANNOT_LEAVE",
+        "mutation": false
+      },
+      "actual": {
+        "status": 403,
+        "response": {
+          "error": {
+            "code": "HOST_CANNOT_LEAVE",
+            "message": "ผู้จัดกิจกรรมต้องใช้การยกเลิกกิจกรรมแทนการถอนตัว"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP07-csrf",
+      "expected": {
+        "status": 403,
+        "code": "CSRF_FAILED",
+        "mutation": false
+      },
+      "actual": {
+        "status": 403,
+        "response": {
+          "error": {
+            "code": "CSRF_FAILED",
+            "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP08-method",
+      "expected": {
+        "status": 405,
+        "code": "METHOD_NOT_ALLOWED",
+        "mutation": false
+      },
+      "actual": {
+        "status": 405,
+        "response": {
+          "error": {
+            "code": "METHOD_NOT_ALLOWED",
+            "message": "รองรับเฉพาะ POST"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP09-started",
+      "expected": {
+        "status": 409,
+        "code": "PARTY_STARTED",
+        "mutation": false
+      },
+      "actual": {
+        "status": 409,
+        "response": {
+          "error": {
+            "code": "PARTY_STARTED",
+            "message": "ไม่สามารถถอนตัวเมื่อกิจกรรมเริ่มหรือจบแล้ว"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP10-completed",
+      "expected": {
+        "status": 409,
+        "code": "PARTY_STARTED",
+        "mutation": false
+      },
+      "actual": {
+        "status": 409,
+        "response": {
+          "error": {
+            "code": "PARTY_STARTED",
+            "message": "ไม่สามารถถอนตัวเมื่อกิจกรรมเริ่มหรือจบแล้ว"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          null
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    },
+    {
+      "case": "HTTP11-cancelled",
+      "expected": {
+        "status": 409,
+        "code": "PARTY_CANCELLED",
+        "mutation": false
+      },
+      "actual": {
+        "status": 409,
+        "response": {
+          "error": {
+            "code": "PARTY_CANCELLED",
+            "message": "กิจกรรมนี้ถูกยกเลิกแล้ว"
+          }
+        }
+      },
+      "before": {
+        "party": [
+          2,
+          3,
+          "2026-11-16 06:55:40.801626+00:00"
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "after": {
+        "party": [
+          2,
+          3,
+          "2026-11-16 06:55:40.801626+00:00"
+        ],
+        "memberships": [
+          [
+            3,
+            1,
+            "2026-11-16 06:55:40.711267+00:00",
+            null
+          ],
+          [
+            4,
+            2,
+            "2026-11-16 06:55:40.713710+00:00",
+            null
+          ]
+        ],
+        "requests": [
+          [
+            2,
+            2,
+            "Approved",
+            "2026-11-16 06:55:40.715464+00:00",
+            "2026-11-16 06:55:40.709307+00:00",
+            1
+          ]
+        ],
+        "active_count": 2,
+        "remaining_slots": 1
+      },
+      "result": "Pass"
+    }
+  ]
+}

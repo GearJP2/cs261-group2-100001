@@ -1,0 +1,2 @@
+docker compose exec -T backend python scripts/smoke.py
+Smoke passed: HTTP, PostgreSQL readiness, Django template and static CSS.
