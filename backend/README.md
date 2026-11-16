@@ -43,3 +43,10 @@ make verify
 เปิด `POST /api/v1/parties/{id}/leave` รับ body ว่างหรือ JSON `{}` ผ่าน university session/CSRF เดิม
 ใช้ service soft leave ของ Task69 และ Party-first lock; ถอนซ้ำไม่คืนที่ว่างเพิ่ม Host ต้องใช้ cancel แทน
 ดู [API contract](../docs/us4-leave-party-api-contract.md) และ [ผลตรวจ Task70](../docs/us4-b-01-test-report.md)
+
+## US2-B — ค้นหาและกรอง Party
+
+`GET /api/v1/parties` รองรับ AND filters สำหรับข้อความ กีฬา สนาม ประเภทสนาม ช่วงเวลาเริ่ม และสถานะ
+คืน data รูปแบบ Detail พร้อม page/page_size/total; default Open หน้าแรก 20 รายการ
+มี migration เพิ่ม Venue.venue_type แบบ nullable โดยไม่เดาประเภทของข้อมูลเดิม
+ดู [Task79 API และผลตรวจรับ](../docs/us2-b-01-test-report.md) สำหรับ query contract, migration, tests และข้อจำกัด Frontend
