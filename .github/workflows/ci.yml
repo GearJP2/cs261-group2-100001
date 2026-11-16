@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Test frontend search request state
-        run: node --test frontend/tests/search-request-state.test.cjs
+      - name: Test frontend regressions
+        run: node --test frontend/tests/*.test.cjs
       - name: Prepare development configuration
         run: make init
       - name: Build the team's Docker image
