@@ -1,0 +1,13 @@
+✔ UT-US10-UI-01: disables button immediately while request is in-flight and prevents duplicate calls (1.726005ms)
+✔ UT-US10-UI-02: successful Approve sends Approved status, updates state, and triggers refresh (1.3549ms)
+✔ UT-US10-UI-03: successful Reject sends Rejected status and refreshes without adding member (1.021335ms)
+✔ UT-US10-UI-04: renders empty, error, and action failure states accurately without false success (5.918301ms)
+✔ escapes pending applicant names rather than inserting HTML (0.837187ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15.775154
