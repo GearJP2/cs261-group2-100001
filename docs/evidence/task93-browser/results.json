@@ -1,0 +1,2277 @@
+{
+  "source_commit": "eff8b799efc08538d6637d146d244147f689ccc3",
+  "started_at": "2026-11-17T05:00:48.855361+00:00",
+  "kind": "Chromium + actual Django HTTP API + isolated PostgreSQL; synthetic verified sessions, not live TU login or human UAT",
+  "fixture_users": {
+    "host": 7,
+    "reviewer": 8,
+    "target": 9,
+    "peer": 10,
+    "outsider": 11,
+    "early": 12
+  },
+  "fixture_parties": {
+    "main": 15,
+    "second": 16,
+    "future": 17,
+    "cancelled": 18,
+    "early": 19,
+    "page0": 20,
+    "page1": 21,
+    "page2": 22,
+    "page3": 23,
+    "page4": 24,
+    "page5": 25,
+    "page6": 26,
+    "page7": 27,
+    "page8": 28
+  },
+  "source_sha256": {
+    "frontend/static/js/myparty-review.js": "ccd3dfe856361994c6aaa2cca26b8c522dec53f2578a5cd02ab3d116d7c576e3",
+    "frontend/static/js/profile-reviews.js": "ace98931e80f10222ba4c00aa6ffb0c9f7857ecde6c3d9fb04ea1a5901e08cd5",
+    "frontend/templates/partials/review_history_content.html": "38b060cc2d3978f0f86c7afe88ddf097e4b9e878d6a0debd0a3224742e3e90e8",
+    "backend/conduct/services.py": "70aa6ca471e26857d2fbc932ab1d37da36d14b0616e27b8f8bd90e419b880ecb",
+    "backend/conduct/views.py": "98e77de8f7d0c9e6328a9b0a335869a85491e861cb13ffa6ce37e30d971b9753"
+  },
+  "cases": [
+    {
+      "id": "B01-eligibility-keyboard",
+      "expected": "exclude self/early/future/cancelled; Tab avoids background controls; Escape returns focus",
+      "actual": {
+        "eligible_target_values": [
+          "",
+          "7",
+          "9",
+          "10"
+        ],
+        "native_dialog_focus_escape": "Pass (body/browser chrome focus allowed; background page controls excluded)"
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B02-native-required-whitespace",
+      "expected": "missing rating/blank comment block POST and preserve DB",
+      "actual": {
+        "review_posts": 0,
+        "database_unchanged": true
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            0,
+            0,
+            null
+          ],
+          [
+            10,
+            0,
+            0,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            0,
+            0,
+            null
+          ],
+          [
+            10,
+            0,
+            0,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "B03-native-maxlength",
+      "expected": "textarea limits entry to500 characters",
+      "actual": {
+        "length": 500
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B04-real201-double-submit-reload",
+      "expected": "one POST/one row, rating_sum5/count1/credit unchanged; reviewed target persists",
+      "actual": {
+        "http": 201,
+        "native_posts": 1,
+        "cache": [
+          9,
+          5,
+          1,
+          null
+        ]
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            0,
+            0,
+            null
+          ],
+          [
+            10,
+            0,
+            0,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            5,
+            1,
+            null
+          ],
+          [
+            10,
+            0,
+            0,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "B05-profile-live-summary-xss",
+      "expected": "profile loads saved review via real API; average5.0,count1; HTML inert and credit separate",
+      "actual": {
+        "summary": "★ 5.0 / 5 (1 รีวิว)",
+        "review_count": "1 รีวิว",
+        "html_executed": false
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B06-rating1-and-live-average",
+      "expected": "rating1 accepted on anotherParty; profile average(5+1)/2=3.0",
+      "actual": {
+        "summary": "★ 3.0 / 5 (2 รีวิว)"
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B07-real409-conflict",
+      "expected": "stale form receives real409, target disabled, DB/cache unchanged",
+      "actual": {
+        "http": 409,
+        "message": "คุณรีวิวผู้ใช้นี้ในกิจกรรมนี้แล้ว"
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-rating0",
+      "expected": "400; no mutation",
+      "actual": {
+        "http": 400,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ข้อมูลรีวิวไม่ถูกต้อง",
+          "fields": {
+            "rating": "คะแนนต้องเป็นจำนวนเต็มตั้งแต่ 1 ถึง 5"
+          }
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-rating6",
+      "expected": "400; no mutation",
+      "actual": {
+        "http": 400,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ข้อมูลรีวิวไม่ถูกต้อง",
+          "fields": {
+            "rating": "คะแนนต้องเป็นจำนวนเต็มตั้งแต่ 1 ถึง 5"
+          }
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-rating-bool",
+      "expected": "400; no mutation",
+      "actual": {
+        "http": 400,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ข้อมูลรีวิวไม่ถูกต้อง",
+          "fields": {
+            "rating": "คะแนนต้องเป็นจำนวนเต็มตั้งแต่ 1 ถึง 5"
+          }
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-comment501",
+      "expected": "400; no mutation",
+      "actual": {
+        "http": 400,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ข้อมูลรีวิวไม่ถูกต้อง",
+          "fields": {
+            "comment": "ความคิดเห็นต้องไม่เกิน 500 ตัวอักษร"
+          }
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-self",
+      "expected": "400; no mutation",
+      "actual": {
+        "http": 400,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ข้อมูลรีวิวไม่ถูกต้อง",
+          "fields": {
+            "reviewee_id": "ไม่สามารถรีวิวตัวเองได้"
+          }
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-early-target",
+      "expected": "400; no mutation",
+      "actual": {
+        "http": 400,
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ข้อมูลรีวิวไม่ถูกต้อง",
+          "fields": {
+            "reviewee_id": "ไม่สามารถรีวิวผู้ใช้นี้ได้"
+          }
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-future",
+      "expected": "409; no mutation",
+      "actual": {
+        "http": 409,
+        "error": {
+          "code": "PARTY_NOT_COMPLETED",
+          "message": "รีวิวได้เฉพาะกิจกรรมที่จบแล้ว"
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-cancelled",
+      "expected": "409; no mutation",
+      "actual": {
+        "http": 409,
+        "error": {
+          "code": "PARTY_NOT_COMPLETED",
+          "message": "รีวิวได้เฉพาะกิจกรรมที่จบแล้ว"
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-unknown-party",
+      "expected": "404; no mutation",
+      "actual": {
+        "http": 404,
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "ไม่พบกิจกรรมที่ต้องการ"
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-csrf",
+      "expected": "403 CSRF_FAILED, no mutation",
+      "actual": {
+        "http": 403,
+        "error": {
+          "code": "CSRF_FAILED",
+          "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-outsider",
+      "expected": "no eligible history; POST403, no mutation",
+      "actual": {
+        "http": 403,
+        "history_dialogs": 0,
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้เข้าร่วมกิจกรรมเท่านั้นที่รีวิวได้"
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-early",
+      "expected": "no eligible history; POST403, no mutation",
+      "actual": {
+        "http": 403,
+        "history_dialogs": 0,
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้เข้าร่วมกิจกรรมเท่านั้นที่รีวิวได้"
+        }
+      },
+      "result": "Pass",
+      "sql_before": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      },
+      "sql_after": {
+        "reviews": [
+          [
+            15,
+            8,
+            9,
+            5,
+            "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+          ],
+          [
+            16,
+            8,
+            9,
+            1,
+            "Rating one boundary"
+          ],
+          [
+            15,
+            8,
+            10,
+            4,
+            "Concurrent review from another tab"
+          ]
+        ],
+        "profiles": [
+          [
+            7,
+            0,
+            0,
+            null
+          ],
+          [
+            8,
+            0,
+            0,
+            null
+          ],
+          [
+            9,
+            6,
+            2,
+            null
+          ],
+          [
+            10,
+            4,
+            1,
+            null
+          ],
+          [
+            11,
+            0,
+            0,
+            null
+          ],
+          [
+            12,
+            0,
+            0,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A-anonymous-list",
+      "expected": "401 without verified session",
+      "actual": {
+        "http": 401
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B08-live-pagination-public-fields",
+      "expected": "11 reviews; pages10+1; average3.82(API)/3.8(UI); public allowlist; credit unchanged",
+      "actual": {
+        "api_average": 3.82,
+        "total": 11,
+        "pages": [
+          10,
+          1
+        ],
+        "cache": [
+          9,
+          42,
+          11,
+          null
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B09-profile-empty",
+      "expected": "no reviews shows empty/null summary and hides error/pagination",
+      "actual": {
+        "summary": "ยังไม่มีคะแนนรีวิว"
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "B10-account-isolation",
+      "expected": "reviewed status scoped to reviewer, even in same browser context",
+      "actual": {
+        "host_target_still_reviewable": true
+      },
+      "result": "Pass"
+    }
+  ],
+  "browser": "156.0.8078.47",
+  "finished_at": "2026-11-17T05:00:56.226999+00:00",
+  "summary": {
+    "Pass": 23,
+    "Fail": 0
+  },
+  "page_errors": [],
+  "final_sql": {
+    "reviews": [
+      [
+        15,
+        8,
+        9,
+        5,
+        "<img src=x onerror=\"window.qaXss=true\"> Great teammate"
+      ],
+      [
+        16,
+        8,
+        9,
+        1,
+        "Rating one boundary"
+      ],
+      [
+        15,
+        8,
+        10,
+        4,
+        "Concurrent review from another tab"
+      ],
+      [
+        20,
+        8,
+        9,
+        4,
+        "Pagination fixture page0"
+      ],
+      [
+        21,
+        8,
+        9,
+        4,
+        "Pagination fixture page1"
+      ],
+      [
+        22,
+        8,
+        9,
+        4,
+        "Pagination fixture page2"
+      ],
+      [
+        23,
+        8,
+        9,
+        4,
+        "Pagination fixture page3"
+      ],
+      [
+        24,
+        8,
+        9,
+        4,
+        "Pagination fixture page4"
+      ],
+      [
+        25,
+        8,
+        9,
+        4,
+        "Pagination fixture page5"
+      ],
+      [
+        26,
+        8,
+        9,
+        4,
+        "Pagination fixture page6"
+      ],
+      [
+        27,
+        8,
+        9,
+        4,
+        "Pagination fixture page7"
+      ],
+      [
+        28,
+        8,
+        9,
+        4,
+        "Pagination fixture page8"
+      ]
+    ],
+    "profiles": [
+      [
+        7,
+        0,
+        0,
+        null
+      ],
+      [
+        8,
+        0,
+        0,
+        null
+      ],
+      [
+        9,
+        42,
+        11,
+        null
+      ],
+      [
+        10,
+        4,
+        1,
+        null
+      ],
+      [
+        11,
+        0,
+        0,
+        null
+      ],
+      [
+        12,
+        0,
+        0,
+        null
+      ]
+    ]
+  },
+  "not_run": [
+    "Live TU login",
+    "Human UAT/sign-off",
+    "No-show API",
+    "Full cross-story Sprint2 browser flow"
+  ],
+  "runtime": {
+    "python": "3.12.15",
+    "django": "5.2.18",
+    "database_vendor": "postgresql",
+    "database_name": "s2_task93_browser"
+  },
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "network_control": "No responses mocked. Review POST forwarding delayed 300ms to inspect pending state; request continued unmodified to real Django.",
+  "browser_runner_sha256": "f75d8492ea5f029c4ef801d9b880dfcef16a1812056c86f31514bb4aa0eeb312",
+  "seed_runner_sha256": "7588dccd5764f11d4f7c33b6b41d6f741a909637cd99d0316aee1fa92572b8db"
+}

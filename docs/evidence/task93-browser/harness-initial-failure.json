@@ -1,0 +1,43 @@
+{
+  "source_commit": "eff8b799efc08538d6637d146d244147f689ccc3",
+  "started_at": "2026-11-17T04:57:16.940822+00:00",
+  "kind": "Chromium + actual Django HTTP API + isolated PostgreSQL; synthetic verified sessions, not live TU login or human UAT",
+  "fixture_users": {
+    "host": 1,
+    "reviewer": 2,
+    "target": 3,
+    "peer": 4,
+    "outsider": 5,
+    "early": 6
+  },
+  "fixture_parties": {
+    "main": 1,
+    "second": 2,
+    "future": 3,
+    "cancelled": 4,
+    "early": 5,
+    "page0": 6,
+    "page1": 7,
+    "page2": 8,
+    "page3": 9,
+    "page4": 10,
+    "page5": 11,
+    "page6": 12,
+    "page7": 13,
+    "page8": 14
+  },
+  "source_sha256": {
+    "frontend/static/js/myparty-review.js": "ccd3dfe856361994c6aaa2cca26b8c522dec53f2578a5cd02ab3d116d7c576e3",
+    "frontend/static/js/profile-reviews.js": "ace98931e80f10222ba4c00aa6ffb0c9f7857ecde6c3d9fb04ea1a5901e08cd5",
+    "frontend/templates/partials/review_history_content.html": "38b060cc2d3978f0f86c7afe88ddf097e4b9e878d6a0debd0a3224742e3e90e8",
+    "backend/conduct/services.py": "70aa6ca471e26857d2fbc932ab1d37da36d14b0616e27b8f8bd90e419b880ecb",
+    "backend/conduct/views.py": "98e77de8f7d0c9e6328a9b0a335869a85491e861cb13ffa6ce37e30d971b9753"
+  },
+  "cases": [],
+  "browser": "156.0.8078.47",
+  "failure": {
+    "type": "AssertionError",
+    "message": ""
+  },
+  "finished_at": "2026-11-17T04:57:18.948279+00:00"
+}

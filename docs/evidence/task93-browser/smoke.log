@@ -1,0 +1,2 @@
+docker compose --env-file /tmp/pr180-browser.env -f docker-compose.yml -f /tmp/pr180-browser.compose.yml -p s2-task93-browser exec -T backend python scripts/smoke.py
+Smoke passed: HTTP, PostgreSQL readiness, Django template and static CSS.

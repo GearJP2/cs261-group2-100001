@@ -1,0 +1,12 @@
+✔ UT-US14-UI-01: ineligible party or already-reviewed target disables/blocks review submission per policy (2.648728ms)
+✔ UT-US14-UI-02: invalid rating or whitespace-only comment fails validation, sets error, and prevents submit (1.447486ms)
+✔ UT-US14-UI-03: in-flight submit disables controls to prevent duplicate calls and updates review/summary state on completion (2.995152ms)
+✔ UT-US14-UI-04: handles 409 REVIEW_EXISTS / network error states accurately and keeps star rating separate from conduct credit (1.488361ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15.203176
