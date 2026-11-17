@@ -1,7 +1,17 @@
 #grid-joined .mp-card-horizontal { display:flex; justify-content:space-between; gap:1rem; padding:1.5rem; margin:1rem 0; background:white; border:1px solid #ddd; border-radius:12px; }
 #grid-joined button { font:inherit; padding:.65rem 1rem; cursor:pointer; }
 #grid-joined button:disabled { cursor:not-allowed; color:#666; }
+#grid-joined .mp-party-actions { display:flex; flex-direction:column; justify-content:center; gap:.55rem; min-width:8.5rem; }
+#grid-created .mp-party-detail-action { display:flex; justify-content:flex-end; margin-top:1rem; }
+#grid-created .mp-party-detail-link, #grid-joined .mp-party-detail-link { display:inline-flex; min-height:44px; min-width:8.5rem; align-items:center; justify-content:center; box-sizing:border-box; padding:0 1rem; border:1px solid #e3a900; border-radius:8px; background:#ffc107; color:#1f2430; font:600 .92rem 'Prompt',sans-serif; text-decoration:none; white-space:nowrap; }
+#grid-joined [data-leave-party] { min-height:44px; border:1px solid #d8dce3; border-radius:8px; background:#fff; color:#8b2c25; }
+#grid-created .mp-party-detail-link:hover, #grid-joined .mp-party-detail-link:hover { background:#f2b600; }
+#grid-created .mp-party-detail-link:focus-visible, #grid-joined .mp-party-detail-link:focus-visible, #grid-joined [data-leave-party]:focus-visible { outline:3px solid #8c6300; outline-offset:3px; }
 #leave-dialog { width:min(90vw,30rem); max-height:85vh; overflow:auto; border:1px solid #ddd; border-radius:12px; padding:1.5rem; }
 #leave-dialog::backdrop { background:rgb(0 0 0 / 45%); }
 #leave-dialog :focus-visible, #grid-joined button:focus-visible { outline:3px solid #8c6300; outline-offset:2px; }
-@media(max-width:640px) { #grid-joined .mp-card-horizontal { flex-direction:column; } }
+@media(max-width:640px) {
+  #grid-joined .mp-card-horizontal { flex-direction:column; }
+  #grid-joined .mp-party-actions { width:100%; min-width:0; }
+  #grid-joined .mp-party-detail-link, #grid-joined [data-leave-party] { width:100%; }
+}

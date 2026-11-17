@@ -87,6 +87,32 @@ class HomeLinkTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'data-sport-id="3"')
 
+    def test_create_form_back_controls_fall_back_to_home(self):
+        user = get_user_model().objects.create_user(username="party-create-back-user")
+        self.client.force_login(user)
+        response = self.client.get(reverse("party-create-page"))
+        home_url = reverse("home")
+        self.assertContains(
+            response,
+            f'href="{home_url}" class="app-back" data-party-form-return',
+        )
+        self.assertContains(
+            response,
+            f'href="{home_url}" class="app-secondary" data-party-form-return',
+        )
+
+    def test_edit_form_back_controls_fall_back_to_party_detail(self):
+        response = self.client.get(reverse("party-edit-page", args=[42]))
+        detail_url = reverse("party-detail-page", args=[42])
+        self.assertContains(
+            response,
+            f'href="{detail_url}" class="app-back" data-party-form-return',
+        )
+        self.assertContains(
+            response,
+            f'href="{detail_url}" class="app-secondary" data-party-form-return',
+        )
+
     def test_home_keeps_business_api_out_of_markup(self):
         response = self.client.get(reverse("home"))
         self.assertNotContains(response, "/api/v1/")
