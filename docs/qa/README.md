@@ -84,3 +84,7 @@ Retest ไม่เขียนทับ raw evidence เดิม. ระบุ
 ## New execution — Task96 (17 พ.ย. 2026)
 
 [Integrated cross-story execution report](../evidence/task96-cross-story/README.md): main `d157487`, native browser/API/PostgreSQL 19 scenarios PASS พร้อม expected/actual CSV, images, HTTP/SQL, race/regression receipts และข้อจำกัด live TU login/human UAT ที่ Not run. เป็นรอบใหม่ตาม Task96/#111 แยกจากแผน101casesด้านบน ไม่เปลี่ยนทุก inventory row เป็นPassจากCI และยังรอ final review/merge ของทีม
+
+## Sprint review — Task97 (17 พ.ย. 2026)
+
+[ผลส่งมอบ/coverage/งานค้าง](sprint-2-review.md) · [demo runbook](sprint-2-demo-runbook.md) · [retrospectiveตามfeedbackGear](sprint-2-retrospective.md) · [24PLANcrosswalk](sprint-2-review-coverage.csv). Task96/PR186mergeและGearตรวจรับแล้ว; รอบTask97ตรวจเอกสาร/receipts ไม่รันระบบใหม่. FeedbackFrontendล่าช้า/คุณภาพยังไม่เรียบร้อยเป็นข้อมูลจากGearจริง ส่วนactionรอบถัดไปยังเป็นข้อเสนอรอทีมรับรอง ไม่สร้างมติหรือการประชุมย้อนหลัง

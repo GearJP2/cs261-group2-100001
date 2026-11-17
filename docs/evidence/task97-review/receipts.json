@@ -1,0 +1,518 @@
+{
+  "collected_at_utc": "2026-11-17T11:57:59.129408+00:00",
+  "main": "4fda705c010977087ba5cb09834ce43b0fe56493",
+  "issue_census": {
+    "all": 93,
+    "closed": 92,
+    "sprint2": 59,
+    "sprint2_closed": 58,
+    "open": [
+      {
+        "number": 112,
+        "title": "[Sprint 2] Task97: S2-REVIEW-01 [Review] สรุปผล Test Scope / งานค้าง / Demo และ Retrospective",
+        "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/112"
+      }
+    ]
+  },
+  "pr_census": {
+    "all": 93,
+    "merged": 88,
+    "open": 0
+  },
+  "sprint2_issues": [
+    {
+      "number": 118,
+      "title": "[Sprint 2] Task45: S2-QA-01 [Design] ออกแบบ Test Scope และ Test Cases รายจุด UI / API / SQL",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:41:07Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/118"
+    },
+    {
+      "number": 117,
+      "title": "[Sprint 2] Task102: S2-US14-D-SEQ [Design] ออกแบบ Sequence Diagram — US14",
+      "state": "closed",
+      "closed_at": "2026-10-28T08:53:27Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/117"
+    },
+    {
+      "number": 116,
+      "title": "[Sprint 2] Task101: S2-US2-D-SEQ [Design] ออกแบบ Sequence Diagram — US2",
+      "state": "closed",
+      "closed_at": "2026-10-28T08:53:27Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/116"
+    },
+    {
+      "number": 115,
+      "title": "[Sprint 2] Task100: S2-US4-D-SEQ [Design] ออกแบบ Sequence Diagram — US4",
+      "state": "closed",
+      "closed_at": "2026-10-28T08:53:26Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/115"
+    },
+    {
+      "number": 114,
+      "title": "[Sprint 2] Task99: S2-US6-D-SEQ [Design] ออกแบบ Sequence Diagram — US6",
+      "state": "closed",
+      "closed_at": "2026-10-28T08:53:26Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/114"
+    },
+    {
+      "number": 113,
+      "title": "[Sprint 2] Task98: S2-US10-D-SEQ [Design] ออกแบบ Sequence Diagram — US10",
+      "state": "closed",
+      "closed_at": "2026-10-28T08:53:25Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/113"
+    },
+    {
+      "number": 112,
+      "title": "[Sprint 2] Task97: S2-REVIEW-01 [Review] สรุปผล Test Scope / งานค้าง / Demo และ Retrospective",
+      "state": "open",
+      "closed_at": null,
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/112"
+    },
+    {
+      "number": 111,
+      "title": "[Sprint 2] Task96: S2-INT-T-01 [Test] ทดสอบ flow ข้าม Story และ regression Sprint 2",
+      "state": "closed",
+      "closed_at": "2026-11-17T11:50:09Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/111"
+    },
+    {
+      "number": 110,
+      "title": "[Sprint 2] Task95: S2-US14-T-DB [Test] SQL: จำนวนรีวิว ค่าเฉลี่ย unique และ rollback",
+      "state": "closed",
+      "closed_at": "2026-11-14T15:02:39Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/110"
+    },
+    {
+      "number": 109,
+      "title": "[Sprint 2] Task94: S2-US14-T-API [Test] Manual API: eligibility ขอบคะแนนและความเป็นส่วนตัว",
+      "state": "closed",
+      "closed_at": "2026-11-17T07:23:46Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/109"
+    },
+    {
+      "number": 108,
+      "title": "[Sprint 2] Task93: S2-US14-T-UI [Test] Manual UI: ให้คะแนน validation ส่งซ้ำและ summary",
+      "state": "closed",
+      "closed_at": "2026-11-17T08:27:09Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/108"
+    },
+    {
+      "number": 107,
+      "title": "[Sprint 2] Task92: S2-US14-F-02 [Implement] แสดงรีวิวและคะแนนสรุปบนโปรไฟล์",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:16:18Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/107"
+    },
+    {
+      "number": 106,
+      "title": "[Sprint 2] Task91: S2-US14-F-01 [Implement] สร้างฟอร์มคะแนน/ข้อความและเชื่อม submit",
+      "state": "closed",
+      "closed_at": "2026-11-16T02:46:06Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/106"
+    },
+    {
+      "number": 105,
+      "title": "[Sprint 2] Task90: S2-US14-B-03 [Implement] No-show และปรับ conduct credit เฉพาะกติกาที่อนุมัติ",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:41:03Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/105"
+    },
+    {
+      "number": 104,
+      "title": "[Sprint 2] Task89: S2-US14-B-02 [Implement] API อ่านรีวิวและ summary คะแนนตามสิทธิ์",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:41:00Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/104"
+    },
+    {
+      "number": 103,
+      "title": "[Sprint 2] Task88: S2-US14-B-01 [Implement] API ส่งรีวิว ตรวจสิทธิ์และกันส่งซ้ำ",
+      "state": "closed",
+      "closed_at": "2026-11-11T18:48:26Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/103"
+    },
+    {
+      "number": 102,
+      "title": "[Sprint 2] Task87: S2-US14-DB-01 [Implement] ออกแบบ Review uniqueness และ query คะแนนรวม",
+      "state": "closed",
+      "closed_at": "2026-11-14T15:00:59Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/102"
+    },
+    {
+      "number": 101,
+      "title": "[Sprint 2] Task86: S2-US14-D-02 [Design] ออกแบบเลือกสมาชิก ให้คะแนน และผลรีวิว",
+      "state": "closed",
+      "closed_at": "2026-10-31T17:33:53Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/101"
+    },
+    {
+      "number": 100,
+      "title": "[Sprint 2] Task85: S2-US14-D-01 [Design] ยืนยันกติกาคะแนน รีวิว และ No-show ก่อนเขียนโค้ด",
+      "state": "closed",
+      "closed_at": "2026-11-13T11:42:24Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/100"
+    },
+    {
+      "number": 99,
+      "title": "[Sprint 2] Task84: S2-US2-T-DB [Test] SQL: เทียบผลค้นหาและขอบเวลาในฐานข้อมูล",
+      "state": "closed",
+      "closed_at": "2026-11-16T02:19:19Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/99"
+    },
+    {
+      "number": 98,
+      "title": "[Sprint 2] Task83: S2-US2-T-API [Test] Manual API: query ขอบเวลา validation และ pagination",
+      "state": "closed",
+      "closed_at": "2026-11-16T16:11:51Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/98"
+    },
+    {
+      "number": 97,
+      "title": "[Sprint 2] Task82: S2-US2-T-UI [Test] Manual UI: ค้นหา ผสม filter reset และผลตอบกลับสลับลำดับ",
+      "state": "closed",
+      "closed_at": "2026-11-16T15:11:57Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/97"
+    },
+    {
+      "number": 96,
+      "title": "[Sprint 2] Task81: S2-US2-F-02 [Implement] เชื่อมผลค้นหา loading empty error และ pagination",
+      "state": "closed",
+      "closed_at": "2026-11-16T13:52:05Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/96"
+    },
+    {
+      "number": 95,
+      "title": "[Sprint 2] Task80: S2-US2-F-01 [Implement] สร้างช่องค้นหาและตัวกรอง responsive",
+      "state": "closed",
+      "closed_at": "2026-11-15T07:21:50Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/95"
+    },
+    {
+      "number": 94,
+      "title": "[Sprint 2] Task79: S2-US2-B-01 [Implement] GET parties พร้อม validate query และ AND filters",
+      "state": "closed",
+      "closed_at": "2026-11-16T02:18:21Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/94"
+    },
+    {
+      "number": 93,
+      "title": "[Sprint 2] Task78: S2-US2-DB-01 [Implement] ตรวจ query/filter และ index ของ Party/Venue/Sport",
+      "state": "closed",
+      "closed_at": "2026-11-15T16:24:49Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/93"
+    },
+    {
+      "number": 92,
+      "title": "[Sprint 2] Task77: S2-US2-D-02 [Design] ออกแบบ search bar filter chips และผลค้นหา",
+      "state": "closed",
+      "closed_at": "2026-10-31T17:34:21Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/92"
+    },
+    {
+      "number": 91,
+      "title": "[Sprint 2] Task76: S2-US2-D-01 [Design] กำหนด semantics ค้นหาและ filter วันเวลา/สถานะ",
+      "state": "closed",
+      "closed_at": "2026-11-14T09:04:44Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/91"
+    },
+    {
+      "number": 90,
+      "title": "[Sprint 2] Task75: S2-US4-T-DB [Test] SQL และ race: left_at ประวัติและคืนที่ว่างไม่ซ้ำ",
+      "state": "closed",
+      "closed_at": "2026-11-14T09:15:17Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/90"
+    },
+    {
+      "number": 89,
+      "title": "[Sprint 2] Task74: S2-US4-T-API [Test] Manual API: ถอนตัวเองและป้องกันคำขอผิดสิทธิ์",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:21:47Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/89"
+    },
+    {
+      "number": 88,
+      "title": "[Sprint 2] Task73: S2-US4-T-UI [Test] Manual UI: ยืนยัน ยกเลิก ถอนตัว และกดซ้ำ",
+      "state": "closed",
+      "closed_at": "2026-11-17T08:27:41Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/88"
+    },
+    {
+      "number": 87,
+      "title": "[Sprint 2] Task72: S2-US4-F-02 [Implement] เชื่อม leave และอัปเดตสมาชิก/ที่ว่าง",
+      "state": "closed",
+      "closed_at": "2026-11-16T16:09:21Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/87"
+    },
+    {
+      "number": 86,
+      "title": "[Sprint 2] Task71: S2-US4-F-01 [Implement] สร้างปุ่มถอนตัวและ confirm dialog",
+      "state": "closed",
+      "closed_at": "2026-11-16T02:46:04Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/86"
+    },
+    {
+      "number": 85,
+      "title": "[Sprint 2] Task70: S2-US4-B-01 [Implement] POST leave ตรวจ session สิทธิ์และ state",
+      "state": "closed",
+      "closed_at": "2026-11-14T05:48:55Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/85"
+    },
+    {
+      "number": 84,
+      "title": "[Sprint 2] Task69: S2-US4-DB-01 [Implement] ออกแบบ soft leave และ transaction สมาชิก",
+      "state": "closed",
+      "closed_at": "2026-11-13T14:07:55Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/84"
+    },
+    {
+      "number": 83,
+      "title": "[Sprint 2] Task68: S2-US4-D-02 [Design] ออกแบบยืนยันถอนตัวและสถานะหลังออก",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:40:57Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/83"
+    },
+    {
+      "number": 82,
+      "title": "[Sprint 2] Task67: S2-US4-D-01 [Design] ยืนยันกติกาถอนตัว Host / เวลา / กดซ้ำ",
+      "state": "closed",
+      "closed_at": "2026-11-13T11:39:35Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/82"
+    },
+    {
+      "number": 81,
+      "title": "[Sprint 2] Task66: S2-US6-T-DB [Test] SQL: เทียบ members response กับแถว active จริง",
+      "state": "closed",
+      "closed_at": "2026-11-14T15:23:42Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/81"
+    },
+    {
+      "number": 80,
+      "title": "[Sprint 2] Task65: S2-US6-T-API [Test] Manual API: สิทธิ์ รายชื่อ และข้อมูลที่ห้ามเปิดเผย",
+      "state": "closed",
+      "closed_at": "2026-11-17T09:25:56Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/80"
+    },
+    {
+      "number": 79,
+      "title": "[Sprint 2] Task64: S2-US6-T-UI [Test] Manual UI: รายชื่อ บทบาท fallback และ refresh",
+      "state": "closed",
+      "closed_at": "2026-11-17T09:36:33Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/79"
+    },
+    {
+      "number": 78,
+      "title": "[Sprint 2] Task63: S2-US6-F-02 [Implement] เชื่อม API members และ refresh หลังรับ/ถอนสมาชิก",
+      "state": "closed",
+      "closed_at": "2026-11-17T04:00:15Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/78"
+    },
+    {
+      "number": 77,
+      "title": "[Sprint 2] Task62: S2-US6-F-01 [Implement] สร้าง component สมาชิกและ Host badge",
+      "state": "closed",
+      "closed_at": "2026-11-17T03:53:47Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/77"
+    },
+    {
+      "number": 76,
+      "title": "[Sprint 2] Task61: S2-US6-B-01 [Implement] GET members พร้อมสิทธิ์และตัวกรอง active",
+      "state": "closed",
+      "closed_at": "2026-11-11T18:46:57Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/76"
+    },
+    {
+      "number": 75,
+      "title": "[Sprint 2] Task60: S2-US6-DB-01 [Implement] ตรวจ query สมาชิก active และความสัมพันธ์ User/Profile",
+      "state": "closed",
+      "closed_at": "2026-11-03T12:19:09Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/75"
+    },
+    {
+      "number": 74,
+      "title": "[Sprint 2] Task59: S2-US6-D-02 [Design] ออกแบบรายชื่อสมาชิกบน Party Detail ทุกสถานะ",
+      "state": "closed",
+      "closed_at": "2026-10-31T17:34:42Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/74"
+    },
+    {
+      "number": 73,
+      "title": "[Sprint 2] Task58: S2-US6-D-01 [Design] กำหนดสิทธิ์ดูสมาชิกและ public fields",
+      "state": "closed",
+      "closed_at": "2026-11-17T07:32:37Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/73"
+    },
+    {
+      "number": 72,
+      "title": "[Sprint 2] Task57: S2-US10-T-DB [Test] SQL และ race: ที่นั่งสุดท้าย / rollback / ไม่เพิ่มซ้ำ",
+      "state": "closed",
+      "closed_at": "2026-11-13T13:07:57Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/72"
+    },
+    {
+      "number": 71,
+      "title": "[Sprint 2] Task56: S2-US10-T-API [Test] Manual API: สิทธิ์ คำขอข้าม Party และ state ที่ห้าม",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:09:19Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/71"
+    },
+    {
+      "number": 70,
+      "title": "[Sprint 2] Task55: S2-US10-T-UI [Test] Manual UI: รายการคำขอ ปุ่มรับ/ปฏิเสธ และกดซ้ำ",
+      "state": "closed",
+      "closed_at": "2026-11-17T03:59:59Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/70"
+    },
+    {
+      "number": 69,
+      "title": "[Sprint 2] Task54: S2-US10-F-02 [Implement] เชื่อมปุ่ม Approve / Reject และ refresh จำนวนสมาชิก",
+      "state": "closed",
+      "closed_at": "2026-11-16T02:13:01Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/69"
+    },
+    {
+      "number": 68,
+      "title": "[Sprint 2] Task53: S2-US10-F-01 [Implement] แสดงส่วนคำขอ Pending และสถานะโหลด",
+      "state": "closed",
+      "closed_at": "2026-11-10T15:49:57Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/68"
+    },
+    {
+      "number": 67,
+      "title": "[Sprint 2] Task52: S2-US10-B-03 [Implement] POST Reject และบันทึกผลโดยไม่เปลี่ยนสมาชิก",
+      "state": "closed",
+      "closed_at": "2026-11-14T12:07:43Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/67"
+    },
+    {
+      "number": 66,
+      "title": "[Sprint 2] Task51: S2-US10-B-02 [Implement] POST Approve พร้อมตรวจที่ว่างและสร้างสมาชิก",
+      "state": "closed",
+      "closed_at": "2026-11-02T11:29:38Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/66"
+    },
+    {
+      "number": 65,
+      "title": "[Sprint 2] Task50: S2-US10-B-01 [Implement] GET รายการคำขอ Pending เฉพาะ Host",
+      "state": "closed",
+      "closed_at": "2026-10-31T19:34:55Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/65"
+    },
+    {
+      "number": 64,
+      "title": "[Sprint 2] Task49: S2-US10-DB-01 [Implement] ตรวจ JoinRequest / Membership constraints และ transaction",
+      "state": "closed",
+      "closed_at": "2026-11-09T15:33:01Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/64"
+    },
+    {
+      "number": 63,
+      "title": "[Sprint 2] Task48: S2-US10-D-02 [Design] ออกแบบ Approve / Reject และผลหลังตัดสิน",
+      "state": "closed",
+      "closed_at": "2026-11-16T14:40:54Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/63"
+    },
+    {
+      "number": 62,
+      "title": "[Sprint 2] Task47: S2-US10-D-01 [Design] กำหนดรายการ Pending และสิทธิ์ Host บน Party Detail",
+      "state": "closed",
+      "closed_at": "2026-10-31T17:08:51Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/62"
+    },
+    {
+      "number": 61,
+      "title": "[Sprint 2] Task46: S2-DATA-01 [Implement] จัด fixtures และ SQL ตรวจข้อมูลก่อน–หลังบนฐานทดสอบ",
+      "state": "closed",
+      "closed_at": "2026-11-02T09:11:24Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/61"
+    },
+    {
+      "number": 60,
+      "title": "[Sprint 2] Task44: S2-PLAN-01 [Planning] ยืนยัน AC / API contract และลำดับ dependency ของ 5 Stories",
+      "state": "closed",
+      "closed_at": "2026-11-14T12:06:33Z",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/issues/60"
+    }
+  ],
+  "evidence_prs": [
+    {
+      "number": 186,
+      "title": "test(sprint2): complete Task96 integrated workflow evidence",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/186",
+      "merged_at": "2026-11-17T11:47:05Z",
+      "merge_commit_sha": "4fda705c010977087ba5cb09834ce43b0fe56493",
+      "tested_head": "40d3d83b020460035eeb807bb4c61f6c2f822670"
+    },
+    {
+      "number": 185,
+      "title": "test(us2): complete Task82 browser search acceptance evidence",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/185",
+      "merged_at": "2026-11-17T10:45:27Z",
+      "merge_commit_sha": "d1574878237e0b73a2069761c802be4ae083d10a",
+      "tested_head": "dd7708af019969014b4934a0e89190fb2d489158"
+    },
+    {
+      "number": 184,
+      "title": "fix(us6): initialize My Parties CSRF and complete Task64 UI evidence",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/184",
+      "merged_at": "2026-11-17T10:15:41Z",
+      "merge_commit_sha": "b46bd067ce0d2d325fcd82a8d6cd36b461e72ab0",
+      "tested_head": "f7b14e76bfe89d7d048bf45ae885a2514d10eacd"
+    },
+    {
+      "number": 183,
+      "title": "test(us6): complete Task65 HTTP and SQL acceptance evidence",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/183",
+      "merged_at": "2026-11-17T09:23:25Z",
+      "merge_commit_sha": "4deb414b069bceeef60623c1d756db0a415222cb",
+      "tested_head": "396dd58041eac4160403f7482bbfad802d8903ed"
+    },
+    {
+      "number": 182,
+      "title": "test(us14): complete Task94 No-show acceptance evidence",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/182",
+      "merged_at": "2026-11-17T09:03:25Z",
+      "merge_commit_sha": "756b520667eb7672f9db4be3605cb0a5cc98d8f9",
+      "tested_head": "b78948a2cad762de1b49343779ff9800c8c9738c"
+    },
+    {
+      "number": 181,
+      "title": "test(us4): add leave ui unit tests & evidence",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/181",
+      "merged_at": "2026-11-17T08:27:40Z",
+      "merge_commit_sha": "22569980bd7ee72308c0e54bb626ac48a41f0bf9",
+      "tested_head": "f06acfb5019480be7726f6d287ca9ee7cec8c1e7"
+    },
+    {
+      "number": 180,
+      "title": "test(us14): add task 93 ui unit tests and evidence report",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/pull/180",
+      "merged_at": "2026-11-17T08:27:08Z",
+      "merge_commit_sha": "9fe52062657b253f45137bf443bf308bd521b25a",
+      "tested_head": "1e27d93d862f4fbad2180963682adc8c5500d7bd"
+    }
+  ],
+  "task96_acceptance": {
+    "merged_by": "GearJP2",
+    "merged_at": "2026-11-17T11:47:05Z",
+    "merge_commit": "4fda705c010977087ba5cb09834ce43b0fe56493"
+  },
+  "feedback": {
+    "source": "Gear, direct conversation during Task97 on 17 November 2026; not a team meeting record",
+    "confirmed": [
+      "Frontend delivery was slow despite a first-week completion target",
+      "Work was compressed into the final days",
+      "Late Frontend work was not sufficiently polished",
+      "Other work was assessed as OK by Gear"
+    ],
+    "actions_status": "Recommendations for next Sprint, pending team adoption; no invented assignee commitment or completed action"
+  },
+  "task96_ci": [
+    {
+      "name": "verify",
+      "html_url": "https://github.com/GearJP2/cs261-group2-100001/actions/runs/44069737905/job/133992616943",
+      "conclusion": "success",
+      "head_sha": "40d3d83b020460035eeb807bb4c61f6c2f822670"
+    }
+  ]
+}
