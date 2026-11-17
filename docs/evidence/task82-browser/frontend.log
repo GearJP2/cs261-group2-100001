@@ -1,0 +1,96 @@
+✔ error 500 offers a refresh without replaying leave (2.14842ms)
+✔ error 409 offers a refresh without replaying leave (0.68829ms)
+✔ error network offers a refresh without replaying leave (1.221401ms)
+✔ 401 during leave clears protected data and returns to login (1.313003ms)
+✔ 401 during count refresh clears protected data and returns to login (0.776418ms)
+✔ 403 is scoped to the current Party and does not log out the viewer (0.682444ms)
+✔ pending request prevents a second submit (0.781896ms)
+✔ refreshes members after a successful leave and treats the expected 403 as normal (0.822087ms)
+✔ cancel closes the confirmation dialog without a leave request or card mutation (0.807016ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16.73607
+✔ UT-US10-UI-01: disables button immediately while request is in-flight and prevents duplicate calls (1.952791ms)
+✔ UT-US10-UI-02: successful Approve sends Approved status, updates state, and triggers refresh (1.267904ms)
+✔ UT-US10-UI-03: successful Reject sends Rejected status and refreshes without adding member (1.613947ms)
+✔ UT-US10-UI-04: renders empty, error, and action failure states accurately without false success (2.369461ms)
+✔ escapes pending applicant names rather than inserting HTML (1.043204ms)
+✔ Approve awaits the matching Party's Members refresh before reload (0.76451ms)
+✔ Approve stops page refresh when Members detects an expired session (0.843729ms)
+✔ Members loading error does not turn an already committed Approve into failure (0.675545ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17.118423
+✔ UT-US14-UI-01: ineligible party or already-reviewed target disables/blocks review submission per policy (1.94248ms)
+✔ UT-US14-UI-02: invalid rating or whitespace-only comment fails validation, sets error, and prevents submit (0.674031ms)
+✔ UT-US14-UI-03: in-flight submit disables controls to prevent duplicate calls and updates review/summary state on completion (1.467537ms)
+✔ UT-US14-UI-04: handles 409 REVIEW_EXISTS / network error states accurately and keeps star rating separate from conduct credit (1.396746ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10.8281
+✔ renders only the API members and uses its Party-matching count (3.551389ms)
+✔ clears stale members when a just-withdrawn user is forbidden (0.947588ms)
+✔ refresh after approval replaces the count and member list (2.009544ms)
+✔ rejects a response whose count disagrees with its member list (0.839613ms)
+✔ UT-US6-UI-02: renders the API fallback name without requiring an avatar (0.596085ms)
+✔ UT-US6-UI-03: loading clears stale rows then renders a genuine empty result (0.673146ms)
+✔ UT-US6-UI-03: not found clears stale rows and retry loads the next real input (0.752549ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16.08143
+✔ keeps the original listing as the return destination after two edits (1.373765ms)
+✔ rejects an external return destination (0.166953ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10.108373
+✔ ignores an older successful search after a newer search (1.490167ms)
+✔ ignores an older search error after reset (0.288623ms)
+✔ surfaces the error from the latest search (0.147509ms)
+✔ does not restore URL filters or page after reset during initialization (0.155875ms)
+✔ keeps URL filters and page when initialization was not reset (0.089123ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7.758718
+✔ UT-US2-UI-01: actual search params retain sport, venue, type and Bangkok window separately (2.012771ms)
+✔ UT-US2-UI-02: actual reset clears form, invalidates pending request and reloads page1 (1.52869ms)
+✔ UT-US2-UI-04: actual cards show full/started/cancelled states and navigate to Detail (1.231438ms)
+✔ UT-US2-UI-04: actual empty and error states remain distinct (0.606722ms)
+✔ UT-US2-UI-04: actual loading hides old results, empty and error until latest response (1.826013ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13.076512

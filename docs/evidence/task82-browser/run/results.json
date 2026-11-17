@@ -1,0 +1,5751 @@
+{
+  "cases": [
+    {
+      "id": "B01-pagination",
+      "expected": "21 fixture rows;20+1 stable pages and back",
+      "actual": {
+        "first_page": [
+          "QA8289c4fe Page00",
+          "QA8289c4fe Page01",
+          "QA8289c4fe Page02",
+          "QA8289c4fe Page03",
+          "QA8289c4fe Page04",
+          "QA8289c4fe Page05",
+          "QA8289c4fe Page06",
+          "QA8289c4fe Page07",
+          "QA8289c4fe Page08",
+          "QA8289c4fe Page09",
+          "QA8289c4fe Page10",
+          "QA8289c4fe Page11",
+          "QA8289c4fe Page12",
+          "QA8289c4fe Page13",
+          "QA8289c4fe Page14",
+          "QA8289c4fe Page15",
+          "QA8289c4fe Page16",
+          "QA8289c4fe Page17",
+          "QA8289c4fe Page18",
+          "QA8289c4fe Page19"
+        ],
+        "second_page": [
+          "QA8289c4fe Page20"
+        ]
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B02-combined-filters",
+      "expected": "q+sport+venue+Indoor+Bangkok date/time, one matching fixture",
+      "actual": {
+        "params": {
+          "q": [
+            "QA8289c4fe Indoor"
+          ],
+          "sport_id": [
+            "12"
+          ],
+          "venue_id": [
+            "13"
+          ],
+          "venue_type": [
+            "Indoor"
+          ],
+          "starts_from": [
+            "2026-11-19T09:00:00+07:00"
+          ],
+          "starts_to": [
+            "2026-11-19T11:00:00+07:00"
+          ],
+          "page": [
+            "1"
+          ]
+        },
+        "titles": [
+          "QA8289c4fe IndoorA"
+        ],
+        "timezone": "America/New_York"
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B03-chip",
+      "expected": "remove Indoor chip alone preserves sport",
+      "actual": {
+        "params": {
+          "q": [
+            "QA8289c4fe Indoor"
+          ],
+          "sport_id": [
+            "12"
+          ],
+          "venue_id": [
+            "13"
+          ],
+          "starts_from": [
+            "2026-11-19T09:00:00+07:00"
+          ],
+          "starts_to": [
+            "2026-11-19T11:00:00+07:00"
+          ],
+          "page": [
+            "1"
+          ]
+        }
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B04-reset",
+      "expected": "all controls/chips clear, defaultOpen query page1 only",
+      "actual": {
+        "params": {
+          "page": [
+            "1"
+          ]
+        }
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B05-empty",
+      "expected": "genuine 200 total0 renders empty not error",
+      "actual": {
+        "titles": []
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B06-real400-error",
+      "expected": "invalid time range→API400→error, never empty",
+      "actual": {
+        "error": "ตัวกรองค้นหาไม่ถูกต้อง ต้องอยู่หลัง starts_from"
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B07-clear-error",
+      "expected": "clear invalid URL/filters recovers real default search",
+      "actual": {
+        "params": {
+          "page": [
+            "1"
+          ]
+        }
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B08-old-success",
+      "expected": "old real success arrives last; newer result remains visible",
+      "actual": {
+        "titles": [
+          "QA8289c4fe IndoorA"
+        ]
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B09-old-error-reset",
+      "expected": "delayed real400 after reset cannot override new default result",
+      "actual": {
+        "error_hidden": true
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B10-state-Full",
+      "expected": "matching state visible; Detail does not allow join",
+      "actual": {
+        "state": "Full",
+        "join_enabled": false,
+        "url": "/parties/25/"
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B10-state-InProgress",
+      "expected": "matching state visible; Detail does not allow join",
+      "actual": {
+        "state": "InProgress",
+        "join_enabled": false,
+        "url": "/parties/26/"
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "id": "B10-state-Cancelled",
+      "expected": "matching state visible; Detail does not allow join",
+      "actual": {
+        "state": "Cancelled",
+        "join_enabled": false,
+        "url": "/parties/27/"
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    }
+  ],
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Page&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 21
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Page&page=2",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 21,
+            "title": "QA8289c4fe Page20",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 2,
+        "page_size": 20,
+        "total": 21
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Page&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 21
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Indoor&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 22,
+            "title": "QA8289c4fe IndoorA",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 24,
+            "title": "QA8289c4fe IndoorB",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 13,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 2
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Indoor&sport_id=12&venue_id=13&venue_type=Indoor&starts_from=2026-11-19T09%3A00%3A00%2B07%3A00&starts_to=2026-11-19T11%3A00%3A00%2B07%3A00&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 22,
+            "title": "QA8289c4fe IndoorA",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Indoor&sport_id=12&venue_id=13&starts_from=2026-11-19T09%3A00%3A00%2B07%3A00&starts_to=2026-11-19T11%3A00%3A00%2B07%3A00&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 22,
+            "title": "QA8289c4fe IndoorA",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+NO_MATCH&page=1",
+      "status": 200,
+      "body": {
+        "data": [],
+        "page": 1,
+        "page_size": 20,
+        "total": 0
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe&starts_from=2026-11-19T13%3A00%3A00%2B07%3A00&starts_to=2026-11-19T12%3A00%3A00%2B07%3A00&page=1",
+      "status": 400,
+      "body": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "starts_to": "ต้องอยู่หลัง starts_from"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+IndoorA&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 22,
+            "title": "QA8289c4fe IndoorA",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Page&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 21
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+IndoorA&starts_from=2026-11-19T13%3A00%3A00%2B07%3A00&starts_to=2026-11-19T12%3A00%3A00%2B07%3A00&page=1",
+      "status": 400,
+      "body": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "ตัวกรองค้นหาไม่ถูกต้อง",
+          "fields": {
+            "starts_to": "ต้องอยู่หลัง starts_from"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Full&state=Full&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 25,
+            "title": "QA8289c4fe Full",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 2,
+            "member_count": 2,
+            "remaining_slots": 0,
+            "state": "Full",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/25",
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 25,
+          "title": "QA8289c4fe Full",
+          "description": "",
+          "host": {
+            "id": 1,
+            "display_name": "Synthetic search Host"
+          },
+          "sport_id": 12,
+          "venue_id": 13,
+          "starts_at": "2026-11-19T10:00:00+07:00",
+          "ends_at": "2026-11-19T11:00:00+07:00",
+          "capacity": 2,
+          "member_count": 2,
+          "remaining_slots": 0,
+          "state": "Full",
+          "is_host": false,
+          "is_member": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/25/members",
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+InProgress&state=InProgress&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 26,
+            "title": "QA8289c4fe InProgress",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-17T17:34:47.126346+07:00",
+            "ends_at": "2026-11-17T18:39:47.126346+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "InProgress",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/26",
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 26,
+          "title": "QA8289c4fe InProgress",
+          "description": "",
+          "host": {
+            "id": 1,
+            "display_name": "Synthetic search Host"
+          },
+          "sport_id": 12,
+          "venue_id": 13,
+          "starts_at": "2026-11-17T17:34:47.126346+07:00",
+          "ends_at": "2026-11-17T18:39:47.126346+07:00",
+          "capacity": 8,
+          "member_count": 1,
+          "remaining_slots": 7,
+          "state": "InProgress",
+          "is_host": false,
+          "is_member": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/26/members",
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 1,
+            "title": "QA8289c4fe Page00",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 2,
+            "title": "QA8289c4fe Page01",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 3,
+            "title": "QA8289c4fe Page02",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 4,
+            "title": "QA8289c4fe Page03",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 5,
+            "title": "QA8289c4fe Page04",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 6,
+            "title": "QA8289c4fe Page05",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 7,
+            "title": "QA8289c4fe Page06",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 8,
+            "title": "QA8289c4fe Page07",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 9,
+            "title": "QA8289c4fe Page08",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 10,
+            "title": "QA8289c4fe Page09",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 11,
+            "title": "QA8289c4fe Page10",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 12,
+            "title": "QA8289c4fe Page11",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 13,
+            "title": "QA8289c4fe Page12",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 14,
+            "title": "QA8289c4fe Page13",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 15,
+            "title": "QA8289c4fe Page14",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 16,
+            "title": "QA8289c4fe Page15",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 17,
+            "title": "QA8289c4fe Page16",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 18,
+            "title": "QA8289c4fe Page17",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 19,
+            "title": "QA8289c4fe Page18",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          },
+          {
+            "id": 20,
+            "title": "QA8289c4fe Page19",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Open",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 24
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties?q=QA8289c4fe+Cancelled&state=Cancelled&page=1",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 27,
+            "title": "QA8289c4fe Cancelled",
+            "description": "",
+            "host": {
+              "id": 1,
+              "display_name": "Synthetic search Host"
+            },
+            "sport_id": 12,
+            "venue_id": 13,
+            "starts_at": "2026-11-19T10:00:00+07:00",
+            "ends_at": "2026-11-19T11:00:00+07:00",
+            "capacity": 8,
+            "member_count": 1,
+            "remaining_slots": 7,
+            "state": "Cancelled",
+            "is_host": false,
+            "is_member": false
+          }
+        ],
+        "page": 1,
+        "page_size": 20,
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/27",
+      "status": 200,
+      "body": {
+        "data": {
+          "id": 27,
+          "title": "QA8289c4fe Cancelled",
+          "description": "",
+          "host": {
+            "id": 1,
+            "display_name": "Synthetic search Host"
+          },
+          "sport_id": 12,
+          "venue_id": 13,
+          "starts_at": "2026-11-19T10:00:00+07:00",
+          "ends_at": "2026-11-19T11:00:00+07:00",
+          "capacity": 8,
+          "member_count": 1,
+          "remaining_slots": 7,
+          "state": "Cancelled",
+          "is_host": false,
+          "is_member": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/27/members",
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "Pass": 12,
+    "Fail": 0
+  },
+  "tested_source": "b46bd067ce0d2d325fcd82a8d6cd36b461e72ab0",
+  "source_sha256": {
+    "frontend/static/js/app.js": "b70cc4580215da1017fe1ffa5f2118fa715fd2f76018ddf248ed594d3136f8c4",
+    "frontend/static/js/search-request-state.js": "1af3f218857fffbd0a50a41e09de5ee6d4198b5a2ae1fe8cefd8954315b98b54",
+    "frontend/templates/search.html": "34f02aff9a6c0fa32c7492ad96f82e53359e44246c97663440d720e64feab6d8",
+    "scripts/us2-search-browser-evidence.py": "fe1961fcb7e020fc9eaeedd9db39912bd1010bbfefd910e4557f8bd19cf0ad3b",
+    "backend/parties/search.py": "5518f23ea2980ae147f647e518ff86f80d42844e9d631ae09da31590690a874b"
+  },
+  "sql_before": {
+    "parties_party": [
+      {
+        "id": 1,
+        "title": "QA8289c4fe Page00",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.126803+00:00",
+        "updated_at": "2026-11-17 10:39:47.130899+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 2,
+        "title": "QA8289c4fe Page01",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.133061+00:00",
+        "updated_at": "2026-11-17 10:39:47.136645+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 3,
+        "title": "QA8289c4fe Page02",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.138151+00:00",
+        "updated_at": "2026-11-17 10:39:47.140440+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 4,
+        "title": "QA8289c4fe Page03",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.141800+00:00",
+        "updated_at": "2026-11-17 10:39:47.144378+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 5,
+        "title": "QA8289c4fe Page04",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.146303+00:00",
+        "updated_at": "2026-11-17 10:39:47.149229+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 6,
+        "title": "QA8289c4fe Page05",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.150771+00:00",
+        "updated_at": "2026-11-17 10:39:47.153196+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 7,
+        "title": "QA8289c4fe Page06",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.154528+00:00",
+        "updated_at": "2026-11-17 10:39:47.156578+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 8,
+        "title": "QA8289c4fe Page07",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.157856+00:00",
+        "updated_at": "2026-11-17 10:39:47.160145+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 9,
+        "title": "QA8289c4fe Page08",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.162379+00:00",
+        "updated_at": "2026-11-17 10:39:47.164867+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 10,
+        "title": "QA8289c4fe Page09",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.166176+00:00",
+        "updated_at": "2026-11-17 10:39:47.168680+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 11,
+        "title": "QA8289c4fe Page10",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.170211+00:00",
+        "updated_at": "2026-11-17 10:39:47.172599+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 12,
+        "title": "QA8289c4fe Page11",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.174003+00:00",
+        "updated_at": "2026-11-17 10:39:47.176078+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 13,
+        "title": "QA8289c4fe Page12",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.177980+00:00",
+        "updated_at": "2026-11-17 10:39:47.180257+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 14,
+        "title": "QA8289c4fe Page13",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.181602+00:00",
+        "updated_at": "2026-11-17 10:39:47.183545+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 15,
+        "title": "QA8289c4fe Page14",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.184848+00:00",
+        "updated_at": "2026-11-17 10:39:47.186747+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 16,
+        "title": "QA8289c4fe Page15",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.188018+00:00",
+        "updated_at": "2026-11-17 10:39:47.189919+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 17,
+        "title": "QA8289c4fe Page16",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.191245+00:00",
+        "updated_at": "2026-11-17 10:39:47.193806+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 18,
+        "title": "QA8289c4fe Page17",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.195568+00:00",
+        "updated_at": "2026-11-17 10:39:47.198135+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 19,
+        "title": "QA8289c4fe Page18",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.199667+00:00",
+        "updated_at": "2026-11-17 10:39:47.202380+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 20,
+        "title": "QA8289c4fe Page19",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.204563+00:00",
+        "updated_at": "2026-11-17 10:39:47.207438+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 21,
+        "title": "QA8289c4fe Page20",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.209638+00:00",
+        "updated_at": "2026-11-17 10:39:47.212902+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 22,
+        "title": "QA8289c4fe IndoorA",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.214315+00:00",
+        "updated_at": "2026-11-17 10:39:47.216426+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 23,
+        "title": "QA8289c4fe OutdoorA",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.217744+00:00",
+        "updated_at": "2026-11-17 10:39:47.219660+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 14
+      },
+      {
+        "id": 24,
+        "title": "QA8289c4fe IndoorB",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.221108+00:00",
+        "updated_at": "2026-11-17 10:39:47.223285+00:00",
+        "host_id": 1,
+        "sport_id": 13,
+        "venue_id": 13
+      },
+      {
+        "id": 25,
+        "title": "QA8289c4fe Full",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 2,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.224912+00:00",
+        "updated_at": "2026-11-17 10:39:47.228338+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 26,
+        "title": "QA8289c4fe InProgress",
+        "description": "",
+        "starts_at": "2026-11-17 10:34:47.126346+00:00",
+        "ends_at": "2026-11-17 11:39:47.126346+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.229687+00:00",
+        "updated_at": "2026-11-17 10:39:47.231733+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 27,
+        "title": "QA8289c4fe Cancelled",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": "2026-11-17 10:39:47.126346+00:00",
+        "created_at": "2026-11-17 10:39:47.233005+00:00",
+        "updated_at": "2026-11-17 10:39:47.235601+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      }
+    ],
+    "parties_partymembership": [
+      {
+        "id": 1,
+        "joined_at": "2026-11-17 10:39:47.128825+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 1
+      },
+      {
+        "id": 2,
+        "joined_at": "2026-11-17 10:39:47.135144+00:00",
+        "left_at": null,
+        "party_id": 2,
+        "user_id": 1
+      },
+      {
+        "id": 3,
+        "joined_at": "2026-11-17 10:39:47.139346+00:00",
+        "left_at": null,
+        "party_id": 3,
+        "user_id": 1
+      },
+      {
+        "id": 4,
+        "joined_at": "2026-11-17 10:39:47.142989+00:00",
+        "left_at": null,
+        "party_id": 4,
+        "user_id": 1
+      },
+      {
+        "id": 5,
+        "joined_at": "2026-11-17 10:39:47.147836+00:00",
+        "left_at": null,
+        "party_id": 5,
+        "user_id": 1
+      },
+      {
+        "id": 6,
+        "joined_at": "2026-11-17 10:39:47.152094+00:00",
+        "left_at": null,
+        "party_id": 6,
+        "user_id": 1
+      },
+      {
+        "id": 7,
+        "joined_at": "2026-11-17 10:39:47.155618+00:00",
+        "left_at": null,
+        "party_id": 7,
+        "user_id": 1
+      },
+      {
+        "id": 8,
+        "joined_at": "2026-11-17 10:39:47.158851+00:00",
+        "left_at": null,
+        "party_id": 8,
+        "user_id": 1
+      },
+      {
+        "id": 9,
+        "joined_at": "2026-11-17 10:39:47.163745+00:00",
+        "left_at": null,
+        "party_id": 9,
+        "user_id": 1
+      },
+      {
+        "id": 10,
+        "joined_at": "2026-11-17 10:39:47.167454+00:00",
+        "left_at": null,
+        "party_id": 10,
+        "user_id": 1
+      },
+      {
+        "id": 11,
+        "joined_at": "2026-11-17 10:39:47.171493+00:00",
+        "left_at": null,
+        "party_id": 11,
+        "user_id": 1
+      },
+      {
+        "id": 12,
+        "joined_at": "2026-11-17 10:39:47.175059+00:00",
+        "left_at": null,
+        "party_id": 12,
+        "user_id": 1
+      },
+      {
+        "id": 13,
+        "joined_at": "2026-11-17 10:39:47.179231+00:00",
+        "left_at": null,
+        "party_id": 13,
+        "user_id": 1
+      },
+      {
+        "id": 14,
+        "joined_at": "2026-11-17 10:39:47.182649+00:00",
+        "left_at": null,
+        "party_id": 14,
+        "user_id": 1
+      },
+      {
+        "id": 15,
+        "joined_at": "2026-11-17 10:39:47.185858+00:00",
+        "left_at": null,
+        "party_id": 15,
+        "user_id": 1
+      },
+      {
+        "id": 16,
+        "joined_at": "2026-11-17 10:39:47.189030+00:00",
+        "left_at": null,
+        "party_id": 16,
+        "user_id": 1
+      },
+      {
+        "id": 17,
+        "joined_at": "2026-11-17 10:39:47.192285+00:00",
+        "left_at": null,
+        "party_id": 17,
+        "user_id": 1
+      },
+      {
+        "id": 18,
+        "joined_at": "2026-11-17 10:39:47.196952+00:00",
+        "left_at": null,
+        "party_id": 18,
+        "user_id": 1
+      },
+      {
+        "id": 19,
+        "joined_at": "2026-11-17 10:39:47.200968+00:00",
+        "left_at": null,
+        "party_id": 19,
+        "user_id": 1
+      },
+      {
+        "id": 20,
+        "joined_at": "2026-11-17 10:39:47.206166+00:00",
+        "left_at": null,
+        "party_id": 20,
+        "user_id": 1
+      },
+      {
+        "id": 21,
+        "joined_at": "2026-11-17 10:39:47.211514+00:00",
+        "left_at": null,
+        "party_id": 21,
+        "user_id": 1
+      },
+      {
+        "id": 22,
+        "joined_at": "2026-11-17 10:39:47.215463+00:00",
+        "left_at": null,
+        "party_id": 22,
+        "user_id": 1
+      },
+      {
+        "id": 23,
+        "joined_at": "2026-11-17 10:39:47.218758+00:00",
+        "left_at": null,
+        "party_id": 23,
+        "user_id": 1
+      },
+      {
+        "id": 24,
+        "joined_at": "2026-11-17 10:39:47.222287+00:00",
+        "left_at": null,
+        "party_id": 24,
+        "user_id": 1
+      },
+      {
+        "id": 25,
+        "joined_at": "2026-11-17 10:39:47.226166+00:00",
+        "left_at": null,
+        "party_id": 25,
+        "user_id": 1
+      },
+      {
+        "id": 26,
+        "joined_at": "2026-11-17 10:39:47.227315+00:00",
+        "left_at": null,
+        "party_id": 25,
+        "user_id": 3
+      },
+      {
+        "id": 27,
+        "joined_at": "2026-11-17 10:39:47.230760+00:00",
+        "left_at": null,
+        "party_id": 26,
+        "user_id": 1
+      },
+      {
+        "id": 28,
+        "joined_at": "2026-11-17 10:39:47.234440+00:00",
+        "left_at": null,
+        "party_id": 27,
+        "user_id": 1
+      }
+    ],
+    "parties_joinrequest": []
+  },
+  "sql_after": {
+    "parties_party": [
+      {
+        "id": 1,
+        "title": "QA8289c4fe Page00",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.126803+00:00",
+        "updated_at": "2026-11-17 10:39:47.130899+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 2,
+        "title": "QA8289c4fe Page01",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.133061+00:00",
+        "updated_at": "2026-11-17 10:39:47.136645+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 3,
+        "title": "QA8289c4fe Page02",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.138151+00:00",
+        "updated_at": "2026-11-17 10:39:47.140440+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 4,
+        "title": "QA8289c4fe Page03",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.141800+00:00",
+        "updated_at": "2026-11-17 10:39:47.144378+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 5,
+        "title": "QA8289c4fe Page04",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.146303+00:00",
+        "updated_at": "2026-11-17 10:39:47.149229+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 6,
+        "title": "QA8289c4fe Page05",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.150771+00:00",
+        "updated_at": "2026-11-17 10:39:47.153196+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 7,
+        "title": "QA8289c4fe Page06",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.154528+00:00",
+        "updated_at": "2026-11-17 10:39:47.156578+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 8,
+        "title": "QA8289c4fe Page07",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.157856+00:00",
+        "updated_at": "2026-11-17 10:39:47.160145+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 9,
+        "title": "QA8289c4fe Page08",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.162379+00:00",
+        "updated_at": "2026-11-17 10:39:47.164867+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 10,
+        "title": "QA8289c4fe Page09",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.166176+00:00",
+        "updated_at": "2026-11-17 10:39:47.168680+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 11,
+        "title": "QA8289c4fe Page10",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.170211+00:00",
+        "updated_at": "2026-11-17 10:39:47.172599+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 12,
+        "title": "QA8289c4fe Page11",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.174003+00:00",
+        "updated_at": "2026-11-17 10:39:47.176078+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 13,
+        "title": "QA8289c4fe Page12",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.177980+00:00",
+        "updated_at": "2026-11-17 10:39:47.180257+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 14,
+        "title": "QA8289c4fe Page13",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.181602+00:00",
+        "updated_at": "2026-11-17 10:39:47.183545+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 15,
+        "title": "QA8289c4fe Page14",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.184848+00:00",
+        "updated_at": "2026-11-17 10:39:47.186747+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 16,
+        "title": "QA8289c4fe Page15",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.188018+00:00",
+        "updated_at": "2026-11-17 10:39:47.189919+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 17,
+        "title": "QA8289c4fe Page16",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.191245+00:00",
+        "updated_at": "2026-11-17 10:39:47.193806+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 18,
+        "title": "QA8289c4fe Page17",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.195568+00:00",
+        "updated_at": "2026-11-17 10:39:47.198135+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 19,
+        "title": "QA8289c4fe Page18",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.199667+00:00",
+        "updated_at": "2026-11-17 10:39:47.202380+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 20,
+        "title": "QA8289c4fe Page19",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.204563+00:00",
+        "updated_at": "2026-11-17 10:39:47.207438+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 21,
+        "title": "QA8289c4fe Page20",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.209638+00:00",
+        "updated_at": "2026-11-17 10:39:47.212902+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 22,
+        "title": "QA8289c4fe IndoorA",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.214315+00:00",
+        "updated_at": "2026-11-17 10:39:47.216426+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 23,
+        "title": "QA8289c4fe OutdoorA",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.217744+00:00",
+        "updated_at": "2026-11-17 10:39:47.219660+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 14
+      },
+      {
+        "id": 24,
+        "title": "QA8289c4fe IndoorB",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.221108+00:00",
+        "updated_at": "2026-11-17 10:39:47.223285+00:00",
+        "host_id": 1,
+        "sport_id": 13,
+        "venue_id": 13
+      },
+      {
+        "id": 25,
+        "title": "QA8289c4fe Full",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 2,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.224912+00:00",
+        "updated_at": "2026-11-17 10:39:47.228338+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 26,
+        "title": "QA8289c4fe InProgress",
+        "description": "",
+        "starts_at": "2026-11-17 10:34:47.126346+00:00",
+        "ends_at": "2026-11-17 11:39:47.126346+00:00",
+        "capacity": 8,
+        "cancelled_at": null,
+        "created_at": "2026-11-17 10:39:47.229687+00:00",
+        "updated_at": "2026-11-17 10:39:47.231733+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      },
+      {
+        "id": 27,
+        "title": "QA8289c4fe Cancelled",
+        "description": "",
+        "starts_at": "2026-11-19 03:00:00+00:00",
+        "ends_at": "2026-11-19 04:00:00+00:00",
+        "capacity": 8,
+        "cancelled_at": "2026-11-17 10:39:47.126346+00:00",
+        "created_at": "2026-11-17 10:39:47.233005+00:00",
+        "updated_at": "2026-11-17 10:39:47.235601+00:00",
+        "host_id": 1,
+        "sport_id": 12,
+        "venue_id": 13
+      }
+    ],
+    "parties_partymembership": [
+      {
+        "id": 1,
+        "joined_at": "2026-11-17 10:39:47.128825+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 1
+      },
+      {
+        "id": 2,
+        "joined_at": "2026-11-17 10:39:47.135144+00:00",
+        "left_at": null,
+        "party_id": 2,
+        "user_id": 1
+      },
+      {
+        "id": 3,
+        "joined_at": "2026-11-17 10:39:47.139346+00:00",
+        "left_at": null,
+        "party_id": 3,
+        "user_id": 1
+      },
+      {
+        "id": 4,
+        "joined_at": "2026-11-17 10:39:47.142989+00:00",
+        "left_at": null,
+        "party_id": 4,
+        "user_id": 1
+      },
+      {
+        "id": 5,
+        "joined_at": "2026-11-17 10:39:47.147836+00:00",
+        "left_at": null,
+        "party_id": 5,
+        "user_id": 1
+      },
+      {
+        "id": 6,
+        "joined_at": "2026-11-17 10:39:47.152094+00:00",
+        "left_at": null,
+        "party_id": 6,
+        "user_id": 1
+      },
+      {
+        "id": 7,
+        "joined_at": "2026-11-17 10:39:47.155618+00:00",
+        "left_at": null,
+        "party_id": 7,
+        "user_id": 1
+      },
+      {
+        "id": 8,
+        "joined_at": "2026-11-17 10:39:47.158851+00:00",
+        "left_at": null,
+        "party_id": 8,
+        "user_id": 1
+      },
+      {
+        "id": 9,
+        "joined_at": "2026-11-17 10:39:47.163745+00:00",
+        "left_at": null,
+        "party_id": 9,
+        "user_id": 1
+      },
+      {
+        "id": 10,
+        "joined_at": "2026-11-17 10:39:47.167454+00:00",
+        "left_at": null,
+        "party_id": 10,
+        "user_id": 1
+      },
+      {
+        "id": 11,
+        "joined_at": "2026-11-17 10:39:47.171493+00:00",
+        "left_at": null,
+        "party_id": 11,
+        "user_id": 1
+      },
+      {
+        "id": 12,
+        "joined_at": "2026-11-17 10:39:47.175059+00:00",
+        "left_at": null,
+        "party_id": 12,
+        "user_id": 1
+      },
+      {
+        "id": 13,
+        "joined_at": "2026-11-17 10:39:47.179231+00:00",
+        "left_at": null,
+        "party_id": 13,
+        "user_id": 1
+      },
+      {
+        "id": 14,
+        "joined_at": "2026-11-17 10:39:47.182649+00:00",
+        "left_at": null,
+        "party_id": 14,
+        "user_id": 1
+      },
+      {
+        "id": 15,
+        "joined_at": "2026-11-17 10:39:47.185858+00:00",
+        "left_at": null,
+        "party_id": 15,
+        "user_id": 1
+      },
+      {
+        "id": 16,
+        "joined_at": "2026-11-17 10:39:47.189030+00:00",
+        "left_at": null,
+        "party_id": 16,
+        "user_id": 1
+      },
+      {
+        "id": 17,
+        "joined_at": "2026-11-17 10:39:47.192285+00:00",
+        "left_at": null,
+        "party_id": 17,
+        "user_id": 1
+      },
+      {
+        "id": 18,
+        "joined_at": "2026-11-17 10:39:47.196952+00:00",
+        "left_at": null,
+        "party_id": 18,
+        "user_id": 1
+      },
+      {
+        "id": 19,
+        "joined_at": "2026-11-17 10:39:47.200968+00:00",
+        "left_at": null,
+        "party_id": 19,
+        "user_id": 1
+      },
+      {
+        "id": 20,
+        "joined_at": "2026-11-17 10:39:47.206166+00:00",
+        "left_at": null,
+        "party_id": 20,
+        "user_id": 1
+      },
+      {
+        "id": 21,
+        "joined_at": "2026-11-17 10:39:47.211514+00:00",
+        "left_at": null,
+        "party_id": 21,
+        "user_id": 1
+      },
+      {
+        "id": 22,
+        "joined_at": "2026-11-17 10:39:47.215463+00:00",
+        "left_at": null,
+        "party_id": 22,
+        "user_id": 1
+      },
+      {
+        "id": 23,
+        "joined_at": "2026-11-17 10:39:47.218758+00:00",
+        "left_at": null,
+        "party_id": 23,
+        "user_id": 1
+      },
+      {
+        "id": 24,
+        "joined_at": "2026-11-17 10:39:47.222287+00:00",
+        "left_at": null,
+        "party_id": 24,
+        "user_id": 1
+      },
+      {
+        "id": 25,
+        "joined_at": "2026-11-17 10:39:47.226166+00:00",
+        "left_at": null,
+        "party_id": 25,
+        "user_id": 1
+      },
+      {
+        "id": 26,
+        "joined_at": "2026-11-17 10:39:47.227315+00:00",
+        "left_at": null,
+        "party_id": 25,
+        "user_id": 3
+      },
+      {
+        "id": 27,
+        "joined_at": "2026-11-17 10:39:47.230760+00:00",
+        "left_at": null,
+        "party_id": 26,
+        "user_id": 1
+      },
+      {
+        "id": 28,
+        "joined_at": "2026-11-17 10:39:47.234440+00:00",
+        "left_at": null,
+        "party_id": 27,
+        "user_id": 1
+      }
+    ],
+    "parties_joinrequest": []
+  },
+  "browser": "156.0.8078.47",
+  "python": "3.12.0",
+  "django": "5.2.18",
+  "database": "s2_task82_http",
+  "fixture_prefix": "QA8289c4fe",
+  "fixture_parties": {
+    "Page00": 1,
+    "Page01": 2,
+    "Page02": 3,
+    "Page03": 4,
+    "Page04": 5,
+    "Page05": 6,
+    "Page06": 7,
+    "Page07": 8,
+    "Page08": 9,
+    "Page09": 10,
+    "Page10": 11,
+    "Page11": 12,
+    "Page12": 13,
+    "Page13": 14,
+    "Page14": 15,
+    "Page15": 16,
+    "Page16": 17,
+    "Page17": 18,
+    "Page18": 19,
+    "Page19": 20,
+    "Page20": 21,
+    "IndoorA": 22,
+    "OutdoorA": 23,
+    "IndoorB": 24,
+    "Full": 25,
+    "InProgress": 26,
+    "Cancelled": 27
+  },
+  "page_errors": [],
+  "finished_at": "2026-11-17T10:39:57.926315+00:00",
+  "not_run": [
+    "Live TU login",
+    "Human UAT/sign-off",
+    "Production load"
+  ]
+}

@@ -1,0 +1,13 @@
+PASS B01-pagination
+PASS B02-combined-filters
+PASS B03-chip
+PASS B04-reset
+PASS B05-empty
+PASS B06-real400-error
+PASS B07-clear-error
+PASS B08-old-success
+PASS B09-old-error-reset
+PASS B10-state-Full
+PASS B10-state-InProgress
+PASS B10-state-Cancelled
+DONE {'Pass': 12, 'Fail': 0}
