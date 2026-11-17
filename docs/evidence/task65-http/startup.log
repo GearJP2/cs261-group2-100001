@@ -1,0 +1,78 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 618B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 824B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#3 DONE 1.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 297B done
+#4 DONE 0.0s
+
+#5 [1/9] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#5 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 2.76MB 0.1s done
+#6 DONE 0.1s
+
+#7 [4/9] RUN pip install --no-cache-dir --require-hashes -r backend/requirements.txt
+#7 CACHED
+
+#8 [5/9] RUN groupadd --gid "1000" app     && useradd --uid "1000" --gid "1000" --create-home app
+#8 CACHED
+
+#9 [2/9] WORKDIR /app
+#9 CACHED
+
+#10 [3/9] COPY backend/requirements.txt /app/backend/requirements.txt
+#10 CACHED
+
+#11 [6/9] COPY --chown=app:app backend /app/backend
+#11 CACHED
+
+#12 [7/9] COPY --chown=app:app frontend /app/frontend
+#12 CACHED
+
+#13 [8/9] COPY --chown=app:app scripts /app/scripts
+#13 DONE 0.0s
+
+#14 [9/9] COPY --chown=app:app pyproject.toml /app/pyproject.toml
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers 0.1s done
+#15 exporting manifest sha256:d4f9ddd5c6c05dd08f35837b1232fb1fc609de264ea341104e2e9524bb9a4d79 0.0s done
+#15 exporting config sha256:8be744a0be3a6304678491e7765c368829cf112fb5465ef3e42694e9d4c30b3c done
+#15 exporting attestation manifest sha256:896961c902717a231423616cfdd0a0b8730660a12bb416235377163490a8c0eb 0.0s done
+#15 exporting manifest list sha256:5fb99b74c1212ce503471eda483869d382c65059e880cd10e7953b3264956fa1 done
+#15 naming to docker.io/library/cs261-task65-http:local done
+#15 unpacking to docker.io/library/cs261-task65-http:local 0.0s done
+#15 DONE 0.2s
+
+#16 resolving provenance for metadata file
+#16 DONE 0.0s
+ cs261-task65-http:local  Built
+ Network s2-task65-http_default  Creating
+ Network s2-task65-http_default  Created
+ Volume s2-task65-http_postgres_data  Creating
+ Volume s2-task65-http_postgres_data  Created
+ Container s2-task65-http-database-1  Creating
+ Container s2-task65-http-database-1  Created
+ Container s2-task65-http-backend-1  Creating
+ Container s2-task65-http-backend-1  Created
+ Container s2-task65-http-database-1  Starting
+ Container s2-task65-http-database-1  Started
+ Container s2-task65-http-database-1  Waiting
+ Container s2-task65-http-database-1  Healthy
+ Container s2-task65-http-backend-1  Starting
+ Container s2-task65-http-backend-1  Started
+ Container s2-task65-http-database-1  Waiting
+ Container s2-task65-http-backend-1  Waiting
+ Container s2-task65-http-database-1  Healthy
+ Container s2-task65-http-backend-1  Healthy
