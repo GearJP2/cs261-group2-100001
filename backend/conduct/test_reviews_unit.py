@@ -7,7 +7,6 @@ ORM entry point fails the test instead of reaching a database.
 
 import inspect
 import json
-import unittest
 from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import Mock, call, patch
@@ -530,7 +529,24 @@ class ReviewSerializerUnitTests(SimpleTestCase):
             with self.subTest(private=private):
                 self.assertNotIn(private, text)
 
-    @unittest.skip("Blocked: policy not confirmed in #100/#105")
-    def test_no_show_and_credit_formula_blocked_until_policy_is_confirmed(self):
-        """UT-US14-API-06 (Blocked): write these once the policy numbers are agreed."""
-        self.fail("Replace this with tests of the confirmed No-show and credit policy.")
+    def test_no_show_response_exposes_only_the_public_report_fields(self):
+        """UT-US14-API-06: approved No-show serializer, without ORM/HTTP."""
+        request = RequestFactory().post(
+            "/api/v1/parties/7/no-show-reports",
+            data=json.dumps({"reported_id": MEMBER_ID}),
+            content_type="application/json",
+        )
+        request.user = SimpleNamespace(pk=HOST_ID)
+        report = SimpleNamespace(
+            pk=12, party_id=PARTY_ID, reported_id=MEMBER_ID, created_at=CREATED_AT
+        )
+        with patch("conduct.views.submit_no_show_report", return_value=report) as service:
+            response = inspect.unwrap(views.create_no_show_report)(request, PARTY_ID)
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.content)["data"]["report"]
+        self.assertEqual(set(data), {"id", "party_id", "reported_id", "created_at"})
+        service.assert_called_once_with(
+            party_id=PARTY_ID, reporter=request.user, reported_id=MEMBER_ID
+        )
+        for private in ("reporter", "credit_score", "delta", "threshold", "email", "username"):
+            self.assertNotIn(private, data)

@@ -1,0 +1,5452 @@
+{
+  "kind": "real HTTP + PostgreSQL; synthetic verified sessions, not TU login/human UAT",
+  "started_at": "2026-11-17T15:53:42.319231+07:00",
+  "database": "s2_task94_noshow",
+  "source_commit": "22569980bd7ee72308c0e54bb626ac48a41f0bf9",
+  "fixture_users": {
+    "host": 1,
+    "a": 2,
+    "b": 3,
+    "target": 4,
+    "early": 5,
+    "outsider": 6,
+    "negative": 7,
+    "unverified": 8
+  },
+  "fixture_parties": {
+    "main": 1,
+    "single": 2,
+    "negative": 3,
+    "expired": 4,
+    "future": 5,
+    "cancelled": 6
+  },
+  "cases": [
+    {
+      "id": "N01-flag-off-authenticated",
+      "actor": "a",
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบบริการที่ต้องการ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N02-flag-off-anonymous",
+      "actor": "anonymous",
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบบริการที่ต้องการ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N03-flag-off-csrf-still-enforced",
+      "actor": "a",
+      "expected": {
+        "status": 403,
+        "code": "CSRF_FAILED",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "CSRF_FAILED",
+            "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N04-anonymous",
+      "actor": "anonymous",
+      "expected": {
+        "status": 401,
+        "code": "AUTH_REQUIRED",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "AUTH_REQUIRED",
+            "message": "กรุณาเข้าสู่ระบบ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N04-unverified",
+      "actor": "unverified",
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "กรุณายืนยันบัญชีมหาวิทยาลัย"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N04-outsider",
+      "actor": "outsider",
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้เข้าร่วมกิจกรรมเท่านั้นที่รายงานได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N04-early",
+      "actor": "early",
+      "expected": {
+        "status": 403,
+        "code": "FORBIDDEN",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้เข้าร่วมกิจกรรมเท่านั้นที่รายงานได้"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N05-self",
+      "actor": "a",
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ข้อมูลรายงานไม่ถูกต้อง",
+            "fields": {
+              "reported_id": "ไม่สามารถรายงานตัวเองได้"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N05-nonparticipant",
+      "actor": "a",
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ข้อมูลรายงานไม่ถูกต้อง",
+            "fields": {
+              "reported_id": "ไม่สามารถรายงานผู้ใช้นี้ได้"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N05-unknown-user",
+      "actor": "a",
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ข้อมูลรายงานไม่ถูกต้อง",
+            "fields": {
+              "reported_id": "ไม่สามารถรายงานผู้ใช้นี้ได้"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N05-wrong-type",
+      "actor": "a",
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ข้อมูลรายงานไม่ถูกต้อง",
+            "fields": {
+              "reported_id": "กรุณาระบุผู้ที่ต้องการรายงาน"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N05-actor-injection",
+      "actor": "a",
+      "expected": {
+        "status": 400,
+        "code": "INVALID_INPUT",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 400,
+        "body": {
+          "error": {
+            "code": "INVALID_INPUT",
+            "message": "ข้อมูลรายงานไม่ถูกต้อง",
+            "fields": {
+              "reporter_id": "ไม่รองรับฟิลด์นี้"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N06-future",
+      "actor": "a",
+      "expected": {
+        "status": 409,
+        "code": "PARTY_NOT_COMPLETED",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_NOT_COMPLETED",
+            "message": "รายงานได้เฉพาะกิจกรรมที่จบแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N06-cancelled",
+      "actor": "a",
+      "expected": {
+        "status": 409,
+        "code": "PARTY_NOT_COMPLETED",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PARTY_NOT_COMPLETED",
+            "message": "รายงานได้เฉพาะกิจกรรมที่จบแล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N06-expired",
+      "actor": "a",
+      "expected": {
+        "status": 409,
+        "code": "REPORT_WINDOW_CLOSED",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "REPORT_WINDOW_CLOSED",
+            "message": "หมดเวลารายงานกิจกรรมนี้แล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N07-missing-csrf",
+      "actor": "a",
+      "expected": {
+        "status": 403,
+        "code": "CSRF_FAILED",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "CSRF_FAILED",
+            "message": "ตรวจสอบ CSRF ไม่ผ่าน กรุณาโหลดหน้าใหม่"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N08-missing-party",
+      "actor": "a",
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบกิจกรรมที่ต้องการ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N09-first-below-threshold",
+      "actor": "a",
+      "expected": {
+        "status": 201,
+        "code": null,
+        "unchanged": false,
+        "credit": null,
+        "events": 0
+      },
+      "actual": {
+        "status": 201,
+        "body": {
+          "data": {
+            "report": {
+              "id": 1,
+              "party_id": 1,
+              "reported_id": 4,
+              "created_at": "2026-11-17T15:53:50.312503+07:00"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N10-duplicate",
+      "actor": "a",
+      "expected": {
+        "status": 409,
+        "code": "REPORT_EXISTS",
+        "unchanged": true,
+        "credit": null,
+        "events": null
+      },
+      "actual": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "REPORT_EXISTS",
+            "message": "คุณรายงานผู้ใช้นี้ในกิจกรรมนี้แล้ว"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N11-threshold-second-report",
+      "actor": "host",
+      "expected": {
+        "status": 201,
+        "code": null,
+        "unchanged": false,
+        "credit": 95,
+        "events": 1
+      },
+      "actual": {
+        "status": 201,
+        "body": {
+          "data": {
+            "report": {
+              "id": 3,
+              "party_id": 1,
+              "reported_id": 4,
+              "created_at": "2026-11-17T15:53:50.416334+07:00"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 95,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N12-third-report-no-second-deduction",
+      "actor": "b",
+      "expected": {
+        "status": 201,
+        "code": null,
+        "unchanged": false,
+        "credit": 95,
+        "events": 1
+      },
+      "actual": {
+        "status": 201,
+        "body": {
+          "data": {
+            "report": {
+              "id": 4,
+              "party_id": 1,
+              "reported_id": 4,
+              "created_at": "2026-11-17T15:53:50.467530+07:00"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 95,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 95,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N13-next-party-preserves-opening-balance",
+      "actor": "a",
+      "expected": {
+        "status": 201,
+        "code": null,
+        "unchanged": false,
+        "credit": 90,
+        "events": 2
+      },
+      "actual": {
+        "status": 201,
+        "body": {
+          "data": {
+            "report": {
+              "id": 5,
+              "party_id": 2,
+              "reported_id": 4,
+              "created_at": "2026-11-17T15:53:50.518592+07:00"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 95,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          },
+          {
+            "id": 5,
+            "created_at": "2026-11-17 08:53:50.518592+00:00",
+            "party_id": 2,
+            "reported_id": 4,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          },
+          {
+            "id": 2,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.522638+00:00",
+            "created_by_id": null,
+            "party_id": 2,
+            "user_id": 4
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 90,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N14-negative-no-floor",
+      "actor": "a",
+      "expected": {
+        "status": 201,
+        "code": null,
+        "unchanged": false,
+        "credit": -7,
+        "events": 3
+      },
+      "actual": {
+        "status": 201,
+        "body": {
+          "data": {
+            "report": {
+              "id": 6,
+              "party_id": 3,
+              "reported_id": 7,
+              "created_at": "2026-11-17T15:53:50.568171+07:00"
+            }
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          },
+          {
+            "id": 5,
+            "created_at": "2026-11-17 08:53:50.518592+00:00",
+            "party_id": 2,
+            "reported_id": 4,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          },
+          {
+            "id": 2,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.522638+00:00",
+            "created_by_id": null,
+            "party_id": 2,
+            "user_id": 4
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 90,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -2,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          },
+          {
+            "id": 5,
+            "created_at": "2026-11-17 08:53:50.518592+00:00",
+            "party_id": 2,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 6,
+            "created_at": "2026-11-17 08:53:50.568171+00:00",
+            "party_id": 3,
+            "reported_id": 7,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          },
+          {
+            "id": 2,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.522638+00:00",
+            "created_by_id": null,
+            "party_id": 2,
+            "user_id": 4
+          },
+          {
+            "id": 3,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.573497+00:00",
+            "created_by_id": null,
+            "party_id": 3,
+            "user_id": 7
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 90,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -7,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    },
+    {
+      "id": "N15-disabled-retains-reports-and-credit",
+      "actor": "a",
+      "expected": {
+        "status": 404,
+        "code": "NOT_FOUND",
+        "unchanged": true,
+        "credit": 90,
+        "events": 3
+      },
+      "actual": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "ไม่พบบริการที่ต้องการ"
+          }
+        },
+        "headers": {
+          "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+          "Allow": null
+        }
+      },
+      "sql_before": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          },
+          {
+            "id": 5,
+            "created_at": "2026-11-17 08:53:50.518592+00:00",
+            "party_id": 2,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 6,
+            "created_at": "2026-11-17 08:53:50.568171+00:00",
+            "party_id": 3,
+            "reported_id": 7,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          },
+          {
+            "id": 2,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.522638+00:00",
+            "created_by_id": null,
+            "party_id": 2,
+            "user_id": 4
+          },
+          {
+            "id": 3,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.573497+00:00",
+            "created_by_id": null,
+            "party_id": 3,
+            "user_id": 7
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 90,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -7,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "sql_after": {
+        "conduct_noshowreport": [
+          {
+            "id": 1,
+            "created_at": "2026-11-17 08:53:50.312503+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 3,
+            "created_at": "2026-11-17 08:53:50.416334+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 1
+          },
+          {
+            "id": 4,
+            "created_at": "2026-11-17 08:53:50.467530+00:00",
+            "party_id": 1,
+            "reported_id": 4,
+            "reporter_id": 3
+          },
+          {
+            "id": 5,
+            "created_at": "2026-11-17 08:53:50.518592+00:00",
+            "party_id": 2,
+            "reported_id": 4,
+            "reporter_id": 2
+          },
+          {
+            "id": 6,
+            "created_at": "2026-11-17 08:53:50.568171+00:00",
+            "party_id": 3,
+            "reported_id": 7,
+            "reporter_id": 2
+          }
+        ],
+        "conduct_conductcreditevent": [
+          {
+            "id": 1,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.421022+00:00",
+            "created_by_id": null,
+            "party_id": 1,
+            "user_id": 4
+          },
+          {
+            "id": 2,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.522638+00:00",
+            "created_by_id": null,
+            "party_id": 2,
+            "user_id": 4
+          },
+          {
+            "id": 3,
+            "kind": "NoShowDeduction",
+            "delta": -5,
+            "note": "หักเครดิตตามรายงานไม่มาร่วมกิจกรรม",
+            "created_at": "2026-11-17 08:53:50.573497+00:00",
+            "created_by_id": null,
+            "party_id": 3,
+            "user_id": 7
+          }
+        ],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "Synthetic host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "Synthetic a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "Synthetic b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "Synthetic target",
+            "credit_score": 90,
+            "user_id": 4,
+            "rating_count": 2,
+            "rating_sum": 8
+          },
+          {
+            "id": 5,
+            "display_name": "Synthetic early",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "Synthetic outsider",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 7,
+            "display_name": "Synthetic negative",
+            "credit_score": -7,
+            "user_id": 7,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 8,
+            "display_name": "Synthetic unverified",
+            "credit_score": null,
+            "user_id": 8,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ],
+        "conduct_partyreview": [
+          {
+            "id": 1,
+            "rating": 3,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.929942+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 1
+          },
+          {
+            "id": 2,
+            "rating": 5,
+            "comment": "Synthetic opening rating",
+            "created_at": "2026-11-17 08:53:41.938440+00:00",
+            "party_id": 1,
+            "reviewee_id": 4,
+            "reviewer_id": 2
+          }
+        ]
+      },
+      "result": "Pass"
+    }
+  ],
+  "postgresql": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+  "finished_at": "2026-11-17T15:54:04.598854+07:00",
+  "summary": {
+    "Pass": 24,
+    "Fail": 0
+  },
+  "source_sha256": {
+    "backend/conduct/views.py": "98e77de8f7d0c9e6328a9b0a335869a85491e861cb13ffa6ce37e30d971b9753",
+    "backend/conduct/services.py": "70aa6ca471e26857d2fbc932ab1d37da36d14b0616e27b8f8bd90e419b880ecb",
+    "backend/conduct/policy.py": "1a2810788d4b2b2b06b92075c7061f8e3089a1ede793da14466821b0ef24e305",
+    "backend/conduct/test_policy.py": "59d751cd4795ca76060a0a49378da17b20571bb84e6a1c47b76836b8d67f550c",
+    "backend/conduct/test_reviews_unit.py": "6649e18afe8aefc06c11254506c91938f325d9ef48783fbe0f531462e6f30e4d",
+    "scripts/us10-api-evidence.py": "349cd051b665780a0ff54f397143572fbe4c831adc4535465290e8c9f0f504cc",
+    "scripts/us14-noshow-api-evidence.py": "6ea5584292015bd652a86ea2e2ee39f08a1a49127c8de33dc122b2f685948b14"
+  },
+  "not_run": [
+    "Human UAT/live TU login",
+    "Exact seven-day microsecond over network (controlled-clock integration tests cover it)",
+    "Production load"
+  ]
+}

@@ -1,0 +1,25 @@
+PASS N01-flag-off-authenticated
+PASS N02-flag-off-anonymous
+PASS N03-flag-off-csrf-still-enforced
+PASS N04-anonymous
+PASS N04-unverified
+PASS N04-outsider
+PASS N04-early
+PASS N05-self
+PASS N05-nonparticipant
+PASS N05-unknown-user
+PASS N05-wrong-type
+PASS N05-actor-injection
+PASS N06-future
+PASS N06-cancelled
+PASS N06-expired
+PASS N07-missing-csrf
+PASS N08-missing-party
+PASS N09-first-below-threshold
+PASS N10-duplicate
+PASS N11-threshold-second-report
+PASS N12-third-report-no-second-deduction
+PASS N13-next-party-preserves-opening-balance
+PASS N14-negative-no-floor
+PASS N15-disabled-retains-reports-and-credit
+DONE {'Pass': 24, 'Fail': 0}
