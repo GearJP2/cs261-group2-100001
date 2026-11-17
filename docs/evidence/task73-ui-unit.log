@@ -1,16 +1,33 @@
-✔ error 500 offers a refresh without replaying leave (35.020969ms)
-✔ error 409 offers a refresh without replaying leave (2.848228ms)
-✔ error network offers a refresh without replaying leave (29.307396ms)
-✔ 401 during leave clears protected data and returns to login (31.130176ms)
-✔ 401 during count refresh clears protected data and returns to login (3.01383ms)
-✔ 403 is scoped to the current Party and does not log out the viewer (12.581807ms)
-✔ pending request prevents a second submit (2.884769ms)
-✔ refreshes members after a successful leave and treats the expected 403 as normal (13.092751ms)
-ℹ tests 8
+Unable to find image 'node:22-alpine' locally
+22-alpine: Pulling from library/node
+177fffbd7f51: Pulling fs layer
+e868d1035e50: Pulling fs layer
+87aaee1f6667: Pulling fs layer
+881fc932939e: Pulling fs layer
+177fffbd7f51: Download complete
+881fc932939e: Download complete
+e868d1035e50: Download complete
+881fc932939e: Pull complete
+87aaee1f6667: Download complete
+87aaee1f6667: Pull complete
+177fffbd7f51: Pull complete
+e868d1035e50: Pull complete
+Digest: sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+Status: Downloaded newer image for node:22-alpine
+✔ error 500 offers a refresh without replaying leave (3.493082ms)
+✔ error 409 offers a refresh without replaying leave (1.245951ms)
+✔ error network offers a refresh without replaying leave (0.722068ms)
+✔ 401 during leave clears protected data and returns to login (1.802501ms)
+✔ 401 during count refresh clears protected data and returns to login (0.677038ms)
+✔ 403 is scoped to the current Party and does not log out the viewer (0.731591ms)
+✔ pending request prevents a second submit (0.952965ms)
+✔ refreshes members after a successful leave and treats the expected 403 as normal (0.920048ms)
+✔ cancel closes the confirmation dialog without a leave request or card mutation (0.90328ms)
+ℹ tests 9
 ℹ suites 0
-ℹ pass 8
+ℹ pass 9
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 1138.02755
+ℹ duration_ms 83.170053
