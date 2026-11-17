@@ -1,0 +1,16 @@
+✔ error 500 offers a refresh without replaying leave (35.020969ms)
+✔ error 409 offers a refresh without replaying leave (2.848228ms)
+✔ error network offers a refresh without replaying leave (29.307396ms)
+✔ 401 during leave clears protected data and returns to login (31.130176ms)
+✔ 401 during count refresh clears protected data and returns to login (3.01383ms)
+✔ 403 is scoped to the current Party and does not log out the viewer (12.581807ms)
+✔ pending request prevents a second submit (2.884769ms)
+✔ refreshes members after a successful leave and treats the expected 403 as normal (13.092751ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1138.02755
