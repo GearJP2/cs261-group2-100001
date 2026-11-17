@@ -1,0 +1,2 @@
+docker compose --env-file /tmp/task94.env -f docker-compose.yml -f /tmp/task94.compose.yml -p s2-task94-noshow exec -T backend python scripts/smoke.py
+Smoke passed: HTTP, PostgreSQL readiness, Django template and static CSS.
