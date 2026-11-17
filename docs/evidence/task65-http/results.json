@@ -1,0 +1,617 @@
+{
+  "kind": "Assistant-operated real HTTP + PostgreSQL, synthetic verified sessions; not Austin original run or human UAT",
+  "started_at": "2026-11-17T09:18:30.856028+00:00",
+  "source_commit": "756b520667eb7672f9db4be3605cb0a5cc98d8f9",
+  "database": "s2_task65_http",
+  "python": "3.12.0",
+  "django": "5.2.18",
+  "fixture_users": {
+    "host": 1,
+    "member": 2,
+    "fallback": 3,
+    "left": 4,
+    "pending": 5,
+    "rejected": 6,
+    "outsider": 7,
+    "other": 8,
+    "unverified": 9
+  },
+  "party_id": 1,
+  "cases": [
+    {
+      "label": "anonymous",
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 401,
+      "actual_status": 401,
+      "expected_code": "AUTH_REQUIRED",
+      "response": {
+        "error": {
+          "code": "AUTH_REQUIRED",
+          "message": "กรุณาเข้าสู่ระบบ"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "unverified",
+      "role": "unverified",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "กรุณายืนยันบัญชีมหาวิทยาลัย"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "outsider",
+      "role": "outsider",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "pending",
+      "role": "pending",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "rejected",
+      "role": "rejected",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "left-history",
+      "role": "left",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "other-party-member",
+      "role": "other",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "unknown-party",
+      "role": "host",
+      "method": "GET",
+      "path": "/api/v1/parties/2147483646/members",
+      "expected_status": 404,
+      "actual_status": 404,
+      "expected_code": "NOT_FOUND",
+      "response": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "ไม่พบกิจกรรมที่ต้องการ"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "post",
+      "role": "host",
+      "method": "POST",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 405,
+      "actual_status": 405,
+      "expected_code": "METHOD_NOT_ALLOWED",
+      "response": {
+        "error": {
+          "code": "METHOD_NOT_ALLOWED",
+          "message": "รองรับเฉพาะ GET"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": "GET"
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "host",
+      "role": "host",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 200,
+      "actual_status": 200,
+      "expected_code": null,
+      "response": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "Synthetic host",
+              "role": "Host"
+            },
+            {
+              "user_id": 3,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 2,
+              "display_name": "Synthetic member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "active-member",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 200,
+      "actual_status": 200,
+      "expected_code": null,
+      "response": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "Synthetic host",
+              "role": "Host"
+            },
+            {
+              "user_id": 3,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 2,
+              "display_name": "Synthetic member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "missing-profile-member",
+      "role": "fallback",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "expected_status": 200,
+      "actual_status": 200,
+      "expected_code": null,
+      "response": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "Synthetic host",
+              "role": "Host"
+            },
+            {
+              "user_id": 3,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 2,
+              "display_name": "Synthetic member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    },
+    {
+      "label": "actor-query-spoof",
+      "role": "outsider",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members?user_id=1",
+      "expected_status": 403,
+      "actual_status": 403,
+      "expected_code": "FORBIDDEN",
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+        }
+      },
+      "headers": {
+        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate, private",
+        "Allow": null
+      },
+      "status": "PASS",
+      "sql_unchanged": true
+    }
+  ],
+  "finished_at": "2026-11-17T09:18:32.903681+00:00",
+  "summary": {
+    "Pass": 13,
+    "Fail": 0
+  },
+  "detail_count": 3,
+  "sql_before": {
+    "parties_partymembership": [
+      {
+        "id": 1,
+        "joined_at": "2026-11-17 09:18:30.870281+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 3
+      },
+      {
+        "id": 2,
+        "joined_at": "2026-11-17 09:18:30.873882+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 2
+      },
+      {
+        "id": 3,
+        "joined_at": "2026-11-17 09:18:30.877207+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 1
+      },
+      {
+        "id": 4,
+        "joined_at": "2026-11-17 09:18:30.880829+00:00",
+        "left_at": "2026-11-17 09:18:30.856028+00:00",
+        "party_id": 1,
+        "user_id": 4
+      },
+      {
+        "id": 5,
+        "joined_at": "2026-11-17 09:18:30.883862+00:00",
+        "left_at": null,
+        "party_id": 2,
+        "user_id": 8
+      }
+    ],
+    "parties_joinrequest": [
+      {
+        "id": 1,
+        "status": "Pending",
+        "created_at": "2026-11-17 09:18:30.886116+00:00",
+        "decided_at": null,
+        "decided_by_id": null,
+        "user_id": 5,
+        "party_id": 1
+      },
+      {
+        "id": 2,
+        "status": "Rejected",
+        "created_at": "2026-11-17 09:18:30.889949+00:00",
+        "decided_at": "2026-11-17 09:18:30.856028+00:00",
+        "decided_by_id": 1,
+        "user_id": 6,
+        "party_id": 1
+      }
+    ],
+    "accounts_userprofile": [
+      {
+        "id": 1,
+        "display_name": "Synthetic host",
+        "credit_score": null,
+        "user_id": 1,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 2,
+        "display_name": "Synthetic member",
+        "credit_score": null,
+        "user_id": 2,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 3,
+        "display_name": "Synthetic left",
+        "credit_score": null,
+        "user_id": 4,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 4,
+        "display_name": "Synthetic pending",
+        "credit_score": null,
+        "user_id": 5,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 5,
+        "display_name": "Synthetic rejected",
+        "credit_score": null,
+        "user_id": 6,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 6,
+        "display_name": "Synthetic outsider",
+        "credit_score": null,
+        "user_id": 7,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 7,
+        "display_name": "Synthetic other",
+        "credit_score": null,
+        "user_id": 8,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 8,
+        "display_name": "Synthetic unverified",
+        "credit_score": null,
+        "user_id": 9,
+        "rating_count": 0,
+        "rating_sum": 0
+      }
+    ]
+  },
+  "sql_after": {
+    "parties_partymembership": [
+      {
+        "id": 1,
+        "joined_at": "2026-11-17 09:18:30.870281+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 3
+      },
+      {
+        "id": 2,
+        "joined_at": "2026-11-17 09:18:30.873882+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 2
+      },
+      {
+        "id": 3,
+        "joined_at": "2026-11-17 09:18:30.877207+00:00",
+        "left_at": null,
+        "party_id": 1,
+        "user_id": 1
+      },
+      {
+        "id": 4,
+        "joined_at": "2026-11-17 09:18:30.880829+00:00",
+        "left_at": "2026-11-17 09:18:30.856028+00:00",
+        "party_id": 1,
+        "user_id": 4
+      },
+      {
+        "id": 5,
+        "joined_at": "2026-11-17 09:18:30.883862+00:00",
+        "left_at": null,
+        "party_id": 2,
+        "user_id": 8
+      }
+    ],
+    "parties_joinrequest": [
+      {
+        "id": 1,
+        "status": "Pending",
+        "created_at": "2026-11-17 09:18:30.886116+00:00",
+        "decided_at": null,
+        "decided_by_id": null,
+        "user_id": 5,
+        "party_id": 1
+      },
+      {
+        "id": 2,
+        "status": "Rejected",
+        "created_at": "2026-11-17 09:18:30.889949+00:00",
+        "decided_at": "2026-11-17 09:18:30.856028+00:00",
+        "decided_by_id": 1,
+        "user_id": 6,
+        "party_id": 1
+      }
+    ],
+    "accounts_userprofile": [
+      {
+        "id": 1,
+        "display_name": "Synthetic host",
+        "credit_score": null,
+        "user_id": 1,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 2,
+        "display_name": "Synthetic member",
+        "credit_score": null,
+        "user_id": 2,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 3,
+        "display_name": "Synthetic left",
+        "credit_score": null,
+        "user_id": 4,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 4,
+        "display_name": "Synthetic pending",
+        "credit_score": null,
+        "user_id": 5,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 5,
+        "display_name": "Synthetic rejected",
+        "credit_score": null,
+        "user_id": 6,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 6,
+        "display_name": "Synthetic outsider",
+        "credit_score": null,
+        "user_id": 7,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 7,
+        "display_name": "Synthetic other",
+        "credit_score": null,
+        "user_id": 8,
+        "rating_count": 0,
+        "rating_sum": 0
+      },
+      {
+        "id": 8,
+        "display_name": "Synthetic unverified",
+        "credit_score": null,
+        "user_id": 9,
+        "rating_count": 0,
+        "rating_sum": 0
+      }
+    ]
+  },
+  "expected_active_ids": [
+    3,
+    2,
+    1
+  ],
+  "source_sha256": {
+    "backend/parties/views.py": "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+    "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+    "backend/parties/test_members.py": "b68992725604dbd412eda725185071df124a44a586a079da9d263dce6fda41b3",
+    "backend/parties/test_members_unit.py": "be9c13fef37f0957fb08b7d97d799d9597563fe2f2a6676ed41da6dc0f6ebf44",
+    "scripts/us10-api-evidence.py": "349cd051b665780a0ff54f397143572fbe4c831adc4535465290e8c9f0f504cc",
+    "scripts/us6-members-http-evidence.py": "4b24a7ab4f4b1cfa6f010e76f222d6bb7bfd27f9472931e8a7e19f88a3181cf3"
+  },
+  "not_run": [
+    "Live TU login",
+    "Human UI/UAT",
+    "Production load"
+  ]
+}
