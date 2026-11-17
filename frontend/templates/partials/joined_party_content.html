@@ -9,9 +9,10 @@
       <p>{{ party.ui_state }} · {% if party.ui_active %}อนุมัติแล้ว{% else %}รออนุมัติ{% endif %}</p>
       <p>สมาชิก <span data-joined-count>{{ party.ui_count }}</span> / {{ party.capacity }} คน</p>
     </div>
-    <div><button type="button" data-leave-party="{{ party.pk }}" {% if party.ui_leave_reason %}disabled aria-describedby="leave-reason-{{ party.pk }}"{% endif %}>ถอนตัวจากกิจกรรม</button>
+    <div class="mp-party-actions">
+      <a class="mp-party-detail-link" href="{% url 'party-detail-page' party.pk %}">ดูรายละเอียด</a>
+      <button type="button" data-leave-party="{{ party.pk }}" {% if party.ui_leave_reason %}disabled aria-describedby="leave-reason-{{ party.pk }}"{% endif %}>ถอนตัวจากกิจกรรม</button>
       <p id="leave-reason-{{ party.pk }}">{{ party.ui_leave_reason }}</p>
-      {% if party.host_id == viewer_id %}<a href="{% url 'party-detail-page' party.pk %}">จัดการกิจกรรม</a>{% endif %}
     </div>
   </article>
   {% endfor %}
