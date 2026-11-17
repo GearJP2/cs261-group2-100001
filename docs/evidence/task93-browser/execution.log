@@ -1,0 +1,25 @@
+Created isolated synthetic fixture: 6 users; 14 parties; session values not logged
+PASS B01-eligibility-keyboard
+PASS B02-native-required-whitespace
+PASS B03-native-maxlength
+PASS B04-real201-double-submit-reload
+PASS B05-profile-live-summary-xss
+PASS B06-rating1-and-live-average
+PASS B07-real409-conflict
+PASS A-rating0
+PASS A-rating6
+PASS A-rating-bool
+PASS A-comment501
+PASS A-self
+PASS A-early-target
+PASS A-future
+PASS A-cancelled
+PASS A-unknown-party
+PASS A-csrf
+PASS A-outsider
+PASS A-early
+PASS A-anonymous-list
+PASS B08-live-pagination-public-fields
+PASS B09-profile-empty
+PASS B10-account-isolation
+DONE {'Pass': 23, 'Fail': 0}

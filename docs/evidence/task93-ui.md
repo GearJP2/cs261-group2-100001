@@ -4,6 +4,10 @@
 
 Verified 17 November 2026. This report records automated Node unit tests with controlled DOM/API dependencies for the US14 review dialog handler (`frontend/static/js/myparty-review.js`) and template structure (`frontend/templates/partials/review_history_content.html`), not live browser execution, human UAT, or live HTTP/database acceptance.
 
+## Additional real-browser acceptance
+
+The earlier unit-only Not run statements below describe that unit run. On 17 November2026, a separate **real Chromium + Django API + PostgreSQL run passed23scenarios**, including native validation, double submit, real201/409, review-to-profile summary, pagination, CSRF/permissions and SQL/cache invariants. See [browser/API/DB report and screenshots](task93-browser/README.md). Docker make verify713discovered/712passed/1existing skip and make smoke passed. This remains assistant-operated automation, not human UAT or live TU login.
+
 ## Source and environment
 
 - Source baseline commit: `71a1ace006d72f33bf48685fe650e9aba039e09e`.
