@@ -1,0 +1,28 @@
+PASS R01-auth-regression
+PASS F01-create
+Traceback (most recent call last):
+  File "/tmp/cs261-task96/scripts/sprint2-cross-story-evidence.py", line 728, in <module>
+    main()
+  File "/tmp/cs261-task96/scripts/sprint2-cross-story-evidence.py", line 269, in main
+    expect(ap.locator(".search-card h3")).to_have_text(payload["title"])
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 15561, in to_have_text
+    self._sync(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 124, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/assertions.py", line 660, in to_have_text
+    await self._expect_impl(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/assertions.py", line 122, in _expect_impl
+    _record_soft_or_raise(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_assertions.py", line 50, in _record_soft_or_raise
+    raise error
+AssertionError: Locator expected to have text 'QA9640b1f4 flow'
+Actual value: None
+Error: strict mode violation: locator(".search-card h3") resolved to 2 elements:
+    1) <h3>QA965b6988 flow</h3> aka get_by_text("QA965b6988 flow")
+    2) <h3>QA9640b1f4 flow</h3> aka get_by_text("QA9640b1f4 flow")
+ 
+Call log:
+  - Expect "to_have_text" locator(".search-card h3") with timeout 5000ms
+  - waiting for locator(".search-card h3")
+
