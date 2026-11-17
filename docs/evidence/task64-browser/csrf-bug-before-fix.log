@@ -1,0 +1,32 @@
+PASS B01-host-fallback-order-count
+PASS B02-member
+PASS B03-outsider
+PASS B03-left
+PASS B04-empty
+PASS B05-loading
+Traceback (most recent call last):
+  File "/tmp/cs261-task64/scripts/us6-members-browser-evidence.py", line 367, in <module>
+    main()
+  File "/tmp/cs261-task64/scripts/us6-members-browser-evidence.py", line 237, in main
+    expect(panel.locator("[data-member-count]")).to_have_text("4")
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 15561, in to_have_text
+    self._sync(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 124, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/assertions.py", line 660, in to_have_text
+    await self._expect_impl(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/assertions.py", line 122, in _expect_impl
+    _record_soft_or_raise(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_assertions.py", line 50, in _record_soft_or_raise
+    raise error
+AssertionError: Locator expected to have text '4'
+Actual value: 3 
+Call log:
+  - Expect "to_have_text" locator("[data-party-members=\"4\"]").first.locator("[data-member-count]") with timeout 5000ms
+  - waiting for locator("[data-party-members=\"4\"]").first.locator("[data-member-count]")
+    14 × locator resolved to <span data-member-count="">3</span>
+       - unexpected value "3"
+
+Aria snapshot:
+- text: "3"

@@ -121,3 +121,37 @@ test("rejects a response whose count disagrees with its member list", async () =
   assert.equal(f.retry.hidden, false);
   assert.match(f.status.textContent, /โหลดรายชื่อสมาชิกไม่สำเร็จ/);
 });
+
+test("UT-US6-UI-02: renders the API fallback name without requiring an avatar", async () => {
+  const f = fixture(async () => ({members: [{user_id: 2, display_name: "ผู้ใช้", role: "Member"}], member_count: 1}));
+  await f.window.PartyMembers.refresh("12");
+  assert.equal(f.list.children[0].children[0].textContent, "ผู้ใช้");
+  assert.equal(f.list.children[0].children[1].textContent, "สมาชิก");
+});
+
+test("UT-US6-UI-03: loading clears stale rows then renders a genuine empty result", async () => {
+  let finish;
+  const f = fixture(() => new Promise(resolve => { finish = resolve; }));
+  const pending = f.window.PartyMembers.refresh("12");
+  assert.deepEqual(f.list.children, []);
+  assert.match(f.status.textContent, /กำลังโหลด/);
+  finish({members: [], member_count: 0});
+  await pending;
+  assert.equal(f.count.textContent, "0");
+  assert.match(f.status.textContent, /ยังไม่มีสมาชิก/);
+  assert.equal(f.retry.hidden, true);
+});
+
+test("UT-US6-UI-03: not found clears stale rows and retry loads the next real input", async () => {
+  let calls = 0;
+  const f = fixture(async () => {
+    if (++calls === 1) throw Object.assign(new Error("Missing"), {status: 404});
+    return {members: [], member_count: 0};
+  });
+  assert.equal((await f.window.PartyMembers.refresh("12")).status, "error");
+  assert.deepEqual(f.list.children, []);
+  assert.equal(f.retry.hidden, false);
+  await f.retry.click();
+  assert.equal(calls, 2);
+  assert.equal(f.retry.hidden, true);
+});

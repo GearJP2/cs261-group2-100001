@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/tmp/cs261-task64/scripts/us6-members-browser-evidence.py", line 361, in <module>
+    main()
+  File "/tmp/cs261-task64/scripts/us6-members-browser-evidence.py", line 168, in main
+    before = sql()
+             ^^^^^
+  File "/tmp/cs261-task64/scripts/us6-members-browser-evidence.py", line 78, in sql
+    with connection.cursor() as c:
+         ^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/django/utils/asyncio.py", line 24, in inner
+    raise SynchronousOnlyOperation(message)
+django.core.exceptions.SynchronousOnlyOperation: You cannot call this from an async context - use a thread or sync_to_async.

@@ -10,6 +10,24 @@ from .templatetags.leave_ui import joined_parties
 
 
 class JoinedPartyUITests(JoinRequestFixture, TestCase):
+    def test_fresh_host_session_gets_csrf_cookie_before_approving(self):
+        client = Client(enforce_csrf_checks=True)
+        force_university_login(client, self.host)
+        pending = JoinRequest.objects.create(party=self.party, user=self.applicant)
+        self.assertNotIn("csrftoken", client.cookies)
+        response = client.get(reverse("my-parties-page"))
+        self.assertEqual(response.status_code, 200)
+        token = client.cookies["csrftoken"].value
+        response = client.post(
+            reverse("party-join-request-decision", args=[self.party.pk, pending.pk]),
+            data='{"status":"Approved"}',
+            content_type="application/json",
+            HTTP_X_CSRFTOKEN=token,
+        )
+        self.assertEqual(response.status_code, 200)
+        pending.refresh_from_db()
+        self.assertEqual(pending.status, JoinRequest.Status.APPROVED)
+
     def test_only_active_joined_parties_render_members_panel(self):
         PartyMembership.objects.create(party=self.party, user=self.applicant)
         pending_party = Party.objects.create(

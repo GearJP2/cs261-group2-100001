@@ -1,0 +1,16 @@
+✔ UT-US10-UI-01: disables button immediately while request is in-flight and prevents duplicate calls (2.299384ms)
+✔ UT-US10-UI-02: successful Approve sends Approved status, updates state, and triggers refresh (1.217011ms)
+✔ UT-US10-UI-03: successful Reject sends Rejected status and refreshes without adding member (1.57493ms)
+✔ UT-US10-UI-04: renders empty, error, and action failure states accurately without false success (2.153335ms)
+✔ escapes pending applicant names rather than inserting HTML (1.045395ms)
+✔ Approve awaits the matching Party's Members refresh before reload (0.717652ms)
+✔ Approve stops page refresh when Members detects an expired session (0.681233ms)
+✔ Members loading error does not turn an already committed Approve into failure (0.590408ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20.498466

@@ -1,0 +1,11 @@
+{
+  "backend/core/views.py": "ccdd037959e422e961862f43a9d51169c26ec4c87a7a1562ca4cc582f472d271",
+  "backend/core/test_leave_ui.py": "f599952169f051b443f375dd9fce8daaaeb2acdff7b1f697028c3ff43ad4314b",
+  "backend/parties/views.py": "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+  "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+  "frontend/static/js/party-members.js": "0b8c3ec209e8433545e708f3b6fbb49fd910f47aeffcbe2f1881f771b64b0bc7",
+  "frontend/static/js/myparty-leave.js": "5a709d02617c7fe88d91d235b991f530a14eb24127387039a50787cb2145a4df",
+  "frontend/templates/myparty.html": "4eb6f06a900f31affb1e67594bb26d03baaddb2cc411637bbcbcd187e7036d99",
+  "frontend/tests/party-members.test.cjs": "00e1c25463a41cb449ca833570a0d96a677bdc105a8bc0797245e6bd0f1aaf3a",
+  "scripts/us6-members-browser-evidence.py": "d1ec3e86d4fc2e1562f96212faa8ee3545ccf2b9ee2294ffce6262c83e1a72ef"
+}

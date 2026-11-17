@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_GET
 from parties.models import Party
 from parties.services import count_active_members, get_party_state
@@ -112,6 +113,7 @@ def ready(request):
 
 @require_GET
 @login_required(login_url="login-page")
+@ensure_csrf_cookie
 def my_parties_page(request):
     parties = list(Party.objects.filter(host=request.user).select_related("sport", "venue"))
     now = timezone.now()

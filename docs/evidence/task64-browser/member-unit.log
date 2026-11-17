@@ -1,0 +1,15 @@
+✔ renders only the API members and uses its Party-matching count (2.749604ms)
+✔ clears stale members when a just-withdrawn user is forbidden (0.926452ms)
+✔ refresh after approval replaces the count and member list (1.956967ms)
+✔ rejects a response whose count disagrees with its member list (0.888166ms)
+✔ UT-US6-UI-02: renders the API fallback name without requiring an avatar (1.807408ms)
+✔ UT-US6-UI-03: loading clears stale rows then renders a genuine empty result (1.54286ms)
+✔ UT-US6-UI-03: not found clears stale rows and retry loads the next real input (1.048996ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17.764696

@@ -1,0 +1,1108 @@
+{
+  "cases": [
+    {
+      "id": "B01-host-fallback-order-count",
+      "expected": "Host first, fallback, roles, count3 matching SQL",
+      "actual": {
+        "names": [
+          "QA64 host",
+          "ผู้ใช้",
+          "QA64 member"
+        ],
+        "count": 3
+      },
+      "before": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "after": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "B02-member",
+      "expected": "active Member sees same list/count",
+      "actual": {
+        "count": 3
+      },
+      "before": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "after": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "B03-outsider",
+      "expected": "no private panel, real API403, SQL unchanged",
+      "actual": {
+        "http": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+          }
+        }
+      },
+      "before": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "after": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "B03-left",
+      "expected": "no private panel, real API403, SQL unchanged",
+      "actual": {
+        "http": 403,
+        "body": {
+          "error": {
+            "code": "FORBIDDEN",
+            "message": "เฉพาะผู้จัดกิจกรรมหรือสมาชิกเท่านั้นที่ดูรายชื่อสมาชิกได้"
+          }
+        }
+      },
+      "before": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "after": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "B04-empty",
+      "expected": "Host without membership gets true empty list/count0",
+      "actual": {
+        "count": 0
+      },
+      "before": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "after": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "id": "B05-loading",
+      "expected": "loading clears stale rows then actual API restores list",
+      "actual": {
+        "restored": 3
+      },
+      "before": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "after": {
+        "parties_partymembership": [
+          {
+            "id": 9,
+            "joined_at": "2026-11-17 09:50:42.403614+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 9
+          },
+          {
+            "id": 10,
+            "joined_at": "2026-11-17 09:50:42.406102+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 8
+          },
+          {
+            "id": 11,
+            "joined_at": "2026-11-17 09:50:42.407546+00:00",
+            "left_at": null,
+            "party_id": 4,
+            "user_id": 7
+          },
+          {
+            "id": 12,
+            "joined_at": "2026-11-17 09:50:42.408740+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 4,
+            "user_id": 10
+          },
+          {
+            "id": 13,
+            "joined_at": "2026-11-17 09:50:42.413125+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 9
+          },
+          {
+            "id": 14,
+            "joined_at": "2026-11-17 09:50:42.414505+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 8
+          },
+          {
+            "id": 15,
+            "joined_at": "2026-11-17 09:50:42.417321+00:00",
+            "left_at": null,
+            "party_id": 6,
+            "user_id": 7
+          },
+          {
+            "id": 16,
+            "joined_at": "2026-11-17 09:50:42.419578+00:00",
+            "left_at": "2026-11-17 09:50:42.400806+00:00",
+            "party_id": 6,
+            "user_id": 10
+          }
+        ],
+        "parties_joinrequest": [
+          {
+            "id": 2,
+            "status": "Pending",
+            "created_at": "2026-11-17 09:50:42.423604+00:00",
+            "decided_at": null,
+            "decided_by_id": null,
+            "user_id": 11,
+            "party_id": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    }
+  ],
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/5/join-requests/pending",
+      "status": 200,
+      "body": {
+        "data": []
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/6/join-requests/pending",
+      "status": 200,
+      "body": {
+        "data": []
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/4/join-requests/pending",
+      "status": 200,
+      "body": {
+        "data": [
+          {
+            "id": 2,
+            "display_name": "QA64 pending",
+            "created_at": "2026-11-17T16:50:42.423604+07:00"
+          }
+        ]
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/5/members",
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [],
+          "member_count": 0
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/4/members",
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 7,
+              "display_name": "QA64 host",
+              "role": "Host"
+            },
+            {
+              "user_id": 9,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 8,
+              "display_name": "QA64 member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/6/members",
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 7,
+              "display_name": "QA64 host",
+              "role": "Host"
+            },
+            {
+              "user_id": 9,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 8,
+              "display_name": "QA64 member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/6/members",
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 7,
+              "display_name": "QA64 host",
+              "role": "Host"
+            },
+            {
+              "user_id": 9,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 8,
+              "display_name": "QA64 member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/4/members",
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 7,
+              "display_name": "QA64 host",
+              "role": "Host"
+            },
+            {
+              "user_id": 9,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 8,
+              "display_name": "QA64 member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/parties/4/members",
+      "status": 200,
+      "body": {
+        "data": {
+          "members": [
+            {
+              "user_id": 7,
+              "display_name": "QA64 host",
+              "role": "Host"
+            },
+            {
+              "user_id": 9,
+              "display_name": "ผู้ใช้",
+              "role": "Member"
+            },
+            {
+              "user_id": 8,
+              "display_name": "QA64 member",
+              "role": "Member"
+            }
+          ],
+          "member_count": 3
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    }
+  ]
+}
