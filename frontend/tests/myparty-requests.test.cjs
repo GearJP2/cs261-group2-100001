@@ -12,7 +12,7 @@ const htmlContent = fs.readFileSync(htmlPath, "utf8");
 const scriptMatch = htmlContent.match(/<script>([\s\S]*?)<\/script>/);
 const scriptSource = scriptMatch ? scriptMatch[1] : "";
 
-function createEnvironment(fetchMock) {
+function createEnvironment(fetchMock, refreshMembers = async () => ({ status: "loaded" })) {
   const containers = {};
   let reloadCount = 0;
   const scheduledCallbacks = [];
@@ -32,6 +32,7 @@ function createEnvironment(fetchMock) {
   };
 
   const window = {
+    PartyMembers: { refresh: refreshMembers },
     location: {
       reload() {
         reloadCount++;
@@ -130,6 +131,7 @@ test("UT-US10-UI-02: successful Approve sends Approved status, updates state, an
 
   assert.equal(capturedUrl, "/api/v1/parties/12/join-requests/301/decision");
   assert.equal(capturedOptions.method, "POST");
+  assert.equal(capturedOptions.headers["X-CSRFToken"], "test-csrf-token");
   assert.deepEqual(JSON.parse(capturedOptions.body), { status: "Approved" });
   assert.ok(actionContainer.innerHTML.includes("เป็นสมาชิกแล้ว"));
   assert.ok(actionContainer.innerHTML.includes("disabled"));
@@ -191,4 +193,17 @@ test("UT-US10-UI-04: renders empty, error, and action failure states accurately 
   assert.ok(!actionContainer.innerHTML.includes("ปฏิเสธคำขอ"));
   actionErrEnv.flushTimers();
   assert.equal(actionErrEnv.getReloadCount(), 0);
+});
+
+test("escapes pending applicant names rather than inserting HTML", async () => {
+  const env = createEnvironment(async () => ({
+    ok: true,
+    json: async () => ({ data: [{ id: 7, display_name: '<img src=x onerror="alert(1)">', level: '<script>alert(1)</script>' }] }),
+  }));
+  await env.context.loadRequests("20");
+  const output = env.containers["req-list-20"].innerHTML;
+  assert.ok(output.includes("&lt;img"));
+  assert.ok(output.includes("&lt;script&gt;"));
+  assert.ok(!output.includes("<img"));
+  assert.ok(!output.includes("<script"));
 });
