@@ -80,3 +80,7 @@ Retest ไม่เขียนทับ raw evidence เดิม. ระบุ
 - [ ] Gold/ทีม review และแนบหลักฐานอนุมัติจริงก่อนปิด #118
 
 รอบนี้ตรวจเอกสารเท่านั้น ไม่มีการรันTC/API/UI/SQLใหม่ ไม่มีการเปิดNo-showหรือแก้production. ผลตรวจลิงก์/schema CSV/coverage อยู่ใน PR description; ไม่ใช้ผล runtime จากงานก่อนอ้างเป็นผลใหม่
+
+## New execution — Task96 (17 พ.ย. 2026)
+
+[Integrated cross-story execution report](../evidence/task96-cross-story/README.md): main `d157487`, native browser/API/PostgreSQL 19 scenarios PASS พร้อม expected/actual CSV, images, HTTP/SQL, race/regression receipts และข้อจำกัด live TU login/human UAT ที่ Not run. เป็นรอบใหม่ตาม Task96/#111 แยกจากแผน101casesด้านบน ไม่เปลี่ยนทุก inventory row เป็นPassจากCI และยังรอ final review/merge ของทีม

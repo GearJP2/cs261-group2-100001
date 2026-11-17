@@ -1,0 +1,436 @@
+{
+  "cases": [
+    {
+      "id": "R01-auth-regression",
+      "expected": "401/403 session guards; synthetic verified/me200; invalid400; absent TU key502 (live login Not run)",
+      "actual": {
+        "guards": "PASS",
+        "live_TU": "Not run"
+      },
+      "before": {
+        "parties_party": [],
+        "parties_partymembership": [],
+        "parties_joinrequest": [],
+        "conduct_partyreview": [],
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "QA96 host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "QA96 a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "QA96 b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "QA96 c",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 5,
+            "display_name": "QA96 outsider",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "QA96 unverified",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ]
+      },
+      "after": {
+        "parties_party": [],
+        "parties_partymembership": [],
+        "parties_joinrequest": [],
+        "conduct_partyreview": [],
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "QA96 host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "QA96 a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "QA96 b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "QA96 c",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 5,
+            "display_name": "QA96 outsider",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "QA96 unverified",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "F01-create",
+      "expected": "real Host create201/one Host row/count1/2 slots",
+      "actual": {
+        "party": 1
+      },
+      "before": {
+        "parties_party": [],
+        "parties_partymembership": [],
+        "parties_joinrequest": [],
+        "conduct_partyreview": [],
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "QA96 host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "QA96 a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "QA96 b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "QA96 c",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 5,
+            "display_name": "QA96 outsider",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "QA96 unverified",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ]
+      },
+      "after": {
+        "parties_party": [
+          {
+            "id": 1,
+            "title": "QA965b6988 flow",
+            "description": "",
+            "starts_at": "2026-11-19 03:00:00+00:00",
+            "ends_at": "2026-11-19 04:00:00+00:00",
+            "capacity": 3,
+            "cancelled_at": null,
+            "created_at": "2026-11-17 10:50:26.568084+00:00",
+            "updated_at": "2026-11-17 10:50:26.568093+00:00",
+            "host_id": 1,
+            "sport_id": 12,
+            "venue_id": 13
+          }
+        ],
+        "parties_partymembership": [
+          {
+            "id": 1,
+            "joined_at": "2026-11-17 10:50:26.570356+00:00",
+            "left_at": null,
+            "party_id": 1,
+            "user_id": 1
+          }
+        ],
+        "parties_joinrequest": [],
+        "conduct_partyreview": [],
+        "conduct_noshowreport": [],
+        "conduct_conductcreditevent": [],
+        "accounts_userprofile": [
+          {
+            "id": 1,
+            "display_name": "QA96 host",
+            "credit_score": null,
+            "user_id": 1,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 2,
+            "display_name": "QA96 a",
+            "credit_score": null,
+            "user_id": 2,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 3,
+            "display_name": "QA96 b",
+            "credit_score": null,
+            "user_id": 3,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 4,
+            "display_name": "QA96 c",
+            "credit_score": null,
+            "user_id": 4,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 5,
+            "display_name": "QA96 outsider",
+            "credit_score": null,
+            "user_id": 5,
+            "rating_count": 0,
+            "rating_sum": 0
+          },
+          {
+            "id": 6,
+            "display_name": "QA96 unverified",
+            "credit_score": null,
+            "user_id": 6,
+            "rating_count": 0,
+            "rating_sum": 0
+          }
+        ]
+      },
+      "status": "PASS"
+    }
+  ],
+  "responses": [
+    {
+      "kind": "real HTTP",
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401,
+      "expected_status": 401,
+      "response": {
+        "error": {
+          "code": "AUTH_REQUIRED",
+          "message": "กรุณาเข้าสู่ระบบ"
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "kind": "real HTTP",
+      "role": "unverified",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 403,
+      "expected_status": 403,
+      "response": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "กรุณายืนยันบัญชีมหาวิทยาลัย"
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "kind": "real HTTP",
+      "role": "a",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200,
+      "expected_status": 200,
+      "response": {
+        "data": {
+          "id": 2,
+          "display_name": "QA96 a",
+          "student_verified": true
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "kind": "real HTTP",
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 400,
+      "expected_status": 400,
+      "response": {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "กรุณาระบุ username และ password"
+        }
+      },
+      "cache_control": null
+    },
+    {
+      "kind": "real HTTP",
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 502,
+      "expected_status": 502,
+      "response": {
+        "error": {
+          "code": "UNIVERSITY_API_UNAVAILABLE",
+          "message": "ไม่สามารถยืนยันบัญชีได้ กรุณาลองใหม่"
+        }
+      },
+      "cache_control": null
+    },
+    {
+      "kind": "real HTTP",
+      "role": "host",
+      "method": "POST",
+      "path": "/api/v1/parties",
+      "status": 201,
+      "expected_status": 201,
+      "response": {
+        "data": {
+          "id": 1,
+          "title": "QA965b6988 flow",
+          "description": "",
+          "host": {
+            "id": 1,
+            "display_name": "QA96 host"
+          },
+          "sport_id": 12,
+          "venue_id": 13,
+          "starts_at": "2026-11-19T10:00:00+07:00",
+          "ends_at": "2026-11-19T11:00:00+07:00",
+          "capacity": 3,
+          "member_count": 1,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "kind": "real HTTP",
+      "role": "host",
+      "method": "GET",
+      "path": "/api/v1/parties/1/members",
+      "status": 200,
+      "expected_status": 200,
+      "response": {
+        "data": {
+          "members": [
+            {
+              "user_id": 1,
+              "display_name": "QA96 host",
+              "role": "Host"
+            }
+          ],
+          "member_count": 1
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    },
+    {
+      "kind": "real HTTP",
+      "role": "host",
+      "method": "GET",
+      "path": "/api/v1/parties/1",
+      "status": 200,
+      "expected_status": 200,
+      "response": {
+        "data": {
+          "id": 1,
+          "title": "QA965b6988 flow",
+          "description": "",
+          "host": {
+            "id": 1,
+            "display_name": "QA96 host"
+          },
+          "sport_id": 12,
+          "venue_id": 13,
+          "starts_at": "2026-11-19T10:00:00+07:00",
+          "ends_at": "2026-11-19T11:00:00+07:00",
+          "capacity": 3,
+          "member_count": 1,
+          "remaining_slots": 2,
+          "state": "Open",
+          "is_host": true,
+          "is_member": true
+        }
+      },
+      "cache_control": "max-age=0, no-cache, no-store, must-revalidate, private"
+    }
+  ],
+  "fixture_transitions": []
+}

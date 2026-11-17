@@ -1,0 +1,20 @@
+PASS R01-auth-regression
+PASS F01-create
+PASS F02-search-to-pending
+PASS F03-approve-to-members
+PASS F04-reject-no-seat
+PASS F05-full-policy
+PASS F06-leave-to-open
+PASS F07-leave-idempotent
+PASS F08-rejoin-history
+PASS F09-guards
+PASS F10-review-before-end
+PASS F11-completed-native-review
+PASS F12-review-eligibility-unique
+PASS F13-profile-summary
+PASS F14-no-show-flag-off
+PASS F15-no-show-credit-isolation
+PASS F16-no-show-duplicate-and-off
+PASS R02-create-edit-cancel
+PASS R03-logout
+DONE {'Pass': 19, 'Fail': 0, 'Not run': ['Live TU authentication', 'Human UAT', 'Production load']}

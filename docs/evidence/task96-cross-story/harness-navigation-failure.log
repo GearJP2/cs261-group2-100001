@@ -1,0 +1,36 @@
+PASS R01-auth-regression
+PASS F01-create
+Traceback (most recent call last):
+  File "/tmp/cs261-task96/scripts/sprint2-cross-story-evidence.py", line 728, in <module>
+    main()
+  File "/tmp/cs261-task96/scripts/sprint2-cross-story-evidence.py", line 280, in main
+    request_a = response.json()["data"]["id"]
+                ^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 22331, in json
+    return mapping.from_maybe_impl(self._sync(self._impl_obj.json()))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 124, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/network.py", line 1061, in json
+    content = await self.text()
+              ^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/network.py", line 1057, in text
+    content = await self.body()
+              ^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/network.py", line 1053, in body
+    (await self._channel.body(timeout=NO_TIMEOUT))["binary"]
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py", line 398, in _mapped
+    return mapper(await awaitable)
+                  ^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py", line 387, in finish
+    raise e from None
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py", line 352, in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py", line 58, in run_async
+    return await func()
+           ^^^^^^^^^^^^
+playwright._impl._errors.Error: Response.json: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.

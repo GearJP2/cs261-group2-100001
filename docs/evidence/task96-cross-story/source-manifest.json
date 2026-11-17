@@ -1,0 +1,16 @@
+{
+  "scripts/sprint2-cross-story-evidence.py": "63f7d68ba7b086739e01e38ba4d2eb1994909bf06fcd3877a52d12893907e60f",
+  "backend/parties/services.py": "f0648ea759113fcef00ed890b45d8b269cd5edfa0100d2a33d7e76d343138b40",
+  "backend/parties/views.py": "e92e239f0cc93fd55fb69abd4d3f794632c879adc245f01b595b316584b19a88",
+  "backend/parties/search.py": "5518f23ea2980ae147f647e518ff86f80d42844e9d631ae09da31590690a874b",
+  "backend/conduct/services.py": "70aa6ca471e26857d2fbc932ab1d37da36d14b0616e27b8f8bd90e419b880ecb",
+  "backend/conduct/views.py": "98e77de8f7d0c9e6328a9b0a335869a85491e861cb13ffa6ce37e30d971b9753",
+  "frontend/static/js/app.js": "b70cc4580215da1017fe1ffa5f2118fa715fd2f76018ddf248ed594d3136f8c4",
+  "frontend/templates/myparty.html": "4eb6f06a900f31affb1e67594bb26d03baaddb2cc411637bbcbcd187e7036d99",
+  "frontend/static/js/party-members.js": "0b8c3ec209e8433545e708f3b6fbb49fd910f47aeffcbe2f1881f771b64b0bc7",
+  "frontend/static/js/myparty-leave.js": "5a709d02617c7fe88d91d235b991f530a14eb24127387039a50787cb2145a4df",
+  "frontend/static/js/myparty-review.js": "ccd3dfe856361994c6aaa2cca26b8c522dec53f2578a5cd02ab3d116d7c576e3",
+  "backend/accounts/views.py": "89507d7bd62ada047e763e5f23e2b32cc68c0d98039634d4b8ce83c4e54dd83e",
+  "backend/core/views.py": "ccdd037959e422e961862f43a9d51169c26ec4c87a7a1562ca4cc582f472d271",
+  "backend/conduct/policy.py": "1a2810788d4b2b2b06b92075c7061f8e3089a1ede793da14466821b0ef24e305"
+}
