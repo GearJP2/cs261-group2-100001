@@ -1,0 +1,2 @@
+docker compose --env-file /tmp/task64.env -f docker-compose.yml -f /tmp/task64.compose.yml -p s2-task64-browser exec -T backend python scripts/smoke.py
+Smoke passed: HTTP, PostgreSQL readiness, Django template and static CSS.

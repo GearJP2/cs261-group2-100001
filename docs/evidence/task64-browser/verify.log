@@ -1,0 +1,993 @@
+make check
+make[1]: Entering directory '/tmp/cs261-task64'
+docker compose --env-file /tmp/task64.env -f docker-compose.yml -f /tmp/task64.compose.yml -p s2-task64-browser run --rm -T backend python backend/manage.py check
+ Container s2-task64-browser-database-1  Running
+System check identified no issues (0 silenced).
+docker compose --env-file /tmp/task64.env -f docker-compose.yml -f /tmp/task64.compose.yml -p s2-task64-browser run --rm -T backend python backend/manage.py makemigrations --check --dry-run
+ Container s2-task64-browser-database-1  Running
+No changes detected
+make[1]: Leaving directory '/tmp/cs261-task64'
+make lint
+make[1]: Entering directory '/tmp/cs261-task64'
+docker compose --env-file /tmp/task64.env -f docker-compose.yml -f /tmp/task64.compose.yml -p s2-task64-browser run --rm -T --no-deps backend ruff check backend scripts
+All checks passed!
+docker compose --env-file /tmp/task64.env -f docker-compose.yml -f /tmp/task64.compose.yml -p s2-task64-browser run --rm -T --no-deps backend ruff format --check backend scripts
+129 files already formatted
+make[1]: Leaving directory '/tmp/cs261-task64'
+make test
+make[1]: Entering directory '/tmp/cs261-task64'
+docker compose --env-file /tmp/task64.env -f docker-compose.yml -f /tmp/task64.compose.yml -p s2-task64-browser run --rm -T backend python backend/manage.py test backend --top-level-directory backend --noinput --verbosity 2
+ Container s2-task64-browser-database-1  Running
+Found 717 test(s).
+Creating test database for alias 'default' ('test_s2_task64_http')...
+Operations to perform:
+  Synchronize unmigrated apps: core, messages, staticfiles
+  Apply all migrations: accounts, admin, auth, conduct, contenttypes, parties, sessions, venues
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying venues.0001_initial... OK
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying accounts.0002_universityidentity_userprofile... OK
+  Applying accounts.0003_usersportinterest... OK
+  Applying accounts.0004_reject_blank_display_name... OK
+  Applying accounts.0005_userprofile_rating_cache... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying parties.0001_initial... OK
+  Applying parties.0002_partymembership_parties_par_party_i_515d7f_idx... OK
+  Applying parties.0003_alter_party_description... OK
+  Applying conduct.0001_initial... OK
+  Applying conduct.0002_noshowreport_conductcreditevent... OK
+  Applying sessions.0001_initial... OK
+  Applying venues.0002_venue_venue_type... OK
+System check identified no issues (0 silenced).
+test_authenticated_inactive_guard_rejects_before_database_lookup (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_authenticated_inactive_guard_rejects_before_database_lookup) ... ok
+test_csrf_enforcement_allows_get_but_rejects_unsafe_write_without_token (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_csrf_enforcement_allows_get_but_rejects_unsafe_write_without_token) ... ok
+test_error_responses_are_private_and_do_not_echo_untrusted_query (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_error_responses_are_private_and_do_not_echo_untrusted_query) ... ok
+test_expired_session_cannot_read_previously_accessible_profile (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_expired_session_cannot_read_previously_accessible_profile) ... ok
+test_private_identity_and_session_values_are_not_in_success_payload (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_private_identity_and_session_values_are_not_in_success_payload) ... ok
+test_read_after_profile_and_interests_change_returns_fresh_values (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_read_after_profile_and_interests_change_returns_fresh_values) ... ok
+test_repeated_reads_across_targets_and_viewers_do_not_mix_profile_data (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_repeated_reads_across_targets_and_viewers_do_not_mix_profile_data) ... ok
+test_server_revoked_session_cannot_read_with_old_browser_cookie (accounts.test_profile_acceptance.PublicProfileAcceptanceTests.test_server_revoked_session_cannot_read_with_old_browser_cookie) ... ok
+test_anonymous_user_is_denied_before_profile_lookup (accounts.test_profile_api.PublicProfileApiTests.test_anonymous_user_is_denied_before_profile_lookup) ... ok
+test_deactivated_viewer_session_cannot_access_profile (accounts.test_profile_api.PublicProfileApiTests.test_deactivated_viewer_session_cannot_access_profile) ... ok
+test_empty_interests_and_unknown_credit_are_empty_list_and_null (accounts.test_profile_api.PublicProfileApiTests.test_empty_interests_and_unknown_credit_are_empty_list_and_null) ... ok
+test_missing_user_or_missing_profile_is_same_json_404_without_creating_profile (accounts.test_profile_api.PublicProfileApiTests.test_missing_user_or_missing_profile_is_same_json_404_without_creating_profile) ... ok
+test_own_profile_keeps_zero_credit_and_uses_user_id_not_profile_id (accounts.test_profile_api.PublicProfileApiTests.test_own_profile_keeps_zero_credit_and_uses_user_id_not_profile_id) ... ok
+test_profile_has_exact_public_fields_and_sports_for_requested_user (accounts.test_profile_api.PublicProfileApiTests.test_profile_has_exact_public_fields_and_sports_for_requested_user) ... ok
+test_query_parameters_cannot_replace_url_target_or_change_credit (accounts.test_profile_api.PublicProfileApiTests.test_query_parameters_cannot_replace_url_target_or_change_credit) ... ok
+test_session_revoked_after_successful_read_cannot_access_again (accounts.test_profile_api.PublicProfileApiTests.test_session_revoked_after_successful_read_cannot_access_again) ... ok
+test_unsupported_methods_cannot_edit_or_delete_profile (accounts.test_profile_api.PublicProfileApiTests.test_unsupported_methods_cannot_edit_or_delete_profile) ... ok
+test_documented_invalid_credentials_return_login_failed (accounts.test_tu_http_errors.TuHttpErrorTests.test_documented_invalid_credentials_return_login_failed) ... ok
+test_key_rate_limit_and_server_errors_are_not_credential_failures (accounts.test_tu_http_errors.TuHttpErrorTests.test_key_rate_limit_and_server_errors_are_not_credential_failures) ... ok
+test_other_bad_request_bodies_remain_provider_errors (accounts.test_tu_http_errors.TuHttpErrorTests.test_other_bad_request_bodies_remain_provider_errors) ... ok
+test_deleting_user_cascades_private_profile_identity_and_interest (accounts.tests.AccountDeletionAndValidationTests.test_deleting_user_cascades_private_profile_identity_and_interest) ... ok
+test_profile_rejects_empty_or_whitespace_only_display_name (accounts.tests.AccountDeletionAndValidationTests.test_profile_rejects_empty_or_whitespace_only_display_name) ... ok
+test_custom_user_is_persisted_with_a_hashed_password (accounts.tests.AccountPersistenceTests.test_custom_user_is_persisted_with_a_hashed_password) ... ok
+test_server_session_can_be_loaded_and_revoked (accounts.tests.AccountPersistenceTests.test_server_session_can_be_loaded_and_revoked) ... ok
+test_identity_provider_and_subject_must_be_unique (accounts.tests.AccountSchemaTests.test_identity_provider_and_subject_must_be_unique) ... ok
+test_user_and_sport_interest_must_be_unique (accounts.tests.AccountSchemaTests.test_user_and_sport_interest_must_be_unique) ... ok
+test_anonymous_user_never_reaches_view (accounts.tests.UniversityGuardTests.test_anonymous_user_never_reaches_view) ... ok
+test_decorator_preserves_view_name (accounts.tests.UniversityGuardTests.test_decorator_preserves_view_name) ... ok
+test_foreign_identity_is_forbidden (accounts.tests.UniversityGuardTests.test_foreign_identity_is_forbidden) ... ok
+test_guard_passes_arguments_and_exposes_verified_identity (accounts.tests.UniversityGuardTests.test_guard_passes_arguments_and_exposes_verified_identity) ... ok
+test_inactive_user_never_reaches_view (accounts.tests.UniversityGuardTests.test_inactive_user_never_reaches_view) ... ok
+test_missing_or_invalid_identity_marker_is_forbidden (accounts.tests.UniversityGuardTests.test_missing_or_invalid_identity_marker_is_forbidden) ... ok
+test_unverified_identity_is_forbidden (accounts.tests.UniversityGuardTests.test_unverified_identity_is_forbidden) ... ok
+test_wrong_provider_is_forbidden (accounts.tests.UniversityGuardTests.test_wrong_provider_is_forbidden) ... ok
+test_csrf_endpoint_does_not_accept_post (accounts.tests.UniversityLoginViewTests.test_csrf_endpoint_does_not_accept_post) ... ok
+test_csrf_endpoint_sets_cookie_and_disables_caching (accounts.tests.UniversityLoginViewTests.test_csrf_endpoint_sets_cookie_and_disables_caching) ... ok
+test_csrf_protected_logout_preserves_session_until_valid_request (accounts.tests.UniversityLoginViewTests.test_csrf_protected_logout_preserves_session_until_valid_request) ... ok
+test_expired_session_cannot_read_me_or_be_replayed (accounts.tests.UniversityLoginViewTests.test_expired_session_cannot_read_me_or_be_replayed) ... ok
+test_get_is_not_allowed (accounts.tests.UniversityLoginViewTests.test_get_is_not_allowed) ... ok
+test_inactive_user_is_forbidden (accounts.tests.UniversityLoginViewTests.test_inactive_user_is_forbidden) ... ok
+test_invalid_input_does_not_call_provider (accounts.tests.UniversityLoginViewTests.test_invalid_input_does_not_call_provider) ... ok
+test_login_accepts_matching_csrf_token_and_rejects_wrong_token (accounts.tests.UniversityLoginViewTests.test_login_accepts_matching_csrf_token_and_rejects_wrong_token) ... ok
+test_login_requires_csrf_token (accounts.tests.UniversityLoginViewTests.test_login_requires_csrf_token) ... ok
+test_login_rotates_preexisting_anonymous_session (accounts.tests.UniversityLoginViewTests.test_login_rotates_preexisting_anonymous_session) ... ok
+test_logout_can_be_repeated_without_session (accounts.tests.UniversityLoginViewTests.test_logout_can_be_repeated_without_session) ... ok
+test_logout_get_does_not_end_session (accounts.tests.UniversityLoginViewTests.test_logout_get_does_not_end_session) ... ok
+test_logout_requires_csrf_even_without_session (accounts.tests.UniversityLoginViewTests.test_logout_requires_csrf_even_without_session) ... ok
+test_logout_revokes_session_and_replayed_cookie (accounts.tests.UniversityLoginViewTests.test_logout_revokes_session_and_replayed_cookie) ... ok
+test_me_does_not_accept_post (accounts.tests.UniversityLoginViewTests.test_me_does_not_accept_post) ... ok
+test_me_rejects_deleted_or_unverified_identity (accounts.tests.UniversityLoginViewTests.test_me_rejects_deleted_or_unverified_identity) ... ok
+test_me_rejects_identity_from_another_user (accounts.tests.UniversityLoginViewTests.test_me_rejects_identity_from_another_user) ... ok
+test_me_rejects_local_session_without_university_login (accounts.tests.UniversityLoginViewTests.test_me_rejects_local_session_without_university_login) ... ok
+test_me_rejects_session_after_account_is_disabled (accounts.tests.UniversityLoginViewTests.test_me_rejects_session_after_account_is_disabled) ... ok
+test_me_requires_login (accounts.tests.UniversityLoginViewTests.test_me_requires_login) ... ok
+test_me_returns_only_current_user_public_fields (accounts.tests.UniversityLoginViewTests.test_me_returns_only_current_user_public_fields) ... ok
+test_non_student_is_forbidden (accounts.tests.UniversityLoginViewTests.test_non_student_is_forbidden) ... ok
+test_provider_failure_returns_generic_error (accounts.tests.UniversityLoginViewTests.test_provider_failure_returns_generic_error) ... ok
+test_provider_rejection_does_not_create_user_or_session (accounts.tests.UniversityLoginViewTests.test_provider_rejection_does_not_create_user_or_session) ... ok
+test_success_creates_session_and_repeat_login_reuses_user (accounts.tests.UniversityLoginViewTests.test_success_creates_session_and_repeat_login_reuses_user) ... ok
+test_university_session_expires_24_hours_after_login_without_extension (accounts.tests.UniversityLoginViewTests.test_university_session_expires_24_hours_after_login_without_extension) ... ok
+test_first_login_creates_user_and_repeated_login_reuses_it (accounts.tests.UniversityUserCreationTests.test_first_login_creates_user_and_repeated_login_reuses_it) ... ok
+test_identity_conflict_reuses_winner_and_rolls_back_extra_user (accounts.tests.UniversityUserCreationTests.test_identity_conflict_reuses_winner_and_rolls_back_extra_user) ... ok
+test_unrelated_integrity_error_is_not_hidden (accounts.tests.UniversityUserCreationTests.test_unrelated_integrity_error_is_not_hidden) ... ok
+test_missing_profile_is_refused (conduct.test_no_show.ApplyCreditEventTests.test_missing_profile_is_refused)
+IT-US14-NS-25 ... ok
+test_null_score_starts_from_base (conduct.test_no_show.ApplyCreditEventTests.test_null_score_starts_from_base)
+IT-US14-NS-22 ... ok
+test_other_integrity_errors_are_raised (conduct.test_no_show.ApplyCreditEventTests.test_other_integrity_errors_are_raised)
+IT-US14-NS-24 ... ok
+test_unique_violation_means_already_applied (conduct.test_no_show.ApplyCreditEventTests.test_unique_violation_means_already_applied)
+IT-US14-NS-23: the balance changes once and the transaction stays usable. ... ok
+test_csrf_is_enforced_by_the_middleware (conduct.test_no_show.NoShowAccessTests.test_csrf_is_enforced_by_the_middleware)
+IT-US14-NS-46 ... ok
+test_other_methods_are_405_with_allow (conduct.test_no_show.NoShowAccessTests.test_other_methods_are_405_with_allow)
+IT-US14-NS-45 ... ok
+test_session_without_university_identity_is_403 (conduct.test_no_show.NoShowAccessTests.test_session_without_university_identity_is_403)
+IT-US14-NS-44 ... ok
+test_unauthenticated_request_is_401 (conduct.test_no_show.NoShowAccessTests.test_unauthenticated_request_is_401)
+IT-US14-NS-43 ... ok
+test_deleting_a_party_keeps_the_ledger_but_not_its_reports (conduct.test_no_show.NoShowConstraintTests.test_deleting_a_party_keeps_the_ledger_but_not_its_reports)
+IT-US14-NS-52 ... ok
+test_duplicate_report_is_enforced_by_the_database (conduct.test_no_show.NoShowConstraintTests.test_duplicate_report_is_enforced_by_the_database)
+IT-US14-NS-48 ... ok
+test_events_without_a_party_are_not_limited (conduct.test_no_show.NoShowConstraintTests.test_events_without_a_party_are_not_limited)
+IT-US14-NS-51: contract 3.7 keeps party NULL rows outside the unique constraint. ... ok
+test_one_deduction_per_user_per_party_is_enforced_by_the_database (conduct.test_no_show.NoShowConstraintTests.test_one_deduction_per_user_per_party_is_enforced_by_the_database)
+IT-US14-NS-50 ... ok
+test_self_report_is_enforced_by_the_database (conduct.test_no_show.NoShowConstraintTests.test_self_report_is_enforced_by_the_database)
+IT-US14-NS-47 ... ok
+test_zero_delta_is_enforced_by_the_database (conduct.test_no_show.NoShowConstraintTests.test_zero_delta_is_enforced_by_the_database)
+IT-US14-NS-49 ... ok
+test_csrf_middleware_still_runs_first_while_disabled (conduct.test_no_show.NoShowDisabledTests.test_csrf_middleware_still_runs_first_while_disabled)
+IT-US14-NS-03: the middleware rejects a tokenless POST before the view is reached. ... ok
+test_disabled_endpoint_is_404_without_database_access (conduct.test_no_show.NoShowDisabledTests.test_disabled_endpoint_is_404_without_database_access)
+IT-US14-NS-01: before authentication, parsing and every query. ... ok
+test_disabled_endpoint_stores_nothing_for_a_valid_report (conduct.test_no_show.NoShowDisabledTests.test_disabled_endpoint_stores_nothing_for_a_valid_report)
+IT-US14-NS-02 ... ok
+test_every_invalid_reported_user_has_one_message (conduct.test_no_show.NoShowEligibilityTests.test_every_invalid_reported_user_has_one_message)
+IT-US14-NS-38: outsider, missing, left early and profile-less are indistinguishable. ... ok
+test_outsider_reporter_is_forbidden (conduct.test_no_show.NoShowEligibilityTests.test_outsider_reporter_is_forbidden)
+IT-US14-NS-35 ... ok
+test_reporter_who_left_before_end_is_forbidden (conduct.test_no_show.NoShowEligibilityTests.test_reporter_who_left_before_end_is_forbidden)
+IT-US14-NS-36 ... ok
+test_self_report_is_rejected (conduct.test_no_show.NoShowEligibilityTests.test_self_report_is_rejected)
+IT-US14-NS-37 ... ok
+test_invalid_json_and_non_objects_are_rejected (conduct.test_no_show.NoShowInputTests.test_invalid_json_and_non_objects_are_rejected)
+IT-US14-NS-42 ... ok
+test_missing_and_unknown_fields_are_rejected (conduct.test_no_show.NoShowInputTests.test_missing_and_unknown_fields_are_rejected)
+IT-US14-NS-40 ... ok
+test_non_json_content_type_is_rejected (conduct.test_no_show.NoShowInputTests.test_non_json_content_type_is_rejected)
+IT-US14-NS-41 ... ok
+test_reported_id_must_be_an_in_range_integer (conduct.test_no_show.NoShowInputTests.test_reported_id_must_be_an_in_range_integer)
+IT-US14-NS-39 ... ok
+test_cancelled_party_is_refused (conduct.test_no_show.NoShowPartyStateTests.test_cancelled_party_is_refused)
+IT-US14-NS-29 ... ok
+test_closed_window_is_409_through_the_api (conduct.test_no_show.NoShowPartyStateTests.test_closed_window_is_409_through_the_api)
+IT-US14-NS-34 ... ok
+test_full_party_is_refused (conduct.test_no_show.NoShowPartyStateTests.test_full_party_is_refused)
+IT-US14-NS-27 ... ok
+test_in_progress_party_is_refused (conduct.test_no_show.NoShowPartyStateTests.test_in_progress_party_is_refused)
+IT-US14-NS-28 ... ok
+test_open_party_is_refused (conduct.test_no_show.NoShowPartyStateTests.test_open_party_is_refused)
+IT-US14-NS-26 ... ok
+test_report_after_the_window_is_refused (conduct.test_no_show.NoShowPartyStateTests.test_report_after_the_window_is_refused)
+IT-US14-NS-33 ... ok
+test_unknown_party_is_404 (conduct.test_no_show.NoShowPartyStateTests.test_unknown_party_is_404)
+IT-US14-NS-30 ... ok
+test_window_boundary_through_the_api (conduct.test_no_show.NoShowPartyStateTests.test_window_boundary_through_the_api)
+IT-US14-NS-56: the last instant inside is 201, the next one is 409. ... ok
+test_window_includes_its_exact_end (conduct.test_no_show.NoShowPartyStateTests.test_window_includes_its_exact_end)
+IT-US14-NS-31 ... ok
+test_window_includes_the_exact_party_end (conduct.test_no_show.NoShowPartyStateTests.test_window_includes_the_exact_party_end)
+IT-US14-NS-32 ... ok
+test_accepted_report_has_exact_response (conduct.test_no_show.NoShowReportTests.test_accepted_report_has_exact_response)
+IT-US14-NS-04 ... ok
+test_duplicate_is_caught_outside_its_failed_savepoint (conduct.test_no_show.NoShowReportTests.test_duplicate_is_caught_outside_its_failed_savepoint)
+IT-US14-NS-08: the outer transaction stays usable. ... ok
+test_duplicate_report_is_409_and_counts_once (conduct.test_no_show.NoShowReportTests.test_duplicate_report_is_409_and_counts_once)
+IT-US14-NS-07 ... ok
+test_member_can_report_host_and_host_can_be_reported (conduct.test_no_show.NoShowReportTests.test_member_can_report_host_and_host_can_be_reported)
+IT-US14-NS-06 ... ok
+test_other_integrity_errors_are_not_reported_as_duplicates (conduct.test_no_show.NoShowReportTests.test_other_integrity_errors_are_not_reported_as_duplicates)
+IT-US14-NS-09 ... ok
+test_response_exposes_no_login_or_contact_identifier (conduct.test_no_show.NoShowReportTests.test_response_exposes_no_login_or_contact_identifier)
+IT-US14-NS-05 ... ok
+test_deduction_does_not_touch_star_ratings_or_reviews (conduct.test_no_show.NoShowThresholdTests.test_deduction_does_not_touch_star_ratings_or_reviews)
+IT-US14-NS-20 ... ok
+test_deduction_happens_exactly_at_the_threshold (conduct.test_no_show.NoShowThresholdTests.test_deduction_happens_exactly_at_the_threshold)
+IT-US14-NS-10 ... ok
+test_deduction_starts_from_an_existing_score (conduct.test_no_show.NoShowThresholdTests.test_deduction_starts_from_an_existing_score)
+IT-US14-NS-19: CREDIT_BASE is used only when credit_score is NULL. ... ok
+test_existing_event_prevents_a_second_deduction (conduct.test_no_show.NoShowThresholdTests.test_existing_event_prevents_a_second_deduction)
+IT-US14-NS-18 ... ok
+test_later_reports_do_not_deduct_again (conduct.test_no_show.NoShowThresholdTests.test_later_reports_do_not_deduct_again)
+IT-US14-NS-12 ... ok
+test_ledger_event_records_the_system_deduction (conduct.test_no_show.NoShowThresholdTests.test_ledger_event_records_the_system_deduction)
+IT-US14-NS-11 ... ok
+test_members_who_left_after_the_end_are_still_eligible (conduct.test_no_show.NoShowThresholdTests.test_members_who_left_after_the_end_are_still_eligible)
+IT-US14-NS-15 ... ok
+test_members_who_left_before_the_end_are_not_eligible_to_count (conduct.test_no_show.NoShowThresholdTests.test_members_who_left_before_the_end_are_not_eligible_to_count)
+IT-US14-NS-14: they shrink the threshold's denominator. ... ok
+test_reports_about_different_users_do_not_add_up (conduct.test_no_show.NoShowThresholdTests.test_reports_about_different_users_do_not_add_up)
+IT-US14-NS-16 ... ok
+test_response_is_identical_in_shape_around_the_threshold (conduct.test_no_show.NoShowThresholdTests.test_response_is_identical_in_shape_around_the_threshold)
+IT-US14-NS-57: below, crossing and after the deduction look the same to a reporter. ... ok
+test_review_does_not_touch_credit (conduct.test_no_show.NoShowThresholdTests.test_review_does_not_touch_credit)
+IT-US14-NS-21 ... ok
+test_same_user_can_be_deducted_once_in_each_party (conduct.test_no_show.NoShowThresholdTests.test_same_user_can_be_deducted_once_in_each_party)
+IT-US14-NS-17 ... ok
+test_single_eligible_participant_can_trigger_the_deduction (conduct.test_no_show.NoShowThresholdTests.test_single_eligible_participant_can_trigger_the_deduction)
+IT-US14-NS-13: a party of only the host and the reported member. ... ok
+test_audit_detects_drift_and_missing_profile_without_repairing (conduct.test_review_cache_audit.ReviewCacheAuditTests.test_audit_detects_drift_and_missing_profile_without_repairing) ... ok
+DB87_EVIDENCE {"case": "test_audit_detects_drift_and_missing_profile_without_repairing", "sql_after_injected_drift": [{"user_id": 290, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 291, "profile_exists": true, "cached_sum": 6, "cached_count": 1, "actual_sum": 5, "actual_count": 1, "actual_average": "5.0000000000000000", "cache_matches": false, "credit_score": null}, {"user_id": 292, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 293, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 294, "profile_exists": false, "cached_sum": null, "cached_count": null, "actual_sum": 4, "actual_count": 1, "actual_average": "4.0000000000000000", "cache_matches": false, "credit_score": null}], "action": "read only; no automatic repair"}
+test_reconcile_multiple_parties_without_ledger_fanout_or_credit_mutation (conduct.test_review_cache_audit.ReviewCacheAuditTests.test_reconcile_multiple_parties_without_ledger_fanout_or_credit_mutation) ... ok
+DB87_EVIDENCE {"case": "test_reconcile_multiple_parties_without_ledger_fanout_or_credit_mutation", "sql_before": [{"user_id": 295, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 296, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 297, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 298, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}], "sql_after": [{"user_id": 295, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 296, "profile_exists": true, "cached_sum": 13, "cached_count": 3, "actual_sum": 13, "actual_count": 3, "actual_average": "4.3333333333333333", "cache_matches": true, "credit_score": 95}, {"user_id": 297, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}, {"user_id": 298, "profile_exists": true, "cached_sum": 0, "cached_count": 0, "actual_sum": 0, "actual_count": 0, "actual_average": null, "cache_matches": true, "credit_score": null}], "ledger_rows": 2, "api_average": 4.33}
+test_actual_cache_constraint_violation_rolls_back_inserted_review (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_actual_cache_constraint_violation_rolls_back_inserted_review) ... ok
+DB95_EVIDENCE {"case": "test_actual_cache_constraint_violation_rolls_back_inserted_review", "sql_before": [{"reviewee_id": 300, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "fault": "invalid count injected; real PostgreSQL CHECK violation", "observed": {"insert_seen_before_failure": 1, "sqlstate": "23514", "constraint": "user_profile_rating_count_gte_0"}, "http_status": 500, "sql_after": [{"reviewee_id": 300, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}]}
+test_api_failure_after_both_writes_rolls_back_review_and_cache (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_api_failure_after_both_writes_rolls_back_review_and_cache) ... DB95_EVIDENCE {"case": "test_api_failure_after_both_writes_rolls_back_review_and_cache", "sql_before": [{"reviewee_id": 304, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "fault": "injected DatabaseError after real cache UPDATE", "observed": {"insert_seen_before_failure": 1, "updated_cache_before_failure": {"rating_sum": 4, "rating_count": 1}}, "http_status": 500, "sql_after": [{"reviewee_id": 304, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}]}
+ok
+test_duplicate_api_leaves_review_id_timestamp_cache_and_credit_unchanged (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_duplicate_api_leaves_review_id_timestamp_cache_and_credit_unchanged) ... ok
+DB95_EVIDENCE {"case": "test_duplicate_api_leaves_review_id_timestamp_cache_and_credit_unchanged", "sql_before": [{"reviewee_id": 308, "rating_sum": 4, "rating_count": 1, "credit_score": null, "actual_count": 1, "actual_sum": 4, "actual_average": "4.0000000000000000", "credit_events": 0, "review_id": 10, "party_id": 77, "reviewer_id": 307, "rating": 4, "created_at": "2026-11-17 09:52:55.891445+00:00"}], "http_status": 409, "response": {"error": {"code": "REVIEW_EXISTS", "message": "\u0e04\u0e38\u0e13\u0e23\u0e35\u0e27\u0e34\u0e27\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e19\u0e35\u0e49\u0e43\u0e19\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e19\u0e35\u0e49\u0e41\u0e25\u0e49\u0e27"}}, "sql_after": [{"reviewee_id": 308, "rating_sum": 4, "rating_count": 1, "credit_score": null, "actual_count": 1, "actual_sum": 4, "actual_average": "4.0000000000000000", "credit_events": 0, "review_id": 10, "party_id": 77, "reviewer_id": 307, "rating": 4, "created_at": "2026-11-17 09:52:55.891445+00:00"}]}
+test_multiple_ratings_match_raw_rows_summary_and_credit_history (conduct.test_review_database.ReviewDatabaseEvidenceTests.test_multiple_ratings_match_raw_rows_summary_and_credit_history) ... ok
+DB95_EVIDENCE {"case": "test_multiple_ratings_match_raw_rows_summary_and_credit_history", "sql_before": [{"reviewee_id": 312, "rating_sum": 0, "rating_count": 0, "credit_score": 95, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "sql_after": [{"reviewee_id": 312, "rating_sum": 13, "rating_count": 3, "credit_score": 95, "actual_count": 3, "actual_sum": 13, "actual_average": "4.3333333333333333", "credit_events": 0, "review_id": 12, "party_id": 78, "reviewer_id": 311, "rating": 5, "created_at": "2026-11-17 09:52:55.957169+00:00"}, {"reviewee_id": 312, "rating_sum": 13, "rating_count": 3, "credit_score": 95, "actual_count": 3, "actual_sum": 13, "actual_average": "4.3333333333333333", "credit_events": 0, "review_id": 13, "party_id": 78, "reviewer_id": 313, "rating": 4, "created_at": "2026-11-17 09:52:55.966083+00:00"}, {"reviewee_id": 312, "rating_sum": 13, "rating_count": 3, "credit_score": 95, "actual_count": 3, "actual_sum": 13, "actual_average": "4.3333333333333333", "credit_events": 0, "review_id": 14, "party_id": 79, "reviewer_id": 311, "rating": 4, "created_at": "2026-11-17 09:52:55.976818+00:00"}], "http_statuses": [201, 201, 201], "summary": {"average_rating": 4.33, "rating_count": 3, "total": 3}}
+test_any_logged_in_user_can_read_another_users_reviews (conduct.test_review_list.ReviewListAccessTests.test_any_logged_in_user_can_read_another_users_reviews)
+IT-US14-READ-20: viewers need not share a party with the reviewee. ... ok
+test_inactive_user_with_profile_is_readable_like_the_profile_api (conduct.test_review_list.ReviewListAccessTests.test_inactive_user_with_profile_is_readable_like_the_profile_api)
+IT-US14-READ-23 ... ok
+test_other_methods_are_405_with_allow (conduct.test_review_list.ReviewListAccessTests.test_other_methods_are_405_with_allow)
+IT-US14-READ-26 ... ok
+test_response_is_not_cacheable (conduct.test_review_list.ReviewListAccessTests.test_response_is_not_cacheable)
+IT-US14-READ-27 ... ok
+test_session_without_university_identity_is_403 (conduct.test_review_list.ReviewListAccessTests.test_session_without_university_identity_is_403)
+IT-US14-READ-25 ... ok
+test_unauthenticated_request_is_401 (conduct.test_review_list.ReviewListAccessTests.test_unauthenticated_request_is_401)
+IT-US14-READ-24 ... ok
+test_unknown_user_is_404 (conduct.test_review_list.ReviewListAccessTests.test_unknown_user_is_404)
+IT-US14-READ-21 ... ok
+test_user_can_read_own_reviews (conduct.test_review_list.ReviewListAccessTests.test_user_can_read_own_reviews)
+IT-US14-READ-19 ... ok
+test_user_without_profile_is_404_even_with_review_rows (conduct.test_review_list.ReviewListAccessTests.test_user_without_profile_is_404_even_with_review_rows)
+IT-US14-READ-22 ... ok
+test_default_and_maximum_page_size (conduct.test_review_list.ReviewOrderAndPaginationTests.test_default_and_maximum_page_size)
+IT-US14-READ-11 ... ok
+test_equal_timestamps_are_ordered_by_id_descending (conduct.test_review_list.ReviewOrderAndPaginationTests.test_equal_timestamps_are_ordered_by_id_descending)
+IT-US14-READ-07 ... ok
+test_invalid_page_parameters_are_rejected (conduct.test_review_list.ReviewOrderAndPaginationTests.test_invalid_page_parameters_are_rejected)
+IT-US14-READ-12 ... ok
+test_newest_first_regardless_of_insert_order (conduct.test_review_list.ReviewOrderAndPaginationTests.test_newest_first_regardless_of_insert_order)
+IT-US14-READ-06 ... ok
+test_only_reviews_of_the_requested_user_are_listed (conduct.test_review_list.ReviewOrderAndPaginationTests.test_only_reviews_of_the_requested_user_are_listed)
+IT-US14-READ-08 ... ok
+test_page_beyond_the_end_is_empty (conduct.test_review_list.ReviewOrderAndPaginationTests.test_page_beyond_the_end_is_empty)
+IT-US14-READ-10: a huge page must not overflow the SQL OFFSET. ... ok
+test_pages_split_results_and_report_total (conduct.test_review_list.ReviewOrderAndPaginationTests.test_pages_split_results_and_report_total)
+IT-US14-READ-09 ... ok
+test_query_count_does_not_grow_with_the_page (conduct.test_review_list.ReviewOrderAndPaginationTests.test_query_count_does_not_grow_with_the_page)
+IT-US14-READ-15: reviewers with and without a profile cost no extra query. ... ok
+test_repeated_page_parameter_is_rejected (conduct.test_review_list.ReviewOrderAndPaginationTests.test_repeated_page_parameter_is_rejected)
+IT-US14-READ-13: the same rule as the venue list. ... ok
+test_unknown_query_parameters_are_ignored (conduct.test_review_list.ReviewOrderAndPaginationTests.test_unknown_query_parameters_are_ignored)
+IT-US14-READ-14 ... ok
+test_body_has_no_identifier_or_credit_data (conduct.test_review_list.ReviewPublicFieldsTests.test_body_has_no_identifier_or_credit_data)
+IT-US14-READ-17 ... ok
+test_response_keys_are_exactly_the_allowlist (conduct.test_review_list.ReviewPublicFieldsTests.test_response_keys_are_exactly_the_allowlist)
+IT-US14-READ-16 ... ok
+test_reviewer_without_profile_gets_generic_display_name (conduct.test_review_list.ReviewPublicFieldsTests.test_reviewer_without_profile_gets_generic_display_name)
+IT-US14-READ-18 ... ok
+test_average_of_several_submitted_reviews_is_rounded_to_two_decimals (conduct.test_review_list.ReviewSummaryTests.test_average_of_several_submitted_reviews_is_rounded_to_two_decimals)
+IT-US14-READ-03: 5 and 4 -> 4.5; 5, 4 and 4 -> 4.33. ... ok
+test_no_reviews_reports_null_average_and_empty_page (conduct.test_review_list.ReviewSummaryTests.test_no_reviews_reports_null_average_and_empty_page)
+IT-US14-READ-01 ... ok
+test_one_submitted_review_is_its_own_average (conduct.test_review_list.ReviewSummaryTests.test_one_submitted_review_is_its_own_average)
+IT-US14-READ-02 ... ok
+test_submit_then_read_back_end_to_end (conduct.test_review_list.ReviewSummaryTests.test_submit_then_read_back_end_to_end)
+IT-US14-READ-05 ... ok
+test_summary_comes_from_the_cache_not_the_reviews_table (conduct.test_review_list.ReviewSummaryTests.test_summary_comes_from_the_cache_not_the_reviews_table)
+IT-US14-READ-04 ... ok
+test_csrf_is_enforced_by_the_middleware (conduct.test_reviews.ReviewAccessTests.test_csrf_is_enforced_by_the_middleware)
+IT-US14-DB-36 ... ok
+test_other_methods_are_405_with_allow (conduct.test_reviews.ReviewAccessTests.test_other_methods_are_405_with_allow)
+IT-US14-DB-35 ... ok
+test_session_without_university_identity_is_403 (conduct.test_reviews.ReviewAccessTests.test_session_without_university_identity_is_403)
+IT-US14-DB-34 ... ok
+test_unauthenticated_request_is_401 (conduct.test_reviews.ReviewAccessTests.test_unauthenticated_request_is_401)
+IT-US14-DB-33 ... ok
+test_duplicate_is_enforced_by_the_database (conduct.test_reviews.ReviewConstraintTests.test_duplicate_is_enforced_by_the_database)
+IT-US14-DB-39 ... ok
+test_rating_cache_cannot_be_negative (conduct.test_reviews.ReviewConstraintTests.test_rating_cache_cannot_be_negative)
+IT-US14-DB-40 ... ok
+test_rating_range_is_enforced_by_the_database (conduct.test_reviews.ReviewConstraintTests.test_rating_range_is_enforced_by_the_database)
+IT-US14-DB-37 ... ok
+test_self_review_is_enforced_by_the_database (conduct.test_reviews.ReviewConstraintTests.test_self_review_is_enforced_by_the_database)
+IT-US14-DB-38 ... ok
+test_party_with_a_review_cannot_be_deleted (conduct.test_reviews.ReviewDeletionProtectionTests.test_party_with_a_review_cannot_be_deleted)
+IT-US14-DB-44: no silent cascade that leaves the rating cache stale. ... ok
+test_party_without_reviews_can_still_be_deleted (conduct.test_reviews.ReviewDeletionProtectionTests.test_party_without_reviews_can_still_be_deleted)
+IT-US14-DB-45 ... ok
+test_user_who_wrote_or_received_a_review_cannot_be_deleted (conduct.test_reviews.ReviewDeletionProtectionTests.test_user_who_wrote_or_received_a_review_cannot_be_deleted)
+IT-US14-DB-46: neither side of a review can be removed from under the cache. ... ok
+test_duplicate_leaves_the_outer_transaction_usable (conduct.test_reviews.ReviewDuplicateTests.test_duplicate_leaves_the_outer_transaction_usable)
+IT-US14-DB-09: the unique conflict is caught outside its failed savepoint. ... ok
+test_duplicate_returns_409_and_does_not_count_twice (conduct.test_reviews.ReviewDuplicateTests.test_duplicate_returns_409_and_does_not_count_twice)
+IT-US14-DB-08 ... ok
+test_other_integrity_errors_are_not_reported_as_duplicates (conduct.test_reviews.ReviewDuplicateTests.test_other_integrity_errors_are_not_reported_as_duplicates)
+IT-US14-DB-10 ... ok
+test_host_without_membership_row_is_a_participant (conduct.test_reviews.ReviewEligibilityTests.test_host_without_membership_row_is_a_participant)
+IT-US14-DB-22 ... ok
+test_member_who_left_at_or_after_end_is_eligible (conduct.test_reviews.ReviewEligibilityTests.test_member_who_left_at_or_after_end_is_eligible)
+IT-US14-DB-21 ... ok
+test_member_who_left_before_end_is_not_eligible (conduct.test_reviews.ReviewEligibilityTests.test_member_who_left_before_end_is_not_eligible)
+IT-US14-DB-20 ... ok
+test_membership_of_another_party_does_not_count (conduct.test_reviews.ReviewEligibilityTests.test_membership_of_another_party_does_not_count)
+IT-US14-DB-23 ... ok
+test_outsider_reviewer_is_forbidden (conduct.test_reviews.ReviewEligibilityTests.test_outsider_reviewer_is_forbidden)
+IT-US14-DB-16 ... ok
+test_reviewee_outsider_missing_and_profileless_are_indistinguishable (conduct.test_reviews.ReviewEligibilityTests.test_reviewee_outsider_missing_and_profileless_are_indistinguishable)
+IT-US14-DB-17: no response reveals that an account exists; nothing is stored. ... ok
+test_reviewee_without_profile_cannot_create_an_uncounted_review (conduct.test_reviews.ReviewEligibilityTests.test_reviewee_without_profile_cannot_create_an_uncounted_review)
+IT-US14-DB-18: the insert is rolled back when no rating cache exists. ... ok
+test_self_review_is_rejected (conduct.test_reviews.ReviewEligibilityTests.test_self_review_is_rejected)
+IT-US14-DB-19 ... ok
+test_cache_accumulates_reviews_from_different_reviewers (conduct.test_reviews.ReviewHappyPathTests.test_cache_accumulates_reviews_from_different_reviewers)
+IT-US14-DB-04 ... ok
+test_host_reviews_member_with_exact_response_and_cache (conduct.test_reviews.ReviewHappyPathTests.test_host_reviews_member_with_exact_response_and_cache)
+IT-US14-DB-01 ... ok
+test_member_reviews_host_and_member_reviews_member (conduct.test_reviews.ReviewHappyPathTests.test_member_reviews_host_and_member_reviews_member)
+IT-US14-DB-03 ... ok
+test_response_exposes_no_login_or_contact_identifier (conduct.test_reviews.ReviewHappyPathTests.test_response_exposes_no_login_or_contact_identifier)
+IT-US14-DB-02 ... ok
+test_reviewer_without_profile_gets_generic_display_name (conduct.test_reviews.ReviewHappyPathTests.test_reviewer_without_profile_gets_generic_display_name)
+IT-US14-DB-07 ... ok
+test_same_reviewee_can_be_reviewed_again_in_another_party (conduct.test_reviews.ReviewHappyPathTests.test_same_reviewee_can_be_reviewed_again_in_another_party)
+IT-US14-DB-06 ... ok
+test_same_reviewer_can_review_a_different_reviewee_in_the_party (conduct.test_reviews.ReviewHappyPathTests.test_same_reviewer_can_review_a_different_reviewee_in_the_party)
+IT-US14-DB-05 ... ok
+test_comment_is_required_text_within_limits (conduct.test_reviews.ReviewInputValidationTests.test_comment_is_required_text_within_limits)
+IT-US14-DB-26 ... ok
+test_comment_of_500_characters_is_accepted (conduct.test_reviews.ReviewInputValidationTests.test_comment_of_500_characters_is_accepted)
+IT-US14-DB-27: the limit counts characters after stripping. ... ok
+test_every_rating_from_1_to_5_is_accepted (conduct.test_reviews.ReviewInputValidationTests.test_every_rating_from_1_to_5_is_accepted)
+IT-US14-DB-25 ... ok
+test_invalid_json_and_non_objects_are_rejected (conduct.test_reviews.ReviewInputValidationTests.test_invalid_json_and_non_objects_are_rejected)
+IT-US14-DB-32 ... ok
+test_missing_fields_are_reported_individually (conduct.test_reviews.ReviewInputValidationTests.test_missing_fields_are_reported_individually)
+IT-US14-DB-29 ... ok
+test_non_json_content_type_is_rejected (conduct.test_reviews.ReviewInputValidationTests.test_non_json_content_type_is_rejected)
+IT-US14-DB-31 ... ok
+test_rating_must_be_an_integer_from_1_to_5 (conduct.test_reviews.ReviewInputValidationTests.test_rating_must_be_an_integer_from_1_to_5)
+IT-US14-DB-24 ... ok
+test_reviewee_id_must_be_an_in_range_integer (conduct.test_reviews.ReviewInputValidationTests.test_reviewee_id_must_be_an_in_range_integer)
+IT-US14-DB-28 ... ok
+test_unknown_fields_are_rejected_including_client_selected_actor_and_cache (conduct.test_reviews.ReviewInputValidationTests.test_unknown_fields_are_rejected_including_client_selected_actor_and_cache)
+IT-US14-DB-30 ... ok
+test_cancelled_party_is_refused_before_and_after_its_end_time (conduct.test_reviews.ReviewPartyStateTests.test_cancelled_party_is_refused_before_and_after_its_end_time)
+IT-US14-DB-14 ... ok
+test_full_party_is_refused (conduct.test_reviews.ReviewPartyStateTests.test_full_party_is_refused)
+IT-US14-DB-12 ... ok
+test_in_progress_party_is_refused (conduct.test_reviews.ReviewPartyStateTests.test_in_progress_party_is_refused)
+IT-US14-DB-13 ... ok
+test_open_party_is_refused (conduct.test_reviews.ReviewPartyStateTests.test_open_party_is_refused)
+IT-US14-DB-11 ... ok
+test_unknown_party_is_404 (conduct.test_reviews.ReviewPartyStateTests.test_unknown_party_is_404)
+IT-US14-DB-15 ... ok
+test_anonymous_session_cannot_access_any_business_api (core.test_auth_integration.UniversityBusinessApiTests.test_anonymous_session_cannot_access_any_business_api) ... ok
+test_disabling_account_invalidates_previously_valid_session (core.test_auth_integration.UniversityBusinessApiTests.test_disabling_account_invalidates_previously_valid_session) ... ok
+test_expired_login_session_is_denied (core.test_auth_integration.UniversityBusinessApiTests.test_expired_login_session_is_denied) ... ok
+test_guard_rejects_before_lookup_of_missing_resources (core.test_auth_integration.UniversityBusinessApiTests.test_guard_rejects_before_lookup_of_missing_resources) ... ok
+test_identity_of_another_verified_user_is_denied (core.test_auth_integration.UniversityBusinessApiTests.test_identity_of_another_verified_user_is_denied) ... ok
+test_invalid_identity_markers_are_denied (core.test_auth_integration.UniversityBusinessApiTests.test_invalid_identity_markers_are_denied) ... ok
+test_local_and_admin_login_do_not_replace_university_session (core.test_auth_integration.UniversityBusinessApiTests.test_local_and_admin_login_do_not_replace_university_session) ... ok
+test_login_session_can_read_and_join_without_rechecking_provider (core.test_auth_integration.UniversityBusinessApiTests.test_login_session_can_read_and_join_without_rechecking_provider) ... ok
+test_logout_revokes_access_in_original_and_copied_browser (core.test_auth_integration.UniversityBusinessApiTests.test_logout_revokes_access_in_original_and_copied_browser) ... ok
+test_rejected_university_login_does_not_grant_business_access (core.test_auth_integration.UniversityBusinessApiTests.test_rejected_university_login_does_not_grant_business_access) ... ok
+test_revoked_wrong_provider_and_deleted_identity_are_denied (core.test_auth_integration.UniversityBusinessApiTests.test_revoked_wrong_provider_and_deleted_identity_are_denied) ... ok
+test_university_session_still_requires_csrf_for_join (core.test_auth_integration.UniversityBusinessApiTests.test_university_session_still_requires_csrf_for_join) ... ok
+test_authenticated_user_can_open_create_party_page (core.test_home_links.HomeLinkTests.test_authenticated_user_can_open_create_party_page) ... ok
+test_create_form_back_controls_fall_back_to_home (core.test_home_links.HomeLinkTests.test_create_form_back_controls_fall_back_to_home) ... ok
+test_create_party_redirects_to_login_and_returns_to_requested_page (core.test_home_links.HomeLinkTests.test_create_party_redirects_to_login_and_returns_to_requested_page) ... ok
+test_edit_form_back_controls_fall_back_to_party_detail (core.test_home_links.HomeLinkTests.test_edit_form_back_controls_fall_back_to_party_detail) ... ok
+test_home_has_sprint_one_navigation_and_no_placeholder_link (core.test_home_links.HomeLinkTests.test_home_has_sprint_one_navigation_and_no_placeholder_link) ... ok
+test_home_keeps_business_api_out_of_markup (core.test_home_links.HomeLinkTests.test_home_keeps_business_api_out_of_markup) ... ok
+test_login_page_ignores_external_next_url (core.test_home_links.HomeLinkTests.test_login_page_ignores_external_next_url) ... ok
+test_search_page_redirects_anonymous_users_to_login (core.test_home_links.HomeLinkTests.test_search_page_redirects_anonymous_users_to_login) ... ok
+test_search_page_renders_search_filters_and_marks_navigation (core.test_home_links.HomeLinkTests.test_search_page_renders_search_filters_and_marks_navigation) ... ok
+test_active_member_can_leave_and_restricted_states_cannot (core.test_leave_ui.JoinedPartyUITests.test_active_member_can_leave_and_restricted_states_cannot) ... ok
+test_active_member_can_open_party_detail_from_joined_card (core.test_leave_ui.JoinedPartyUITests.test_active_member_can_open_party_detail_from_joined_card) ... ok
+test_fresh_host_session_gets_csrf_cookie_before_approving (core.test_leave_ui.JoinedPartyUITests.test_fresh_host_session_gets_csrf_cookie_before_approving) ... ok
+test_history_and_private_data_are_not_fabricated (core.test_leave_ui.JoinedPartyUITests.test_history_and_private_data_are_not_fabricated) ... ok
+test_host_created_party_links_to_detail (core.test_leave_ui.JoinedPartyUITests.test_host_created_party_links_to_detail) ... ok
+test_only_active_joined_parties_render_members_panel (core.test_leave_ui.JoinedPartyUITests.test_only_active_joined_parties_render_members_panel) ... ok
+test_pending_user_sees_real_party_with_disabled_leave (core.test_leave_ui.JoinedPartyUITests.test_pending_user_sees_real_party_with_disabled_leave) ... ok
+test_real_leave_updates_membership_detail_and_joined_page (core.test_leave_ui.JoinedPartyUITests.test_real_leave_updates_membership_detail_and_joined_page) ... ok
+test_anonymous_user_cannot_read_profile_page (core.test_public_profile_page.PublicProfilePageTests.test_anonymous_user_cannot_read_profile_page) ... ok
+test_empty_interests_and_unknown_credit_have_explicit_empty_states (core.test_public_profile_page.PublicProfilePageTests.test_empty_interests_and_unknown_credit_have_explicit_empty_states) ... ok
+test_missing_profile_renders_not_found_page_without_creating_data (core.test_public_profile_page.PublicProfilePageTests.test_missing_profile_renders_not_found_page_without_creating_data) ... ok
+test_profile_page_allows_only_get (core.test_public_profile_page.PublicProfilePageTests.test_profile_page_allows_only_get) ... ok
+test_renders_only_requested_users_public_profile_fields (core.test_public_profile_page.PublicProfilePageTests.test_renders_only_requested_users_public_profile_fields) ... ok
+test_history_uses_eligible_completed_parties_only (core.test_review_ui.ReviewHistoryUITests.test_history_uses_eligible_completed_parties_only) ... ok
+test_page_escapes_names_and_includes_real_ids (core.test_review_ui.ReviewHistoryUITests.test_page_escapes_names_and_includes_real_ids) ... ok
+test_real_submission_then_reload_marks_only_saved_review (core.test_review_ui.ReviewHistoryUITests.test_real_submission_then_reload_marks_only_saved_review) ... ok
+test_reviewed_status_is_scoped_to_reviewer_and_party (core.test_review_ui.ReviewHistoryUITests.test_reviewed_status_is_scoped_to_reviewer_and_party) ... ok
+test_non_demo_data_is_preserved (core.test_seed_demo.SeedDemoTests.test_non_demo_data_is_preserved) ... ok
+test_refuses_non_development_settings (core.test_seed_demo.SeedDemoTests.test_refuses_non_development_settings) ... ok
+test_rerun_preserves_primary_ids_resets_interactions_and_refreshes_dates (core.test_seed_demo.SeedDemoTests.test_rerun_preserves_primary_ids_resets_interactions_and_refreshes_dates) ... ok
+test_reserved_username_collision_rolls_back_entire_seed (core.test_seed_demo.SeedDemoTests.test_reserved_username_collision_rolls_back_entire_seed) ... ok
+test_seed_has_required_scenarios_and_consistent_membership_counts (core.test_seed_demo.SeedDemoTests.test_seed_has_required_scenarios_and_consistent_membership_counts) ... ok
+test_seeded_parties_can_be_read_through_existing_detail_api (core.test_seed_demo.SeedDemoTests.test_seeded_parties_can_be_read_through_existing_detail_api) ... ok
+test_fixture_roles_states_and_search_combinations (core.test_seed_sprint2.SeedSprint2Tests.test_fixture_roles_states_and_search_combinations) ... ok
+test_late_collision_rolls_back_all_changes (core.test_seed_sprint2.SeedSprint2Tests.test_late_collision_rolls_back_all_changes) ... ok
+test_pending_request_times_follow_reference_across_different_run_times (core.test_seed_sprint2.SeedSprint2Tests.test_pending_request_times_follow_reference_across_different_run_times) ... ok
+test_postgres_snapshot_matches_expected_counts_without_join_multiplication (core.test_seed_sprint2.SeedSprint2Tests.test_postgres_snapshot_matches_expected_counts_without_join_multiplication) ... ok
+test_refuses_non_debug_database (core.test_seed_sprint2.SeedSprint2Tests.test_refuses_non_debug_database) ... ok
+test_requires_confirmation_and_aware_timestamp (core.test_seed_sprint2.SeedSprint2Tests.test_requires_confirmation_and_aware_timestamp) ... ok
+test_rerun_resets_only_its_fixtures_and_preserves_stable_ids (core.test_seed_sprint2.SeedSprint2Tests.test_rerun_resets_only_its_fixtures_and_preserves_stable_ids) ... ok
+test_search_time_boundaries_are_reproducible (core.test_seed_sprint2.SeedSprint2Tests.test_search_time_boundaries_are_reproducible) ... ok
+test_verified_users_complete_create_join_edit_and_cancel_flow (core.test_sprint_integration.SprintOneApiFlowTests.test_verified_users_complete_create_join_edit_and_cancel_flow) ... ok
+test_guard_allows_verified_user_and_preserves_view_arguments (core.tests.ApiHelperTests.test_guard_allows_verified_user_and_preserves_view_arguments) ... ok
+test_guard_denies_anonymous_and_inactive_users_before_calling_view (core.tests.ApiHelperTests.test_guard_denies_anonymous_and_inactive_users_before_calling_view) ... ok
+test_guard_denies_local_login_without_university_identity (core.tests.ApiHelperTests.test_guard_denies_local_login_without_university_identity) ... ok
+test_json_error_supports_field_errors (core.tests.ApiHelperTests.test_json_error_supports_field_errors) ... ok
+test_database_failure_returns_503_without_leaking_details (core.tests.ReadinessTests.test_database_failure_returns_503_without_leaking_details) ... ok
+test_readiness_checks_postgres (core.tests.ReadinessTests.test_readiness_checks_postgres) ... ok
+test_actual_members_not_requests_or_other_parties_determine_count (parties.test_active_memberships.ActiveMembershipQueryTests.test_actual_members_not_requests_or_other_parties_determine_count) ... ok
+test_existing_party_detail_and_list_counts_agree_with_query (parties.test_active_memberships.ActiveMembershipQueryTests.test_existing_party_detail_and_list_counts_agree_with_query) ... ok
+test_missing_or_departed_host_is_not_invented_by_read_query (parties.test_active_memberships.ActiveMembershipQueryTests.test_missing_or_departed_host_is_not_invented_by_read_query) ... ok
+test_profile_is_optional_and_reading_all_profiles_needs_one_query (parties.test_active_memberships.ActiveMembershipQueryTests.test_profile_is_optional_and_reading_all_profiles_needs_one_query) ... ok
+test_reads_preserve_memberships_requests_and_profiles (parties.test_active_memberships.ActiveMembershipQueryTests.test_reads_preserve_memberships_requests_and_profiles) ... ok
+test_soft_leave_changes_count_once_without_erasing_history (parties.test_active_memberships.ActiveMembershipQueryTests.test_soft_leave_changes_count_once_without_erasing_history) ... ok
+test_sql_file_and_shared_query_agree_including_absent_profile (parties.test_active_memberships.ActiveMembershipQueryTests.test_sql_file_and_shared_query_agree_including_absent_profile) ... ok
+test_approval_adds_one_member_and_refreshes_pending_own_request_and_detail (parties.test_approval.ApproveRequestApiTests.test_approval_adds_one_member_and_refreshes_pending_own_request_and_detail) ... ok
+test_csrf_missing_invalid_and_wrong_origin_do_not_write (parties.test_approval.ApproveRequestApiTests.test_csrf_missing_invalid_and_wrong_origin_do_not_write) ... ok
+test_decision_constraint_failure_rolls_back_new_or_reactivated_membership (parties.test_approval.ApproveRequestApiTests.test_decision_constraint_failure_rolls_back_new_or_reactivated_membership) ... DB57_EVIDENCE {"case": "decision_constraint_rollback", "at": "2026-11-17T16:53:02.340690+07:00", "reactivated": false, "fault": "invalid decided_at injected; real PostgreSQL check violation", "sqlstate": "23514", "constraint": "join_request_valid_decision", "sql_before": [{"party_id": 265, "capacity": 2, "active_count": 1, "request_id": 224, "user_id": 821, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}], "sql_after": [{"party_id": 265, "capacity": 2, "active_count": 1, "request_id": 224, "user_id": 821, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}]}
+ok
+DB57_EVIDENCE {"case": "decision_constraint_rollback", "at": "2026-11-17T16:53:02.356499+07:00", "reactivated": true, "fault": "invalid decided_at injected; real PostgreSQL check violation", "sqlstate": "23514", "constraint": "join_request_valid_decision", "sql_before": [{"party_id": 265, "capacity": 2, "active_count": 1, "request_id": 224, "user_id": 821, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": 806, "joined_at": "2026-11-17 09:53:02.340923+00:00", "left_at": "2026-11-17 09:53:02.309594+00:00"}], "sql_after": [{"party_id": 265, "capacity": 2, "active_count": 1, "request_id": 224, "user_id": 821, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": 806, "joined_at": "2026-11-17 09:53:02.340923+00:00", "left_at": "2026-11-17 09:53:02.309594+00:00"}]}
+test_exact_start_boundary_rejects_approval (parties.test_approval.ApproveRequestApiTests.test_exact_start_boundary_rejects_approval) ... ok
+test_existing_active_member_cannot_be_approved_again (parties.test_approval.ApproveRequestApiTests.test_existing_active_member_cannot_be_approved_again) ... ok
+test_full_started_completed_and_cancelled_party_reject_approval (parties.test_approval.ApproveRequestApiTests.test_full_started_completed_and_cancelled_party_reject_approval) ... ok
+test_host_cannot_be_approved_even_without_host_membership (parties.test_approval.ApproveRequestApiTests.test_host_cannot_be_approved_even_without_host_membership) ... ok
+test_invalid_payloads_are_400_not_server_errors (parties.test_approval.ApproveRequestApiTests.test_invalid_payloads_are_400_not_server_errors) ... ok
+test_membership_write_failure_leaves_request_pending (parties.test_approval.ApproveRequestApiTests.test_membership_write_failure_leaves_request_pending) ... ok
+DB57_EVIDENCE {"case": "membership_write_failure", "at": "2026-11-17T16:53:02.642432+07:00", "fault": "injected DatabaseError before membership insert", "sql_before": [{"party_id": 271, "capacity": 2, "active_count": 1, "request_id": 230, "user_id": 839, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}], "sql_after": [{"party_id": 271, "capacity": 2, "active_count": 1, "request_id": 230, "user_id": 839, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}]}
+test_missing_university_evidence_or_expired_session_cannot_approve (parties.test_approval.ApproveRequestApiTests.test_missing_university_evidence_or_expired_session_cannot_approve) ... ok
+test_non_host_and_anonymous_cannot_approve (parties.test_approval.ApproveRequestApiTests.test_non_host_and_anonymous_cannot_approve) ... ok
+test_query_cannot_change_actor_target_or_decision (parties.test_approval.ApproveRequestApiTests.test_query_cannot_change_actor_target_or_decision) ... ok
+test_reapproval_reuses_withdrawn_membership_and_preserves_join_history (parties.test_approval.ApproveRequestApiTests.test_reapproval_reuses_withdrawn_membership_and_preserves_join_history) ... ok
+test_reject_keeps_seat_free_and_later_approve_cannot_overwrite_it (parties.test_approval.ApproveRequestApiTests.test_reject_keeps_seat_free_and_later_approve_cannot_overwrite_it) ... ok
+DB57_EVIDENCE {"case": "reject_keeps_seat_free", "at": "2026-11-17T16:53:02.828581+07:00", "sql_before": [{"party_id": 276, "capacity": 2, "active_count": 1, "request_id": 235, "user_id": 854, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}], "sql_after": [{"party_id": 276, "capacity": 2, "active_count": 1, "request_id": 235, "user_id": 854, "status": "Rejected", "decided_at": "2026-11-17 09:53:02.820363+00:00", "decided_by_id": 853, "membership_id": null, "joined_at": null, "left_at": null}], "responses": [{"http_status": 200, "body": {"data": {"id": 235, "status": "Rejected"}}}, {"http_status": 409, "body": {"error": {"code": "REQUEST_DECIDED", "message": "\u0e04\u0e33\u0e02\u0e2d\u0e19\u0e35\u0e49\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e01\u0e32\u0e23\u0e15\u0e31\u0e14\u0e2a\u0e34\u0e19\u0e41\u0e25\u0e49\u0e27"}}}]}
+test_rejected_request_cannot_be_approved_without_new_application (parties.test_approval.ApproveRequestApiTests.test_rejected_request_cannot_be_approved_without_new_application) ... ok
+test_repeated_decision_preserves_first_result_and_membership (parties.test_approval.ApproveRequestApiTests.test_repeated_decision_preserves_first_result_and_membership) ... ok
+test_request_must_exist_and_belong_to_url_party (parties.test_approval.ApproveRequestApiTests.test_request_must_exist_and_belong_to_url_party) ... ok
+test_wrong_content_type_and_methods_are_rejected (parties.test_approval.ApproveRequestApiTests.test_wrong_content_type_and_methods_are_rejected) ... ok
+test_exact_start_and_later_are_rejected_without_writing (parties.test_cancellation.CancelPartyTests.test_exact_start_and_later_are_rejected_without_writing) ... ok
+test_full_party_can_be_cancelled (parties.test_cancellation.CancelPartyTests.test_full_party_can_be_cancelled) ... ok
+test_host_can_cancel_without_removing_history (parties.test_cancellation.CancelPartyTests.test_host_can_cancel_without_removing_history) ... ok
+test_missing_party_returns_not_found (parties.test_cancellation.CancelPartyTests.test_missing_party_returns_not_found) ... ok
+test_outsider_and_member_cannot_cancel_even_when_already_cancelled (parties.test_cancellation.CancelPartyTests.test_outsider_and_member_cannot_cancel_even_when_already_cancelled) ... ok
+test_repeat_after_start_keeps_original_timestamps (parties.test_cancellation.CancelPartyTests.test_repeat_after_start_keeps_original_timestamps) ... ok
+test_invalid_body_does_not_cancel (parties.test_cancellation_api.CancelPartyHandlerTests.test_invalid_body_does_not_cancel) ... ok
+test_service_errors_are_mapped_to_json (parties.test_cancellation_api.CancelPartyHandlerTests.test_service_errors_are_mapped_to_json) ... ok
+test_success_and_repeat_return_same_public_data (parties.test_cancellation_api.CancelPartyHandlerTests.test_success_and_repeat_return_same_public_data) ... ok
+test_wrong_method_returns_allow_header (parties.test_cancellation_api.CancelPartyHandlerTests.test_wrong_method_returns_allow_header) ... ok
+test_creation_counts_host_and_allows_exact_opening_boundaries (parties.test_creation.PartyCreationTests.test_creation_counts_host_and_allows_exact_opening_boundaries) ... ok
+test_inactive_and_unsupported_venues_are_rejected (parties.test_creation.PartyCreationTests.test_inactive_and_unsupported_venues_are_rejected) ... ok
+test_invalid_basic_fields_do_not_write (parties.test_creation.PartyCreationTests.test_invalid_basic_fields_do_not_write) ... ok
+test_invalid_schedules_do_not_write (parties.test_creation.PartyCreationTests.test_invalid_schedules_do_not_write) ... ok
+test_membership_failure_rolls_back_party (parties.test_creation.PartyCreationTests.test_membership_failure_rolls_back_party) ... ok
+test_schedule_uses_bangkok_day_even_for_utc_input_and_timezone_override (parties.test_creation.PartyCreationTests.test_schedule_uses_bangkok_day_even_for_utc_input_and_timezone_override) ... ok
+test_standalone_schedule_rejects_naive_time (parties.test_creation.PartyCreationTests.test_standalone_schedule_rejects_naive_time) ... ok
+test_bad_payloads_and_readonly_fields_never_write (parties.test_creation_api.PartyCreationHandlerTests.test_bad_payloads_and_readonly_fields_never_write) ... ok
+test_list_defaults_to_open_with_pagination_metadata (parties.test_creation_api.PartyCreationHandlerTests.test_list_defaults_to_open_with_pagination_metadata) ... ok
+test_schedule_and_missing_venue_errors (parties.test_creation_api.PartyCreationHandlerTests.test_schedule_and_missing_venue_errors) ... ok
+test_search_filters_before_pagination_includes_matches_after_first_50 (parties.test_creation_api.PartyCreationHandlerTests.test_search_filters_before_pagination_includes_matches_after_first_50) ... ok
+test_search_filters_by_venue_type_and_excludes_unclassified_venues (parties.test_creation_api.PartyCreationHandlerTests.test_search_filters_by_venue_type_and_excludes_unclassified_venues) ... ok
+test_search_filters_party_state_using_one_request_time (parties.test_creation_api.PartyCreationHandlerTests.test_search_filters_party_state_using_one_request_time) ... ok
+test_search_filters_title_only_and_trims_query (parties.test_creation_api.PartyCreationHandlerTests.test_search_filters_title_only_and_trims_query) ... ok
+test_search_paginates_filtered_results_and_returns_total (parties.test_creation_api.PartyCreationHandlerTests.test_search_paginates_filtered_results_and_returns_total) ... ok
+test_search_rejects_invalid_or_reversed_datetime_bounds (parties.test_creation_api.PartyCreationHandlerTests.test_search_rejects_invalid_or_reversed_datetime_bounds) ... ok
+test_search_rejects_invalid_pagination (parties.test_creation_api.PartyCreationHandlerTests.test_search_rejects_invalid_pagination) ... ok
+test_search_rejects_invalid_time_bounds_with_parameter_name (parties.test_creation_api.PartyCreationHandlerTests.test_search_rejects_invalid_time_bounds_with_parameter_name) ... ok
+test_search_rejects_unknown_repeated_and_empty_query_parameters (parties.test_creation_api.PartyCreationHandlerTests.test_search_rejects_unknown_repeated_and_empty_query_parameters) ... ok
+test_search_time_bounds_are_start_inclusive_and_end_exclusive (parties.test_creation_api.PartyCreationHandlerTests.test_search_time_bounds_are_start_inclusive_and_end_exclusive) ... ok
+test_success_matches_get_contract_and_uses_session_host (parties.test_creation_api.PartyCreationHandlerTests.test_success_matches_get_contract_and_uses_session_host) ... ok
+test_wrong_method_is_json_405 (parties.test_creation_api.PartyCreationHandlerTests.test_wrong_method_is_json_405) ... ok
+test_approve_locks_party_then_request_then_membership_before_writes (parties.test_decision_lock_order.DecisionLockOrderTests.test_approve_locks_party_then_request_then_membership_before_writes) ... DB49-L01 observed lock SQL:
+SELECT "parties_party"."id", "parties_party"."host_id", "parties_party"."sport_id", "parties_party"."venue_id", "parties_party"."title", "parties_party"."description", "parties_party"."starts_at", "parties_party"."ends_at", "parties_party"."capacity", "parties_party"."cancelled_at", "parties_party"."created_at", "parties_party"."updated_at" FROM "parties_party" WHERE "parties_party"."id" = 364 LIMIT 21 FOR UPDATE
+SELECT "parties_joinrequest"."id", "parties_joinrequest"."party_id", "parties_joinrequest"."user_id", "parties_joinrequest"."status", "parties_joinrequest"."created_at", "parties_joinrequest"."decided_at", "parties_joinrequest"."decided_by_id" FROM "parties_joinrequest" WHERE ("parties_joinrequest"."party_id" = 364 AND "parties_joinrequest"."id" = 241) LIMIT 21 FOR UPDATE
+SELECT "parties_partymembership"."id", "parties_partymembership"."party_id", "parties_partymembership"."user_id", "parties_partymembership"."joined_at", "parties_partymembership"."left_at" FROM "parties_partymembership" WHERE ("parties_partymembership"."party_id" = 364 AND "parties_partymembership"."user_id" = 921) ORDER BY "parties_partymembership"."id" ASC LIMIT 1 FOR UPDATE
+ok
+test_reject_locks_party_then_request_and_never_writes_membership (parties.test_decision_lock_order.DecisionLockOrderTests.test_reject_locks_party_then_request_and_never_writes_membership) ... DB49-L02 observed lock SQL:
+SELECT "parties_party"."id", "parties_party"."host_id", "parties_party"."sport_id", "parties_party"."venue_id", "parties_party"."title", "parties_party"."description", "parties_party"."starts_at", "parties_party"."ends_at", "parties_party"."capacity", "parties_party"."cancelled_at", "parties_party"."created_at", "parties_party"."updated_at" FROM "parties_party" WHERE "parties_party"."id" = 365 LIMIT 21 FOR UPDATE
+SELECT "parties_joinrequest"."id", "parties_joinrequest"."party_id", "parties_joinrequest"."user_id", "parties_joinrequest"."status", "parties_joinrequest"."created_at", "parties_joinrequest"."decided_at", "parties_joinrequest"."decided_by_id" FROM "parties_joinrequest" WHERE ("parties_joinrequest"."party_id" = 365 AND "parties_joinrequest"."id" = 242) LIMIT 21 FOR UPDATE
+ok
+test_capacity_uses_active_members_only_and_full_party_is_editable (parties.test_editing.EditPartyTests.test_capacity_uses_active_members_only_and_full_party_is_editable) ... ok
+test_invalid_candidate_does_not_partially_save (parties.test_editing.EditPartyTests.test_invalid_candidate_does_not_partially_save) ... ok
+test_missing_party_and_empty_patch (parties.test_editing.EditPartyTests.test_missing_party_and_empty_patch) ... ok
+test_non_host_and_readonly_fields_are_rejected (parties.test_editing.EditPartyTests.test_non_host_and_readonly_fields_are_rejected) ... ok
+test_old_state_cannot_be_bypassed_by_moving_start (parties.test_editing.EditPartyTests.test_old_state_cannot_be_bypassed_by_moving_start) ... ok
+test_partial_edit_preserves_memberships_and_pending (parties.test_editing.EditPartyTests.test_partial_edit_preserves_memberships_and_pending) ... ok
+test_venue_only_edit_checks_existing_sport_and_schedule (parties.test_editing.EditPartyTests.test_venue_only_edit_checks_existing_sport_and_schedule) ... ok
+test_datetime_strings_are_parsed_and_validated (parties.test_editing_api.EditPartyHandlerTests.test_datetime_strings_are_parsed_and_validated) ... ok
+test_empty_patch_is_noop_and_other_methods_rejected (parties.test_editing_api.EditPartyHandlerTests.test_empty_patch_is_noop_and_other_methods_rejected) ... ok
+test_invalid_payloads_do_not_change_party (parties.test_editing_api.EditPartyHandlerTests.test_invalid_payloads_do_not_change_party) ... ok
+test_partial_update_matches_get_and_keeps_unsupplied_fields (parties.test_editing_api.EditPartyHandlerTests.test_partial_update_matches_get_and_keeps_unsupplied_fields) ... ok
+test_service_errors_have_expected_http_status (parties.test_editing_api.EditPartyHandlerTests.test_service_errors_have_expected_http_status) ... ok
+test_started_party_is_conflict (parties.test_editing_api.EditPartyHandlerTests.test_started_party_is_conflict) ... ok
+test_active_member_is_rejected (parties.test_join_requests.JoinRequestApiTests.test_active_member_is_rejected) ... ok
+test_anonymous_and_revoked_sessions_cannot_read_or_create (parties.test_join_requests.JoinRequestApiTests.test_anonymous_and_revoked_sessions_cannot_read_or_create) ... ok
+test_approved_former_member_can_reapply_without_reactivating_membership (parties.test_join_requests.JoinRequestApiTests.test_approved_former_member_can_reapply_without_reactivating_membership) ... ok
+test_approved_without_withdrawn_membership_is_not_reopened (parties.test_join_requests.JoinRequestApiTests.test_approved_without_withdrawn_membership_is_not_reopened) ... ok
+test_body_cannot_create_request_for_an_existing_other_user (parties.test_join_requests.JoinRequestApiTests.test_body_cannot_create_request_for_an_existing_other_user) ... ok
+test_closed_party_states_reject_new_requests (parties.test_join_requests.JoinRequestApiTests.test_closed_party_states_reject_new_requests) ... ok
+test_create_pending_and_read_own_request_without_consuming_capacity (parties.test_join_requests.JoinRequestApiTests.test_create_pending_and_read_own_request_without_consuming_capacity) ... ok
+test_csrf_cookie_from_get_enables_post_and_bad_tokens_or_origins_are_rejected (parties.test_join_requests.JoinRequestApiTests.test_csrf_cookie_from_get_enables_post_and_bad_tokens_or_origins_are_rejected) ... ok
+test_duplicate_pending_is_conflict_without_changing_request (parties.test_join_requests.JoinRequestApiTests.test_duplicate_pending_is_conflict_without_changing_request) ... ok
+test_exact_start_boundary_rejects_request (parties.test_join_requests.JoinRequestApiTests.test_exact_start_boundary_rejects_request) ... ok
+test_expired_session_cannot_read_or_create (parties.test_join_requests.JoinRequestApiTests.test_expired_session_cannot_read_or_create) ... ok
+test_get_is_scoped_to_party_and_readable_after_cancellation (parties.test_join_requests.JoinRequestApiTests.test_get_is_scoped_to_party_and_readable_after_cancellation) ... ok
+test_get_returns_null_and_cannot_read_another_users_request (parties.test_join_requests.JoinRequestApiTests.test_get_returns_null_and_cannot_read_another_users_request) ... ok
+test_host_is_rejected_even_when_host_membership_is_missing (parties.test_join_requests.JoinRequestApiTests.test_host_is_rejected_even_when_host_membership_is_missing) ... ok
+test_host_with_active_membership_is_rejected_without_writing (parties.test_join_requests.JoinRequestApiTests.test_host_with_active_membership_is_rejected_without_writing) ... ok
+test_invalid_body_and_client_selected_fields_are_rejected (parties.test_join_requests.JoinRequestApiTests.test_invalid_body_and_client_selected_fields_are_rejected) ... ok
+test_logout_endpoint_revokes_copied_session_for_both_endpoints (parties.test_join_requests.JoinRequestApiTests.test_logout_endpoint_revokes_copied_session_for_both_endpoints) ... ok
+test_non_api_csrf_failures_keep_django_html_response (parties.test_join_requests.JoinRequestApiTests.test_non_api_csrf_failures_keep_django_html_response) ... ok
+test_query_cannot_change_actor_and_empty_body_is_supported (parties.test_join_requests.JoinRequestApiTests.test_query_cannot_change_actor_and_empty_body_is_supported) ... ok
+test_rejected_request_cannot_reopen_after_party_cancellation (parties.test_join_requests.JoinRequestApiTests.test_rejected_request_cannot_reopen_after_party_cancellation) ... ok
+test_rejected_request_is_reopened_in_same_row (parties.test_join_requests.JoinRequestApiTests.test_rejected_request_is_reopened_in_same_row) ... ok
+test_unknown_party_returns_json_404_for_both_endpoints (parties.test_join_requests.JoinRequestApiTests.test_unknown_party_returns_json_404_for_both_endpoints) ... ok
+test_wrong_methods_return_json_405_without_writing (parties.test_join_requests.JoinRequestApiTests.test_wrong_methods_return_json_405_without_writing) ... ok
+test_host_can_list_and_approve_pending_request (parties.test_join_requests.JoinRequestDecisionTests.test_host_can_list_and_approve_pending_request) ... ok
+test_only_host_can_decide_and_full_party_stays_pending (parties.test_join_requests.JoinRequestDecisionTests.test_only_host_can_decide_and_full_party_stays_pending) ... ok
+test_cancelled_precedes_started_and_preserves_membership (parties.test_leave.LeaveServiceTests.test_cancelled_precedes_started_and_preserves_membership) ... ok
+test_database_error_after_write_rolls_back (parties.test_leave.LeaveServiceTests.test_database_error_after_write_rolls_back) ... ok
+DB69_EVIDENCE {"case": "test_database_error_after_write_rolls_back", "sql_before": [{"party_id": 406, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 889, "user_id": 1043, "joined_at": "2026-11-17 09:53:05.042692+00:00", "left_at": null}, {"party_id": 406, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 890, "user_id": 1044, "joined_at": "2026-11-17 09:53:05.043318+00:00", "left_at": null}], "sql_after": [{"party_id": 406, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 889, "user_id": 1043, "joined_at": "2026-11-17 09:53:05.042692+00:00", "left_at": null}, {"party_id": 406, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 890, "user_id": 1044, "joined_at": "2026-11-17 09:53:05.043318+00:00", "left_at": null}], "error": "injected after real UPDATE"}
+test_host_and_nonmember_rejected_before_state_checks (parties.test_leave.LeaveServiceTests.test_host_and_nonmember_rejected_before_state_checks) ... ok
+test_open_party_allows_leave (parties.test_leave.LeaveServiceTests.test_open_party_allows_leave) ... ok
+test_pending_and_rejected_applicants_are_not_members (parties.test_leave.LeaveServiceTests.test_pending_and_rejected_applicants_are_not_members) ... ok
+test_rejoin_requires_approval_then_allows_new_leave_cycle (parties.test_leave.LeaveServiceTests.test_rejoin_requires_approval_then_allows_new_leave_cycle) ... ok
+test_soft_leave_and_retry_preserve_history_and_query_count (parties.test_leave.LeaveServiceTests.test_soft_leave_and_retry_preserve_history_and_query_count) ... ok
+DB69_EVIDENCE {"case": "test_soft_leave_and_retry_preserve_history_and_query_count", "sql_before": [{"party_id": 411, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 899, "user_id": 1058, "joined_at": "2026-11-17 09:53:05.129689+00:00", "left_at": null}, {"party_id": 411, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 900, "user_id": 1059, "joined_at": "2026-11-17 09:53:05.130138+00:00", "left_at": null}], "sql_after": [{"party_id": 411, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 899, "user_id": 1058, "joined_at": "2026-11-17 09:53:05.129689+00:00", "left_at": null}, {"party_id": 411, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 900, "user_id": 1059, "joined_at": "2026-11-17 09:53:05.130138+00:00", "left_at": "2026-11-17 09:53:05.128465+00:00"}], "retry_left_at": "2026-11-17 09:53:05.128465+00:00"}
+test_start_boundary_and_completed_reject_first_leave (parties.test_leave.LeaveServiceTests.test_start_boundary_and_completed_reject_first_leave) ... ok
+test_unknown_party (parties.test_leave.LeaveServiceTests.test_unknown_party) ... ok
+test_anonymous_and_unverified_session_are_rejected (parties.test_leave_api.LeavePartyAPITests.test_anonymous_and_unverified_session_are_rejected) ... ok
+test_csrf_missing_invalid_and_untrusted_origin (parties.test_leave_api.LeavePartyAPITests.test_csrf_missing_invalid_and_untrusted_origin) ... ok
+test_empty_body_is_accepted (parties.test_leave_api.LeavePartyAPITests.test_empty_body_is_accepted) ... ok
+test_host_nonmember_missing_and_closed_party_errors (parties.test_leave_api.LeavePartyAPITests.test_host_nonmember_missing_and_closed_party_errors) ... ok
+test_invalid_bodies_and_client_selected_actor_never_mutate (parties.test_leave_api.LeavePartyAPITests.test_invalid_bodies_and_client_selected_actor_never_mutate) ... ok
+test_other_methods_return_post_allow (parties.test_leave_api.LeavePartyAPITests.test_other_methods_return_post_allow) ... ok
+test_success_retry_and_detail_members_permissions (parties.test_leave_api.LeavePartyAPITests.test_success_retry_and_detail_members_permissions) ... ok
+test_all_writes_require_university_session (parties.test_management_api.PartyManagementApiTests.test_all_writes_require_university_session) ... ok
+test_create_and_edit_accept_capacity_at_database_limit (parties.test_management_api.PartyManagementApiTests.test_create_and_edit_accept_capacity_at_database_limit) ... ok
+test_create_edit_cancel_flow_through_real_urls (parties.test_management_api.PartyManagementApiTests.test_create_edit_cancel_flow_through_real_urls) ... ok
+test_create_rejects_capacity_over_database_limit_without_writing (parties.test_management_api.PartyManagementApiTests.test_create_rejects_capacity_over_database_limit_without_writing) ... ok
+test_create_rejects_nul_in_text_without_writing (parties.test_management_api.PartyManagementApiTests.test_create_rejects_nul_in_text_without_writing) ... ok
+test_csrf_missing_bad_token_and_untrusted_origin_reject_all_writes (parties.test_management_api.PartyManagementApiTests.test_csrf_missing_bad_token_and_untrusted_origin_reject_all_writes) ... ok
+test_edit_rejects_capacity_over_database_limit_without_partial_update (parties.test_management_api.PartyManagementApiTests.test_edit_rejects_capacity_over_database_limit_without_partial_update) ... ok
+test_edit_rejects_nul_in_text_without_partial_update (parties.test_management_api.PartyManagementApiTests.test_edit_rejects_nul_in_text_without_partial_update) ... ok
+test_identity_must_belong_to_session_user_and_remain_verified (parties.test_management_api.PartyManagementApiTests.test_identity_must_belong_to_session_user_and_remain_verified) ... ok
+test_logout_and_inactive_account_cannot_write (parties.test_management_api.PartyManagementApiTests.test_logout_and_inactive_account_cannot_write) ... ok
+test_readonly_fields_invalid_schedule_and_missing_party (parties.test_management_api.PartyManagementApiTests.test_readonly_fields_invalid_schedule_and_missing_party) ... ok
+test_regular_unicode_text_and_empty_description_are_preserved (parties.test_management_api.PartyManagementApiTests.test_regular_unicode_text_and_empty_description_are_preserved) ... ok
+test_us9_catalogue_drives_party_creation_and_editing (parties.test_management_api.PartyManagementApiTests.test_us9_catalogue_drives_party_creation_and_editing) ... ok
+test_us9_missing_sport_and_inactive_venue_errors_preserve_data (parties.test_management_api.PartyManagementApiTests.test_us9_missing_sport_and_inactive_venue_errors_preserve_data) ... ok
+test_us9_overlapping_hours_error_prevents_create_and_partial_edit (parties.test_management_api.PartyManagementApiTests.test_us9_overlapping_hours_error_prevents_create_and_partial_edit) ... ok
+test_venue_only_edit_checks_old_times_and_merged_schedule_can_succeed (parties.test_management_api.PartyManagementApiTests.test_venue_only_edit_checks_old_times_and_merged_schedule_can_succeed) ... ok
+test_verified_outsider_cannot_manage_another_hosts_party (parties.test_management_api.PartyManagementApiTests.test_verified_outsider_cannot_manage_another_hosts_party) ... ok
+test_wrong_methods_use_json_and_allow_header (parties.test_management_api.PartyManagementApiTests.test_wrong_methods_use_json_and_allow_header) ... ok
+test_anonymous_denied_before_party_lookup (parties.test_members.PartyMembersApiTests.test_anonymous_denied_before_party_lookup) ... ok
+test_cancelled_party_follows_party_detail_policy (parties.test_members.PartyMembersApiTests.test_cancelled_party_follows_party_detail_policy) ... ok
+test_forbidden_keys_and_values_do_not_leak (parties.test_members.PartyMembersApiTests.test_forbidden_keys_and_values_do_not_leak) ... ok
+test_host_and_active_member_can_read (parties.test_members.PartyMembersApiTests.test_host_and_active_member_can_read) ... ok
+test_host_first_then_join_time_then_row_id (parties.test_members.PartyMembersApiTests.test_host_first_then_join_time_then_row_id) ... ok
+test_host_with_active_row_matches_party_detail (parties.test_members.PartyMembersApiTests.test_host_with_active_row_matches_party_detail) ... ok
+test_host_with_left_row_is_not_listed_and_matches_party_detail (parties.test_members.PartyMembersApiTests.test_host_with_left_row_is_not_listed_and_matches_party_detail) ... ok
+test_host_without_active_row_is_not_synthesized_and_matches_party_detail (parties.test_members.PartyMembersApiTests.test_host_without_active_row_is_not_synthesized_and_matches_party_detail) ... ok
+test_host_without_profile_matches_party_detail_fallback (parties.test_members.PartyMembersApiTests.test_host_without_profile_matches_party_detail_fallback) ... ok
+test_it_us6_db_01_lists_only_this_partys_active_memberships (parties.test_members.PartyMembersApiTests.test_it_us6_db_01_lists_only_this_partys_active_memberships) ... ok
+test_it_us6_db_01_query_count_does_not_grow_with_members (parties.test_members.PartyMembersApiTests.test_it_us6_db_01_query_count_does_not_grow_with_members) ... ok
+test_it_us6_db_03_left_member_is_hidden_but_history_is_retained (parties.test_members.PartyMembersApiTests.test_it_us6_db_03_left_member_is_hidden_but_history_is_retained) ... ok
+test_left_member_gets_403_without_leak (parties.test_members.PartyMembersApiTests.test_left_member_gets_403_without_leak) ... ok
+test_local_login_without_university_identity_is_forbidden (parties.test_members.PartyMembersApiTests.test_local_login_without_university_identity_is_forbidden) ... ok
+test_member_of_another_party_gets_403 (parties.test_members.PartyMembersApiTests.test_member_of_another_party_gets_403) ... ok
+test_member_who_left_matches_party_detail (parties.test_members.PartyMembersApiTests.test_member_who_left_matches_party_detail) ... ok
+test_missing_profile_uses_fallback_without_writing (parties.test_members.PartyMembersApiTests.test_missing_profile_uses_fallback_without_writing) ... ok
+test_non_member_gets_403_without_leak (parties.test_members.PartyMembersApiTests.test_non_member_gets_403_without_leak) ... ok
+test_pending_and_rejected_get_403_without_leak (parties.test_members.PartyMembersApiTests.test_pending_and_rejected_get_403_without_leak) ... ok
+test_pending_and_rejected_requesters_are_not_listed (parties.test_members.PartyMembersApiTests.test_pending_and_rejected_requesters_are_not_listed) ... ok
+test_query_cannot_change_actor (parties.test_members.PartyMembersApiTests.test_query_cannot_change_actor) ... ok
+test_roles_and_count_match_the_list (parties.test_members.PartyMembersApiTests.test_roles_and_count_match_the_list) ... ok
+test_several_active_members_match_party_detail (parties.test_members.PartyMembersApiTests.test_several_active_members_match_party_detail) ... ok
+test_staff_flags_do_not_grant_access (parties.test_members.PartyMembersApiTests.test_staff_flags_do_not_grant_access) ... ok
+test_unknown_party_is_404_even_for_non_member (parties.test_members.PartyMembersApiTests.test_unknown_party_is_404_even_for_non_member) ... ok
+test_unknown_party_returns_404_with_shared_message (parties.test_members.PartyMembersApiTests.test_unknown_party_returns_404_with_shared_message) ... ok
+test_unsupported_methods_return_405 (parties.test_members.PartyMembersApiTests.test_unsupported_methods_return_405) ... ok
+test_db66_a01_baseline_six_parties_excludes_requests_and_left_history (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a01_baseline_six_parties_excludes_requests_and_left_history) ... ok
+test_db66_a02_approve_via_http_increases_sql_and_api_once (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a02_approve_via_http_increases_sql_and_api_once) ... Conflict: /api/v1/parties/445/join-requests/270/decision
+ok
+test_db66_a03_reject_via_http_does_not_create_membership (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a03_reject_via_http_does_not_create_membership) ... ok
+test_db66_a04_prepared_left_state_preserves_history_and_decrements_once (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a04_prepared_left_state_preserves_history_and_decrements_once) ... ok
+test_db66_a05_profile_missing_and_other_party_do_not_change_members (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a05_profile_missing_and_other_party_do_not_change_members) ... ok
+test_db66_a06_get_does_not_mutate_membership_request_or_profile (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a06_get_does_not_mutate_membership_request_or_profile) ... ok
+test_db66_a07_legacy_host_must_not_disagree_with_actual_sql_rows (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a07_legacy_host_must_not_disagree_with_actual_sql_rows) ... ok
+test_db66_a08_real_leave_retry_matches_sql_and_preserves_history (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a08_real_leave_retry_matches_sql_and_preserves_history) ... Forbidden: /api/v1/parties/445/members
+ok
+test_db66_a09_host_without_membership_is_not_synthesized (parties.test_members_database.MembersDatabaseIntegrationTests.test_db66_a09_host_without_membership_is_not_synthesized) ... ok
+test_anonymous_denied_before_party_lookup (parties.test_pending_requests.PendingRequestApiTests.test_anonymous_denied_before_party_lookup) ... ok
+test_authenticated_inactive_guard_denies_without_database_query (parties.test_pending_requests.PendingRequestApiTests.test_authenticated_inactive_guard_denies_without_database_query) ... ok
+test_created_at_has_bangkok_offset_without_changing_instant (parties.test_pending_requests.PendingRequestApiTests.test_created_at_has_bangkok_offset_without_changing_instant) ... ok
+test_expired_session_cannot_read_previously_visible_requests (parties.test_pending_requests.PendingRequestApiTests.test_expired_session_cannot_read_previously_visible_requests) ... ok
+test_host_authorization_does_not_depend_on_membership_row (parties.test_pending_requests.PendingRequestApiTests.test_host_authorization_does_not_depend_on_membership_row) ... ok
+test_host_can_read_pending_in_every_party_state (parties.test_pending_requests.PendingRequestApiTests.test_host_can_read_pending_in_every_party_state) ... ok
+test_host_reads_only_own_pending_with_exact_public_fields (parties.test_pending_requests.PendingRequestApiTests.test_host_reads_only_own_pending_with_exact_public_fields) ... ok
+test_inactive_host_session_is_anonymous_under_model_backend (parties.test_pending_requests.PendingRequestApiTests.test_inactive_host_session_is_anonymous_under_model_backend) ... ok
+test_missing_invalid_or_other_users_identity_is_forbidden (parties.test_pending_requests.PendingRequestApiTests.test_missing_invalid_or_other_users_identity_is_forbidden) ... ok
+test_missing_party_and_unmatched_routes_return_404 (parties.test_pending_requests.PendingRequestApiTests.test_missing_party_and_unmatched_routes_return_404) ... ok
+test_missing_profile_has_safe_fallback_without_private_identifiers (parties.test_pending_requests.PendingRequestApiTests.test_missing_profile_has_safe_fallback_without_private_identifiers) ... ok
+test_no_pending_returns_empty_array_even_when_decided_requests_exist (parties.test_pending_requests.PendingRequestApiTests.test_no_pending_returns_empty_array_even_when_decided_requests_exist) ... ok
+test_non_hosts_cannot_read_even_if_member_applicant_or_staff (parties.test_pending_requests.PendingRequestApiTests.test_non_hosts_cannot_read_even_if_member_applicant_or_staff) ... ok
+test_oldest_first_and_equal_timestamps_use_request_id (parties.test_pending_requests.PendingRequestApiTests.test_oldest_first_and_equal_timestamps_use_request_id) ... ok
+test_other_host_cannot_impersonate_owner_with_query (parties.test_pending_requests.PendingRequestApiTests.test_other_host_cannot_impersonate_owner_with_query) ... ok
+test_query_cannot_change_actor_party_or_status (parties.test_pending_requests.PendingRequestApiTests.test_query_cannot_change_actor_party_or_status) ... ok
+test_real_logout_revokes_copied_cookie_for_pending_reads (parties.test_pending_requests.PendingRequestApiTests.test_real_logout_revokes_copied_cookie_for_pending_reads) ... ok
+test_refresh_removes_decided_request_and_responses_are_not_cached (parties.test_pending_requests.PendingRequestApiTests.test_refresh_removes_decided_request_and_responses_are_not_cached) ... ok
+test_repeated_reads_preserve_requests_memberships_and_slots (parties.test_pending_requests.PendingRequestApiTests.test_repeated_reads_preserve_requests_memberships_and_slots) ... ok
+test_unsupported_methods_and_csrf_failures_do_not_write (parties.test_pending_requests.PendingRequestApiTests.test_unsupported_methods_and_csrf_failures_do_not_write) ... ok
+test_unverified_or_wrong_provider_identity_is_forbidden (parties.test_pending_requests.PendingRequestApiTests.test_unverified_or_wrong_provider_identity_is_forbidden) ... ok
+test_cancelled_started_completed_and_exact_start_deny_reject (parties.test_rejection.RejectRequestApiTests.test_cancelled_started_completed_and_exact_start_deny_reject) ... ok
+test_extra_body_fields_cannot_override_actor_or_target (parties.test_rejection.RejectRequestApiTests.test_extra_body_fields_cannot_override_actor_or_target) ... ok
+test_failure_after_decision_write_rolls_back_all_domain_data (parties.test_rejection.RejectRequestApiTests.test_failure_after_decision_write_rolls_back_all_domain_data) ... ok
+test_full_party_can_reject_without_freeing_a_slot (parties.test_rejection.RejectRequestApiTests.test_full_party_can_reject_without_freeing_a_slot) ... ok
+test_logout_revokes_old_cookie_for_reject (parties.test_rejection.RejectRequestApiTests.test_logout_revokes_old_cookie_for_reject) ... ok
+test_missing_or_wrong_party_request_cannot_be_rejected (parties.test_rejection.RejectRequestApiTests.test_missing_or_wrong_party_request_cannot_be_rejected) ... ok
+test_non_host_roles_and_anonymous_cannot_reject (parties.test_rejection.RejectRequestApiTests.test_non_host_roles_and_anonymous_cannot_reject) ... ok
+test_reject_cannot_overturn_approval_or_remove_member (parties.test_rejection.RejectRequestApiTests.test_reject_cannot_overturn_approval_or_remove_member) ... ok
+test_reject_preserves_withdrawn_membership_history (parties.test_rejection.RejectRequestApiTests.test_reject_preserves_withdrawn_membership_history) ... ok
+test_reject_records_decision_and_refreshes_reads_without_changing_members (parties.test_rejection.RejectRequestApiTests.test_reject_records_decision_and_refreshes_reads_without_changing_members) ... ok
+test_reject_requires_csrf_and_post (parties.test_rejection.RejectRequestApiTests.test_reject_requires_csrf_and_post) ... ok
+test_rejected_applicant_can_reapply_and_then_be_approved (parties.test_rejection.RejectRequestApiTests.test_rejected_applicant_can_reapply_and_then_be_approved) ... ok
+test_repeated_reject_and_approve_preserve_rejection (parties.test_rejection.RejectRequestApiTests.test_repeated_reject_and_approve_preserve_rejection) ... ok
+test_unverified_and_expired_sessions_cannot_reject (parties.test_rejection.RejectRequestApiTests.test_unverified_and_expired_sessions_cannot_reject) ... ok
+test_defaults_allowlist_and_detail_shape_without_csrf (parties.test_search_api.SearchAPITests.test_defaults_allowlist_and_detail_shape_without_csrf) ... ok
+test_guard_runs_before_query_validation (parties.test_search_api.SearchAPITests.test_guard_runs_before_query_validation) ... ok
+test_http_combined_filters_and_state_do_not_mutate (parties.test_search_api.SearchAPITests.test_http_combined_filters_and_state_do_not_mutate) ... ok
+test_invalid_queries_are_errors_not_empty_results (parties.test_search_api.SearchAPITests.test_invalid_queries_are_errors_not_empty_results) ... ok
+test_pagination_total_tie_order_and_out_of_range (parties.test_search_api.SearchAPITests.test_pagination_total_tie_order_and_out_of_range) ... ok
+test_state_filter_and_serialization_share_one_now (parties.test_search_api.SearchAPITests.test_state_filter_and_serialization_share_one_now) ... ok
+test_unknown_ids_return_empty_even_outside_database_integer_range (parties.test_search_api.SearchAPITests.test_unknown_ids_return_empty_even_outside_database_integer_range) ... ok
+test_all_states_match_detail_precedence_at_one_instant (parties.test_search_filters.SearchFilterTests.test_all_states_match_detail_precedence_at_one_instant) ... ok
+test_combined_filters_are_and_and_sport_is_not_venue_type (parties.test_search_filters.SearchFilterTests.test_combined_filters_are_and_and_sport_is_not_venue_type) ... ok
+test_pending_rejected_and_left_do_not_inflate_active_count (parties.test_search_filters.SearchFilterTests.test_pending_rejected_and_left_do_not_inflate_active_count) ... ok
+test_starts_within_inclusive_lower_exclusive_upper_not_overlap (parties.test_search_filters.SearchFilterTests.test_starts_within_inclusive_lower_exclusive_upper_not_overlap) ... ok
+test_text_matches_only_title_and_combines_with_state (parties.test_search_filters.SearchFilterTests.test_text_matches_only_title_and_combines_with_state) ... ok
+test_ties_have_stable_id_order_and_search_does_not_write (parties.test_search_filters.SearchFilterTests.test_ties_have_stable_id_order_and_search_does_not_write) ... ok
+test_unknown_type_and_inactive_venue_are_not_hidden_by_default (parties.test_search_filters.SearchFilterTests.test_unknown_type_and_inactive_venue_are_not_hidden_by_default) ... ok
+test_q78_01_mapping_and_filters_do_not_multiply_active_counts (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_01_mapping_and_filters_do_not_multiply_active_counts) ... ok
+test_q78_02_half_open_bangkok_and_utc_boundaries (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_02_half_open_bangkok_and_utc_boundaries) ... ok
+test_q78_03_state_precedence_and_detail_agree_at_same_instant (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_03_state_precedence_and_detail_agree_at_same_instant) ... ok
+test_q78_04_pagination_after_filter_with_stable_ties (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_04_pagination_after_filter_with_stable_ties) ... ok
+test_q78_05_schema_and_existing_index_inventory (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_05_schema_and_existing_index_inventory) ... ok
+test_q78_06_explain_actual_api_query_on_selective_10011_party_fixture (parties.test_search_query_audit.SearchQueryAuditTests.test_q78_06_explain_actual_api_query_on_selective_10011_party_fixture) ... ok
+test_capacity_one_is_full_immediately_and_join_cannot_leave_partial_data (parties.test_us7_acceptance.PartyLifecycleAcceptanceTests.test_capacity_one_is_full_immediately_and_join_cannot_leave_partial_data) ... ok
+test_created_party_pending_survives_edit_and_cancel_without_consuming_a_slot (parties.test_us7_acceptance.PartyLifecycleAcceptanceTests.test_created_party_pending_survives_edit_and_cancel_without_consuming_a_slot) ... ok
+test_deleting_party_cascades_memberships_and_join_requests (parties.tests.PartyDeletionAndValidationTests.test_deleting_party_cascades_memberships_and_join_requests) ... ok
+test_user_with_membership_cannot_be_deleted (parties.tests.PartyDeletionAndValidationTests.test_user_with_membership_cannot_be_deleted) ... ok
+test_anonymous_request_is_json_401_even_with_forged_user_parameters (parties.tests.PartyDetailTests.test_anonymous_request_is_json_401_even_with_forged_user_parameters) ... ok
+test_detail_has_exact_public_contract_and_ignores_forged_actor (parties.tests.PartyDetailTests.test_detail_has_exact_public_contract_and_ignores_forged_actor) ... ok
+test_full_party_response_has_consistent_state_and_remaining_slots (parties.tests.PartyDetailTests.test_full_party_response_has_consistent_state_and_remaining_slots) ... ok
+test_membership_flags_follow_the_session_and_current_membership (parties.tests.PartyDetailTests.test_membership_flags_follow_the_session_and_current_membership) ... ok
+test_missing_party_returns_json_404 (parties.tests.PartyDetailTests.test_missing_party_returns_json_404) ... ok
+test_missing_profile_uses_generic_label_without_exposing_login (parties.tests.PartyDetailTests.test_missing_profile_uses_generic_label_without_exposing_login) ... ok
+test_revoked_or_deactivated_session_cannot_read_party (parties.tests.PartyDetailTests.test_revoked_or_deactivated_session_cannot_read_party) ... ok
+test_state_service_precedence_and_time_boundaries (parties.tests.PartyDetailTests.test_state_service_precedence_and_time_boundaries) ... ok
+test_unsupported_methods_do_not_change_party (parties.tests.PartyDetailTests.test_unsupported_methods_do_not_change_party) ... ok
+test_capacity_below_one_is_rejected (parties.tests.PartySchemaTests.test_capacity_below_one_is_rejected) ... ok
+test_decided_requests_allow_null_decider_under_current_policy (parties.tests.PartySchemaTests.test_decided_requests_allow_null_decider_under_current_policy) ... ok
+test_decided_requests_can_store_both_decision_fields (parties.tests.PartySchemaTests.test_decided_requests_can_store_both_decision_fields) ... ok
+test_decided_requests_require_decision_time (parties.tests.PartySchemaTests.test_decided_requests_require_decision_time) ... ok
+test_deleting_decider_preserves_decision_history (parties.tests.PartySchemaTests.test_deleting_decider_preserves_decision_history) ... ok
+test_end_time_must_be_after_start_time (parties.tests.PartySchemaTests.test_end_time_must_be_after_start_time) ... ok
+test_join_request_pair_must_be_unique (parties.tests.PartySchemaTests.test_join_request_pair_must_be_unique) ... ok
+test_membership_pair_must_be_unique_even_after_leaving (parties.tests.PartySchemaTests.test_membership_pair_must_be_unique_even_after_leaving) ... ok
+test_pending_cannot_have_decision_time_or_decider (parties.tests.PartySchemaTests.test_pending_cannot_have_decision_time_or_decider) ... ok
+test_access_and_methods (venues.test_api_schedule.VenueApiScheduleTests.test_access_and_methods) ... ok
+test_adjacent_intervals_cannot_be_combined (venues.test_api_schedule.VenueApiScheduleTests.test_adjacent_intervals_cannot_be_combined) ... ok
+test_api_contract_filter_pagination_and_hours (venues.test_api_schedule.VenueApiScheduleTests.test_api_contract_filter_pagination_and_hours) ... ok
+test_boundaries_and_timezone_conversion (venues.test_api_schedule.VenueApiScheduleTests.test_boundaries_and_timezone_conversion) ... ok
+test_empty_hours_and_missing_sport (venues.test_api_schedule.VenueApiScheduleTests.test_empty_hours_and_missing_sport) ... ok
+test_invalid_ranges_and_closed_intervals (venues.test_api_schedule.VenueApiScheduleTests.test_invalid_ranges_and_closed_intervals) ... ok
+test_mapping_active_venue_and_input_types (venues.test_api_schedule.VenueApiScheduleTests.test_mapping_active_venue_and_input_types) ... ok
+test_overlapping_configuration_is_rejected (venues.test_api_schedule.VenueApiScheduleTests.test_overlapping_configuration_is_rejected) ... ok
+test_query_validation (venues.test_api_schedule.VenueApiScheduleTests.test_query_validation) ... ok
+test_disabled_outside_development (venues.test_seed_venues.SeedVenuesTests.test_disabled_outside_development) ... ok
+test_duplicate_reserved_venue_names_are_rejected (venues.test_seed_venues.SeedVenuesTests.test_duplicate_reserved_venue_names_are_rejected) ... ok
+test_mock_hours_are_labeled_in_database_catalog_and_output (venues.test_seed_venues.SeedVenuesTests.test_mock_hours_are_labeled_in_database_catalog_and_output) ... ok
+test_name_collision_rolls_back_all_seed_changes (venues.test_seed_venues.SeedVenuesTests.test_name_collision_rolls_back_all_seed_changes) ... ok
+test_published_hours_are_seeded_for_badminton_and_swimming (venues.test_seed_venues.SeedVenuesTests.test_published_hours_are_seeded_for_badminton_and_swimming) ... ok
+test_rerun_restores_catalog_without_duplicate_parent_ids (venues.test_seed_venues.SeedVenuesTests.test_rerun_restores_catalog_without_duplicate_parent_ids) ... ok
+test_unrelated_and_base03_configuration_is_untouched (venues.test_seed_venues.SeedVenuesTests.test_unrelated_and_base03_configuration_is_untouched) ... ok
+test_consecutive_days_with_same_hours_are_grouped (venues.test_ui_views.HoursSummaryTests.test_consecutive_days_with_same_hours_are_grouped) ... ok
+test_court_buttons_link_to_create_party_with_selected_venue_and_sport (venues.test_ui_views.SportDetailTests.test_court_buttons_link_to_create_party_with_selected_venue_and_sport) ... ok
+test_missing_or_inactive_venue_returns_404 (venues.test_ui_views.SportDetailTests.test_missing_or_inactive_venue_returns_404) ... ok
+test_nonexistent_sport_returns_404 (venues.test_ui_views.SportDetailTests.test_nonexistent_sport_returns_404) ... ok
+test_people_row_shows_max_players_for_sport (venues.test_ui_views.SportDetailTests.test_people_row_shows_max_players_for_sport) ... ok
+test_sport_not_linked_to_venue_returns_404 (venues.test_ui_views.SportDetailTests.test_sport_not_linked_to_venue_returns_404) ... ok
+test_sport_page_renders_with_back_link_to_map (venues.test_ui_views.SportDetailTests.test_sport_page_renders_with_back_link_to_map) ... ok
+test_unknown_sport_falls_back_to_four_players (venues.test_ui_views.SportDetailTests.test_unknown_sport_falls_back_to_four_players) ... ok
+test_missing_or_inactive_venue_returns_404 (venues.test_ui_views.VenueDetailTests.test_missing_or_inactive_venue_returns_404) ... ok
+test_multi_sport_venue_renders_detail_page (venues.test_ui_views.VenueDetailTests.test_multi_sport_venue_renders_detail_page) ... ok
+test_single_sport_venue_redirects_to_sport_page (venues.test_ui_views.VenueDetailTests.test_single_sport_venue_redirects_to_sport_page) ... ok
+test_inactive_unmapped_venue_appears_nowhere (venues.test_ui_views.VenueMapTests.test_inactive_unmapped_venue_appears_nowhere) ... ok
+test_inactive_venue_is_hidden (venues.test_ui_views.VenueMapTests.test_inactive_venue_is_hidden) ... ok
+test_mapped_venues_are_not_duplicated_in_other_venues (venues.test_ui_views.VenueMapTests.test_mapped_venues_are_not_duplicated_in_other_venues) ... ok
+test_other_venue_link_reaches_its_page (venues.test_ui_views.VenueMapTests.test_other_venue_link_reaches_its_page) ... ok
+test_other_venues_section_hidden_when_every_venue_is_mapped (venues.test_ui_views.VenueMapTests.test_other_venues_section_hidden_when_every_venue_is_mapped) ... ok
+test_single_sport_marker_starts_party_with_its_selected_values (venues.test_ui_views.VenueMapTests.test_single_sport_marker_starts_party_with_its_selected_values) ... ok
+test_sport_menu_links_start_party_with_each_sports_venue_id (venues.test_ui_views.VenueMapTests.test_sport_menu_links_start_party_with_each_sports_venue_id) ... ok
+test_tennis_and_pickleball_share_one_building_with_their_own_venue_ids (venues.test_ui_views.VenueMapTests.test_tennis_and_pickleball_share_one_building_with_their_own_venue_ids) ... ok
+test_unmapped_active_venues_are_listed_under_other_venues (venues.test_ui_views.VenueMapTests.test_unmapped_active_venues_are_listed_under_other_venues) ... ok
+test_deleting_unreferenced_venue_cascades_opening_hours (venues.tests.VenueDeletionAndValidationTests.test_deleting_unreferenced_venue_cascades_opening_hours) ... ok
+test_deleting_venue_cascades_venue_sport (venues.tests.VenueDeletionAndValidationTests.test_deleting_venue_cascades_venue_sport) ... ok
+test_opening_hour_start_is_unique_per_venue_and_weekday (venues.tests.VenueDeletionAndValidationTests.test_opening_hour_start_is_unique_per_venue_and_weekday) ... ok
+test_party_protects_its_venue_and_sport_even_without_a_mapping (venues.tests.VenueDeletionAndValidationTests.test_party_protects_its_venue_and_sport_even_without_a_mapping) ... ok
+test_sport_referenced_by_venue_cannot_be_deleted (venues.tests.VenueDeletionAndValidationTests.test_sport_referenced_by_venue_cannot_be_deleted) ... ok
+test_closing_time_must_be_after_opening_time (venues.tests.VenueSchemaTests.test_closing_time_must_be_after_opening_time) ... ok
+test_join_and_opening_hour_foreign_keys_reject_missing_parents (venues.tests.VenueSchemaTests.test_join_and_opening_hour_foreign_keys_reject_missing_parents) ... ok
+test_multiple_intervals_and_same_start_on_other_day_or_venue_are_allowed (venues.tests.VenueSchemaTests.test_multiple_intervals_and_same_start_on_other_day_or_venue_are_allowed) ... ok
+test_sport_name_is_unique (venues.tests.VenueSchemaTests.test_sport_name_is_unique) ... ok
+test_valid_opening_hours_allow_weekday_boundaries (venues.tests.VenueSchemaTests.test_valid_opening_hours_allow_weekday_boundaries) ... ok
+test_venue_and_sport_must_be_unique (venues.tests.VenueSchemaTests.test_venue_and_sport_must_be_unique) ... ok
+test_weekday_outside_zero_to_six_is_rejected (venues.tests.VenueSchemaTests.test_weekday_outside_zero_to_six_is_rejected) ... ok
+test_simultaneous_first_logins_reuse_one_user_across_connections (accounts.tests.ConcurrentUniversityUserCreationTests.test_simultaneous_first_logins_reuse_one_user_across_connections) ... ok
+test_connection_error_and_timeout_are_wrapped (accounts.tests.UniversityAPIClientTests.test_connection_error_and_timeout_are_wrapped) ... ok
+test_http_errors_are_wrapped_with_original_cause (accounts.tests.UniversityAPIClientTests.test_http_errors_are_wrapped_with_original_cause) ... ok
+test_malformed_json_and_invalid_encoding_are_rejected (accounts.tests.UniversityAPIClientTests.test_malformed_json_and_invalid_encoding_are_rejected) ... ok
+test_missing_key_does_not_send_request (accounts.tests.UniversityAPIClientTests.test_missing_key_does_not_send_request) ... ok
+test_non_object_json_is_rejected (accounts.tests.UniversityAPIClientTests.test_non_object_json_is_rejected) ... ok
+test_provider_rejection_body_is_returned_for_separate_validation (accounts.tests.UniversityAPIClientTests.test_provider_rejection_body_is_returned_for_separate_validation) ... ok
+test_sends_expected_request_and_reads_json (accounts.tests.UniversityAPIClientTests.test_sends_expected_request_and_reads_json) ... ok
+test_non_student_types_are_rejected (accounts.tests.UniversityResponseValidationTests.test_non_student_types_are_rejected) ... ok
+test_provider_text_must_fit_database_columns (accounts.tests.UniversityResponseValidationTests.test_provider_text_must_fit_database_columns) ... ok
+test_required_fields_cannot_be_missing (accounts.tests.UniversityResponseValidationTests.test_required_fields_cannot_be_missing) ... ok
+test_required_fields_must_be_nonblank_strings (accounts.tests.UniversityResponseValidationTests.test_required_fields_must_be_nonblank_strings) ... ok
+test_response_must_be_an_object (accounts.tests.UniversityResponseValidationTests.test_response_must_be_an_object) ... ok
+test_status_must_be_boolean_true (accounts.tests.UniversityResponseValidationTests.test_status_must_be_boolean_true) ... ok
+test_statusid_is_not_used_for_eligibility (accounts.tests.UniversityResponseValidationTests.test_statusid_is_not_used_for_eligibility) ... ok
+test_student_type_is_accepted (accounts.tests.UniversityResponseValidationTests.test_student_type_is_accepted) ... ok
+test_success_maps_provider_fields_without_statusid (accounts.tests.UniversityResponseValidationTests.test_success_maps_provider_fields_without_statusid) ... ok
+test_flag_is_off_unless_the_environment_enables_it (conduct.test_no_show.NoShowFlagDefaultTests.test_flag_is_off_unless_the_environment_enables_it)
+UT-US14-NS-02 ... ok
+test_many_reporters_crossing_the_threshold_at_once_deduct_once (conduct.test_no_show_concurrency.NoShowConcurrencyTests.test_many_reporters_crossing_the_threshold_at_once_deduct_once)
+IT-US14-NS-58 ... ok
+test_reporters_racing_over_the_threshold_deduct_once (conduct.test_no_show_concurrency.NoShowConcurrencyTests.test_reporters_racing_over_the_threshold_deduct_once)
+IT-US14-NS-54 ... ok
+test_same_report_submitted_concurrently_is_stored_once (conduct.test_no_show_concurrency.NoShowConcurrencyTests.test_same_report_submitted_concurrently_is_stored_once)
+IT-US14-NS-53 ... ok
+test_window_is_read_after_the_party_lock (conduct.test_no_show_concurrency.NoShowConcurrencyTests.test_window_is_read_after_the_party_lock)
+IT-US14-NS-55: a request waiting on the lock may cross the window's end. ... ok
+test_approved_constants (conduct.test_policy.ApprovedCreditUnitTests.test_approved_constants) ... ok
+test_duplicate_event_does_not_change_or_save_the_balance (conduct.test_policy.ApprovedCreditUnitTests.test_duplicate_event_does_not_change_or_save_the_balance) ... ok
+test_first_existing_and_negative_balances_use_the_approved_opening_balance (conduct.test_policy.ApprovedCreditUnitTests.test_first_existing_and_negative_balances_use_the_approved_opening_balance) ... ok
+test_more_than_half_with_a_minimum_of_two (conduct.test_policy.RequiredReportersTests.test_more_than_half_with_a_minimum_of_two)
+UT-US14-NS-01 ... ok
+test_different_reviewers_do_not_lose_rating_cache_updates (conduct.test_reviews_concurrency.ReviewConcurrencyTests.test_different_reviewers_do_not_lose_rating_cache_updates)
+IT-US14-DB-42 ... DB95_EVIDENCE {"case": "test_different_reviewers_do_not_lose_rating_cache_updates", "sql_before": [{"reviewee_id": 1321, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "blocked_workers": [{"waiting_pid": 1551, "blocking_pids": [1550], "observer_pid": 1550}, {"waiting_pid": 1552, "blocking_pids": [1551], "observer_pid": 1550}], "submissions": [{"pid": 1551, "reviewer_id": 1320, "reviewee_id": 1321, "rating": 5, "http_status": 201, "response": {"data": {"review": {"id": 124, "party_id": 10555, "reviewer": {"id": 1320, "display_name": "\u0e1c\u0e39\u0e49\u0e08\u0e31\u0e14\u0e23\u0e35\u0e27\u0e34\u0e27"}, "reviewee_id": 1321, "rating": 5, "comment": "\u0e40\u0e25\u0e48\u0e19\u0e2a\u0e19\u0e38\u0e01\u0e21\u0e32\u0e01", "created_at": "2026-11-17T16:53:14.871062+07:00"}}}}, {"pid": 1552, "reviewer_id": 1322, "reviewee_id": 1321, "rating": 2, "http_status": 201, "response": {"data": {"review": {"id": 125, "party_id": 10555, "reviewer": {"id": 1322, "display_name": "\u0e2a\u0e21\u0e32\u0e0a\u0e34\u0e01\u0e2a\u0e2d\u0e07"}, "reviewee_id": 1321, "rating": 2, "comment": "\u0e40\u0e25\u0e48\u0e19\u0e2a\u0e19\u0e38\u0e01\u0e21\u0e32\u0e01", "created_at": "2026-11-17T16:53:14.878887+07:00"}}}}], "sql_after": [{"reviewee_id": 1321, "rating_sum": 7, "rating_count": 2, "credit_score": null, "actual_count": 2, "actual_sum": 7, "actual_average": "3.5000000000000000", "credit_events": 0, "review_id": 124, "party_id": 10555, "reviewer_id": 1320, "rating": 5, "created_at": "2026-11-17 09:53:14.871062+00:00"}, {"reviewee_id": 1321, "rating_sum": 7, "rating_count": 2, "credit_score": null, "actual_count": 2, "actual_sum": 7, "actual_average": "3.5000000000000000", "credit_events": 0, "review_id": 125, "party_id": 10555, "reviewer_id": 1322, "rating": 2, "created_at": "2026-11-17 09:53:14.878887+00:00"}]}
+ok
+test_same_review_submitted_concurrently_is_stored_once (conduct.test_reviews_concurrency.ReviewConcurrencyTests.test_same_review_submitted_concurrently_is_stored_once)
+IT-US14-DB-41 ... DB95_EVIDENCE {"case": "test_same_review_submitted_concurrently_is_stored_once", "sql_before": [{"reviewee_id": 1325, "rating_sum": 0, "rating_count": 0, "credit_score": null, "actual_count": 0, "actual_sum": 0, "actual_average": null, "credit_events": 0, "review_id": null, "party_id": null, "reviewer_id": null, "rating": null, "created_at": null}], "blocked_workers": [{"waiting_pid": 1554, "blocking_pids": [1553], "observer_pid": 1553}, {"waiting_pid": 1555, "blocking_pids": [1554], "observer_pid": 1553}], "submissions": [{"pid": 1554, "reviewer_id": 1324, "reviewee_id": 1325, "rating": 4, "http_status": 201, "response": {"data": {"review": {"id": 126, "party_id": 10556, "reviewer": {"id": 1324, "display_name": "\u0e1c\u0e39\u0e49\u0e08\u0e31\u0e14\u0e23\u0e35\u0e27\u0e34\u0e27"}, "reviewee_id": 1325, "rating": 4, "comment": "\u0e40\u0e25\u0e48\u0e19\u0e2a\u0e19\u0e38\u0e01\u0e21\u0e32\u0e01", "created_at": "2026-11-17T16:53:15.121940+07:00"}}}}, {"pid": 1555, "reviewer_id": 1324, "reviewee_id": 1325, "rating": 4, "http_status": 409, "response": {"error": {"code": "REVIEW_EXISTS", "message": "\u0e04\u0e38\u0e13\u0e23\u0e35\u0e27\u0e34\u0e27\u0e1c\u0e39\u0e49\u0e43\u0e0a\u0e49\u0e19\u0e35\u0e49\u0e43\u0e19\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e19\u0e35\u0e49\u0e41\u0e25\u0e49\u0e27"}}}], "sql_after": [{"reviewee_id": 1325, "rating_sum": 4, "rating_count": 1, "credit_score": null, "actual_count": 1, "actual_sum": 4, "actual_average": "4.0000000000000000", "credit_events": 0, "review_id": 126, "party_id": 10556, "reviewer_id": 1324, "rating": 4, "created_at": "2026-11-17 09:53:15.121940+00:00"}]}
+ok
+test_state_is_read_after_the_party_lock_at_the_exact_end (conduct.test_reviews_concurrency.ReviewConcurrencyTests.test_state_is_read_after_the_party_lock_at_the_exact_end)
+IT-US14-DB-43: a request waiting on the lock may cross ends_at. ... ok
+test_average_is_rounded_to_two_decimals (conduct.test_reviews_unit.AverageRatingUnitTests.test_average_is_rounded_to_two_decimals)
+UT-US14-API-05 ... ok
+test_large_counts_stay_exact_within_the_integer_columns (conduct.test_reviews_unit.AverageRatingUnitTests.test_large_counts_stay_exact_within_the_integer_columns)
+UT-US14-API-05 ... ok
+test_no_reviews_is_none_not_zero (conduct.test_reviews_unit.AverageRatingUnitTests.test_no_reviews_is_none_not_zero)
+UT-US14-API-05 ... ok
+test_summary_view_never_reads_or_changes_credit_score (conduct.test_reviews_unit.AverageRatingUnitTests.test_summary_view_never_reads_or_changes_credit_score)
+UT-US14-API-05: GuardedProfile raises on any credit_score access. ... ok
+test_other_integrity_error_is_raised_unchanged (conduct.test_reviews_unit.DuplicateReviewUnitTests.test_other_integrity_error_is_raised_unchanged)
+UT-US14-API-04 ... ok
+test_unique_conflict_is_review_exists_and_the_cache_is_untouched (conduct.test_reviews_unit.DuplicateReviewUnitTests.test_unique_conflict_is_review_exists_and_the_cache_is_untouched)
+UT-US14-API-04 ... ok
+test_clock_is_read_only_after_the_party_lock (conduct.test_reviews_unit.EligibilityUnitTests.test_clock_is_read_only_after_the_party_lock)
+UT-US14-API-01: a request waiting on the lock may cross ends_at. ... ok
+test_eligible_review_is_created_and_counted_once (conduct.test_reviews_unit.EligibilityUnitTests.test_eligible_review_is_created_and_counted_once)
+UT-US14-API-01 ... ok
+test_party_that_is_not_completed_is_refused_before_any_other_check (conduct.test_reviews_unit.EligibilityUnitTests.test_party_that_is_not_completed_is_refused_before_any_other_check)
+UT-US14-API-01 ... ok
+test_reviewee_who_is_not_a_participant_is_invalid_input (conduct.test_reviews_unit.EligibilityUnitTests.test_reviewee_who_is_not_a_participant_is_invalid_input)
+UT-US14-API-01 ... ok
+test_reviewee_without_rating_cache_is_refused_as_invalid_input (conduct.test_reviews_unit.EligibilityUnitTests.test_reviewee_without_rating_cache_is_refused_as_invalid_input)
+UT-US14-API-01: raising is what rolls the insert back (IT-US14-DB-18). ... ok
+test_reviewer_without_participation_history_is_forbidden (conduct.test_reviews_unit.EligibilityUnitTests.test_reviewer_without_participation_history_is_forbidden)
+UT-US14-API-01 ... ok
+test_unknown_party_is_not_found (conduct.test_reviews_unit.EligibilityUnitTests.test_unknown_party_is_not_found)
+UT-US14-API-01 ... ok
+test_host_is_a_participant_without_querying_memberships (conduct.test_reviews_unit.IsParticipantUnitTests.test_host_is_a_participant_without_querying_memberships)
+UT-US14-API-01 ... ok
+test_member_who_left_after_the_end_is_a_participant (conduct.test_reviews_unit.IsParticipantUnitTests.test_member_who_left_after_the_end_is_a_participant)
+UT-US14-API-01 ... ok
+test_member_who_left_before_the_end_is_not_a_participant (conduct.test_reviews_unit.IsParticipantUnitTests.test_member_who_left_before_the_end_is_not_a_participant)
+UT-US14-API-01 ... ok
+test_member_who_left_exactly_at_the_end_is_a_participant (conduct.test_reviews_unit.IsParticipantUnitTests.test_member_who_left_exactly_at_the_end_is_a_participant)
+UT-US14-API-01 ... ok
+test_member_who_never_left_is_a_participant (conduct.test_reviews_unit.IsParticipantUnitTests.test_member_who_never_left_is_a_participant)
+UT-US14-API-01 ... ok
+test_other_member_staying_does_not_qualify_a_member_who_left_early (conduct.test_reviews_unit.IsParticipantUnitTests.test_other_member_staying_does_not_qualify_a_member_who_left_early) ... ok
+test_user_without_own_membership_is_not_a_participant (conduct.test_reviews_unit.IsParticipantUnitTests.test_user_without_own_membership_is_not_a_participant)
+UT-US14-API-01: another member's row must not count. ... ok
+test_comment_within_the_limit_is_accepted (conduct.test_reviews_unit.ReviewPayloadUnitTests.test_comment_within_the_limit_is_accepted)
+UT-US14-API-03: the limit counts characters after stripping. ... ok
+test_invalid_comment_is_rejected (conduct.test_reviews_unit.ReviewPayloadUnitTests.test_invalid_comment_is_rejected)
+UT-US14-API-03 ... ok
+test_missing_fields_are_reported (conduct.test_reviews_unit.ReviewPayloadUnitTests.test_missing_fields_are_reported)
+UT-US14-API-03 ... ok
+test_rating_outside_the_range_or_of_another_type_is_rejected (conduct.test_reviews_unit.ReviewPayloadUnitTests.test_rating_outside_the_range_or_of_another_type_is_rejected)
+UT-US14-API-03 ... ok
+test_rating_values_inside_the_range_are_accepted (conduct.test_reviews_unit.ReviewPayloadUnitTests.test_rating_values_inside_the_range_are_accepted)
+UT-US14-API-03 ... ok
+test_view_applies_the_validator_before_calling_the_service (conduct.test_reviews_unit.ReviewPayloadUnitTests.test_view_applies_the_validator_before_calling_the_service)
+UT-US14-API-03 ... ok
+test_created_review_response_is_exactly_its_contract (conduct.test_reviews_unit.ReviewSerializerUnitTests.test_created_review_response_is_exactly_its_contract)
+UT-US14-API-06: unlike the list, this contract includes party_id and reviewer.id. ... ok
+test_empty_summary_reports_null_average (conduct.test_reviews_unit.ReviewSerializerUnitTests.test_empty_summary_reports_null_average)
+UT-US14-API-06 ... ok
+test_list_response_is_exactly_the_public_allowlist (conduct.test_reviews_unit.ReviewSerializerUnitTests.test_list_response_is_exactly_the_public_allowlist)
+UT-US14-API-06: private attributes on the source objects never reach the body. ... ok
+test_no_show_response_exposes_only_the_public_report_fields (conduct.test_reviews_unit.ReviewSerializerUnitTests.test_no_show_response_exposes_only_the_public_report_fields)
+UT-US14-API-06: approved No-show serializer, without ORM/HTTP. ... ok
+test_reviewer_without_profile_is_shown_generically_not_by_login (conduct.test_reviews_unit.ReviewSerializerUnitTests.test_reviewer_without_profile_is_shown_generically_not_by_login)
+UT-US14-API-06: an unsaved user raises Django's real missing-relation error. ... ok
+test_self_review_is_invalid_input_without_any_mutation (conduct.test_reviews_unit.SelfReviewUnitTests.test_self_review_is_invalid_input_without_any_mutation)
+UT-US14-API-02 ... ok
+test_submit_updates_only_the_rating_cache_columns (conduct.test_reviews_unit.SubmitLeavesCreditUnitTests.test_submit_updates_only_the_rating_cache_columns)
+UT-US14-API-05 ... ok
+test_create_button_has_a_real_destination (core.test_home_links.NavbarPartialTests.test_create_button_has_a_real_destination) ... ok
+test_venues_link_uses_its_active_state (core.test_home_links.NavbarPartialTests.test_venues_link_uses_its_active_state) ... ok
+test_profile_loads_api_helper_before_review_script (core.test_profile_assets.ProfileAssetTests.test_profile_loads_api_helper_before_review_script) ... ok
+test_health_routes_do_not_accept_writes (core.tests.PublicPageTests.test_health_routes_do_not_accept_writes) ... ok
+test_home_renders_shared_frontend_template_and_stylesheet (core.tests.PublicPageTests.test_home_renders_shared_frontend_template_and_stylesheet) ... ok
+test_liveness_does_not_require_a_database (core.tests.PublicPageTests.test_liveness_does_not_require_a_database) ... ok
+test_party_create_redirects_anonymous_user_to_login (core.tests.PublicPageTests.test_party_create_redirects_anonymous_user_to_login) ... ok
+test_sprint_one_ui_routes_render (core.tests.PublicPageTests.test_sprint_one_ui_routes_render) ... ok
+test_approve_racing_reject_has_one_consistent_decision (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_approve_racing_reject_has_one_consistent_decision) ... DB57_EVIDENCE {"case": "test_approve_racing_reject_has_one_consistent_decision", "at": "2026-11-17T16:53:15.863116+07:00", "sql_before": [{"party_id": 10558, "capacity": 2, "active_count": 1, "request_id": 348, "user_id": 1333, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}, {"party_id": 10558, "capacity": 2, "active_count": 1, "request_id": 349, "user_id": 1334, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}], "blocked_workers": [{"waiting_pid": 1560, "blocking_pids": [1559], "observer_pid": 1559}, {"waiting_pid": 1561, "blocking_pids": [1560], "observer_pid": 1559}], "responses": [{"pid": 1560, "request_id": 348, "payload": {"status": "Approved"}, "http_status": 200, "response": {"data": {"id": 348, "status": "Approved"}}}, {"pid": 1561, "request_id": 348, "payload": {"status": "Rejected"}, "http_status": 409, "response": {"error": {"code": "REQUEST_DECIDED", "message": "\u0e04\u0e33\u0e02\u0e2d\u0e19\u0e35\u0e49\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e01\u0e32\u0e23\u0e15\u0e31\u0e14\u0e2a\u0e34\u0e19\u0e41\u0e25\u0e49\u0e27"}}}], "sql_after": [{"party_id": 10558, "capacity": 2, "active_count": 2, "request_id": 348, "user_id": 1333, "status": "Approved", "decided_at": "2026-11-17 09:53:15.851897+00:00", "decided_by_id": 1332, "membership_id": 1126, "joined_at": "2026-11-17 09:53:15.850862+00:00", "left_at": null}, {"party_id": 10558, "capacity": 2, "active_count": 2, "request_id": 349, "user_id": 1334, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}]}
+ok
+test_cancel_committed_while_approval_waits_blocks_approval (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_cancel_committed_while_approval_waits_blocks_approval) ... ok
+test_capacity_edit_committed_while_approval_waits_is_rechecked (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_capacity_edit_committed_while_approval_waits_is_rechecked) ... ok
+test_clock_is_read_after_party_lock_at_exact_start (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_clock_is_read_after_party_lock_at_exact_start) ... ok
+test_same_request_approved_concurrently_is_decided_once (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_same_request_approved_concurrently_is_decided_once) ... DB57_EVIDENCE {"case": "test_same_request_approved_concurrently_is_decided_once", "at": "2026-11-17T16:53:16.656760+07:00", "sql_before": [{"party_id": 10562, "capacity": 2, "active_count": 1, "request_id": 356, "user_id": 1345, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}, {"party_id": 10562, "capacity": 2, "active_count": 1, "request_id": 357, "user_id": 1346, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}], "blocked_workers": [{"waiting_pid": 1569, "blocking_pids": [1568], "observer_pid": 1568}, {"waiting_pid": 1570, "blocking_pids": [1569], "observer_pid": 1568}], "responses": [{"pid": 1569, "request_id": 356, "payload": {"status": "Approved"}, "http_status": 200, "response": {"data": {"id": 356, "status": "Approved"}}}, {"pid": 1570, "request_id": 356, "payload": {"status": "Approved"}, "http_status": 409, "response": {"error": {"code": "REQUEST_DECIDED", "message": "\u0e04\u0e33\u0e02\u0e2d\u0e19\u0e35\u0e49\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e01\u0e32\u0e23\u0e15\u0e31\u0e14\u0e2a\u0e34\u0e19\u0e41\u0e25\u0e49\u0e27"}}}], "sql_after": [{"party_id": 10562, "capacity": 2, "active_count": 2, "request_id": 356, "user_id": 1345, "status": "Approved", "decided_at": "2026-11-17 09:53:16.649602+00:00", "decided_by_id": 1344, "membership_id": 1131, "joined_at": "2026-11-17 09:53:16.649014+00:00", "left_at": null}, {"party_id": 10562, "capacity": 2, "active_count": 2, "request_id": 357, "user_id": 1346, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}]}
+ok
+test_two_approvals_for_last_slot_add_only_one_member (parties.test_approval_concurrency.ApprovalConcurrencyTests.test_two_approvals_for_last_slot_add_only_one_member) ... DB57_EVIDENCE {"case": "test_two_approvals_for_last_slot_add_only_one_member", "at": "2026-11-17T16:53:16.863765+07:00", "sql_before": [{"party_id": 10563, "capacity": 2, "active_count": 1, "request_id": 358, "user_id": 1348, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}, {"party_id": 10563, "capacity": 2, "active_count": 1, "request_id": 359, "user_id": 1349, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}], "blocked_workers": [{"waiting_pid": 1572, "blocking_pids": [1571], "observer_pid": 1571}, {"waiting_pid": 1573, "blocking_pids": [1572], "observer_pid": 1571}], "responses": [{"pid": 1572, "request_id": 358, "payload": {"status": "Approved"}, "http_status": 200, "response": {"data": {"id": 358, "status": "Approved"}}}, {"pid": 1573, "request_id": 359, "payload": {"status": "Approved"}, "http_status": 409, "response": {"error": {"code": "PARTY_FULL", "message": "\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e19\u0e35\u0e49\u0e40\u0e15\u0e47\u0e21\u0e41\u0e25\u0e49\u0e27"}}}], "sql_after": [{"party_id": 10563, "capacity": 2, "active_count": 2, "request_id": 358, "user_id": 1348, "status": "Approved", "decided_at": "2026-11-17 09:53:16.854930+00:00", "decided_by_id": 1347, "membership_id": 1133, "joined_at": "2026-11-17 09:53:16.854409+00:00", "left_at": null}, {"party_id": 10563, "capacity": 2, "active_count": 2, "request_id": 359, "user_id": 1349, "status": "Pending", "decided_at": null, "decided_by_id": null, "membership_id": null, "joined_at": null, "left_at": null}]}
+ok
+test_concurrent_cancellation_keeps_first_timestamp_and_pending (parties.test_cancellation.CancelPartyLockTests.test_concurrent_cancellation_keeps_first_timestamp_and_pending) ... ok
+test_waiter_rechecks_start_after_lock (parties.test_cancellation.CancelPartyLockTests.test_waiter_rechecks_start_after_lock) ... ok
+test_ut01_non_host_never_reads_request_or_mutates (parties.test_decision_unit.DecisionServiceUnitTests.test_ut01_non_host_never_reads_request_or_mutates) ... ok
+test_ut02_request_lookup_is_scoped_to_locked_party (parties.test_decision_unit.DecisionServiceUnitTests.test_ut02_request_lookup_is_scoped_to_locked_party) ... ok
+test_ut03_decided_request_does_not_write_again (parties.test_decision_unit.DecisionServiceUnitTests.test_ut03_decided_request_does_not_write_again) ... ok
+test_ut04_cancelled_started_completed_and_exact_start_block_decisions (parties.test_decision_unit.DecisionServiceUnitTests.test_ut04_cancelled_started_completed_and_exact_start_block_decisions) ... ok
+test_ut04_full_party_blocks_approve (parties.test_decision_unit.DecisionServiceUnitTests.test_ut04_full_party_blocks_approve) ... ok
+test_ut05_active_member_cannot_be_approved (parties.test_decision_unit.DecisionServiceUnitTests.test_ut05_active_member_cannot_be_approved) ... ok
+test_ut05_approve_creates_member_and_records_host_and_time (parties.test_decision_unit.DecisionServiceUnitTests.test_ut05_approve_creates_member_and_records_host_and_time) ... ok
+test_ut05_approve_reactivates_existing_membership (parties.test_decision_unit.DecisionServiceUnitTests.test_ut05_approve_reactivates_existing_membership) ... ok
+test_ut06_full_party_blocks_reapplication_before_request_write (parties.test_decision_unit.DecisionServiceUnitTests.test_ut06_full_party_blocks_reapplication_before_request_write) ... ok
+test_ut06_reapplication_reuses_rejected_row_and_clears_decision (parties.test_decision_unit.DecisionServiceUnitTests.test_ut06_reapplication_reuses_rejected_row_and_clears_decision) ... ok
+test_ut06_reject_full_party_changes_only_decision (parties.test_decision_unit.DecisionServiceUnitTests.test_ut06_reject_full_party_changes_only_decision) ... ok
+test_invalid_payload_never_reaches_service (parties.test_decision_unit.DecisionViewUnitTests.test_invalid_payload_never_reaches_service) ... ok
+test_service_error_preserves_status_and_code (parties.test_decision_unit.DecisionViewUnitTests.test_service_error_preserves_status_and_code) ... ok
+test_ut01_anonymous_never_calls_identity_or_mutation (parties.test_decision_unit.DecisionViewUnitTests.test_ut01_anonymous_never_calls_identity_or_mutation) ... ok
+test_ut01_inactive_actor_never_calls_identity_or_mutation (parties.test_decision_unit.DecisionViewUnitTests.test_ut01_inactive_actor_never_calls_identity_or_mutation) ... ok
+test_ut01_missing_or_invalid_university_evidence_never_calls_mutation (parties.test_decision_unit.DecisionViewUnitTests.test_ut01_missing_or_invalid_university_evidence_never_calls_mutation) ... ok
+test_ut05_ut06_view_passes_session_actor_and_exact_decision (parties.test_decision_unit.DecisionViewUnitTests.test_ut05_ut06_view_passes_session_actor_and_exact_decision) ... ok
+test_wrong_method_never_reaches_service (parties.test_decision_unit.DecisionViewUnitTests.test_wrong_method_never_reaches_service) ... ok
+test_cancel_committed_first_prevents_edit (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_cancel_committed_first_prevents_edit) ... ok
+test_concurrent_partial_edits_merge_latest_committed_values (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_concurrent_partial_edits_merge_latest_committed_values) ... ok
+test_edit_committed_first_is_preserved_when_cancel_follows (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_edit_committed_first_is_preserved_when_cancel_follows) ... ok
+test_edit_filling_capacity_blocks_waiting_join_request (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_edit_filling_capacity_blocks_waiting_join_request) ... ok
+test_edit_reads_clock_only_after_acquiring_lock (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_edit_reads_clock_only_after_acquiring_lock) ... ok
+test_edit_rechecks_members_committed_while_waiting (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_edit_rechecks_members_committed_while_waiting) ... ok
+test_join_committed_first_remains_pending_after_capacity_edit (parties.test_editing_concurrency.EditPartyConcurrencyTests.test_join_committed_first_remains_pending_after_capacity_edit) ... ok
+test_cancellation_committed_first_blocks_pending_creation (parties.test_join_requests.JoinRequestConcurrencyTests.test_cancellation_committed_first_blocks_pending_creation) ... ok
+test_changed_start_time_is_rechecked_after_waiting_for_party_lock (parties.test_join_requests.JoinRequestConcurrencyTests.test_changed_start_time_is_rechecked_after_waiting_for_party_lock) ... ok
+test_concurrent_reapplications_reuse_one_row_only_once (parties.test_join_requests.JoinRequestConcurrencyTests.test_concurrent_reapplications_reuse_one_row_only_once) ... ok
+test_different_users_can_both_request_the_last_slot (parties.test_join_requests.JoinRequestConcurrencyTests.test_different_users_can_both_request_the_last_slot) ... ok
+test_request_committed_before_cancellation_keeps_pending_history (parties.test_join_requests.JoinRequestConcurrencyTests.test_request_committed_before_cancellation_keeps_pending_history) ... ok
+test_same_user_concurrent_posts_create_exactly_one_pending (parties.test_join_requests.JoinRequestConcurrencyTests.test_same_user_concurrent_posts_create_exactly_one_pending) ... ok
+test_approve_before_waiting_leave_sees_full_party (parties.test_leave.LeaveLockTests.test_approve_before_waiting_leave_sees_full_party) ... DB69_EVIDENCE {"case": "test_approve_before_waiting_leave_sees_full_party", "sql_before": [{"party_id": 10579, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1150, "user_id": 1395, "joined_at": "2026-11-17 09:53:19.161801+00:00", "left_at": null}, {"party_id": 10579, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1151, "user_id": 1396, "joined_at": "2026-11-17 09:53:19.164297+00:00", "left_at": null}], "blocking": {"waiting_pid": 1616, "blocking_pids": [1615], "observer_pid": 1615}, "sql_after": [{"party_id": 10579, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1150, "user_id": 1395, "joined_at": "2026-11-17 09:53:19.161801+00:00", "left_at": null}, {"party_id": 10579, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1151, "user_id": 1396, "joined_at": "2026-11-17 09:53:19.164297+00:00", "left_at": "2026-11-17 09:53:19.186455+00:00"}]}
+ok
+test_approve_waits_for_leave_then_reads_freed_slot (parties.test_leave.LeaveLockTests.test_approve_waits_for_leave_then_reads_freed_slot) ... DB69_EVIDENCE {"case": "test_approve_waits_for_leave_then_reads_freed_slot", "sql_before": [{"party_id": 10580, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1152, "user_id": 1398, "joined_at": "2026-11-17 09:53:19.277545+00:00", "left_at": null}, {"party_id": 10580, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1153, "user_id": 1399, "joined_at": "2026-11-17 09:53:19.279715+00:00", "left_at": null}], "blocking": {"waiting_pid": 1618, "blocking_pids": [1617], "observer_pid": 1617}, "sql_after": [{"party_id": 10580, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1152, "user_id": 1398, "joined_at": "2026-11-17 09:53:19.277545+00:00", "left_at": null}, {"party_id": 10580, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1153, "user_id": 1399, "joined_at": "2026-11-17 09:53:19.279715+00:00", "left_at": "2026-11-17 09:53:19.297509+00:00"}, {"party_id": 10580, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1154, "user_id": 1400, "joined_at": "2026-11-17 09:53:19.304603+00:00", "left_at": null}]}
+ok
+test_leave_rechecks_time_after_lock (parties.test_leave.LeaveLockTests.test_leave_rechecks_time_after_lock) ... ok
+test_two_leaves_update_once_after_real_lock_wait (parties.test_leave.LeaveLockTests.test_two_leaves_update_once_after_real_lock_wait) ... DB69_EVIDENCE {"case": "test_two_leaves_update_once_after_real_lock_wait", "sql_before": [{"party_id": 10582, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1157, "user_id": 1404, "joined_at": "2026-11-17 09:53:19.508931+00:00", "left_at": null}, {"party_id": 10582, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1158, "user_id": 1405, "joined_at": "2026-11-17 09:53:19.510948+00:00", "left_at": null}], "blocking": {"waiting_pid": 1622, "blocking_pids": [1621], "observer_pid": 1621}, "sql_after": [{"party_id": 10582, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1157, "user_id": 1404, "joined_at": "2026-11-17 09:53:19.508931+00:00", "left_at": null}, {"party_id": 10582, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1158, "user_id": 1405, "joined_at": "2026-11-17 09:53:19.510948+00:00", "left_at": "2026-11-17 09:53:19.527362+00:00"}]}
+ok
+test_api_leave_races_approve_without_overcapacity (parties.test_leave_database.LeaveDatabaseTests.test_api_leave_races_approve_without_overcapacity) ... DB75_EVIDENCE {"case": "test_api_leave_races_approve_without_overcapacity", "before": {"sql": [{"party_id": 10583, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1159, "user_id": 1407, "joined_at": "2026-11-17 09:53:19.622639+00:00", "left_at": null}, {"party_id": 10583, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1160, "user_id": 1408, "joined_at": "2026-11-17 09:53:19.624457+00:00", "left_at": null}], "requests": [{"id": 373, "party_id": 10583, "user_id": 1408, "status": "Approved", "created_at": "2026-11-17 09:53:19.625639+00:00", "decided_at": "2026-11-17 09:53:19.616615+00:00", "decided_by_id": 1407}, {"id": 374, "party_id": 10583, "user_id": 1409, "status": "Pending", "created_at": "2026-11-17 09:53:19.665602+00:00", "decided_at": null, "decided_by_id": null}]}, "blocked_workers": [{"waiting_pid": 1625, "blocking_pids": [1623], "observer_pid": 1623}, {"waiting_pid": 1624, "blocking_pids": [1625], "observer_pid": 1623}], "responses": [{"pid": 1624, "url": "/api/v1/parties/10583/leave", "payload": {}, "http_status": 200, "body": {"data": {"party_id": 10583, "is_member": false, "left_at": "2026-11-17T16:53:19.718695+07:00"}}}, {"pid": 1625, "url": "/api/v1/parties/10583/join-requests/374/decision", "payload": {"status": "Approved"}, "http_status": 409, "body": {"error": {"code": "PARTY_FULL", "message": "\u0e01\u0e34\u0e08\u0e01\u0e23\u0e23\u0e21\u0e19\u0e35\u0e49\u0e40\u0e15\u0e47\u0e21\u0e41\u0e25\u0e49\u0e27"}}}], "after": {"sql": [{"party_id": 10583, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1159, "user_id": 1407, "joined_at": "2026-11-17 09:53:19.622639+00:00", "left_at": null}, {"party_id": 10583, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1160, "user_id": 1408, "joined_at": "2026-11-17 09:53:19.624457+00:00", "left_at": "2026-11-17 09:53:19.718695+00:00"}], "requests": [{"id": 373, "party_id": 10583, "user_id": 1408, "status": "Approved", "created_at": "2026-11-17 09:53:19.625639+00:00", "decided_at": "2026-11-17 09:53:19.616615+00:00", "decided_by_id": 1407}, {"id": 374, "party_id": 10583, "user_id": 1409, "status": "Pending", "created_at": "2026-11-17 09:53:19.665602+00:00", "decided_at": null, "decided_by_id": null}]}}
+ok
+test_api_leave_retry_sql_history_and_count (parties.test_leave_database.LeaveDatabaseTests.test_api_leave_retry_sql_history_and_count) ... DB75_EVIDENCE {"case": "test_api_leave_retry_sql_history_and_count", "before": {"sql": [{"party_id": 10584, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1161, "user_id": 1410, "joined_at": "2026-11-17 09:53:19.839473+00:00", "left_at": null}, {"party_id": 10584, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1162, "user_id": 1411, "joined_at": "2026-11-17 09:53:19.841271+00:00", "left_at": null}], "requests": [{"id": 375, "party_id": 10584, "user_id": 1411, "status": "Approved", "created_at": "2026-11-17 09:53:19.842568+00:00", "decided_at": "2026-11-17 09:53:19.834617+00:00", "decided_by_id": 1410}]}, "request": {"method": "POST", "payload": {}}, "responses": [{"data": {"party_id": 10584, "is_member": false, "left_at": "2026-11-17T16:53:19.904205+07:00"}}, {"data": {"party_id": 10584, "is_member": false, "left_at": "2026-11-17T16:53:19.904205+07:00"}}], "http_statuses": [200, 200], "after": {"sql": [{"party_id": 10584, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1161, "user_id": 1410, "joined_at": "2026-11-17 09:53:19.839473+00:00", "left_at": null}, {"party_id": 10584, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1162, "user_id": 1411, "joined_at": "2026-11-17 09:53:19.841271+00:00", "left_at": "2026-11-17 09:53:19.904205+00:00"}], "requests": [{"id": 375, "party_id": 10584, "user_id": 1411, "status": "Approved", "created_at": "2026-11-17 09:53:19.842568+00:00", "decided_at": "2026-11-17 09:53:19.834617+00:00", "decided_by_id": 1410}]}}
+ok
+test_api_write_failure_returns_500_and_rolls_back_sql (parties.test_leave_database.LeaveDatabaseTests.test_api_write_failure_returns_500_and_rolls_back_sql) ... DB75_EVIDENCE {"case": "test_api_write_failure_returns_500_and_rolls_back_sql", "before": {"sql": [{"party_id": 10585, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1163, "user_id": 1413, "joined_at": "2026-11-17 09:53:20.006898+00:00", "left_at": null}, {"party_id": 10585, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1164, "user_id": 1414, "joined_at": "2026-11-17 09:53:20.008698+00:00", "left_at": null}], "requests": [{"id": 376, "party_id": 10585, "user_id": 1414, "status": "Approved", "created_at": "2026-11-17 09:53:20.010396+00:00", "decided_at": "2026-11-17 09:53:20.001006+00:00", "decided_by_id": 1413}]}, "after": {"sql": [{"party_id": 10585, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1163, "user_id": 1413, "joined_at": "2026-11-17 09:53:20.006898+00:00", "left_at": null}, {"party_id": 10585, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1164, "user_id": 1414, "joined_at": "2026-11-17 09:53:20.008698+00:00", "left_at": null}], "requests": [{"id": 376, "party_id": 10585, "user_id": 1414, "status": "Approved", "created_at": "2026-11-17 09:53:20.010396+00:00", "decided_at": "2026-11-17 09:53:20.001006+00:00", "decided_by_id": 1413}]}, "http_status": 500, "fault": "injected DatabaseError after real UPDATE; not a real DB constraint fault"}
+ok
+test_cancel_before_waiting_leave_preserves_membership (parties.test_leave_database.LeaveDatabaseTests.test_cancel_before_waiting_leave_preserves_membership) ... DB75_EVIDENCE {"case": "test_cancel_before_waiting_leave_preserves_membership", "before": {"sql": [{"party_id": 10586, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1165, "user_id": 1416, "joined_at": "2026-11-17 09:53:20.204260+00:00", "left_at": null}, {"party_id": 10586, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1166, "user_id": 1417, "joined_at": "2026-11-17 09:53:20.206217+00:00", "left_at": null}], "requests": [{"id": 377, "party_id": 10586, "user_id": 1417, "status": "Approved", "created_at": "2026-11-17 09:53:20.207640+00:00", "decided_at": "2026-11-17 09:53:20.197825+00:00", "decided_by_id": 1416}]}, "blocking": {"waiting_pid": 1637, "blocking_pids": [1636], "observer_pid": 1636}, "worker_result": "PARTY_CANCELLED", "after": {"sql": [{"party_id": 10586, "capacity": 2, "cancelled_at": "2026-11-17 09:53:20.272815+00:00", "active_count": 2, "remaining_slots": 0, "membership_id": 1165, "user_id": 1416, "joined_at": "2026-11-17 09:53:20.204260+00:00", "left_at": null}, {"party_id": 10586, "capacity": 2, "cancelled_at": "2026-11-17 09:53:20.272815+00:00", "active_count": 2, "remaining_slots": 0, "membership_id": 1166, "user_id": 1417, "joined_at": "2026-11-17 09:53:20.206217+00:00", "left_at": null}], "requests": [{"id": 377, "party_id": 10586, "user_id": 1417, "status": "Approved", "created_at": "2026-11-17 09:53:20.207640+00:00", "decided_at": "2026-11-17 09:53:20.197825+00:00", "decided_by_id": 1416}]}}
+ok
+test_detail_refresh_after_replacement_approval_uses_current_count (parties.test_leave_database.LeaveDatabaseTests.test_detail_refresh_after_replacement_approval_uses_current_count) ... DB75_EVIDENCE {"case": "test_detail_refresh_after_replacement_approval_uses_current_count", "before": {"sql": [{"party_id": 10587, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1167, "user_id": 1419, "joined_at": "2026-11-17 09:53:20.373271+00:00", "left_at": null}, {"party_id": 10587, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1168, "user_id": 1420, "joined_at": "2026-11-17 09:53:20.375079+00:00", "left_at": null}], "requests": [{"id": 378, "party_id": 10587, "user_id": 1420, "status": "Approved", "created_at": "2026-11-17 09:53:20.376199+00:00", "decided_at": "2026-11-17 09:53:20.368284+00:00", "decided_by_id": 1419}, {"id": 379, "party_id": 10587, "user_id": 1421, "status": "Pending", "created_at": "2026-11-17 09:53:20.431036+00:00", "decided_at": null, "decided_by_id": null}]}, "decision": {"data": {"id": 379, "status": "Approved"}}, "detail": {"is_member": false, "member_count": 2, "remaining_slots": 0, "state": "Full"}, "after": {"sql": [{"party_id": 10587, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1167, "user_id": 1419, "joined_at": "2026-11-17 09:53:20.373271+00:00", "left_at": null}, {"party_id": 10587, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1168, "user_id": 1420, "joined_at": "2026-11-17 09:53:20.375079+00:00", "left_at": "2026-11-17 09:53:20.458833+00:00"}, {"party_id": 10587, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1169, "user_id": 1421, "joined_at": "2026-11-17 09:53:20.488599+00:00", "left_at": null}], "requests": [{"id": 378, "party_id": 10587, "user_id": 1420, "status": "Approved", "created_at": "2026-11-17 09:53:20.376199+00:00", "decided_at": "2026-11-17 09:53:20.368284+00:00", "decided_by_id": 1419}, {"id": 379, "party_id": 10587, "user_id": 1421, "status": "Approved", "created_at": "2026-11-17 09:53:20.431036+00:00", "decided_at": "2026-11-17 09:53:20.489004+00:00", "decided_by_id": 1419}]}}
+ok
+test_edit_before_waiting_leave_cannot_shrink_below_active (parties.test_leave_database.LeaveDatabaseTests.test_edit_before_waiting_leave_cannot_shrink_below_active) ... DB75_EVIDENCE {"case": "test_edit_before_waiting_leave_cannot_shrink_below_active", "before": {"sql": [{"party_id": 10588, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1170, "user_id": 1422, "joined_at": "2026-11-17 09:53:20.619727+00:00", "left_at": null}, {"party_id": 10588, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1171, "user_id": 1423, "joined_at": "2026-11-17 09:53:20.621549+00:00", "left_at": null}], "requests": [{"id": 380, "party_id": 10588, "user_id": 1423, "status": "Approved", "created_at": "2026-11-17 09:53:20.623083+00:00", "decided_at": "2026-11-17 09:53:20.612764+00:00", "decided_by_id": 1422}]}, "blocking": {"waiting_pid": 1641, "blocking_pids": [1639], "observer_pid": 1639}, "worker_result": "OK", "after": {"sql": [{"party_id": 10588, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1170, "user_id": 1422, "joined_at": "2026-11-17 09:53:20.619727+00:00", "left_at": null}, {"party_id": 10588, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1171, "user_id": 1423, "joined_at": "2026-11-17 09:53:20.621549+00:00", "left_at": "2026-11-17 09:53:20.717800+00:00"}], "requests": [{"id": 380, "party_id": 10588, "user_id": 1423, "status": "Approved", "created_at": "2026-11-17 09:53:20.623083+00:00", "decided_at": "2026-11-17 09:53:20.612764+00:00", "decided_by_id": 1422}]}}
+ok
+test_leave_before_waiting_cancel_keeps_leave_history (parties.test_leave_database.LeaveDatabaseTests.test_leave_before_waiting_cancel_keeps_leave_history) ... DB75_EVIDENCE {"case": "test_leave_before_waiting_cancel_keeps_leave_history", "before": {"sql": [{"party_id": 10589, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1172, "user_id": 1425, "joined_at": "2026-11-17 09:53:20.841204+00:00", "left_at": null}, {"party_id": 10589, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1173, "user_id": 1426, "joined_at": "2026-11-17 09:53:20.843536+00:00", "left_at": null}], "requests": [{"id": 381, "party_id": 10589, "user_id": 1426, "status": "Approved", "created_at": "2026-11-17 09:53:20.845133+00:00", "decided_at": "2026-11-17 09:53:20.834208+00:00", "decided_by_id": 1425}]}, "blocking": {"waiting_pid": 1643, "blocking_pids": [1642], "observer_pid": 1642}, "worker_result": "OK", "after": {"sql": [{"party_id": 10589, "capacity": 2, "cancelled_at": "2026-11-17 09:53:20.930839+00:00", "active_count": 1, "remaining_slots": 1, "membership_id": 1172, "user_id": 1425, "joined_at": "2026-11-17 09:53:20.841204+00:00", "left_at": null}, {"party_id": 10589, "capacity": 2, "cancelled_at": "2026-11-17 09:53:20.930839+00:00", "active_count": 1, "remaining_slots": 1, "membership_id": 1173, "user_id": 1426, "joined_at": "2026-11-17 09:53:20.843536+00:00", "left_at": "2026-11-17 09:53:20.927558+00:00"}], "requests": [{"id": 381, "party_id": 10589, "user_id": 1426, "status": "Approved", "created_at": "2026-11-17 09:53:20.845133+00:00", "decided_at": "2026-11-17 09:53:20.834208+00:00", "decided_by_id": 1425}]}}
+ok
+test_leave_before_waiting_edit_allows_capacity_one (parties.test_leave_database.LeaveDatabaseTests.test_leave_before_waiting_edit_allows_capacity_one) ... DB75_EVIDENCE {"case": "test_leave_before_waiting_edit_allows_capacity_one", "before": {"sql": [{"party_id": 10590, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1174, "user_id": 1428, "joined_at": "2026-11-17 09:53:21.051109+00:00", "left_at": null}, {"party_id": 10590, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1175, "user_id": 1429, "joined_at": "2026-11-17 09:53:21.053470+00:00", "left_at": null}], "requests": [{"id": 382, "party_id": 10590, "user_id": 1429, "status": "Approved", "created_at": "2026-11-17 09:53:21.055343+00:00", "decided_at": "2026-11-17 09:53:21.044604+00:00", "decided_by_id": 1428}]}, "blocking": {"waiting_pid": 1645, "blocking_pids": [1644], "observer_pid": 1644}, "worker_result": "OK", "after": {"sql": [{"party_id": 10590, "capacity": 1, "cancelled_at": null, "active_count": 1, "remaining_slots": 0, "membership_id": 1174, "user_id": 1428, "joined_at": "2026-11-17 09:53:21.051109+00:00", "left_at": null}, {"party_id": 10590, "capacity": 1, "cancelled_at": null, "active_count": 1, "remaining_slots": 0, "membership_id": 1175, "user_id": 1429, "joined_at": "2026-11-17 09:53:21.053470+00:00", "left_at": "2026-11-17 09:53:21.126460+00:00"}], "requests": [{"id": 382, "party_id": 10590, "user_id": 1429, "status": "Approved", "created_at": "2026-11-17 09:53:21.055343+00:00", "decided_at": "2026-11-17 09:53:21.044604+00:00", "decided_by_id": 1428}]}}
+ok
+test_two_api_leaves_return_same_timestamp_and_free_one_slot (parties.test_leave_database.LeaveDatabaseTests.test_two_api_leaves_return_same_timestamp_and_free_one_slot) ... DB75_EVIDENCE {"case": "test_two_api_leaves_return_same_timestamp_and_free_one_slot", "before": {"sql": [{"party_id": 10591, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1176, "user_id": 1431, "joined_at": "2026-11-17 09:53:21.230257+00:00", "left_at": null}, {"party_id": 10591, "capacity": 2, "cancelled_at": null, "active_count": 2, "remaining_slots": 0, "membership_id": 1177, "user_id": 1432, "joined_at": "2026-11-17 09:53:21.232146+00:00", "left_at": null}], "requests": [{"id": 383, "party_id": 10591, "user_id": 1432, "status": "Approved", "created_at": "2026-11-17 09:53:21.233343+00:00", "decided_at": "2026-11-17 09:53:21.224608+00:00", "decided_by_id": 1431}]}, "blocked_workers": [{"waiting_pid": 1648, "blocking_pids": [1646], "observer_pid": 1646}, {"waiting_pid": 1647, "blocking_pids": [1648], "observer_pid": 1646}], "responses": [{"pid": 1647, "url": "/api/v1/parties/10591/leave", "payload": {}, "http_status": 200, "body": {"data": {"party_id": 10591, "is_member": false, "left_at": "2026-11-17T16:53:21.331961+07:00"}}}, {"pid": 1648, "url": "/api/v1/parties/10591/leave", "payload": {}, "http_status": 200, "body": {"data": {"party_id": 10591, "is_member": false, "left_at": "2026-11-17T16:53:21.331961+07:00"}}}], "after": {"sql": [{"party_id": 10591, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1176, "user_id": 1431, "joined_at": "2026-11-17 09:53:21.230257+00:00", "left_at": null}, {"party_id": 10591, "capacity": 2, "cancelled_at": null, "active_count": 1, "remaining_slots": 1, "membership_id": 1177, "user_id": 1432, "joined_at": "2026-11-17 09:53:21.232146+00:00", "left_at": "2026-11-17 09:53:21.331961+00:00"}], "requests": [{"id": 383, "party_id": 10591, "user_id": 1432, "status": "Approved", "created_at": "2026-11-17 09:53:21.233343+00:00", "decided_at": "2026-11-17 09:53:21.224608+00:00", "decided_by_id": 1431}]}}
+ok
+test_ut01_anonymous_never_calls_identity_or_leave (parties.test_leave_unit.LeaveHandlerUnitTests.test_ut01_anonymous_never_calls_identity_or_leave) ... ok
+test_ut01_client_selected_actor_is_rejected_before_service (parties.test_leave_unit.LeaveHandlerUnitTests.test_ut01_client_selected_actor_is_rejected_before_service) ... ok
+test_ut01_unverified_and_inactive_never_call_leave (parties.test_leave_unit.LeaveHandlerUnitTests.test_ut01_unverified_and_inactive_never_call_leave) ... ok
+test_ut02_passes_only_session_actor_and_path_to_service (parties.test_leave_unit.LeaveHandlerUnitTests.test_ut02_passes_only_session_actor_and_path_to_service) ... ok
+test_ut01_nonmember_cannot_mutate_or_select_another_membership (parties.test_leave_unit.LeaveServiceUnitTests.test_ut01_nonmember_cannot_mutate_or_select_another_membership) ... ok
+test_ut02_active_member_before_start_is_soft_left_once (parties.test_leave_unit.LeaveServiceUnitTests.test_ut02_active_member_before_start_is_soft_left_once) ... ok
+test_ut03_left_member_is_not_written_again_even_after_state_change (parties.test_leave_unit.LeaveServiceUnitTests.test_ut03_left_member_is_not_written_again_even_after_state_change) ... ok
+test_ut04_host_is_rejected_before_membership_or_time (parties.test_leave_unit.LeaveServiceUnitTests.test_ut04_host_is_rejected_before_membership_or_time) ... ok
+test_ut05_cancelled_precedes_time_and_never_writes (parties.test_leave_unit.LeaveServiceUnitTests.test_ut05_cancelled_precedes_time_and_never_writes) ... ok
+test_ut05_exact_start_and_after_start_are_rejected (parties.test_leave_unit.LeaveServiceUnitTests.test_ut05_exact_start_and_after_start_are_rejected) ... ok
+test_ut05_one_microsecond_before_start_is_allowed (parties.test_leave_unit.LeaveServiceUnitTests.test_ut05_one_microsecond_before_start_is_allowed) ... ok
+test_ut_us6_api_03_active_memberships_filters_on_left_at_null (parties.test_members_unit.ActivePredicateTests.test_ut_us6_api_03_active_memberships_filters_on_left_at_null) ... ok
+test_ut_us6_api_03_left_member_and_requesters_are_not_returned (parties.test_members_unit.ActivePredicateTests.test_ut_us6_api_03_left_member_and_requesters_are_not_returned) ... ok
+test_ut_us6_api_03_view_uses_the_shared_active_membership_helper (parties.test_members_unit.ActivePredicateTests.test_ut_us6_api_03_view_uses_the_shared_active_membership_helper) ... ok
+test_ut_us6_api_05_forbidden_viewer_gets_403_without_member_data (parties.test_members_unit.ErrorResponseTests.test_ut_us6_api_05_forbidden_viewer_gets_403_without_member_data) ... ok
+test_ut_us6_api_05_missing_party_matches_existing_not_found (parties.test_members_unit.ErrorResponseTests.test_ut_us6_api_05_missing_party_matches_existing_not_found) ... ok
+test_ut_us6_api_05_non_get_returns_405_before_party_lookup (parties.test_members_unit.ErrorResponseTests.test_ut_us6_api_05_non_get_returns_405_before_party_lookup) ... ok
+test_ut_us6_api_04_host_first_roles_count_and_envelope (parties.test_members_unit.MemberMappingTests.test_ut_us6_api_04_host_first_roles_count_and_envelope) ... ok
+test_ut_us6_api_04_host_without_active_row_is_not_synthesized (parties.test_members_unit.MemberMappingTests.test_ut_us6_api_04_host_without_active_row_is_not_synthesized) ... ok
+test_ut_us6_api_02_member_data_returns_only_allowlisted_fields (parties.test_members_unit.MemberSerializerTests.test_ut_us6_api_02_member_data_returns_only_allowlisted_fields) ... ok
+test_ut_us6_api_02_missing_profile_uses_fallback_never_username (parties.test_members_unit.MemberSerializerTests.test_ut_us6_api_02_missing_profile_uses_fallback_never_username) ... ok
+test_ut_us6_api_01_anonymous_gets_auth_required_before_party_lookup (parties.test_members_unit.PermissionGuardTests.test_ut_us6_api_01_anonymous_gets_auth_required_before_party_lookup) ... ok
+test_ut_us6_api_01_can_view_members_allows_active_member (parties.test_members_unit.PermissionGuardTests.test_ut_us6_api_01_can_view_members_allows_active_member) ... ok
+test_ut_us6_api_01_can_view_members_allows_host_without_membership_read (parties.test_members_unit.PermissionGuardTests.test_ut_us6_api_01_can_view_members_allows_host_without_membership_read) ... ok
+test_ut_us6_api_01_can_view_members_denies_non_host_non_member (parties.test_members_unit.PermissionGuardTests.test_ut_us6_api_01_can_view_members_denies_non_host_non_member) ... ok
+test_cancellation_committed_first_prevents_waiting_rejection (parties.test_rejection_concurrency.RejectRequestConcurrencyTests.test_cancellation_committed_first_prevents_waiting_rejection) ... ok
+test_new_start_time_is_rechecked_after_waiting_for_lock (parties.test_rejection_concurrency.RejectRequestConcurrencyTests.test_new_start_time_is_rechecked_after_waiting_for_lock) ... ok
+test_party_becoming_full_while_waiting_still_allows_reject (parties.test_rejection_concurrency.RejectRequestConcurrencyTests.test_party_becoming_full_while_waiting_still_allows_reject) ... ok
+test_rejection_committed_first_prevents_waiting_approval (parties.test_rejection_concurrency.RejectRequestConcurrencyTests.test_rejection_committed_first_prevents_waiting_approval) ... ok
+test_two_rejects_decide_once_without_changing_members_or_slots (parties.test_rejection_concurrency.RejectRequestConcurrencyTests.test_two_rejects_decide_once_without_changing_members_or_slots) ... ok
+test_db84_01_and_multi_sport_venue_type_null_and_no_fanout (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_01_and_multi_sport_venue_type_null_and_no_fanout) ... ok
+test_db84_02_half_open_one_sided_and_offset_equivalence (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_02_half_open_one_sided_and_offset_equivalence) ... ok
+test_db84_03_all_states_exact_time_and_detail (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_03_all_states_exact_time_and_detail) ... ok
+test_db84_04_101_tied_results_filter_before_count_and_pagination (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_04_101_tied_results_filter_before_count_and_pagination) ... ok
+test_db84_05_search_refresh_after_committed_approve_leave_cancel (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_05_search_refresh_after_committed_approve_leave_cancel) ... ok
+test_db84_06_invalid_queries_preserve_business_rows (parties.test_search_database_acceptance.SearchDatabaseAcceptanceTests.test_db84_06_invalid_queries_preserve_business_rows) ... Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+Bad Request: /api/v1/parties
+ok
+test_all_enum_values (parties.test_search_query.SearchQueryTests.test_all_enum_values) ... ok
+test_aware_times_normalized_to_same_instant_and_single_bounds (parties.test_search_query.SearchQueryTests.test_aware_times_normalized_to_same_instant_and_single_bounds) ... ok
+test_defaults_and_normalization (parties.test_search_query.SearchQueryTests.test_defaults_and_normalization) ... ok
+test_integer_validation (parties.test_search_query.SearchQueryTests.test_integer_validation) ... ok
+test_invalid_dates_offsets_and_range (parties.test_search_query.SearchQueryTests.test_invalid_dates_offsets_and_range) ... ok
+test_text_limits_after_trim (parties.test_search_query.SearchQueryTests.test_text_limits_after_trim) ... ok
+test_unknown_repeated_empty_and_invalid_enum (parties.test_search_query.SearchQueryTests.test_unknown_repeated_empty_and_invalid_enum) ... ok
+test_ut02_combined_filters_require_all_conditions (parties.test_search_unit.SearchBuilderUnitTests.test_ut02_combined_filters_require_all_conditions) ... ok
+test_ut02_stable_order_and_no_state_predicate_for_all (parties.test_search_unit.SearchBuilderUnitTests.test_ut02_stable_order_and_no_state_predicate_for_all) ... ok
+test_ut03_sport_and_venue_type_are_independent_predicates (parties.test_search_unit.SearchBuilderUnitTests.test_ut03_sport_and_venue_type_are_independent_predicates) ... ok
+test_ut04_bangkok_boundaries_are_start_inclusive_end_exclusive (parties.test_search_unit.SearchBuilderUnitTests.test_ut04_bangkok_boundaries_are_start_inclusive_end_exclusive) ... ok
+test_ut05_state_predicates_match_detail_and_precedence (parties.test_search_unit.SearchBuilderUnitTests.test_ut05_state_predicates_match_detail_and_precedence) ... ok
+test_every_mapped_building_has_position_and_label (venues.test_ui_views.CatalogMappingTests.test_every_mapped_building_has_position_and_label) ... ok
+test_mapping_uses_real_catalog_names (venues.test_ui_views.CatalogMappingTests.test_mapping_uses_real_catalog_names) ... ok
+test_max_players_keys_are_catalog_sports (venues.test_ui_views.CatalogMappingTests.test_max_players_keys_are_catalog_sports) ... ok
+
+----------------------------------------------------------------------
+Ran 717 tests in 42.975s
+
+OK
+Destroying test database for alias 'default' ('test_s2_task64_http')...
+make[1]: Leaving directory '/tmp/cs261-task64'

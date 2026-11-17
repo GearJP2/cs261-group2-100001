@@ -1,0 +1,83 @@
+✔ error 500 offers a refresh without replaying leave (1.98432ms)
+✔ error 409 offers a refresh without replaying leave (0.575965ms)
+✔ error network offers a refresh without replaying leave (0.604535ms)
+✔ 401 during leave clears protected data and returns to login (1.285857ms)
+✔ 401 during count refresh clears protected data and returns to login (0.693737ms)
+✔ 403 is scoped to the current Party and does not log out the viewer (0.646142ms)
+✔ pending request prevents a second submit (0.697205ms)
+✔ refreshes members after a successful leave and treats the expected 403 as normal (0.709163ms)
+✔ cancel closes the confirmation dialog without a leave request or card mutation (0.604096ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.723475
+✔ UT-US10-UI-01: disables button immediately while request is in-flight and prevents duplicate calls (2.824361ms)
+✔ UT-US10-UI-02: successful Approve sends Approved status, updates state, and triggers refresh (1.513695ms)
+✔ UT-US10-UI-03: successful Reject sends Rejected status and refreshes without adding member (5.69079ms)
+✔ UT-US10-UI-04: renders empty, error, and action failure states accurately without false success (2.303935ms)
+✔ escapes pending applicant names rather than inserting HTML (1.129492ms)
+✔ Approve awaits the matching Party's Members refresh before reload (1.076575ms)
+✔ Approve stops page refresh when Members detects an expired session (0.756659ms)
+✔ Members loading error does not turn an already committed Approve into failure (0.818106ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27.038676
+✔ UT-US14-UI-01: ineligible party or already-reviewed target disables/blocks review submission per policy (2.537537ms)
+✔ UT-US14-UI-02: invalid rating or whitespace-only comment fails validation, sets error, and prevents submit (1.013638ms)
+✔ UT-US14-UI-03: in-flight submit disables controls to prevent duplicate calls and updates review/summary state on completion (1.876602ms)
+✔ UT-US14-UI-04: handles 409 REVIEW_EXISTS / network error states accurately and keeps star rating separate from conduct credit (2.464668ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19.357295
+✔ renders only the API members and uses its Party-matching count (3.289921ms)
+✔ clears stale members when a just-withdrawn user is forbidden (0.894514ms)
+✔ refresh after approval replaces the count and member list (1.768954ms)
+✔ rejects a response whose count disagrees with its member list (0.769519ms)
+✔ UT-US6-UI-02: renders the API fallback name without requiring an avatar (1.028103ms)
+✔ UT-US6-UI-03: loading clears stale rows then renders a genuine empty result (1.481072ms)
+✔ UT-US6-UI-03: not found clears stale rows and retry loads the next real input (1.15369ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17.216465
+✔ keeps the original listing as the return destination after two edits (1.070185ms)
+✔ rejects an external return destination (0.167748ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9.376964
+✔ ignores an older successful search after a newer search (1.206171ms)
+✔ ignores an older search error after reset (0.22681ms)
+✔ surfaces the error from the latest search (0.146362ms)
+✔ does not restore URL filters or page after reset during initialization (0.136548ms)
+✔ keeps URL filters and page when initialization was not reset (0.088464ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7.241994
