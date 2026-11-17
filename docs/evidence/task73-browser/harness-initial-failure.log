@@ -1,0 +1,17 @@
+PASS B01-native-cancel-and-eligibility
+Traceback (most recent call last):
+  File "/tmp/pr181_leave_actual.py", line 57, in <module>
+    asyncio.run(main())
+  File "/home/rojsak/.pyenv/versions/3.12.0/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/rojsak/.pyenv/versions/3.12.0/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rojsak/.pyenv/versions/3.12.0/lib/python3.12/asyncio/base_events.py", line 664, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/tmp/pr181_leave_actual.py", line 35, in main
+    await page.screenshot(path=str(OUT/'leave-saved.png'),full_page=True);await page.locator('[data-leave-close]').click();assert await page.locator('#joined-heading').evaluate('(e)=>e===document.activeElement');await page.reload();await page.locator('[data-myparty-tab="joined"]').click();assert not await btn.count();await page.unroute(f'**/parties/{P["success"]}/leave')
+                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

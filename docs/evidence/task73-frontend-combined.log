@@ -1,0 +1,40 @@
+✔ error 500 offers a refresh without replaying leave (8.04113ms)
+✔ error 409 offers a refresh without replaying leave (1.756133ms)
+✔ error network offers a refresh without replaying leave (1.774257ms)
+✔ 401 during leave clears protected data and returns to login (4.287016ms)
+✔ 401 during count refresh clears protected data and returns to login (1.675256ms)
+✔ 403 is scoped to the current Party and does not log out the viewer (1.669921ms)
+✔ pending request prevents a second submit (2.144918ms)
+✔ refreshes members after a successful leave and treats the expected 403 as normal (2.067667ms)
+✔ cancel closes the confirmation dialog without a leave request or card mutation (2.034369ms)
+✔ UT-US10-UI-01: disables button immediately while request is in-flight and prevents duplicate calls (8.487938ms)
+✔ UT-US10-UI-02: successful Approve sends Approved status, updates state, and triggers refresh (3.269052ms)
+✔ UT-US10-UI-03: successful Reject sends Rejected status and refreshes without adding member (3.14725ms)
+✔ UT-US10-UI-04: renders empty, error, and action failure states accurately without false success (4.878397ms)
+✔ escapes pending applicant names rather than inserting HTML (2.26444ms)
+✔ Approve awaits the matching Party's Members refresh before reload (1.966585ms)
+✔ Approve stops page refresh when Members detects an expired session (1.031602ms)
+✔ Members loading error does not turn an already committed Approve into failure (1.357393ms)
+✔ UT-US14-UI-01: ineligible party or already-reviewed target disables/blocks review submission per policy (10.085937ms)
+✔ UT-US14-UI-02: invalid rating or whitespace-only comment fails validation, sets error, and prevents submit (0.87842ms)
+✔ UT-US14-UI-03: in-flight submit disables controls to prevent duplicate calls and updates review/summary state on completion (2.139399ms)
+✔ UT-US14-UI-04: handles 409 REVIEW_EXISTS / network error states accurately and keeps star rating separate from conduct credit (2.5956ms)
+✔ renders only the API members and uses its Party-matching count (7.426412ms)
+✔ clears stale members when a just-withdrawn user is forbidden (1.511346ms)
+✔ refresh after approval replaces the count and member list (1.331737ms)
+✔ rejects a response whose count disagrees with its member list (1.539887ms)
+✔ keeps the original listing as the return destination after two edits (4.997759ms)
+✔ rejects an external return destination (0.613245ms)
+✔ ignores an older successful search after a newer search (3.706633ms)
+✔ ignores an older search error after reset (0.826389ms)
+✔ surfaces the error from the latest search (0.580492ms)
+✔ does not restore URL filters or page after reset during initialization (0.412727ms)
+✔ keeps URL filters and page when initialization was not reset (0.30813ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.391212

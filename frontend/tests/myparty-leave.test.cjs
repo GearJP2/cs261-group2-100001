@@ -45,7 +45,7 @@ function fixture(request) {
       return { status: "forbidden" };
     } },
     location: { replace: path => redirects.push(path), reload: () => reloads++ } } });
-  return { buttons, cards, created, history, protectedMembers, redirects, refresh, confirm, close, message,
+  return { buttons, cards, created, history, protectedMembers, redirects, refresh, confirm, close, message, dialog,
     memberRefreshes, reloads: () => reloads, submit: () => form.events.submit({ preventDefault() {} }) };
 }
 
@@ -99,20 +99,40 @@ test("pending request prevents a second submit", async () => {
   f.buttons[0].click(); const pending = f.submit();
   await f.submit();
   assert.equal(calls, 1); assert.equal(f.buttons[0].disabled, true);
+  let cancelled = false;
+  f.dialog.events.cancel({ preventDefault() { cancelled = true; } });
+  assert.equal(cancelled, true);
   resolve({}); await pending;
 });
 
 test("refreshes members after a successful leave and treats the expected 403 as normal", async () => {
+  const calls = [];
   const f = fixture(async path => {
+    calls.push(path);
     if (path.endsWith("/leave")) return {};
-    return { member_count: 1, remaining_slots: 2 };
+    return { member_count: 1, remaining_slots: 6 };
   });
 
   f.buttons[0].click();
   await f.submit();
 
+  assert.deepEqual(calls, ["/parties/1/leave", "/parties/1"]);
   assert.deepEqual(f.memberRefreshes, ["1"]);
   assert.equal(f.cards[0].removed, true);
-  assert.match(f.message.textContent, /ถอนตัวสำเร็จแล้ว/);
+  assert.match(f.message.textContent, /ถอนตัวสำเร็จแล้ว สมาชิกปัจจุบัน 1 คน ที่ว่าง 6 ที่/);
   assert.doesNotMatch(f.message.textContent, /โหลดรายชื่อสมาชิกไม่ได้/);
+});
+
+
+test("cancel closes the confirmation dialog without a leave request or card mutation", async () => {
+  let calls = 0;
+  const f = fixture(async () => { calls++; throw new Error("Cancel must not call API"); });
+  f.buttons[0].click();
+  assert.equal(f.dialog.open, true);
+  f.close.click();
+  assert.equal(f.dialog.open, false);
+  assert.equal(calls, 0);
+  assert.ok(f.cards.every(card => !card.removed));
+  assert.equal(f.buttons[0].disabled, false);
+  assert.equal(f.message.textContent, "");
 });

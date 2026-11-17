@@ -1,0 +1,49 @@
+PASS B01-native-cancel-and-eligibility
+PASS B02-native-confirm-double-submit-reload
+PASS A01-idempotent-retry
+PASS B03-live-state-change409
+PASS A-nonmember
+PASS A-host
+PASS A-pending
+PASS A-started
+PASS A-forged-actor
+PASS A-missing-csrf
+Traceback (most recent call last):
+  File "/tmp/pr181_leave_actual.py", line 57, in <module>
+    asyncio.run(main())
+  File "/home/rojsak/.pyenv/versions/3.12.0/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/rojsak/.pyenv/versions/3.12.0/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rojsak/.pyenv/versions/3.12.0/lib/python3.12/asyncio/base_events.py", line 664, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/tmp/pr181_leave_actual.py", line 52, in main
+    async with page.expect_response(lambda z:z.request.method=='POST' and z.url.endswith(f'/parties/{P["cancel"]}/leave')) as wait:await page.locator('[data-leave-confirm]').click()
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_async_base.py", line 66, in __aexit__
+    await self._event.value
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/_async_base.py", line 35, in value
+    return mapping.from_maybe_impl(await self._future)
+                                   ^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py", line 387, in finish
+    raise e from None
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/channel_owner.py", line 352, in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/utils/zones.py", line 58, in run_async
+    return await func()
+           ^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/page.py", line 817, in result
+    result = await wait
+             ^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/waiter.py", line 201, in wait_for_promise
+    raise rewrite_error_message(
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/waiter.py", line 184, in wait_for_promise
+    result = await race([promise, *self._failures])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cs261-review171-venv/lib/python3.12/site-packages/playwright/_impl/utils/tasks.py", line 131, in race
+    return winner.result()
+           ^^^^^^^^^^^^^^^
+playwright._impl._errors.TimeoutError: Page.expect_response: Timeout 30000ms exceeded while waiting for event "response"

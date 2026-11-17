@@ -1,0 +1,13 @@
+Seeded synthetic fixture; session values not logged
+PASS B01-native-cancel-and-eligibility
+PASS B02-native-confirm-double-submit-reload
+PASS A01-idempotent-retry
+PASS B03-live-state-change409
+PASS A-nonmember
+PASS A-host
+PASS A-pending
+PASS A-started
+PASS A-forged-actor
+PASS A-missing-csrf
+PASS B04-real-session-expiry401
+DONE {'Pass': 11, 'Fail': 0}
