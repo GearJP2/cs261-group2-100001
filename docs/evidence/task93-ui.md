@@ -7,9 +7,10 @@ Verified 17 November 2026. This report records automated Node unit tests with co
 ## Source and environment
 
 - Source baseline commit: `71a1ace006d72f33bf48685fe650e9aba039e09e`.
-- Tested UI script: `frontend/static/js/myparty-review.js`; SHA-256 `a4f2d80e296f4708e4c433170a676dbeba7f131f530a33b3608189627e68c99f`.
+- Hash convention: decode source as UTF-8, normalize CRLF to LF, then calculate SHA-256 of the UTF-8 bytes. The previous script hash used CRLF; these normalized hashes match Git LF files.
+- Tested UI script: `frontend/static/js/myparty-review.js`; SHA-256 `ccd3dfe856361994c6aaa2cca26b8c522dec53f2578a5cd02ab3d116d7c576e3`.
 - Tested template partial: `frontend/templates/partials/review_history_content.html`; SHA-256 `38b060cc2d3978f0f86c7afe88ddf097e4b9e878d6a0debd0a3224742e3e90e8`.
-- Tested template tag module: `backend/core/templatetags/review_ui.py`; SHA-256 `a34f5c7abdedc72e24fec8c96fc129812eeae19b9cd2c173b37311370f250041`.
+- Related backend template tag module (not executed by these Node tests): `backend/core/templatetags/review_ui.py`; SHA-256 `a34f5c7abdedc72e24fec8c96fc129812eeae19b9cd2c173b37311370f250041`.
 - Tests: `frontend/tests/myparty-review.test.cjs` in this PR; raw output: [task93-ui-unit.log](task93-ui-unit.log).
 - Environment: `node:22-alpine` container via Docker; no database, backend server, or TU account required for this unit test run.
 
@@ -25,6 +26,15 @@ Verified 17 November 2026. This report records automated Node unit tests with co
 | UT-US14-UI-04 | Mock 409 `REVIEW_EXISTS`, network failure, and inspect `review_history_content.html` | 409 disables target option and shows server message; network failure shows fallback error without false success; template renders empty state and star rating (1–5) separate from conduct credit | Pass |
 
 Result: **4 tests passed**.
+
+## Review fix verification — 17 November 2026
+
+- Read the exact `frontend/templates/partials/review_history_content.html` path directly. Missing files now fail the test instead of skipping template assertions.
+- Reran `node frontend/tests/myparty-review.test.cjs`: four passed on Node24.17.0/Linux. The raw log below is from this rerun; the original run used the Node22 container described above.
+- Negative check: temporarily made the partial unavailable in the isolated test worktree; the test exited nonzero with ENOENT. Restored the file and reran successfully. This demonstrates that missing-template coverage cannot silently disappear.
+- Checked all three reported SHA-256 values after LF normalization; all match.
+- No production code, template, backend or dependency changes. This verification adds no browser/UAT claims.
+
 
 ## Not run / remaining Task93 acceptance
 

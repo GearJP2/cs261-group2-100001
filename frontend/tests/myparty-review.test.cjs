@@ -7,18 +7,6 @@ const vm = require("node:vm");
 const scriptPath = path.resolve(__dirname, "../static/js/myparty-review.js");
 const scriptSource = fs.readFileSync(scriptPath, "utf8");
 
-function findTemplatePath(filename) {
-  const candidates = [
-    path.resolve(__dirname, "../templates", filename),
-    path.resolve(__dirname, "../templates/parties", filename),
-    path.resolve(__dirname, "../templates/reviews", filename),
-  ];
-  for (const p of candidates) {
-    if (fs.existsSync(p)) return p;
-  }
-  return null;
-}
-
 function createReviewFixture({
   partyId = "42",
   canReview = true,
@@ -344,11 +332,9 @@ test("UT-US14-UI-04: handles 409 REVIEW_EXISTS / network error states accurately
     "ยังยืนยันผลส่งรีวิวไม่ได้ กรุณาโหลดหน้าใหม่เพื่อตรวจสถานะก่อนส่งอีกครั้ง"
   );
 
-  const tplPath = findTemplatePath("review_history_content.html");
-  if (tplPath) {
-    const tpl = fs.readFileSync(tplPath, "utf8");
-    assert.ok(tpl.includes("คะแนนดาว (1–5)"));
-    assert.ok(tpl.includes("ยังไม่มีกิจกรรมที่จบแล้วซึ่งคุณมีสิทธิ์รีวิว"));
-    assert.ok(!tpl.toLowerCase().includes("conduct"));
-  }
+  const tplPath = path.resolve(__dirname, "../templates/partials/review_history_content.html");
+  const tpl = fs.readFileSync(tplPath, "utf8");
+  assert.ok(tpl.includes("คะแนนดาว (1–5)"));
+  assert.ok(tpl.includes("ยังไม่มีกิจกรรมที่จบแล้วซึ่งคุณมีสิทธิ์รีวิว"));
+  assert.ok(!tpl.toLowerCase().includes("conduct"));
 });
