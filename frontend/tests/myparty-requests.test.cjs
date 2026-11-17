@@ -207,3 +207,46 @@ test("escapes pending applicant names rather than inserting HTML", async () => {
   assert.ok(!output.includes("<img"));
   assert.ok(!output.includes("<script"));
 });
+
+test("Approve awaits the matching Party's Members refresh before reload", async () => {
+  let resolveRefresh;
+  let markStarted;
+  const started = new Promise(resolve => { markStarted = resolve; });
+  const calls = [];
+  const env = createEnvironment(async () => ({ ok: true }), (partyId) => {
+    calls.push(partyId);
+    markStarted();
+    return new Promise(resolve => { resolveRefresh = resolve; });
+  });
+  const { button, actionContainer } = createActionButton("12", "301");
+  const pending = env.context.handleAction(button, "approve");
+  await started;
+  assert.deepEqual(calls, ["12"]);
+  assert.ok(actionContainer.innerHTML.includes("กำลังดำเนินการ"));
+  env.flushTimers();
+  assert.equal(env.getReloadCount(), 0);
+  resolveRefresh({ status: "loaded" });
+  await pending;
+  assert.ok(actionContainer.innerHTML.includes("เป็นสมาชิกแล้ว"));
+  env.flushTimers();
+  assert.equal(env.getReloadCount(), 1);
+});
+
+test("Approve stops page refresh when Members detects an expired session", async () => {
+  const env = createEnvironment(async () => ({ ok: true }), async () => ({ status: "unauthorized" }));
+  const { button, actionContainer } = createActionButton("12", "301");
+  await env.context.handleAction(button, "approve");
+  env.flushTimers();
+  assert.equal(env.getReloadCount(), 0);
+  assert.ok(!actionContainer.innerHTML.includes("เป็นสมาชิกแล้ว"));
+});
+
+test("Members loading error does not turn an already committed Approve into failure", async () => {
+  const env = createEnvironment(async () => ({ ok: true }), async () => ({ status: "error" }));
+  const { button, actionContainer } = createActionButton("12", "301");
+  await env.context.handleAction(button, "approve");
+  assert.ok(actionContainer.innerHTML.includes("เป็นสมาชิกแล้ว"));
+  assert.ok(!actionContainer.innerHTML.includes("ไม่สามารถดำเนินการได้"));
+  env.flushTimers();
+  assert.equal(env.getReloadCount(), 1);
+});

@@ -1,0 +1,67 @@
+✔ error 500 offers a refresh without replaying leave (2.267055ms)
+✔ error 409 offers a refresh without replaying leave (0.825848ms)
+✔ error network offers a refresh without replaying leave (1.666988ms)
+✔ 401 during leave clears protected data and returns to login (1.371506ms)
+✔ 401 during count refresh clears protected data and returns to login (0.792414ms)
+✔ 403 is scoped to the current Party and does not log out the viewer (0.636962ms)
+✔ pending request prevents a second submit (0.683581ms)
+✔ refreshes members after a successful leave and treats the expected 403 as normal (0.70421ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16.296266
+✔ UT-US10-UI-01: disables button immediately while request is in-flight and prevents duplicate calls (3.412407ms)
+✔ UT-US10-UI-02: successful Approve sends Approved status, updates state, and triggers refresh (1.547024ms)
+✔ UT-US10-UI-03: successful Reject sends Rejected status and refreshes without adding member (4.852408ms)
+✔ UT-US10-UI-04: renders empty, error, and action failure states accurately without false success (1.867853ms)
+✔ escapes pending applicant names rather than inserting HTML (0.98403ms)
+✔ Approve awaits the matching Party's Members refresh before reload (0.820689ms)
+✔ Approve stops page refresh when Members detects an expired session (0.70372ms)
+✔ Members loading error does not turn an already committed Approve into failure (0.631577ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22.401805
+✔ renders only the API members and uses its Party-matching count (2.915562ms)
+✔ clears stale members when a just-withdrawn user is forbidden (0.87839ms)
+✔ refresh after approval replaces the count and member list (0.681006ms)
+✔ rejects a response whose count disagrees with its member list (1.101476ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11.326051
+✔ keeps the original listing as the return destination after two edits (1.364648ms)
+✔ rejects an external return destination (0.162624ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12.016611
+✔ ignores an older successful search after a newer search (1.167391ms)
+✔ ignores an older search error after reset (0.295241ms)
+✔ surfaces the error from the latest search (0.163424ms)
+✔ does not restore URL filters or page after reset during initialization (0.145482ms)
+✔ keeps URL filters and page when initialization was not reset (0.084279ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7.340693
