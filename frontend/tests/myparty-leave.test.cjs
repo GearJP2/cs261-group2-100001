@@ -38,10 +38,15 @@ function fixture(request) {
     querySelector: () => null,
   };
   const redirects = []; let reloads = 0;
+  const memberRefreshes = [];
   vm.runInNewContext(source, { document, window: { UniSport: { request },
+    PartyMembers: { refresh: async partyId => {
+      memberRefreshes.push(String(partyId));
+      return { status: "forbidden" };
+    } },
     location: { replace: path => redirects.push(path), reload: () => reloads++ } } });
   return { buttons, cards, created, history, protectedMembers, redirects, refresh, confirm, close, message,
-    reloads: () => reloads, submit: () => form.events.submit({ preventDefault() {} }) };
+    memberRefreshes, reloads: () => reloads, submit: () => form.events.submit({ preventDefault() {} }) };
 }
 
 for (const status of [500, 409, undefined]) {
@@ -95,4 +100,19 @@ test("pending request prevents a second submit", async () => {
   await f.submit();
   assert.equal(calls, 1); assert.equal(f.buttons[0].disabled, true);
   resolve({}); await pending;
+});
+
+test("refreshes members after a successful leave and treats the expected 403 as normal", async () => {
+  const f = fixture(async path => {
+    if (path.endsWith("/leave")) return {};
+    return { member_count: 1, remaining_slots: 2 };
+  });
+
+  f.buttons[0].click();
+  await f.submit();
+
+  assert.deepEqual(f.memberRefreshes, ["1"]);
+  assert.equal(f.cards[0].removed, true);
+  assert.match(f.message.textContent, /ถอนตัวสำเร็จแล้ว/);
+  assert.doesNotMatch(f.message.textContent, /โหลดรายชื่อสมาชิกไม่ได้/);
 });

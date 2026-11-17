@@ -84,6 +84,13 @@ body {
 .mp-info-row { display: flex; align-items: center; gap: 20px; font-size: 0.85rem; color: var(--text-gray); margin-bottom: 10px; }
 .mp-info-item { display: flex; align-items: center; gap: 8px; }
 .mp-info-item svg { width: 16px; height: 16px; color: #999; }
+.mp-party-members { margin-top: 12px; }
+.mp-member-list { display: grid; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.mp-member-row { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.mp-member-name { overflow-wrap: anywhere; }
+.mp-member-role { color: #684b06; font-size: .78rem; font-weight: 600; }
+.mp-member-status { margin: 8px 0 0; color: #667085; font-size: .82rem; }
+.mp-member-retry { margin-top: 8px; padding: 6px 10px; border: 1px solid #d8dce3; border-radius: 6px; background: #fff; color: #1f2430; font: inherit; cursor: pointer; }
 
 /* ครึ่งล่าง (สีขาวล้วน) */
 .mp-card-bottom { background-color: var(--card-bottom) !important; padding: 24px; flex-grow: 1; }

@@ -1043,7 +1043,13 @@
         memberRetry.hidden = true;
         try {
           const result = await request(`/parties/${partyId}/members`);
-          if (!result || !Array.isArray(result.members) || !Number.isInteger(result.member_count)) {
+          if (!result
+            || !Array.isArray(result.members)
+            || !Number.isInteger(result.member_count)
+            || result.member_count !== result.members.length
+            || !result.members.every((member) => Number.isInteger(member.user_id)
+              && typeof member.display_name === "string"
+              && ["Host", "Member"].includes(member.role))) {
             throw new Error("ข้อมูลรายชื่อสมาชิกไม่ถูกต้อง");
           }
           memberList.replaceChildren(...result.members.map((member) => {

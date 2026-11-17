@@ -51,6 +51,8 @@
     try {
       await window.UniSport.request(`/parties/${partyId}/leave`, { method: 'POST', body: '{}' });
       finished = true;
+      const membersRefresh = await window.PartyMembers.refresh(partyId);
+      if (membersRefresh.status === 'unauthorized') return;
       submittedCard.remove();
       pane.querySelector('[data-joined-empty]').hidden = Boolean(pane.querySelector('[data-joined-party]'));
       // ล้างรายชื่อสมาชิกของกิจกรรมที่ถอนตัวแล้ว (กรณีแสดงร่วมกับ Members UI #77/#78)
@@ -59,6 +61,7 @@
         el.hidden = true;
       });
       let result = 'ถอนตัวสำเร็จแล้ว';
+      if (membersRefresh.status === 'error') result += ' แต่โหลดรายชื่อสมาชิกไม่ได้';
       try {
         const detail = await window.UniSport.request(`/parties/${partyId}`);
         result += ` สมาชิกปัจจุบัน ${detail.member_count} คน ที่ว่าง ${detail.remaining_slots} ที่`;
