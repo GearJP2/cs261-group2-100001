@@ -1,0 +1,13 @@
+✔ UT-US2-UI-01: actual search params retain sport, venue, type and Bangkok window separately (2.177114ms)
+✔ UT-US2-UI-02: actual reset clears form, invalidates pending request and reloads page1 (1.685084ms)
+✔ UT-US2-UI-04: actual cards show full/started/cancelled states and navigate to Detail (1.356521ms)
+✔ UT-US2-UI-04: actual empty and error states remain distinct (0.783626ms)
+✔ UT-US2-UI-04: actual loading hides old results, empty and error until latest response (1.853138ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15.22979

@@ -1,0 +1,9 @@
+{
+  "frontend/static/js/app.js": "b70cc4580215da1017fe1ffa5f2118fa715fd2f76018ddf248ed594d3136f8c4",
+  "frontend/static/js/search-request-state.js": "1af3f218857fffbd0a50a41e09de5ee6d4198b5a2ae1fe8cefd8954315b98b54",
+  "frontend/templates/search.html": "34f02aff9a6c0fa32c7492ad96f82e53359e44246c97663440d720e64feab6d8",
+  "scripts/us2-search-browser-evidence.py": "fe1961fcb7e020fc9eaeedd9db39912bd1010bbfefd910e4557f8bd19cf0ad3b",
+  "backend/parties/search.py": "5518f23ea2980ae147f647e518ff86f80d42844e9d631ae09da31590690a874b",
+  "frontend/tests/search-ui.test.cjs": "236a3610a0fc6401896bc9cb175fd2a41fabba94076e040172f990feb63a7d4e",
+  "frontend/tests/search-request-state.test.cjs": "342212e55f8c6d92ce584e71cdc879fa7f14caaf76b407db0538d02bc6e243d7"
+}
