@@ -1,13 +1,26 @@
-flowchart LR
-    U["User: role permitted by this story"]
-    P(("2.1 Search parties"))
-    D1[("D1 Accounts, identities, profiles and interests")]
-    D2[("D2 Django sessions")]
-    D3[("D3 Sports, venues and opening hours")]
-    D4[("D4 Parties, memberships and join requests")]
-    U -->|"Search text, filters, pagination and session"| P
-    P -->|"Matching parties, pagination or validation error"| U
-    D3 -->|"Sports and venues"| P
-    D4 -->|"Party records and active membership counts"| P
-    D1 -->|"Account and applicable identity data"| P
-    D2 -->|"Session identity"| P
+flowchart TB
+    E["E1 Student / Browser"]:::entity
+    P1("1.0 — Check Session / Query Parameters"):::process
+    P2("2.0 — Validate Search Filters"):::process
+    P3("3.0 — Read Matching Parties / Pagination"):::process
+    P4("4.0 — Format Response / Error"):::process
+    E -->|"Search text, filters, pagination and session"| P1
+    P1 -->|"Authenticated request data"| P2
+    P2 -->|"Validated scope and request data"| P3
+    P3 -->|"Result data or domain error"| P4
+    P4 -->|"Matching parties, pagination or validation error"| E
+    P1 -.->|"Authentication or input error"| P4
+    P2 -.->|"Permission or validation error"| P4
+    D1[["D1 — Accounts, identities, profiles and interests"]]:::store
+    D2[["D2 — Django sessions"]]:::store
+    D3[["D3 — Sports, venues and opening hours"]]:::store
+    D4[["D4 — Parties, memberships and join requests"]]:::store
+    D3 -->|"Sports and venues"| P3
+    D4 -->|"Party records and active membership counts"| P3
+    D4 -->|"Party and participation data for permission checks"| P2
+    D1 -->|"Account / identity data"| P1
+    D1 -->|"Account and applicable identity data"| P3
+    D2 -->|"Session identity"| P1
+    classDef entity fill:#fff4cc,stroke:#55a5b1,color:#243746
+    classDef process fill:#eef7f8,stroke:#55a5b1,color:#243746
+    classDef store fill:#e8ddf5,stroke:#9475bc,color:#243746

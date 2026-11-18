@@ -1,0 +1,8 @@
+flowchart LR
+    E["E1 Student / Browser"]:::entity
+    P0("0 — Request to join"):::process
+    E -->|"Party identifier, join submission or own-request query, session"| P0
+    P0 -->|"Own request status or rejection reason"| E
+    classDef entity fill:#fff4cc,stroke:#55a5b1,color:#243746
+    classDef process fill:#eef7f8,stroke:#55a5b1,color:#243746
+    classDef store fill:#e8ddf5,stroke:#9475bc,color:#243746
