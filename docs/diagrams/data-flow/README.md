@@ -4,6 +4,23 @@
 
 ใช้ logical DFD: สี่เหลี่ยมคือ external entity, วงกลมคือ process, รูปทรงฐานข้อมูลคือ logical data store และลูกศรคือข้อมูลที่ส่ง ไม่ใช่ลำดับการทำงาน ใช้ Mermaid เพื่อเปิดดูบน GitHub; สัญลักษณ์ store เป็นการประยุกต์ ไม่ใช่สัญลักษณ์ Yourdon/Gane–Sarson แบบเคร่งครัด
 
+## แยกตาม User Story
+
+เลือกเปิดแต่ละ US ได้จากตาราง ภาพรวมด้านล่างใช้ดูความเชื่อมโยงทั้งระบบ; หน้าราย US เป็น scoped view ของ process/store เดิม ไม่ใช่ DFD Level 2 ที่อ้างว่าแตกครบทุก process
+
+| User Story | Data Flow Diagram |
+|---|---|
+| US1 | [Login / logout](us1/README.md) |
+| US2 | [Search parties](us2/README.md) |
+| US3 | [Request to join](us3/README.md) |
+| US4 | [Leave party](us4/README.md) |
+| US6 | [View party members](us6/README.md) |
+| US7 | [Manage and view parties](us7/README.md) |
+| US8 | [View profile](us8/README.md) |
+| US9 | [Browse venues and sports](us9/README.md) |
+| US10 | [Approve or reject requests](us10/README.md) |
+| US14 | [Reviews and no-show reports](us14/README.md) |
+
 ## Context (process 0)
 
 ขอบเขตระบบรวม Browser UI, Django และฐานข้อมูล ผู้ใช้เป็น external entity เดียวโดยมีหลายบทบาท; Host/Member เปลี่ยนตาม Party ส่วน TU API อยู่ภายนอก ข้อมูลผลลัพธ์ทุกกลุ่มรวมข้อผิดพลาดที่เกี่ยวข้องด้วย

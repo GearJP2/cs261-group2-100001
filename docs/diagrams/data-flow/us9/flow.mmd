@@ -1,0 +1,11 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("2.5 Browse venues and sports"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D3[("D3 Sports, venues and opening hours")]
+    U -->|"Sport or venue filters, venue identifier and session"| P
+    P -->|"Sports, venues, opening hours or validation error"| U
+    D3 -->|"Sport, venue associations and opening hours"| P
+    D1 -->|"Account and applicable identity data"| P
+    D2 -->|"Session identity"| P

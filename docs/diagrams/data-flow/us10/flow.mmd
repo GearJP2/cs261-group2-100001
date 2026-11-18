@@ -1,0 +1,12 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("3.4 Approve or reject requests"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D4[("D4 Parties, memberships and join requests")]
+    U -->|"Party identifier, pending query or request decision, session"| P
+    P -->|"Pending applicants, decision result or error"| U
+    D1 -->|"Applicant display names and verified Host identity"| P
+    D4 -->|"Party Host, state, pending requests and membership count"| P
+    D2 -->|"Session identity"| P
+    P -->|"Request decision; created or reactivated membership on approval"| D4

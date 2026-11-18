@@ -1,0 +1,13 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("2.1 Search parties"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D3[("D3 Sports, venues and opening hours")]
+    D4[("D4 Parties, memberships and join requests")]
+    U -->|"Search text, filters, pagination and session"| P
+    P -->|"Matching parties, pagination or validation error"| U
+    D3 -->|"Sports and venues"| P
+    D4 -->|"Party records and active membership counts"| P
+    D1 -->|"Account and applicable identity data"| P
+    D2 -->|"Session identity"| P

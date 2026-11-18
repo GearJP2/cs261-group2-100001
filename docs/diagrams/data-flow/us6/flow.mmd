@@ -1,0 +1,11 @@
+flowchart LR
+    U["User: role permitted by this story"]
+    P(("2.2 View party members"))
+    D1[("D1 Accounts, identities, profiles and interests")]
+    D2[("D2 Django sessions")]
+    D4[("D4 Parties, memberships and join requests")]
+    U -->|"Party identifier and session"| P
+    P -->|"Member list, Host badge, count or access error"| U
+    D1 -->|"Display names and profile fallback data"| P
+    D4 -->|"Party Host and active memberships"| P
+    D2 -->|"Session identity"| P
