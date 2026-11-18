@@ -1,0 +1,14 @@
+flowchart LR
+    U["E1 User: visitor / verified student / Host / Member"]
+    P0(("0. UniSport Buddy"))
+    TU["E2 TU Authentication API"]
+    U -->|"Credentials; session; logout request"| P0
+    P0 -->|"Login result; session cookie; account data"| U
+    U -->|"Search criteria; venue, party and profile identifiers"| P0
+    P0 -->|"Venue, party, member, profile and review data"| U
+    U -->|"Party details; join, decision and leave submissions"| P0
+    P0 -->|"Party and participation results"| U
+    U -->|"Rating, comment and no-show submissions"| P0
+    P0 -->|"Review and no-show results"| U
+    P0 -->|"Credentials and application key"| TU
+    TU -->|"Identity, student type or authentication failure"| P0
